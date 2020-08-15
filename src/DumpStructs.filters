@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="Hooking.cpp" />
+    <ClCompile Include="..\dependencies\minhook\src\buffer.c">
+      <Filter>dependencies\minhook</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\minhook\src\hook.c">
+      <Filter>dependencies\minhook</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\minhook\src\trampoline.c">
+      <Filter>dependencies\minhook</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\minhook\src\hde\hde32.c">
+      <Filter>dependencies\minhook</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\minhook\src\hde\hde64.c">
+      <Filter>dependencies\minhook</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\patterns\Hooking.Patterns.cpp">
+      <Filter>dependencies\patterns</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Hooking.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="dependencies">
+      <UniqueIdentifier>{4e440143-af56-4c09-bc2a-d11ed8ec4565}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dependencies\minhook">
+      <UniqueIdentifier>{1e0d7115-fd2f-4fd4-9080-350915b49b85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dependencies\patterns">
+      <UniqueIdentifier>{3c995e0c-240a-4c35-a5b6-30a0ecb6a450}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

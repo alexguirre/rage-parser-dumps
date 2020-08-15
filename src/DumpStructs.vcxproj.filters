@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="..\dependencies\minhook\src\buffer.c">
+      <Filter>dependencies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\minhook\src\hde\hde32.c">
+      <Filter>dependencies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\minhook\src\hde\hde64.c">
+      <Filter>dependencies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\minhook\src\hook.c">
+      <Filter>dependencies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\minhook\src\trampoline.c">
+      <Filter>dependencies</Filter>
+    </ClCompile>
+    <ClCompile Include="Hooking.cpp" />
+    <ClCompile Include="..\dependencies\patterns\Hooking.Patterns.cpp">
+      <Filter>dependencies</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="dependencies">
+      <UniqueIdentifier>{0e4e87e3-3277-4fc2-90cb-3668ecafa00a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Hooking.h" />
+  </ItemGroup>
+</Project>

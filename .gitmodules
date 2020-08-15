@@ -1,0 +1,9 @@
+[submodule "dependencies/spdlog"]
+	path = dependencies/spdlog
+	url = https://github.com/gabime/spdlog.git
+[submodule "dependencies/patterns"]
+	path = dependencies/patterns
+	url = https://github.com/ThirteenAG/Hooking.Patterns.git
+[submodule "dependencies/minhook"]
+	path = dependencies/minhook
+	url = https://github.com/TsudaKageyu/minhook.git
