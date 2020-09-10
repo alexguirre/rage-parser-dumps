@@ -73,6 +73,7 @@ static void LoadHashes()
 	while (std::getline(f, line))
 	{
 		if (line.size() > 0 && line.back() == '\n') line.pop_back();
+		if (line.size() > 0 && line.back() == '\r') line.pop_back();
 
 		numLines++;
 
