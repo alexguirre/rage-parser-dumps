@@ -654,13 +654,15 @@ static void InitParManager()
 	// function that loads "common:/data/TVPlaylists", but before it initiliazes parManager if it is not initialized
 	void* addr = hook::get_pattern("40 53 48 83 EC 40 48 83 3D ? ? ? ? ? 48 8B D9 75 28");
 
-	// nop call to rage::parManager::LoadFromStructure
-	uint8_t* patchAddr = (uint8_t*)addr + 0xB9;
-	patchAddr[0] = 0x90;
-	patchAddr[1] = 0x90;
-	patchAddr[2] = 0x90;
-	patchAddr[3] = 0x90;
-	patchAddr[4] = 0x90;
+	// return early to avoid calling rage::parManager::LoadFromStructure, only initialize rage::parManager
+	uint8_t* patchAddr = (uint8_t*)addr + 0x8D;
+	patchAddr[0] = 0x48;
+	patchAddr[1] = 0x83;
+	patchAddr[2] = 0xC4;
+	patchAddr[3] = 0x40; // add     rsp, 40h
+	patchAddr[4] = 0x5B; // pop     rbx
+	patchAddr[5] = 0xC3; // retn
+	patchAddr[6] = 0x90; // nop
 
 	((Fn)addr)(nullptr);
 }

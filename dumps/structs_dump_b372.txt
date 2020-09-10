@@ -33,6 +33,7 @@ struct BaseShopPedApparel : BaseShopItem
 	array<struct ComponentDescription>     variantComponents;               // type:ARRAY.ATARRAY
 	array<struct PropDescription>          variantProps;                    // type:ARRAY.ATARRAY
 	uchar                                  locate;                          // type:UCHAR.0
+	uchar                                  _0x25BC2067;                     // type:UCHAR.0
 };
 
 struct BoxOccluder
@@ -152,13 +153,6 @@ struct CActionVfx
 	vec3                             Rotation;                        // type:VECTOR3.0
 	enum eAnimBoneTag                BoneTag;                         // type:ENUM.32BIT
 	float                            Scale;                           // type:FLOAT.0
-};
-
-struct CAdvancedData
-{
-	int                              Slot;                            // type:INT.0
-	int                              Index;                           // type:INT.0
-	float                            Value;                           // type:FLOAT.0
 };
 
 struct CAgitatedAction
@@ -901,12 +895,9 @@ struct CAmbientVehicleModelVariations : CAmbientModelVariations
 	int                              BodyColour2;                     // type:INT.0
 	int                              BodyColour3;                     // type:INT.0
 	int                              BodyColour4;                     // type:INT.0
-	int                              _0xD82DB0E4;                     // type:INT.0
-	int                              _0xEA7C5581;                     // type:INT.0
 	int                              WindowTint;                      // type:INT.0
 	int                              ColourCombination;               // type:INT.0
 	int                              Livery;                          // type:INT.0
-	int                              _0xDFFAF4EB;                     // type:INT.0
 	int                              ModKit;                          // type:INT.0
 	array<struct _0x66838F63>        Mods;                            // type:ARRAY.ATARRAY
 	enum _0xE37EFE26                 Extra1;                          // type:ENUM.32BIT
@@ -930,7 +921,6 @@ struct CAmmoInfo : CItemInfo
 	int                              AmmoMax50MP;                     // type:INT.0
 	int                              AmmoMax100MP;                    // type:INT.0
 	bitset<enum _0xEEAD8BCA>         AmmoFlags;                       // type:BITSET.2
-	enum _0x64703CC5                 AmmoSpecialType;                 // type:ENUM.32BIT
 };
 
 struct CAmmoProjectileInfo : CAmmoInfo
@@ -952,7 +942,6 @@ struct CAmmoProjectileInfo : CAmmoInfo
 	float                            FrictionMultiplier;              // type:FLOAT.0
 	struct _0x13B6A1E8               Explosion;                       // type:STRUCT.STRUCTURE
 	string                           FuseFx;                          // type:STRING.ATHASHVALUE
-	string                           _0xA70A2BEC;                     // type:STRING.ATHASHVALUE
 	string                           TrailFx;                         // type:STRING.ATHASHVALUE
 	string                           TrailFxUnderWater;               // type:STRING.ATHASHVALUE
 	string                           FuseFxFP;                        // type:STRING.ATHASHVALUE
@@ -967,8 +956,6 @@ struct CAmmoProjectileInfo : CAmmoInfo
 	string                           DisturbFxFoliage;                // type:STRING.ATHASHVALUE
 	float                            DisturbFxProbeDist;              // type:FLOAT.0
 	float                            DisturbFxScale;                  // type:FLOAT.0
-	float                            GroundFxProbeDistance;           // type:FLOAT.0
-	bool                             _0xCE7376F0;                     // type:BOOL.0
 	bool                             LightOnlyActiveWhenStuck;        // type:BOOL.0
 	bool                             LightFlickers;                   // type:BOOL.0
 	bool                             LightSpeedsUp;                   // type:BOOL.0
@@ -983,26 +970,7 @@ struct CAmmoProjectileInfo : CAmmoInfo
 	float                            CoronaIntensity;                 // type:FLOAT.0
 	float                            CoronaZBias;                     // type:FLOAT.0
 	bitset<enum _0x8F261358>         ProjectileFlags;                 // type:BITSET.0
-	float                            ProximityActivationTime;         // type:FLOAT.0
-	float                            _0xC956F49D;                     // type:FLOAT.0
-	float                            ProximityTriggerRadius;          // type:FLOAT.0
-	float                            ProximityFuseTimePed;            // type:FLOAT.0
-	float                            ProximityFuseTimeVehicleMin;     // type:FLOAT.0
-	float                            ProximityFuseTimeVehicleMax;     // type:FLOAT.0
-	float                            ProximityFuseTimeVehicleSpeed;   // type:FLOAT.0
-	vec3                             ProximityLightColourUntriggered; // type:VECTOR3.0
-	float                            ProximityLightFrequencyMultiplierTriggered; // type:FLOAT.0
-	bool                             _0x57C7073A;                     // type:BOOL.0
-	bool                             _0xA634660A;                     // type:BOOL.0
-	float                            _0x4E3BEED4;                     // type:FLOAT.0
-	float                            ChargedLaunchTime;               // type:FLOAT.0
-	float                            ChargedLaunchSpeedMult;          // type:FLOAT.0
-	enum _0x8AE262D6                 ClusterExplosionTag;             // type:ENUM.32BIT
-	uint                             ClusterExplosionCount;           // type:UINT.0
-	float                            ClusterMinRadius;                // type:FLOAT.0
-	float                            ClusterMaxRadius;                // type:FLOAT.0
-	float                            ClusterInitialDelay;             // type:FLOAT.0
-	float                            ClusterInbetweenDelay;           // type:FLOAT.0
+	vec3                             _0x3EBB4121;                     // type:VECTOR3.0
 };
 
 struct CAmmoRocketInfo : CAmmoProjectileInfo
@@ -1018,14 +986,12 @@ struct CAmmoRocketInfo : CAmmoProjectileInfo
 	float                            RollChangeRate;                  // type:FLOAT.0
 	float                            MaxRollAngleSin;                 // type:FLOAT.0
 	float                            LifeTimePlayerVehicleLockedOverrideMP; // type:FLOAT.0
-	struct _0xDACB18BA               _0x37B6212D;                     // type:STRUCT.STRUCTURE
 };
 
 struct CAmmoThrownInfo : CAmmoProjectileInfo
 {
 	float                            ThrownForce;                     // type:FLOAT.0
 	float                            ThrownForceFromVehicle;          // type:FLOAT.0
-	int                              AmmoMaxMPBonus;                  // type:INT.0
 };
 
 struct CAnchorProps
@@ -1256,25 +1222,6 @@ struct CArrowData : SGeneralMovieData
 	uchar                            hiddenAlpha;                     // type:UCHAR.0
 };
 
-struct CAssassinsDispatch__Tunables : CTuning
-{
-	float                            _0x8EBB0E50;                     // type:FLOAT.0
-	float                            _0xC8C298B5;                     // type:FLOAT.0
-	float                            _0x93B2CA77;                     // type:FLOAT.0
-	string                           _0xC94049AF;                     // type:STRING.ATHASHVALUE
-	string                           _0x291224F4;                     // type:STRING.ATHASHVALUE
-	float                            _0x08CC00E4;                     // type:FLOAT.0
-	float                            _0x0C0788A0;                     // type:FLOAT.0
-	float                            _0xF08B3E33;                     // type:FLOAT.0
-	string                           _0xB6521526;                     // type:STRING.ATHASHVALUE
-	string                           _0x9DEDE434;                     // type:STRING.ATHASHVALUE
-	float                            _0xFF477A91;                     // type:FLOAT.0
-	float                            _0x39CF3B2F;                     // type:FLOAT.0
-	float                            _0x7FBEFFB3;                     // type:FLOAT.0
-	string                           _0x44834C27;                     // type:STRING.ATHASHVALUE
-	string                           _0x31CDE133;                     // type:STRING.ATHASHVALUE
-};
-
 struct CAudioSettings : _0xFE9FD1C5
 {
 	bool                             Audio3d;                         // type:BOOL.0
@@ -1326,20 +1273,6 @@ struct CBaseElements
 {
 	struct CBaseElementLocationsMap     BaseElementLocationsMap_HighApt; // type:STRUCT.STRUCTURE
 	struct CBaseElementLocationsMap     BaseElementLocationsMap;         // type:STRUCT.STRUCTURE
-	struct CBaseElementLocationsMap     ExtraBaseElementLocMap1;         // type:STRUCT.STRUCTURE
-	struct CBaseElementLocationsMap     ExtraBaseElementLocMap2;         // type:STRUCT.STRUCTURE
-	struct CBaseElementLocationsMap     ExtraBaseElementLocMap3;         // type:STRUCT.STRUCTURE
-	struct CBaseElementLocationsMap     ExtraBaseElementLocMap4;         // type:STRUCT.STRUCTURE
-	struct CBaseElementLocationsMap     ExtraBaseElementLocMap5;         // type:STRUCT.STRUCTURE
-	struct CBaseElementLocationsMap     ExtraBaseElementLocMap6;         // type:STRUCT.STRUCTURE
-	struct CBaseElementLocationsMap     ExtraBaseElementLocMap7;         // type:STRUCT.STRUCTURE
-	struct CBaseElementLocationsMap     ExtraBaseElementLocMap8;         // type:STRUCT.STRUCTURE
-	struct CBaseElementLocationsMap     _0xE7549289;                     // type:STRUCT.STRUCTURE
-	struct CBaseElementLocationsMap     _0x0E1FD343;                     // type:STRUCT.STRUCTURE
-	struct CBaseElementLocationsMap     _0x64537FA9;                     // type:STRUCT.STRUCTURE
-	struct CBaseElementLocationsMap     _0xEE9C943D;                     // type:STRUCT.STRUCTURE
-	struct CBaseElementLocationsMap     _0x3696A430;                     // type:STRUCT.STRUCTURE
-	struct CBaseElementLocationsMap     _0x44D940B5;                     // type:STRUCT.STRUCTURE
 };
 
 struct CBaseStatsSaveStructure
@@ -1552,8 +1485,6 @@ struct CBoatHandlingData : CBaseSubHandlingData
 	float                            fDinghySphereBuoyConst;          // type:FLOAT.0
 	float                            fProwRaiseMult;                  // type:FLOAT.0
 	float                            fDeepWaterSampleBuoyancyMult;    // type:FLOAT.0
-	float                            fTransmissionMultiplier;         // type:FLOAT.0
-	float                            fTractionMultiplier;             // type:FLOAT.0
 };
 
 struct CBrawlingStyleManager
@@ -1587,17 +1518,6 @@ struct CCarHandlingData : CBaseSubHandlingData
 	float                            fBackEndPopUpCarImpulseMult;     // type:FLOAT.0
 	float                            fBackEndPopUpBuildingImpulseMult; // type:FLOAT.0
 	float                            fBackEndPopUpMaxDeltaSpeed;      // type:FLOAT.0
-	float                            fToeFront;                       // type:FLOAT.0
-	float                            fToeRear;                        // type:FLOAT.0
-	float                            fCamberFront;                    // type:FLOAT.0
-	float                            fCamberRear;                     // type:FLOAT.0
-	float                            fCastor;                         // type:FLOAT.0
-	float                            fEngineResistance;               // type:FLOAT.0
-	float                            fMaxDriveBiasTransfer;           // type:FLOAT.0
-	float                            fJumpForceScale;                 // type:FLOAT.0
-	float                            _0xFD5598BA;                     // type:FLOAT.0
-	string                           strAdvancedFlags;                // type:STRING.ATFINALHASHSTRING
-	array<struct CAdvancedData>      AdvancedData;                    // type:ARRAY.ATARRAY
 };
 
 struct CClipScalingHelper__Tunables : CTuning
@@ -1662,7 +1582,6 @@ struct CCombatInfo
 	float                            _0x7D73B16B;                     // type:FLOAT.0
 	float                            _0x825C0B4F;                     // type:FLOAT.0
 	float                            _0x43F782A1;                     // type:FLOAT.0
-	float                            _0xA319C2D2;                     // type:FLOAT.0
 };
 
 struct CCombatInfoMgr
@@ -2034,7 +1953,7 @@ struct CDispatchData
 	array<float>                        AmbulanceSpawnDelayMax;          // type:ARRAY.ATARRAY
 	array<float>                        FireSpawnDelayMin;               // type:ARRAY.ATARRAY
 	array<float>                        FireSpawnDelayMax;               // type:ARRAY.ATARRAY
-	array<struct _0xB63EC1F3, 16>       DispatchOrderDistances;          // type:ARRAY.ATFIXEDARRAY
+	array<struct _0xB63EC1F3, 14>       DispatchOrderDistances;          // type:ARRAY.ATFIXEDARRAY
 	array<int>                          WantedLevelThresholds;           // type:ARRAY.ATARRAY
 	array<float>                        SingleplayerWantedLevelRadius;   // type:ARRAY.ATARRAY
 	array<float>                        MultiplayerWantedLevelRadius;    // type:ARRAY.ATARRAY
@@ -2754,6 +2673,8 @@ struct CExtensionDefWindDisturbance : CExtensionDef
 struct CExtraContentSaveStructure
 {
 	array<struct CExtraContentSaveStructure__CInstalledPackagesStruct>     InstalledPackages;               // type:ARRAY.ATARRAY
+	array<struct _0xCC9130BA>                                              _0x7F705065;                     // type:ARRAY.ATARRAY
+	array<struct _0xCC9130BA>                                              _0xDCC5C0AF;                     // type:ARRAY.ATARRAY
 };
 
 struct CExtraContentSaveStructure__CInstalledPackagesStruct
@@ -2783,7 +2704,6 @@ struct CFiringPatternInfo
 	float                            TimeBetweenBurstsAbsoluteMin;    // type:FLOAT.0
 	float                            TimeBeforeFiringMin;             // type:FLOAT.0
 	float                            TimeBeforeFiringMax;             // type:FLOAT.0
-	bool                             _0xAE2ADD87;                     // type:BOOL.0
 };
 
 struct CFiringPatternInfoManager
@@ -2812,19 +2732,14 @@ struct CFishCapsuleInfo : CBaseCapsuleInfo
 struct CFlyingHandlingData : CBaseSubHandlingData
 {
 	float                            fThrust;                         // type:FLOAT.0
-	float                            fInitialThrust;                  // type:FLOAT.0
 	float                            fThrustFallOff;                  // type:FLOAT.0
-	float                            _0xA763C743;                     // type:FLOAT.0
 	float                            fThrustVectoring;                // type:FLOAT.0
 	float                            fYawMult;                        // type:FLOAT.0
-	float                            fInitialYawMult;                 // type:FLOAT.0
 	float                            fYawStabilise;                   // type:FLOAT.0
 	float                            fSideSlipMult;                   // type:FLOAT.0
 	float                            fRollMult;                       // type:FLOAT.0
-	float                            fInitialRollMult;                // type:FLOAT.0
 	float                            fRollStabilise;                  // type:FLOAT.0
 	float                            fPitchMult;                      // type:FLOAT.0
-	float                            fInitialPitchMult;               // type:FLOAT.0
 	float                            fPitchStabilise;                 // type:FLOAT.0
 	float                            fFormLiftMult;                   // type:FLOAT.0
 	float                            fAttackLiftMult;                 // type:FLOAT.0
@@ -2852,7 +2767,6 @@ struct CFlyingHandlingData : CBaseSubHandlingData
 	float                            fAfterburnerEffectDistance;      // type:FLOAT.0
 	float                            fAfterburnerEffectForceMulti;    // type:FLOAT.0
 	float                            fSubmergeLevelToPullHeliUnderwater; // type:FLOAT.0
-	float                            fExtraLiftWithRoll;              // type:FLOAT.0
 	enum _0xD8F7B033                 handlingType;                    // type:ENUM.32BIT
 };
 
@@ -3024,10 +2938,6 @@ struct CHandlingData : CHandlingObject
 	string                                 AIHandling;                      // type:STRING.ATHASHVALUE
 	array<struct CBaseSubHandlingData>     SubHandlingData;                 // type:ARRAY.ATARRAY
 	float                                  fWeaponDamageScaledToVehHealthMult; // type:FLOAT.0
-	float                                  fDownforceModifier;              // type:FLOAT.0
-	float                                  fPopUpLightRotation;             // type:FLOAT.0
-	float                                  fRocketBoostCapacity;            // type:FLOAT.0
-	float                                  fBoostMaxSpeed;                  // type:FLOAT.0
 };
 
 struct CHandlingDataMgr
@@ -4366,7 +4276,6 @@ struct CPlayerInfo__Tunables : CTuning
 {
 	struct _0xB0E844D3                                   EnemyCharging;                   // type:STRUCT.STRUCTURE
 	struct _0xAA6E4C18                                   CombatLoitering;                 // type:STRUCT.STRUCTURE
-	struct _0x00FE80C3                                   _0x5BDFF673;                     // type:STRUCT.STRUCTURE
 	float                                                MinVehicleCollisionDamageScale;  // type:FLOAT.0
 	float                                                MaxVehicleCollisionDamageScale;  // type:FLOAT.0
 	float                                                MaxAngleConsidered;              // type:FLOAT.0
@@ -4757,7 +4666,6 @@ struct CSaveGarages__CSavedVehicle
 	uint                                                    ModelHashKey;                    // type:UINT.0
 	uint                                                    nDisableExtras;                  // type:UINT.0
 	int                                                     LiveryId;                        // type:INT.0
-	int                                                     Livery2Id;                       // type:INT.0
 	short                                                   HornSoundIndex;                  // type:SHORT.0
 	short                                                   AudioEngineHealth;               // type:SHORT.0
 	short                                                   AudioBodyHealth;                 // type:SHORT.0
@@ -4783,8 +4691,6 @@ struct CSaveGarages__CSavedVehicleVariationInstance
 	uchar                            color2;                          // type:UCHAR.0
 	uchar                            color3;                          // type:UCHAR.0
 	uchar                            color4;                          // type:UCHAR.0
-	uchar                            color5;                          // type:UCHAR.0
-	uchar                            color6;                          // type:UCHAR.0
 	uchar                            smokeColR;                       // type:UCHAR.0
 	uchar                            smokeColG;                       // type:UCHAR.0
 	uchar                            smokeColB;                       // type:UCHAR.0
@@ -4796,7 +4702,6 @@ struct CSaveGarages__CSavedVehicleVariationInstance
 	uchar                            windowTint;                      // type:UCHAR.0
 	uchar                            wheelType;                       // type:UCHAR.0
 	array<bool, 2>                   modVariation;                    // type:ARRAY.MEMBER
-	ushort                           _0x87A334CC;                     // type:USHORT.0
 };
 
 struct CSaveGarages__CSavedVehiclesInSafeHouse
@@ -5230,10 +5135,6 @@ struct CScenarioConditionTechSavvy : CScenarioConditionPopulation
 struct CScenarioConditionTime : CScenarioConditionWorld
 {
 	bitset<enum _0x450596C4>         Hours;                           // type:BITSET.0
-};
-
-struct CScenarioConditionUsingLRAltClipset : CScenarioCondition
-{
 };
 
 struct CScenarioConditionWet : CScenarioCondition
@@ -5846,8 +5747,6 @@ struct CTargettingDifficultyInfo
 	float                            _0x80500CF1;                     // type:FLOAT.0
 	float                            AimAssistCapsuleMaxLength;       // type:FLOAT.0
 	float                            _0x418D6077;                     // type:FLOAT.0
-	float                            _0xBF716F5A;                     // type:FLOAT.0
-	float                            _0x2D401380;                     // type:FLOAT.0
 	float                            AimAssistBlendInTime;            // type:FLOAT.0
 	float                            AimAssistBlendOutTime;           // type:FLOAT.0
 	float                            SoftLockFineAimBreakXYValue;     // type:FLOAT.0
@@ -6062,7 +5961,6 @@ struct CTaskAmbientClips__Tunables : CTuning
 	float                            VFXCullRangeScaleNotVisible;     // type:FLOAT.0
 	float                            SecondsSinceInWaterThatCountsAsWet; // type:FLOAT.0
 	float                            MaxVehicleVelocityForAmbientIdles; // type:FLOAT.0
-	float                            _0x1BB85D2A;                     // type:FLOAT.0
 	float                            MaxSteeringAngleForAmbientIdles; // type:FLOAT.0
 	uint                             MaxTimeSinceGetUpForAmbientIdles; // type:UINT.0
 	float                            _0x069B9037;                     // type:FLOAT.0
@@ -6826,13 +6724,10 @@ struct CTaskExitVehicle__Tunables : CTuning
 	float                            RearExitSideOffset;              // type:FLOAT.0
 	float                            MinVelocityToRagdollPed;         // type:FLOAT.0
 	float                            MaxTimeToReserveComponentBeforeWarp; // type:FLOAT.0
-	float                            _0x86AF3A98;                     // type:FLOAT.0
 	float                            ExtraOffsetForGroundCheck;       // type:FLOAT.0
 	uint                             JumpOutofSubNeutralBuoyancyTime; // type:UINT.0
 	string                           DefaultClimbDownClipId;          // type:STRING.ATHASHVALUE
-	string                           _0x06E543FF;                     // type:STRING.ATHASHVALUE
 	string                           DefaultClimbDownNoDoorClipId;    // type:STRING.ATHASHVALUE
-	string                           _0x982FB01E;                     // type:STRING.ATHASHVALUE
 };
 
 struct CTaskFall__Tunables : CTuning
@@ -6859,8 +6754,6 @@ struct CTaskFall__Tunables : CTuning
 	float                            PadShakeMaxHeight;               // type:FLOAT.0
 	uint                             PadShakeMinDuration;             // type:UINT.0
 	uint                             PadShakeMaxDuration;             // type:UINT.0
-	float                            _0xA211A47D;                     // type:FLOAT.0
-	float                            _0x15637770;                     // type:FLOAT.0
 	float                            VaultFallTestAngle;              // type:FLOAT.0
 	float                            JumpFallTestAngle;               // type:FLOAT.0
 	float                            FallTestAngleBlendOutTime;       // type:FLOAT.0
@@ -7224,8 +7117,6 @@ struct CTaskJump__Tunables : CTuning
 {
 	float                            MinSuperJumpInitialVelocity;     // type:FLOAT.0
 	float                            MaxSuperJumpInitialVelocity;     // type:FLOAT.0
-	float                            _0xD4B1DB55;                     // type:FLOAT.0
-	float                            _0x580B34B4;                     // type:FLOAT.0
 	float                            HighJumpMinAngleForVelScale;     // type:FLOAT.0
 	float                            HighJumpMaxAngleForVelScale;     // type:FLOAT.0
 	float                            HighJumpMinVelScale;             // type:FLOAT.0
@@ -7252,7 +7143,6 @@ struct CTaskMeleeActionResult__Tunables : CTuning
 {
 	float                            ActionModeTime;                  // type:FLOAT.0
 	float                            ForceRunDelayTime;               // type:FLOAT.0
-	uint                             _0x1FC45FDA;                     // type:UINT.0
 };
 
 struct CTaskMotionAiming__Tunables : CTuning
@@ -7326,7 +7216,6 @@ struct CTaskMotionInAutomobile__Tunables : CTuning
 	string                           LowLodIdleClipSetId;             // type:STRING.ATHASHVALUE
 	float                            SeatDisplacementSmoothingRateDriver; // type:FLOAT.0
 	float                            SeatDisplacementSmoothingRatePassenger; // type:FLOAT.0
-	float                            _0xB522043B;                     // type:FLOAT.0
 	float                            StartEngineForce;                // type:FLOAT.0
 	float                            MinForwardsPitchSlope;           // type:FLOAT.0
 	float                            MaxForwardsPitchSlope;           // type:FLOAT.0
@@ -7392,17 +7281,12 @@ struct CTaskMotionInAutomobile__Tunables : CTuning
 	uint                             _0x857DE7A4;                     // type:UINT.0
 	uint                             _0x0078854E;                     // type:UINT.0
 	uint                             _0x0360EFBF;                     // type:UINT.0
-	uint                             _0x1497B6A7;                     // type:UINT.0
 	string                           StartEngineClipId;               // type:STRING.ATHASHVALUE
 	string                           _0x82E30EE0;                     // type:STRING.ATHASHVALUE
 	string                           HotwireClipId;                   // type:STRING.ATHASHVALUE
 	string                           _0x5063071B;                     // type:STRING.ATHASHVALUE
 	string                           PutOnHelmetClipId;               // type:STRING.ATHASHVALUE
 	string                           _0x55443B10;                     // type:STRING.ATHASHVALUE
-	string                           _0x6E5ADFAA;                     // type:STRING.ATHASHVALUE
-	string                           _0x7CA78A81;                     // type:STRING.ATHASHVALUE
-	string                           _0x3CFFBC7D;                     // type:STRING.ATHASHVALUE
-	string                           _0x8785F306;                     // type:STRING.ATHASHVALUE
 	string                           ChangeStationClipId;             // type:STRING.ATHASHVALUE
 	string                           StillToSitClipId;                // type:STRING.ATHASHVALUE
 	string                           SitToStillClipId;                // type:STRING.ATHASHVALUE
@@ -7420,16 +7304,6 @@ struct CTaskMotionInAutomobile__Tunables : CTuning
 	float                            _0x17FC9435;                     // type:FLOAT.0
 	float                            _0x3DF54513;                     // type:FLOAT.0
 	float                            _0x14657890;                     // type:FLOAT.0
-	float                            _0x7C2E0763;                     // type:FLOAT.0
-	float                            _0xA1C4AFE2;                     // type:FLOAT.0
-	float                            _0x8718C59A;                     // type:FLOAT.0
-	float                            _0x710E8DD3;                     // type:FLOAT.0
-	float                            _0x498BF909;                     // type:FLOAT.0
-	float                            _0x67EFED96;                     // type:FLOAT.0
-	float                            _0x33C99269;                     // type:FLOAT.0
-	float                            _0x46829218;                     // type:FLOAT.0
-	float                            _0x6B35973B;                     // type:FLOAT.0
-	float                            _0x269E4916;                     // type:FLOAT.0
 };
 
 struct CTaskMotionInCover__Tunables : CTuning
@@ -7904,7 +7778,6 @@ struct CTaskNMBehaviour__Tunables : CTuning
 	float                            VehicleActivationForceMultiplierQuadBike; // type:FLOAT.0
 	float                            VehicleActivationForceMultiplierHeli; // type:FLOAT.0
 	float                            VehicleActivationForceMultiplierTrain; // type:FLOAT.0
-	float                            _0x38831E35;                     // type:FLOAT.0
 	bool                             ExcludePedBumpAngleFromPushCalculation; // type:BOOL.0
 	float                            PedActivationForceMultiplier;    // type:FLOAT.0
 	float                            ObjectMinSpeedForActivation;     // type:FLOAT.0
@@ -8262,7 +8135,6 @@ struct CTaskOpenVehicleDoorFromOutside__Tunables : CTuning
 	string                           CombatOpenDoorClipId;            // type:STRING.ATHASHVALUE
 	string                           DefaultTryLockedDoorClipId;      // type:STRING.ATHASHVALUE
 	string                           DefaultForcedEntryClipId;        // type:STRING.ATHASHVALUE
-	string                           _0x01927DEF;                     // type:STRING.ATHASHVALUE
 };
 
 struct CTaskParachuteObject__Tunables : CTuning
@@ -8337,7 +8209,6 @@ struct CTaskPlayerOnFoot__Tunables : CTuning
 	bool                             _0xC5DBFC77;                     // type:BOOL.0
 	float                            ArrestDistance;                  // type:FLOAT.0
 	float                            ArrestDot;                       // type:FLOAT.0
-	float                            _0x216BD758;                     // type:FLOAT.0
 	float                            MaxEncumberedClimbHeight;        // type:FLOAT.0
 	float                            MaxTrainClimbHeight;             // type:FLOAT.0
 	float                            TakeCustodyDistance;             // type:FLOAT.0
@@ -9431,12 +9302,6 @@ struct CTaskWitness__Tunables : CTuning
 	uint                             MaxTimeMoveToLawFailedPathfindingMs; // type:UINT.0
 };
 
-struct CTextTemplateXML
-{
-	array<struct _0xB8AD67A8>        CTemplate;                       // type:ARRAY.ATARRAY
-	array<struct _0xFD4B8011>        CProperties;                     // type:ARRAY.ATARRAY
-};
-
 struct CTimeArchetypeDef : CBaseArchetypeDef
 {
 	uint                             timeFlags;                       // type:UINT.0
@@ -9530,18 +9395,6 @@ struct CVehicleCoverBoundOffsetInfo
 	array<struct _0xFFE8E531>        CoverBoundInfos;                 // type:ARRAY.ATARRAY
 };
 
-struct CVehicleDamage__Tunables : CTuning
-{
-	float                            _0x88B54901;                     // type:FLOAT.0
-	float                            _0xBBAAFE0C;                     // type:FLOAT.0
-	float                            _0x159A9579;                     // type:FLOAT.0
-	float                            _0x91B432CE;                     // type:FLOAT.0
-	float                            _0xDC3D7596;                     // type:FLOAT.0
-	float                            _0x115736EE;                     // type:FLOAT.0
-	float                            _0x6C9F3DE2;                     // type:FLOAT.0
-	float                            _0x6582472C;                     // type:FLOAT.0
-};
-
 struct CVehicleDriveByAnimInfo
 {
 	string                           Name;                            // type:STRING.ATHASHVALUE
@@ -9550,15 +9403,7 @@ struct CVehicleDriveByAnimInfo
 	string                           FirstPersonDriveByClipSet;       // type:STRING.ATHASHVALUE
 	array<struct _0xB6BD37A1>        AltFirstPersonDriveByClipSets;   // type:ARRAY.ATARRAY
 	string                           RestrictedDriveByClipSet;        // type:STRING.ATHASHVALUE
-	string                           VehicleMeleeClipSet;             // type:STRING.ATHASHVALUE
-	string                           FirstPersonVehicleMeleeClipSet;  // type:STRING.ATHASHVALUE
 	enum _0xE62BC9A9                 Network;                         // type:ENUM.32BIT
-	bool                             UseOverrideAngles;               // type:BOOL.0
-	bool                             _0xE188FD7B;                     // type:BOOL.0
-	float                            OverrideMinAimAngle;             // type:FLOAT.0
-	float                            OverrideMaxAimAngle;             // type:FLOAT.0
-	float                            OverrideMinRestrictedAimAngle;   // type:FLOAT.0
-	float                            OverrideMaxRestrictedAimAngle;   // type:FLOAT.0
 };
 
 struct CVehicleDriveByInfo
@@ -9589,7 +9434,6 @@ struct CVehicleDriveByInfo
 	float                            MaxUnarmedDrivebyYawIfWindowRolledUp; // type:FLOAT.0
 	array<struct void>               DriveByAnimInfos;                // type:ARRAY.ATARRAY
 	string                           DriveByCamera;                   // type:STRING.ATHASHVALUE
-	string                           PovDriveByCamera;                // type:STRING.ATHASHVALUE
 	bitset<enum _0x7A3BED50>         DriveByFlags;                    // type:BITSET.0
 };
 
@@ -9650,14 +9494,13 @@ struct CVehicleExtraPointsInfo
 struct CVehicleKit
 {
 	string                               kitName;                         // type:STRING.ATHASHVALUE
-	ushort                               id;                              // type:USHORT.0
+	uchar                                id;                              // type:UCHAR.0
 	enum eModKitType                     kitType;                         // type:ENUM.32BIT
 	array<struct CVehicleModVisible>     visibleMods;                     // type:ARRAY.ATARRAY
 	array<struct CVehicleModLink>        linkMods;                        // type:ARRAY.ATARRAY
 	array<struct CVehicleModStat>        statMods;                        // type:ARRAY.ATARRAY
 	array<struct _0x197CC214>            slotNames;                       // type:ARRAY.ATARRAY
 	array<string>                        liveryNames;                     // type:ARRAY.ATARRAY
-	array<string>                        livery2Names;                    // type:ARRAY.ATARRAY
 };
 
 struct CVehicleLayoutInfo
@@ -9764,12 +9607,6 @@ struct CVehicleModVisible
 	bool                             turnOffExtra;                    // type:BOOL.0
 	bool                             disableBonnetCamera;             // type:BOOL.0
 	bool                             allowBonnetSlide;                // type:BOOL.0
-	char                             weaponSlot;                      // type:CHAR.0
-	char                             weaponSlotSecondary;             // type:CHAR.0
-	bool                             disableProjectileDriveby;        // type:BOOL.0
-	bool                             disableDriveby;                  // type:BOOL.0
-	int                              disableDrivebySeat;              // type:INT.0
-	int                              disableDrivebySeatSecondary;     // type:INT.0
 };
 
 struct CVehicleModelColor
@@ -9785,16 +9622,15 @@ struct CVehicleModelColor
 
 struct CVehicleModelInfoVarGlobal
 {
-	struct _0x1BC567F2                         VehiclePlates;                   // type:STRUCT.STRUCTURE
-	array<struct CVehicleModelColor>           Colors;                          // type:ARRAY.ATARRAY
-	array<struct CVehicleMetallicSetting>      MetallicSettings;                // type:ARRAY.ATARRAY
-	array<struct CVehicleWindowColor>          WindowColors;                    // type:ARRAY.ATARRAY
-	array<struct vehicleLightSettings>         Lights;                          // type:ARRAY.ATARRAY
-	array<struct sirenSettings>                Sirens;                          // type:ARRAY.ATARRAY
-	array<struct CVehicleKit>                  Kits;                            // type:ARRAY.ATARRAY
-	array<array<struct CVehicleWheel>, 13>     Wheels;                          // type:ARRAY.MEMBER
-	struct _0xB6862DFA                         GlobalVariationData;             // type:STRUCT.STRUCTURE
-	array<struct CVehicleXenonLightColor>      XenonLightColors;                // type:ARRAY.ATARRAY
+	struct _0x1BC567F2                        VehiclePlates;                   // type:STRUCT.STRUCTURE
+	array<struct CVehicleModelColor>          Colors;                          // type:ARRAY.ATARRAY
+	array<struct CVehicleMetallicSetting>     MetallicSettings;                // type:ARRAY.ATARRAY
+	array<struct CVehicleWindowColor>         WindowColors;                    // type:ARRAY.ATARRAY
+	array<struct vehicleLightSettings>        Lights;                          // type:ARRAY.ATARRAY
+	array<struct sirenSettings>               Sirens;                          // type:ARRAY.ATARRAY
+	array<struct CVehicleKit>                 Kits;                            // type:ARRAY.ATARRAY
+	array<array<struct CVehicleWheel>, 9>     Wheels;                          // type:ARRAY.MEMBER
+	struct _0xB6862DFA                        GlobalVariationData;             // type:STRUCT.STRUCTURE
 };
 
 struct CVehicleModelInfoVariation
@@ -9853,9 +9689,6 @@ struct CVehicleSeatAnimInfo
 	string                           AgitatedClipSet;                 // type:STRING.ATHASHVALUE
 	string                           DuckedClipSet;                   // type:STRING.ATHASHVALUE
 	string                           FemaleClipSet;                   // type:STRING.ATHASHVALUE
-	string                           LowriderLeanClipSet;             // type:STRING.ATHASHVALUE
-	string                           AltLowriderLeanClipSet;          // type:STRING.ATHASHVALUE
-	string                           _0xC207A4DF;                     // type:STRING.ATHASHVALUE
 	string                           LowLODIdleAnim;                  // type:STRING.ATHASHVALUE
 	string                           SeatAmbientContext;              // type:STRING.ATHASHVALUE
 	enum _0x3F33AEDD                 InVehicleMoveNetwork;            // type:ENUM.32BIT
@@ -9883,20 +9716,18 @@ struct CVehicleSeatInfo
 
 struct CVehicleWeaponHandlingData : CBaseSubHandlingData
 {
-	array<string, 6>                   uWeaponHash;                     // type:ARRAY.MEMBER
-	array<int, 6>                      WeaponSeats;                     // type:ARRAY.MEMBER
-	array<enum eVehicleModType, 6>     WeaponVehicleModType;            // type:ARRAY.MEMBER
-	array<float, 12>                   fTurretSpeed;                    // type:ARRAY.MEMBER
-	array<float, 12>                   fTurretPitchMin;                 // type:ARRAY.MEMBER
-	array<float, 12>                   fTurretPitchMax;                 // type:ARRAY.MEMBER
-	array<float, 12>                   fTurretCamPitchMin;              // type:ARRAY.MEMBER
-	array<float, 12>                   fTurretCamPitchMax;              // type:ARRAY.MEMBER
-	array<float, 12>                   fBulletVelocityForGravity;       // type:ARRAY.MEMBER
-	array<float, 12>                   fTurretPitchForwardMin;          // type:ARRAY.MEMBER
-	array<struct _0x6EB5258C, 12>      TurretPitchLimitData;            // type:ARRAY.MEMBER
-	float                              fUvAnimationMult;                // type:FLOAT.0
-	float                              fMiscGadgetVar;                  // type:FLOAT.0
-	float                              fWheelImpactOffset;              // type:FLOAT.0
+	array<string, 4>                 uWeaponHash;                     // type:ARRAY.MEMBER
+	array<int, 4>                    WeaponSeats;                     // type:ARRAY.MEMBER
+	array<float, 3>                  fTurretSpeed;                    // type:ARRAY.MEMBER
+	array<float, 3>                  fTurretPitchMin;                 // type:ARRAY.MEMBER
+	array<float, 3>                  fTurretPitchMax;                 // type:ARRAY.MEMBER
+	array<float, 3>                  fTurretCamPitchMin;              // type:ARRAY.MEMBER
+	array<float, 3>                  fTurretCamPitchMax;              // type:ARRAY.MEMBER
+	array<float, 3>                  fBulletVelocityForGravity;       // type:ARRAY.MEMBER
+	array<float, 3>                  fTurretPitchForwardMin;          // type:ARRAY.MEMBER
+	float                            fUvAnimationMult;                // type:FLOAT.0
+	float                            fMiscGadgetVar;                  // type:FLOAT.0
+	float                            fWheelImpactOffset;              // type:FLOAT.0
 };
 
 struct CVehicleWeaponInfo
@@ -9920,14 +9751,6 @@ struct CVehicleWindowColor
 {
 	uint                             color;                           // type:UINT.1
 	string                           name;                            // type:STRING.ATHASHVALUE
-};
-
-struct CVehicleXenonLightColor
-{
-	uint                             lightColor;                      // type:UINT.1
-	uint                             coronaColor;                     // type:UINT.1
-	float                            lightIntensityModifier;          // type:FLOAT.0
-	float                            coronaIntensityModifier;         // type:FLOAT.0
 };
 
 struct CVfxFogVolumeInfo
@@ -10392,8 +10215,6 @@ struct CWanted__Tunables : CTuning
 	uint                                      InitialAreaTimeoutWhenSeen;      // type:UINT.0
 	uint                                      InitialAreaTimeoutWhenCrimeReported; // type:UINT.0
 	float                                     _0xAF48A77C;                     // type:FLOAT.0
-	map<string, struct _0xF54E4938>           _0xFC7D7344;                     // type:MAP.ATBINARYMAP
-	map<string, struct _0xF54E4938>           _0xA0DDD721;                     // type:MAP.ATBINARYMAP
 };
 
 struct CWanted__Tunables__WantedLevel
@@ -10427,13 +10248,6 @@ struct CWeaponComponentClipInfo : CWeaponComponentInfo
 {
 	int                              ClipSize;                        // type:INT.0
 	struct void                      ReloadData;                      // type:STRUCT.EXTERNAL_NAMED
-	string                           AmmoInfo;                        // type:STRING.ATHASHVALUE
-	string                           TracerFx;                        // type:STRING.ATHASHVALUE
-	int                              TracerFxSpacing;                 // type:INT.0
-	int                              TracerFxForceLast;               // type:INT.0
-	string                           ShellFx;                         // type:STRING.ATHASHVALUE
-	string                           ShellFxFP;                       // type:STRING.ATHASHVALUE
-	uint                             BulletsInBatch;                  // type:UINT.0
 };
 
 struct CWeaponComponentData
@@ -10472,7 +10286,6 @@ struct CWeaponComponentFlashLightInfo : CWeaponComponentInfo
 	struct _0x96EF0B10               FlashLightBone;                  // type:STRUCT.STRUCTURE
 	struct _0x96EF0B10               FlashLightBoneBulbOn;            // type:STRUCT.STRUCTURE
 	struct _0x96EF0B10               FlashLightBoneBulbOff;           // type:STRUCT.STRUCTURE
-	bool                             ToggleWhenAiming;                // type:BOOL.0
 };
 
 struct CWeaponComponentGroupInfo : CWeaponComponentInfo
@@ -10489,10 +10302,8 @@ struct CWeaponComponentInfo
 	struct _0x96EF0B10                 AttachBone;                      // type:STRUCT.STRUCTURE
 	struct CWeaponAccuracyModifier     AccuracyModifier;                // type:STRUCT.POINTER
 	struct CWeaponDamageModifier       DamageModifier;                  // type:STRUCT.POINTER
-	struct CWeaponFallOffModifier      FallOffModifier;                 // type:STRUCT.POINTER
 	bool                               bShownOnWheel;                   // type:BOOL.0
 	bool                               CreateObject;                    // type:BOOL.0
-	bool                               ApplyWeaponTint;                 // type:BOOL.0
 	char                               HudDamage;                       // type:CHAR.0
 	char                               HudSpeed;                        // type:CHAR.0
 	char                               HudCapacity;                     // type:CHAR.0
@@ -10503,7 +10314,7 @@ struct CWeaponComponentInfo
 struct CWeaponComponentInfoBlob
 {
 	array<struct CWeaponComponentData>          Data;                            // type:ARRAY.ATARRAY
-	array<struct CWeaponComponentInfo, 420>     Infos;                           // type:ARRAY.ATFIXEDARRAY
+	array<struct CWeaponComponentInfo, 110>     Infos;                           // type:ARRAY.ATFIXEDARRAY
 	string                                      InfoBlobName;                    // type:STRING.ATSTRING
 };
 
@@ -10532,7 +10343,6 @@ struct CWeaponComponentReloadData : CWeaponComponentData
 	string                           WeaponAimReloadEmptyClipId;      // type:STRING.ATHASHVALUE
 	string                           WeaponLowLeftCoverReloadClipId;  // type:STRING.ATHASHVALUE
 	string                           WeaponLowRightCoverReloadClipId; // type:STRING.ATHASHVALUE
-	float                            AnimRateModifier;                // type:FLOAT.0
 };
 
 struct CWeaponComponentReloadLoopedData : CWeaponComponentData
@@ -10546,15 +10356,14 @@ struct CWeaponComponentScopeInfo : CWeaponComponentInfo
 	float                            RecoilShakeAmplitude;            // type:FLOAT.0
 	float                            ExtraZoomFactorForAccurateMode;  // type:FLOAT.0
 	string                           ReticuleHash;                    // type:STRING.ATHASHVALUE
-	enum _0x934C2BA3                 SpecialScopeType;                // type:ENUM.32BIT
 };
 
 struct CWeaponComponentSuppressorInfo : CWeaponComponentInfo
 {
 	struct _0x96EF0B10               MuzzleBone;                      // type:STRUCT.STRUCTURE
 	string                           FlashFx;                         // type:STRING.ATHASHVALUE
-	bool                             ShouldSilence;                   // type:BOOL.0
-	float                            RecoilShakeAmplitudeModifier;    // type:FLOAT.0
+	float                            _0x06A88FD6;                     // type:FLOAT.0
+	float                            _0x2A41A169;                     // type:FLOAT.0
 };
 
 struct CWeaponComponentVariantModelInfo : CWeaponComponentInfo
@@ -10565,12 +10374,6 @@ struct CWeaponComponentVariantModelInfo : CWeaponComponentInfo
 
 struct CWeaponDamageModifier
 {
-	float                            DamageModifier;                  // type:FLOAT.0
-};
-
-struct CWeaponFallOffModifier
-{
-	float                            RangeModifier;                   // type:FLOAT.0
 	float                            DamageModifier;                  // type:FLOAT.0
 };
 
@@ -10603,8 +10406,6 @@ struct CWeaponInfo : CItemInfo
 	float                            DamageTime;                      // type:FLOAT.0
 	float                            DamageTimeInVehicle;             // type:FLOAT.0
 	float                            DamageTimeInVehicleHeadShot;     // type:FLOAT.0
-	float                            _0x2E225B8E;                     // type:FLOAT.0
-	string                           _0x1146DD49;                     // type:STRING.ATHASHVALUE
 	float                            HitLimbsDamageModifier;          // type:FLOAT.0
 	float                            NetworkHitLimbsDamageModifier;   // type:FLOAT.0
 	float                            LightlyArmouredDamageModifier;   // type:FLOAT.0
@@ -10661,8 +10462,6 @@ struct CWeaponInfo : CItemInfo
 	float                            LockOnRange;                     // type:FLOAT.0
 	float                            WeaponRange;                     // type:FLOAT.0
 	float                            BulletDirectionOffsetInDegrees;  // type:FLOAT.0
-	float                            BulletDirectionPitchOffset;      // type:FLOAT.0
-	float                            BulletDirectionPitchHomingOffset; // type:FLOAT.0
 	float                            AiSoundRange;                    // type:FLOAT.0
 	float                            AiPotentialBlastEventRange;      // type:FLOAT.0
 	float                            DamageFallOffRangeMin;           // type:FLOAT.0
@@ -10679,13 +10478,11 @@ struct CWeaponInfo : CItemInfo
 	string                           AlternativeOrScopedCameraHash;   // type:STRING.ATHASHVALUE
 	string                           RunAndGunAlternativeOrScopedCameraHash; // type:STRING.ATHASHVALUE
 	string                           CinematicShootingAlternativeOrScopedCameraHash; // type:STRING.ATHASHVALUE
-	string                           PovTurretCameraHash;             // type:STRING.ATHASHVALUE
 	float                            CameraFov;                       // type:FLOAT.0
 	float                            FirstPersonAimFovMin;            // type:FLOAT.0
 	float                            FirstPersonAimFovMax;            // type:FLOAT.0
 	float                            FirstPersonScopeFov;             // type:FLOAT.0
 	float                            FirstPersonScopeAttachmentFov;   // type:FLOAT.0
-	vec3                             FirstPersonDrivebyIKOffset;      // type:VECTOR3.0
 	vec3                             FirstPersonRNGOffset;            // type:VECTOR3.0
 	vec3                             FirstPersonRNGRotationOffset;    // type:VECTOR3.0
 	vec3                             FirstPersonLTOffset;             // type:VECTOR3.0
@@ -10702,7 +10499,6 @@ struct CWeaponInfo : CItemInfo
 	float                            FirstPersonDofSubjectMagnificationPowerFactorNear; // type:FLOAT.0
 	float                            FirstPersonDofMaxNearInFocusDistance; // type:FLOAT.0
 	float                            FirstPersonDofMaxNearInFocusDistanceBlendLevel; // type:FLOAT.0
-	array<struct _0x6355FAA8>        FirstPersonScopeAttachmentData;  // type:ARRAY.ATARRAY
 	float                            ZoomFactorForAccurateMode;       // type:FLOAT.0
 	string                           RecoilShakeHash;                 // type:STRING.ATHASHVALUE
 	string                           RecoilShakeHashFirstPerson;      // type:STRING.ATHASHVALUE
@@ -10715,7 +10511,6 @@ struct CWeaponInfo : CItemInfo
 	float                            IkRecoilDisplacementScaleBackward; // type:FLOAT.0
 	float                            IkRecoilDisplacementScaleVertical; // type:FLOAT.0
 	vec2                             ReticuleHudPosition;             // type:VECTOR2.0
-	vec2                             ReticuleHudPositionOffsetForPOVTurret; // type:VECTOR2.0
 	vec3                             AimOffsetMin;                    // type:VECTOR3.0
 	float                            AimProbeLengthMin;               // type:FLOAT.0
 	vec3                             AimOffsetMax;                    // type:VECTOR3.0
@@ -10781,14 +10576,9 @@ struct CWeaponInfo : CItemInfo
 	char                             HudRange;                        // type:CHAR.0
 	float                            VehicleAttackAngle;              // type:FLOAT.0
 	float                            TorsoIKAngleLimit;               // type:FLOAT.0
-	float                            _0x806EA8CF;                     // type:FLOAT.0
 	float                            MeleeRightFistTargetHealthDamageScaler; // type:FLOAT.0
 	float                            AirborneAircraftLockOnMultiplier; // type:FLOAT.0
-	float                            ArmouredVehicleGlassDamageOverride; // type:FLOAT.0
 	map<string, map<uint, uint>>     CamoDiffuseTexIdxs;              // type:MAP.ATBINARYMAP
-	struct _0x96EF0B10               RotateBarrelBone;                // type:STRUCT.STRUCTURE
-	struct _0x96EF0B10               RotateBarrelBone2;               // type:STRUCT.STRUCTURE
-	struct _0xD3809540               FrontClearTestParams;            // type:STRUCT.STRUCTURE
 };
 
 struct CWeaponInfoBlob
@@ -10801,7 +10591,6 @@ struct CWeaponInfoBlob
 	array<struct CAimingInfo>            AimingInfos;                     // type:ARRAY.ATARRAY
 	array<struct _0x96C1E33B, 4>         Infos;                           // type:ARRAY.MEMBER
 	array<struct CVehicleWeaponInfo>     VehicleWeaponInfos;              // type:ARRAY.ATARRAY
-	array<struct _0x831CCCD8>            WeaponGroupDamageForArmouredVehicleGlass; // type:ARRAY.ATARRAY
 	string                               Name;                            // type:STRING.CONST_STRING
 };
 
@@ -10817,13 +10606,10 @@ struct CWeaponSwapData : CWeaponComponentData
 	string                           PedHolsterCoverClipId;           // type:STRING.ATHASHVALUE
 	string                           PedHolsterDiscardClipId;         // type:STRING.ATHASHVALUE
 	string                           PedHolsterCrouchDiscardClipId;   // type:STRING.ATHASHVALUE
-	string                           PedHolsterWeaponClipId;          // type:STRING.ATHASHVALUE
 	string                           PedUnHolsterClipId;              // type:STRING.ATHASHVALUE
 	string                           PedUnHolsterCrouchClipId;        // type:STRING.ATHASHVALUE
 	string                           PedUnHolsterLeftCoverClipId;     // type:STRING.ATHASHVALUE
 	string                           PedUnHolsterRightCoverClipId;    // type:STRING.ATHASHVALUE
-	string                           PedUnHolsterWeaponClipId;        // type:STRING.ATHASHVALUE
-	float                            AnimPlaybackRate;                // type:FLOAT.0
 };
 
 struct CWildlifeManager__Tunables : CTuning
@@ -10874,17 +10660,14 @@ struct CZonedAssets
 
 struct CacheCatalogParsableInfo
 {
-	struct _0x7B5BBF05               _0x5F9E64E0;                     // type:STRUCT.STRUCTURE
-	struct _0x7F7F3AAC               _0x12FFF11A;                     // type:STRUCT.STRUCTURE
-	struct _0x3BC66FEF               _0xEBAA4201;                     // type:STRUCT.STRUCTURE
-	struct _0xD172BA7B               _0x8021A3FC;                     // type:STRUCT.STRUCTURE
-	struct _0xD172BA7B               _0x4ECFC159;                     // type:STRUCT.STRUCTURE
-	struct _0x851D8AEA               _0xF015C6FC;                     // type:STRUCT.STRUCTURE
-	struct _0xD9F95E4E               _0x58822F9F;                     // type:STRUCT.STRUCTURE
-	struct _0xA664E2C4               _0x5B3DF65A;                     // type:STRUCT.STRUCTURE
-	struct _0xA664E2C4               _0xDA7374C3;                     // type:STRUCT.STRUCTURE
-	struct _0xB11DEE8F               _0xEC481FBC;                     // type:STRUCT.STRUCTURE
-	struct _0xB11DEE8F               _0xF7923650;                     // type:STRUCT.STRUCTURE
+	array<struct netCatalogServiceItem>                  _0x5F9E64E0;                     // type:ARRAY.ATARRAY
+	array<struct netCatalogServiceWithThresholdItem>     _0x12FFF11A;                     // type:ARRAY.ATARRAY
+	array<struct netCatalogServiceLimitedItem>           _0xEBAA4201;                     // type:ARRAY.ATARRAY
+	array<struct netCatalogPackedStatInventoryItem>      _0x2C6B9F17;                     // type:ARRAY.ATARRAY
+	array<struct netCatalogInventoryItem>                _0xF015C6FC;                     // type:ARRAY.ATARRAY
+	array<struct netCatalogOnlyItem>                     _0x58822F9F;                     // type:ARRAY.ATARRAY
+	array<struct netCatalogOnlyItemWithStat>             _0xB558545F;                     // type:ARRAY.ATARRAY
+	array<struct netCatalogGeneralItem>                  netCatalogGeneralItem;           // type:ARRAY.ATARRAY
 };
 
 struct CacheParsableInfo
@@ -11056,7 +10839,6 @@ struct MpTintData
 	array<uchar>                     barberAccsColors;                // type:ARRAY.ATARRAY
 	array<uchar>                     barberLipstickColors;            // type:ARRAY.ATARRAY
 	array<uchar>                     barberBlushColors;               // type:ARRAY.ATARRAY
-	array<uchar>                     _0xBFBF01CC;                     // type:ARRAY.ATARRAY
 	array<struct _0x7A0A7CFC>        assetData;                       // type:ARRAY.ATARRAY
 };
 
@@ -11081,16 +10863,6 @@ struct NMTuningSetEntry
 {
 	struct CNmTuningSet              _0xD66AF12F;                     // type:STRUCT.STRUCTURE
 	string                           key;                             // type:STRING.ATHASHVALUE
-};
-
-struct NonFlyableArea
-{
-	vec4                             _0x936FD5CD;                     // type:VECTOR4.0
-};
-
-struct NonFlyableAreaArray
-{
-	array<struct NonFlyableArea>     areas;                           // type:ARRAY.ATARRAY
 };
 
 struct OccludeModel
@@ -11250,7 +11022,7 @@ struct ShopPedApparel
 
 struct ShopPedComponent : BaseShopPedApparel
 {
-	uint                             drawableIndex;                   // type:UINT.0
+	uchar                            drawableIndex;                   // type:UCHAR.0
 	uchar                            localDrawableIndex;              // type:UCHAR.0
 	uchar                            textureIndex;                    // type:UCHAR.0
 	bool                             isInOutfit;                      // type:BOOL.0
@@ -11365,7 +11137,6 @@ struct WeaponShopItem : BaseShopItem
 	string                                weaponTT;                        // type:STRING.ATSTRING
 	string                                weaponUppercase;                 // type:STRING.ATSTRING
 	array<struct ShopWeaponComponent>     weaponComponents;                // type:ARRAY.ATARRAY
-	bool                                  availableInSP;                   // type:BOOL.0
 };
 
 struct WeaponShopItemArray
@@ -11415,13 +11186,6 @@ struct _0x0089CA0D
 	float                            seDamage;                        // type:FLOAT.0
 	float                            tcModFadeOffSecs;                // type:FLOAT.0
 	enum _0xAC899F59                 tcModInterpType;                 // type:ENUM.32BIT
-};
-
-struct _0x00FE80C3
-{
-	bool                             _0xA82E2FC5;                     // type:BOOL.0
-	uint                             _0xEB247218;                     // type:UINT.0
-	uint                             _0xE3A5E5AA;                     // type:UINT.0
 };
 
 struct _0x01BC51F6
@@ -11722,7 +11486,6 @@ struct _0x10E8278D
 	float                            _0x4D4C55B8;                     // type:FLOAT.0
 	float                            _0x0B25DA3D;                     // type:FLOAT.0
 	float                            fInteriorFootZoom;               // type:FLOAT.0
-	float                            _0xD2E24410;                     // type:FLOAT.0
 	float                            _0x9E20895C;                     // type:FLOAT.0
 	float                            _0x7BB9FE78;                     // type:FLOAT.0
 	float                            fParachutingZoom;                // type:FLOAT.0
@@ -11834,13 +11597,6 @@ struct _0x150FE51F
 	vec2                             AngleToBlendInOffset;            // type:VECTOR2.0
 };
 
-struct _0x1523B012
-{
-	bool                             Enabled;                         // type:BOOL.0
-	float                            _0x96D12C4A;                     // type:FLOAT.0
-	float                            _0xD01AFBE7;                     // type:FLOAT.0
-};
-
 struct _0x15947AEC
 {
 	string                           Name;                            // type:STRING.ATHASHVALUE
@@ -11879,16 +11635,6 @@ struct _0x16F04EBE
 	array<struct _0x71CBCC13>        Situations;                      // type:ARRAY.ATARRAY
 };
 
-struct _0x17B3DEC4
-{
-	string                           propertyId;                      // type:STRING.ATHASHVALUE
-	int                              index;                           // type:INT.0
-	int                              actionScriptEnum;                // type:INT.0
-	string                           dataId;                          // type:STRING.ATHASHVALUE
-	int                              defaultValue;                    // type:INT.0
-	bool                             visibleInMenu;                   // type:BOOL.0
-};
-
 struct _0x18EAFEA9
 {
 	string                           modelName;                       // type:STRING.POINTER
@@ -11903,40 +11649,6 @@ struct _0x18EAFEA9
 struct _0x18F2242F
 {
 	array<struct _0x9B31E881, 3>     Resolutions;                     // type:ARRAY.MEMBER
-};
-
-struct _0x1943B370 : CBaseSubHandlingData
-{
-	vec3V                            _0xE00E46A5;                     // type:VEC3V.0
-	vec3V                            _0x86E111DC;                     // type:VEC3V.0
-	vec3V                            _0x5BB828DA;                     // type:VEC3V.0
-	vec3V                            _0x96D5C511;                     // type:VEC3V.0
-	float                            _0x76923C79;                     // type:FLOAT.0
-	float                            _0xA91C4B57;                     // type:FLOAT.0
-	float                            _0x7EFA548C;                     // type:FLOAT.0
-	float                            _0xEA9F750B;                     // type:FLOAT.0
-	float                            fDragCoefficient;                // type:FLOAT.0
-	float                            _0x9B6655A3;                     // type:FLOAT.0
-	float                            _0xBD412DB9;                     // type:FLOAT.0
-	float                            _0xF9C5F301;                     // type:FLOAT.0
-	float                            _0x181F2A96;                     // type:FLOAT.0
-	float                            _0x6A3247B8;                     // type:FLOAT.0
-	float                            _0xA514ECFD;                     // type:FLOAT.0
-	float                            _0x40B07D9D;                     // type:FLOAT.0
-	float                            _0x71141F47;                     // type:FLOAT.0
-	float                            fInitalOverheadAssist;           // type:FLOAT.0
-	float                            _0xB064C920;                     // type:FLOAT.0
-	float                            _0xBCF98259;                     // type:FLOAT.0
-	float                            _0x670C15E2;                     // type:FLOAT.0
-	float                            _0xCB42B7A4;                     // type:FLOAT.0
-	float                            _0xA18DC744;                     // type:FLOAT.0
-	float                            _0x628D9DD0;                     // type:FLOAT.0
-	float                            _0x56D7DFA8;                     // type:FLOAT.0
-	float                            fStabilityAssist;                // type:FLOAT.0
-	float                            _0x9EEF7F98;                     // type:FLOAT.0
-	float                            _0xCC594BE5;                     // type:FLOAT.0
-	int                              mode;                            // type:INT.0
-	string                           _0x5A40CA75;                     // type:STRING.ATFINALHASHSTRING
 };
 
 struct _0x197CC214
@@ -12080,7 +11792,6 @@ struct _0x1C3053EC
 	bool                             bUnreachableByMeleeNavigation;   // type:BOOL.0
 	bool                             notDamagedByFlames;              // type:BOOL.0
 	bool                             collidesWithLowLodVehicleChassis; // type:BOOL.0
-	bool                             _0xC2532FA5;                     // type:BOOL.0
 };
 
 struct _0x1D591740
@@ -12730,11 +12441,6 @@ struct _0x3BB87028
 	float                            HealthMultiplierBonus;           // type:FLOAT.0
 };
 
-struct _0x3BC66FEF
-{
-	array<struct netCatalogServiceLimitedItem>     Items;                           // type:ARRAY.ATARRAY
-};
-
 struct _0x3C0532D1
 {
 	string                           CoverMovementClipSetHash;        // type:STRING.ATHASHVALUE
@@ -12838,9 +12544,6 @@ struct _0x3DFE3442
 	float                            MinAccumulatedImpactForSideSwipe; // type:FLOAT.0
 	float                            MinVehVelMagForSideSwipe;        // type:FLOAT.0
 	float                            MinVehVelMagForBicycleSideSwipe; // type:FLOAT.0
-	float                            _0x41D2C310;                     // type:FLOAT.0
-	float                            _0x52071CA7;                     // type:FLOAT.0
-	float                            _0xF7FB7800;                     // type:FLOAT.0
 };
 
 struct _0x3E7EC724
@@ -13316,12 +13019,6 @@ struct _0x536645A8
 	bitset<enum >                    mBits;                           // type:BITSET.3
 };
 
-struct _0x536B3613 : camBaseObjectMetadata
-{
-	struct _0x8ED4AF1E               _0x7ED24C18;                     // type:STRUCT.STRUCTURE
-	struct _0x78E64982               _0x0E63620A;                     // type:STRUCT.STRUCTURE
-};
-
 struct _0x53C3CC2E
 {
 	enum _0x4F6FCF6D                 Priority;                        // type:ENUM.32BIT
@@ -13434,15 +13131,12 @@ struct _0x59D98C0F
 	float                            MuzzleSmokeFxMinLevel;           // type:FLOAT.0
 	float                            MuzzleSmokeFxIncPerShot;         // type:FLOAT.0
 	float                            MuzzleSmokeFxDecPerSec;          // type:FLOAT.0
-	vec3                             MuzzleOverrideOffset;            // type:VECTOR3.0
-	bool                             _0x19228070;                     // type:BOOL.0
 	string                           ShellFx;                         // type:STRING.ATHASHVALUE
 	string                           ShellFxFP;                       // type:STRING.ATHASHVALUE
 	string                           TracerFx;                        // type:STRING.ATHASHVALUE
 	string                           PedDamageHash;                   // type:STRING.ATHASHVALUE
 	float                            TracerFxChanceSP;                // type:FLOAT.0
 	float                            TracerFxChanceMP;                // type:FLOAT.0
-	bool                             _0x55617AE2;                     // type:BOOL.0
 	float                            FlashFxChanceSP;                 // type:FLOAT.0
 	float                            FlashFxChanceMP;                 // type:FLOAT.0
 	float                            FlashFxAltChance;                // type:FLOAT.0
@@ -13462,11 +13156,6 @@ struct _0x59D98C0F
 	string                           GroundDisturbFxNameDirt;         // type:STRING.ATHASHVALUE
 	string                           GroundDisturbFxNameWater;        // type:STRING.ATHASHVALUE
 	string                           GroundDisturbFxNameFoliage;      // type:STRING.ATHASHVALUE
-};
-
-struct _0x5AA44B6A
-{
-	struct _0x1523B012               Arresting;                       // type:STRUCT.STRUCTURE
 };
 
 struct _0x5B2CB9E0
@@ -13697,14 +13386,6 @@ struct _0x62B1F352
 	uint                             blackWhiteWeights;               // type:UINT.1
 	uint                             tintColor;                       // type:UINT.1
 	float                            blend;                           // type:FLOAT.0
-};
-
-struct _0x6355FAA8
-{
-	string                           Name;                            // type:STRING.ATHASHVALUE
-	float                            FirstPersonScopeAttachmentFov;   // type:FLOAT.0
-	vec3                             FirstPersonScopeAttachmentOffset; // type:VECTOR3.0
-	vec3                             FirstPersonScopeAttachmentRotationOffset; // type:VECTOR3.0
 };
 
 struct _0x638B44E7 : _0x916686A5
@@ -13968,16 +13649,6 @@ struct _0x6E9C0088
 	vec2                             CenterOffset;                    // type:VECTOR2.0
 };
 
-struct _0x6EB5258C
-{
-	float                            fForwardAngleMin;                // type:FLOAT.0
-	float                            fForwardAngleMax;                // type:FLOAT.0
-	float                            fBackwardAngleMin;               // type:FLOAT.0
-	float                            fBackwardAngleMid;               // type:FLOAT.0
-	float                            fBackwardAngleMax;               // type:FLOAT.0
-	float                            fBackwardForcedPitch;            // type:FLOAT.0
-};
-
 struct _0x6ECB1C3E
 {
 	vec3                             vDestination;                    // type:VECTOR3.0
@@ -14029,7 +13700,7 @@ struct _0x7180E947
 struct _0x71BF947F
 {
 	string                            AttachBone;                      // type:STRING.ATHASHVALUE
-	array<struct _0x2FE6FC32, 11>     Components;                      // type:ARRAY.ATFIXEDARRAY
+	array<struct _0x2FE6FC32, 10>     Components;                      // type:ARRAY.ATFIXEDARRAY
 };
 
 struct _0x71CBCC13
@@ -14075,6 +13746,34 @@ struct _0x72DC244E
 	float                            densityMultiplier;               // type:FLOAT.0
 };
 
+struct _0x72E3BF2B : CTuning
+{
+	float                            _0x50FC5D7B;                     // type:FLOAT.0
+	float                            _0x4CE7AA00;                     // type:FLOAT.0
+	int                              _0x00F0FCEE;                     // type:INT.0
+	int                              _0x04590CDE;                     // type:INT.0
+	float                            _0x1CB7DEE1;                     // type:FLOAT.0
+	float                            _0x24B4E5C7;                     // type:FLOAT.0
+	float                            _0xCCFC4966;                     // type:FLOAT.0
+	float                            _0x95E94294;                     // type:FLOAT.0
+	float                            _0x4FBF447A;                     // type:FLOAT.0
+	float                            _0x682B3852;                     // type:FLOAT.0
+	int                              _0x4F755FAA;                     // type:INT.0
+	int                              _0xB810FE9C;                     // type:INT.0
+	float                            _0x350FB287;                     // type:FLOAT.0
+	int                              _0x39E06A97;                     // type:INT.0
+	float                            _0x0DC050B5;                     // type:FLOAT.0
+	float                            _0x23FCE5AF;                     // type:FLOAT.0
+	float                            _0x2409F7A5;                     // type:FLOAT.0
+	float                            _0x36064B03;                     // type:FLOAT.0
+	bool                             _0xA5A3D26B;                     // type:BOOL.0
+	bool                             _0x8797C1BE;                     // type:BOOL.0
+	struct CNmTuningSet              Start;                           // type:STRUCT.STRUCTURE
+	struct CNmTuningSet              Base;                            // type:STRUCT.STRUCTURE
+	struct CNmTuningSet              _0xD520837F;                     // type:STRUCT.STRUCTURE
+	struct CNmTuningSet              Idle;                            // type:STRUCT.STRUCTURE
+};
+
 struct _0x73C700A6
 {
 	short                            minX;                            // type:SHORT.0
@@ -14097,7 +13796,6 @@ struct _0x742934C4
 	string                           Name;                            // type:STRING.ATHASHVALUE
 	float                            DefaultHealth;                   // type:FLOAT.0
 	float                            DefaultArmour;                   // type:FLOAT.0
-	float                            _0x7C84F2FD;                     // type:FLOAT.0
 	float                            FatiguedHealthThreshold;         // type:FLOAT.0
 	float                            InjuredHealthThreshold;          // type:FLOAT.0
 	float                            DyingHealthThreshold;            // type:FLOAT.0
@@ -14167,10 +13865,7 @@ struct _0x78902025
 
 struct _0x78970E5F
 {
-	int                              TranscodingSmallObjectBuffer;    // type:INT.0
-	int                              TranscodingSmallObjectMaxPointers; // type:INT.0
 	int                              TranscodingBuffer;               // type:INT.0
-	int                              TranscodingMaxPointers;          // type:INT.0
 };
 
 struct _0x78CFD866
@@ -14182,18 +13877,6 @@ struct _0x78CFD866
 	bool                             _0x52C6857D;                     // type:BOOL.0
 	enum _0x3E8F9836                 _0xDD4D1923;                     // type:ENUM.32BIT
 	enum _0x3E8F9836                 _0x679324F2;                     // type:ENUM.32BIT
-};
-
-struct _0x78E64982
-{
-	vec3                             _0x9AC45A3F;                     // type:VECTOR3.0
-	float                            _0xCCB6BFE8;                     // type:FLOAT.0
-	vec2                             HeadingLimits;                   // type:VECTOR2.0
-	vec2                             PitchLimits;                     // type:VECTOR2.0
-	bool                             _0x207DEA95;                     // type:BOOL.0
-	float                            _0x6EBE3B26;                     // type:FLOAT.0
-	float                            _0xD96BBFD4;                     // type:FLOAT.0
-	int                              _0x273E4AFA;                     // type:INT.0
 };
 
 struct _0x7927E2E9
@@ -14231,11 +13914,6 @@ struct _0x7ABAAF1A
 	bool                             Enabled;                         // type:BOOL.0
 	vec3                             LeftHandOffset;                  // type:VECTOR3.0
 	vec3                             RightHandOffset;                 // type:VECTOR3.0
-};
-
-struct _0x7B5BBF05
-{
-	array<struct netCatalogServiceItem>     Items;                           // type:ARRAY.ATARRAY
 };
 
 struct _0x7B684AFD
@@ -14349,11 +14027,6 @@ struct _0x7F6C8143
 	float                            _0x131E7977;                     // type:FLOAT.0
 	float                            fFarClip;                        // type:FLOAT.0
 	float                            fDistance;                       // type:FLOAT.0
-};
-
-struct _0x7F7F3AAC
-{
-	array<struct netCatalogServiceWithThresholdItem>     Items;                           // type:ARRAY.ATARRAY
 };
 
 struct _0x7FC06F64
@@ -14519,7 +14192,6 @@ struct _0x8250CB03
 	vec3                                                           FirstPersonProjectileDriveByPassengerIKOffset; // type:VECTOR3.0
 	vec3                                                           FirstPersonProjectileDriveByRearLeftIKOffset; // type:VECTOR3.0
 	vec3                                                           FirstPersonProjectileDriveByRearRightIKOffset; // type:VECTOR3.0
-	vec3                                                           FirstPersonVisorSwitchIKOffset;  // type:VECTOR3.0
 	vec3                                                           FirstPersonMobilePhoneOffset;    // type:VECTOR3.0
 	vec3                                                           FirstPersonPassengerMobilePhoneOffset; // type:VECTOR3.0
 	array<struct _0x309C3B9F>                                      FirstPersonMobilePhoneSeatIKOffset; // type:ARRAY.ATARRAY
@@ -14588,9 +14260,6 @@ struct _0x8250CB03
 	float                                                          _0x67A1548B;                     // type:FLOAT.0
 	float                                                          minSeatHeight;                   // type:FLOAT.0
 	vec3                                                           lockOnPositionOffset;            // type:VECTOR3.0
-	float                                                          LowriderArmWindowHeight;         // type:FLOAT.0
-	float                                                          LowriderLeanAccelModifier;       // type:FLOAT.0
-	int                                                            numSeatsOverride;                // type:INT.0
 };
 
 struct _0x82D3B8E9
@@ -14612,12 +14281,6 @@ struct _0x83026A8A
 	enum eAnimBoneTag                bone2;                           // type:ENUM.32BIT
 	enum eAnimBoneTag                topBone;                         // type:ENUM.32BIT
 	array<struct _0x88E48BD0>        pushAreas;                       // type:ARRAY.ATARRAY
-};
-
-struct _0x831CCCD8
-{
-	string                           GroupHash;                       // type:STRING.ATHASHVALUE
-	float                            Damage;                          // type:FLOAT.0
 };
 
 struct _0x83361866
@@ -14680,11 +14343,6 @@ struct _0x8433B49A
 	float                            splashWadePtFxRange;             // type:FLOAT.0
 	float                            splashTrailPtFxRange;            // type:FLOAT.0
 	float                            _0x444FD301;                     // type:FLOAT.0
-};
-
-struct _0x851D8AEA
-{
-	array<struct netCatalogInventoryItem>     Items;                           // type:ARRAY.ATARRAY
 };
 
 struct _0x85559CF3
@@ -14909,10 +14567,6 @@ struct _0x8E354B7F
 	int                              _0x905D96A3;                     // type:INT.0
 };
 
-struct _0x8ED4AF1E : camThirdPersonCameraMetadata
-{
-};
-
 struct _0x8EEB5461
 {
 	string                           RosTitleName;                    // type:STRING.CONST_STRING
@@ -14921,7 +14575,6 @@ struct _0x8EEB5461
 	int                              SteamAppId;                      // type:INT.0
 	string                           TitleDirectoryName;              // type:STRING.CONST_STRING
 	string                           MultiplayerSessionTemplateName;  // type:STRING.CONST_STRING
-	string                           ScAuthTitleId;                   // type:STRING.CONST_STRING
 };
 
 struct _0x8FADE2AC
@@ -15089,31 +14742,12 @@ struct _0x977D9A7F
 	bool                             bDamageObjects;                  // type:BOOL.0
 	bool                             bOnlyAffectsLivePeds;            // type:BOOL.0
 	bool                             bIgnoreExplodingEntity;          // type:BOOL.0
-	bool                             _0x209E8965;                     // type:BOOL.0
 	bool                             bNoOcclusion;                    // type:BOOL.0
 	bool                             explodeAttachEntityWhenFinished; // type:BOOL.0
 	bool                             bCanSetPedOnFire;                // type:BOOL.0
-	bool                             bCanSetPlayerOnFire;             // type:BOOL.0
 	bool                             bSuppressCrime;                  // type:BOOL.0
 	bool                             bUseDistanceDamageCalc;          // type:BOOL.0
 	bool                             bPreventWaterExplosionVFX;       // type:BOOL.0
-	bool                             bIgnoreRatioCheckForFire;        // type:BOOL.0
-	bool                             bAllowUnderwaterExplosion;       // type:BOOL.0
-	bool                             bForceVehicleExplosion;          // type:BOOL.0
-	float                            midRadius;                       // type:FLOAT.0
-	float                            damageAtMid;                     // type:FLOAT.0
-	bool                             bApplyVehicleEMP;                // type:BOOL.0
-	bool                             bApplyVehicleSlick;              // type:BOOL.0
-	bool                             bApplyVehicleSlowdown;           // type:BOOL.0
-	bool                             bApplyVehicleTyrePop;            // type:BOOL.0
-	bool                             _0xAFCA2883;                     // type:BOOL.0
-	bool                             bForcePetrolTankDamage;          // type:BOOL.0
-	bool                             _0xC2CF286B;                     // type:BOOL.0
-	bool                             _0x512F3F0A;                     // type:BOOL.0
-	bool                             _0xEAE3465B;                     // type:BOOL.0
-	bool                             _0xCAE234C3;                     // type:BOOL.0
-	bool                             _0xC25AFD9B;                     // type:BOOL.0
-	bool                             _0x7BA679E0;                     // type:BOOL.0
 };
 
 struct _0x9865E151
@@ -15144,8 +14778,8 @@ struct _0x98CF5A90
 
 struct _0x99885DD2
 {
-	array<uchar, 6>                  indices;                         // type:ARRAY.MEMBER
-	array<bool, 30>                  liveries;                        // type:ARRAY.MEMBER
+	array<uchar, 4>                  indices;                         // type:ARRAY.MEMBER
+	array<bool, 25>                  liveries;                        // type:ARRAY.MEMBER
 };
 
 struct _0x99AB9848
@@ -15379,12 +15013,6 @@ struct _0xA3358B19
 	int                              ExpectedMaximum;                 // type:INT.0
 };
 
-struct _0xA4724F7C
-{
-	string                           Action;                          // type:STRING.MEMBER
-	array<enum rage__InputType>      Inputs;                          // type:ARRAY.ATARRAY
-};
-
 struct _0xA47600F5
 {
 	vec3V                            _0x904F2ADF;                     // type:VEC3V.0
@@ -15423,11 +15051,6 @@ struct _0xA6598018
 {
 	string                           RandomEventName;                 // type:STRING.ATHASHVALUE
 	enum _0xE27BD161                 RandomEventType;                 // type:ENUM.32BIT
-};
-
-struct _0xA664E2C4
-{
-	array<struct netCatalogOnlyItemWithStat>     Items;                           // type:ARRAY.ATARRAY
 };
 
 struct _0xA69C4A4C
@@ -15561,6 +15184,7 @@ struct _0xAD8C8901
 	enum _0x5A5AAF32                 columnType;                      // type:ENUM.32BIT
 	enum _0x588B6307                 columnDataType;                  // type:ENUM.32BIT
 	string                           BackMenuId;                      // type:STRING.ATHASHVALUE
+	string                           _0x4C755F8F;                     // type:STRING.ATHASHVALUE
 	array<struct _0xDA6A70C3>        Option;                          // type:ARRAY.ATARRAY
 	struct _0xAEBF879E               Content;                         // type:STRUCT.SIMPLE_POINTER
 };
@@ -15629,11 +15253,6 @@ struct _0xB0E844D3
 	float                            fChargeGoalRearOffset;           // type:FLOAT.0
 	float                            fChargeGoalMaxAdjustRadius;      // type:FLOAT.0
 	float                            fPlayerMoveDistToResetChargeGoals; // type:FLOAT.0
-};
-
-struct _0xB11DEE8F
-{
-	array<struct netCatalogGeneralItem>     Items;                           // type:ARRAY.ATARRAY
 };
 
 struct _0xB29A007B
@@ -15743,14 +15362,6 @@ struct _0xB82D6E86
 	int                              _0x790CC0BB;                     // type:INT.0
 };
 
-struct _0xB8AD67A8
-{
-	string                           templateId;                      // type:STRING.ATHASHVALUE
-	string                           _0x6E130B0A;                     // type:STRING.ATHASHVALUE
-	int                              actionScriptEnum;                // type:INT.0
-	array<struct _0x17B3DEC4>        data;                            // type:ARRAY.ATARRAY
-};
-
 struct _0xB982048A
 {
 	string                           zoneName;                        // type:STRING.CONST_STRING
@@ -15785,7 +15396,6 @@ struct _0xB9FC5D5A
 	enum _0xD0600B57                 PointType;                       // type:ENUM.32BIT
 	vec3                             Position;                        // type:VECTOR3.0
 	float                            Heading;                         // type:FLOAT.0
-	float                            Pitch;                           // type:FLOAT.0
 	string                           BoneName;                        // type:STRING.ATSTRING
 };
 
@@ -16045,6 +15655,12 @@ struct _0xCBAF25D2
 	int                              _0xFBFA9B10;                     // type:INT.0
 };
 
+struct _0xCC9130BA
+{
+	uint                             _0x9DC462B4;                     // type:UINT.0
+	uchar                            _0x71912687;                     // type:UCHAR.0
+};
+
 struct _0xCCD0606E
 {
 	struct _0x1FBE413C               BadRoute;                        // type:STRUCT.STRUCTURE
@@ -16134,11 +15750,6 @@ struct _0xD0446454
 	int                              BlurPasses;                      // type:INT.0
 };
 
-struct _0xD172BA7B
-{
-	array<struct netCatalogPackedStatInventoryItem>     Items;                           // type:ARRAY.ATARRAY
-};
-
 struct _0xD20CBE56
 {
 	string                           name;                            // type:STRING.POINTER
@@ -16166,21 +15777,10 @@ struct _0xD31CA25D
 	bool                             IncidentLocation;                // type:BOOL.0
 };
 
-struct _0xD3809540
-{
-	bool                             ShouldPerformFrontClearTest;     // type:BOOL.0
-	float                            ForwardOffset;                   // type:FLOAT.0
-	float                            VerticalOffset;                  // type:FLOAT.0
-	float                            HorizontalOffset;                // type:FLOAT.0
-	float                            CapsuleRadius;                   // type:FLOAT.0
-	float                            CapsuleLength;                   // type:FLOAT.0
-};
-
 struct _0xD3CC3E47
 {
 	enum ePedVarComp                 Component;                       // type:ENUM.32BIT
 	int                              DrawableIndex;                   // type:INT.0
-	int                              _0x373D5DA6;                     // type:INT.0
 	enum _0x7B1FA471                 Restriction;                     // type:ENUM.32BIT
 };
 
@@ -16249,11 +15849,6 @@ struct _0xD9626B2D
 	string                           ExpressionName;                  // type:STRING.ATHASHVALUE
 };
 
-struct _0xD9F95E4E
-{
-	array<struct netCatalogOnlyItem>     Items;                           // type:ARRAY.ATARRAY
-};
-
 struct _0xDA2DA33A
 {
 	struct _0x3DDA4FE9               Calculation;                     // type:STRUCT.STRUCTURE
@@ -16278,7 +15873,6 @@ struct _0xDA6A70C3
 	string                           ToggleValue;                     // type:STRING.ATHASHVALUE
 	string                           WarningText;                     // type:STRING.ATHASHVALUE
 	string                           DependentAction;                 // type:STRING.ATHASHVALUE
-	string                           UniqueId;                        // type:STRING.ATHASHVALUE
 };
 
 struct _0xDA769AA4
@@ -16293,18 +15887,6 @@ struct _0xDA769AA4
 	string                           _0xFE6463BD;                     // type:STRING.ATHASHVALUE
 	bitset<enum _0x0FDA7738>         EventResponseDecisionFlags;      // type:BITSET.0
 	bitset<enum _0xB2CEB155>         EventResponseFleeFlags;          // type:BITSET.2
-};
-
-struct _0xDACB18BA
-{
-	bool                             _0x64E03040;                     // type:BOOL.0
-	bool                             _0xDA65310C;                     // type:BOOL.0
-	float                            _0x26A7D752;                     // type:FLOAT.0
-	float                            _0x54048E27;                     // type:FLOAT.0
-	float                            _0xDABEFFD9;                     // type:FLOAT.0
-	float                            _0xC6905542;                     // type:FLOAT.0
-	float                            _0xA778C714;                     // type:FLOAT.0
-	float                            _0xAF33DBFF;                     // type:FLOAT.0
 };
 
 struct _0xDB48D0F8
@@ -16459,18 +16041,6 @@ struct _0xE2667659
 struct _0xE28ECBE1
 {
 	struct _0x8DD60B6F               Weights;                         // type:STRUCT.STRUCTURE
-};
-
-struct _0xE2FEBF2F
-{
-	string                           Action;                          // type:STRING.MEMBER
-	float                            Scale;                           // type:FLOAT.0
-	array<enum rage__InputType>      _0xF7F9CA01;                     // type:ARRAY.ATARRAY
-	array<enum rage__InputType>      _0xA49DAA10;                     // type:ARRAY.ATARRAY
-	array<enum rage__InputType>      _0x053774DB;                     // type:ARRAY.ATARRAY
-	array<enum rage__InputType>      _0xCCE07F25;                     // type:ARRAY.ATARRAY
-	array<enum rage__InputType>      _0x8E799EEB;                     // type:ARRAY.ATARRAY
-	array<enum rage__InputType>      _0xC4E329C8;                     // type:ARRAY.ATARRAY
 };
 
 struct _0xE30C80F3
@@ -16700,14 +16270,6 @@ struct _0xF00695A1
 	uint                             c3;                              // type:UINT.1
 };
 
-struct _0xF1B8F332
-{
-	int                              valueNumber;                     // type:INT.0
-	string                           valueHash;                       // type:STRING.ATHASHVALUE
-	string                           valueString;                     // type:STRING.ATSTRING
-	string                           _0x6E130B0A;                     // type:STRING.ATHASHVALUE
-};
-
 struct _0xF2A6D58E
 {
 	float                            Min;                             // type:FLOAT.0
@@ -16728,15 +16290,6 @@ struct _0xF5178323
 	map<string, struct _0x15F7EF08>     dictionaries;                    // type:MAP.ATBINARYMAP
 };
 
-struct _0xF54E4938
-{
-	uint                             _0x517ADE11;                     // type:UINT.0
-	uint                             _0xE9C62A17;                     // type:UINT.0
-	uint                             Lifetime;                        // type:UINT.0
-	uint                             _0x3C4FFFDC;                     // type:UINT.0
-	bool                             _0xDF826DE8;                     // type:BOOL.0
-};
-
 struct _0xF553D153
 {
 	enum _0xD127F6E9                 Bound;                           // type:ENUM.32BIT
@@ -16747,16 +16300,9 @@ struct _0xF5E8F50C
 {
 	int                              duration;                        // type:INT.0
 	int                              initialUnlockedCap;              // type:INT.0
-	int                              _0x7F62840A;                     // type:INT.0
-	bool                             _0x32630BCF;                     // type:BOOL.0
-	bool                             _0x2DC9F5ED;                     // type:BOOL.0
-	bool                             _0x0AD45F94;                     // type:BOOL.0
 	float                            timeWarpScale;                   // type:FLOAT.0
 	float                            damageMultiplier;                // type:FLOAT.0
 	float                            defenseMultiplier;               // type:FLOAT.0
-	float                            staminaMultiplier;               // type:FLOAT.0
-	float                            sprintMultiplier;                // type:FLOAT.0
-	float                            steeringMultiplier;              // type:FLOAT.0
 	float                            depletionMultiplier;             // type:FLOAT.0
 	float                            chargeMultiplier;                // type:FLOAT.0
 	string                           fxName;                          // type:STRING.ATHASHVALUE
@@ -16935,23 +16481,9 @@ struct _0xFD088411
 	float                            TimeBetweenDifficultyUpdates;    // type:FLOAT.0
 };
 
-struct _0xFD1E5907
-{
-	array<struct _0xA4724F7C>        Buttons;                         // type:ARRAY.ATARRAY
-	array<struct _0xA4724F7C>        Triggers;                        // type:ARRAY.ATARRAY
-	array<struct _0xE2FEBF2F>        _0xC35841D4;                     // type:ARRAY.ATARRAY
-	string                           _0x3F9EC26D;                     // type:STRING.MEMBER
-};
-
 struct _0xFD2DF0AD
 {
 	array<struct _0x6ECB1C3E, 12>     Entries;                         // type:ARRAY.ATFIXEDARRAY
-};
-
-struct _0xFD4B8011
-{
-	string                           propertyId;                      // type:STRING.ATHASHVALUE
-	array<struct _0xF1B8F332>        data;                            // type:ARRAY.ATARRAY
 };
 
 struct _0xFD7A877C
@@ -17341,13 +16873,10 @@ struct camCinematicHeliChaseCameraMetadata : camBaseCameraMetadata
 	float                                              _0x42966678;                     // type:FLOAT.0
 	float                                              _0xD73B62A1;                     // type:FLOAT.0
 	float                                              _0xABFDBED4;                     // type:FLOAT.0
-	float                                              _0x4545D958;                     // type:FLOAT.0
-	float                                              _0x7EE31765;                     // type:FLOAT.0
 	float                                              _0xD0DD9540;                     // type:FLOAT.0
 	float                                              _0x79A2D8B5;                     // type:FLOAT.0
 	float                                              _0x504016C6;                     // type:FLOAT.0
 	float                                              _0x1D88C585;                     // type:FLOAT.0
-	float                                              _0xDE0EEF9D;                     // type:FLOAT.0
 	float                                              _0x319C5ECF;                     // type:FLOAT.0
 	float                                              _0x38D11CD3;                     // type:FLOAT.0
 	float                                              _0x0BE6AA37;                     // type:FLOAT.0
@@ -17502,7 +17031,6 @@ struct camCinematicMountedCameraMetadata : camBaseCameraMetadata
 	string                                                                     _0x26A97CEA;                     // type:STRING.ATHASHVALUE
 	string                                                                     _0x2B11183C;                     // type:STRING.ATHASHVALUE
 	string                                                                     _0xCAB22BBE;                     // type:STRING.ATHASHVALUE
-	string                                                                     _0x34C371A0;                     // type:STRING.ATHASHVALUE
 	string                                                                     SpringMountRef;                  // type:STRING.ATHASHVALUE
 	float                                                                      BaseFov;                         // type:FLOAT.0
 	float                                                                      BaseNearClip;                    // type:FLOAT.0
@@ -17517,7 +17045,6 @@ struct camCinematicMountedCameraMetadata : camBaseCameraMetadata
 	vec3                                                                       _0x568E59D2;                     // type:VECTOR3.0
 	vec3                                                                       _0xFA22E782;                     // type:VECTOR3.0
 	vec3                                                                       _0x3BB22C47;                     // type:VECTOR3.0
-	vec3                                                                       _0x6F09EC3C;                     // type:VECTOR3.0
 	vec2                                                                       RelativeAttachSpringConstantLimits; // type:VECTOR2.0
 	vec2                                                                       RelativeAttachSpringConstantLimitsForPassengers; // type:VECTOR2.0
 	vec2                                                                       _0xC1A46779;                     // type:VECTOR2.0
@@ -17540,13 +17067,11 @@ struct camCinematicMountedCameraMetadata : camBaseCameraMetadata
 	struct camCinematicMountedCameraMetadataRelativePitchScalingToThrottle     _0x906EA67C;                     // type:STRUCT.STRUCTURE
 	struct camSpeedRelativeShakeSettingsMetadata                               HighSpeedShakeSettings;          // type:STRUCT.STRUCTURE
 	struct camSpeedRelativeShakeSettingsMetadata                               _0x63AE05ED;                     // type:STRUCT.STRUCTURE
-	struct camVehicleRocketSettings                                            RocketSettings;                  // type:STRUCT.STRUCTURE
 	bool                                                                       _0x72147363;                     // type:BOOL.0
 	bool                                                                       _0xCE397BC8;                     // type:BOOL.0
 	bool                                                                       _0x34811CFB;                     // type:BOOL.0
 	struct camCinematicMountedCameraMetadataLookAroundSettings                 _0x092D55A2;                     // type:STRUCT.STRUCTURE
 	struct camCinematicMountedCameraMetadataLookAroundSettings                 _0x60DD3CCF;                     // type:STRUCT.STRUCTURE
-	struct camCinematicMountedCameraMetadataLookAroundSettings                 _0xA0FF15F4;                     // type:STRUCT.STRUCTURE
 	struct camCinematicMountedCameraMetadataFirstPersonRoll                    _0x3CD75AE5;                     // type:STRUCT.STRUCTURE
 	struct camCinematicMountedCameraMetadataFirstPersonPitchOffset             _0xC2B3B58A;                     // type:STRUCT.STRUCTURE
 	bool                                                                       _0xFAF91DAF;                     // type:BOOL.0
@@ -17591,7 +17116,6 @@ struct camCinematicMountedCameraMetadata : camBaseCameraMetadata
 	vec2                                                                       _0x5B9D3940;                     // type:VECTOR2.0
 	vec2                                                                       _0xC3360130;                     // type:VECTOR2.0
 	vec2                                                                       _0x370EC3DC;                     // type:VECTOR2.0
-	vec2                                                                       _0xDB6680E5;                     // type:VECTOR2.0
 	vec2                                                                       AttachParentRelativeHeading;     // type:VECTOR2.0
 	vec2                                                                       _0x8CD567E3;                     // type:VECTOR2.0
 	vec2                                                                       _0xAEBA2DAB;                     // type:VECTOR2.0
@@ -17601,7 +17125,6 @@ struct camCinematicMountedCameraMetadata : camBaseCameraMetadata
 	vec2                                                                       _0xBE9B5F05;                     // type:VECTOR2.0
 	vec2                                                                       _0x6E1C992B;                     // type:VECTOR2.0
 	vec2                                                                       _0x409B4B21;                     // type:VECTOR2.0
-	vec2                                                                       _0xF635F0FA;                     // type:VECTOR2.0
 	vec2                                                                       InitialRelativePitchLimits;      // type:VECTOR2.0
 	vec2                                                                       InitialRelativeHeadingLimits;    // type:VECTOR2.0
 	bool                                                                       ShouldApplyAttachParentRoll;     // type:BOOL.0
@@ -17620,15 +17143,12 @@ struct camCinematicMountedCameraMetadata : camBaseCameraMetadata
 	bool                                                                       ShouldTestForClipping;           // type:BOOL.0
 	uint                                                                       MaxTimeToClipIntoDynamicCollision; // type:UINT.0
 	float                                                                      RadiusScalingForClippingTest;    // type:FLOAT.0
-	bool                                                                       _0x30A562A0;                     // type:BOOL.0
-	bool                                                                       _0x1A36C723;                     // type:BOOL.0
 	float                                                                      MaxDistanceForWaterClippingTest; // type:FLOAT.0
 	float                                                                      MaxDistanceForRiverWaterClippingTest; // type:FLOAT.0
 	bool                                                                       _0x3A328BC3;                     // type:BOOL.0
 	float                                                                      MinHeightAboveWater;             // type:FLOAT.0
 	bool                                                                       _0x0BEF8AAA;                     // type:BOOL.0
 	float                                                                      _0x602A3B22;                     // type:FLOAT.0
-	bool                                                                       _0x806DD59E;                     // type:BOOL.0
 	string                                                                     InVehicleLookAtDampingRef;       // type:STRING.ATHASHVALUE
 	string                                                                     OnFootLookAtDampingRef;          // type:STRING.ATHASHVALUE
 	string                                                                     _0xFA62FF34;                     // type:STRING.ATHASHVALUE
@@ -17652,13 +17172,9 @@ struct camCinematicMountedCameraMetadata : camBaseCameraMetadata
 	float                                                                      _0x97FB1C40;                     // type:FLOAT.0
 	float                                                                      _0x93FF7BA9;                     // type:FLOAT.0
 	float                                                                      _0xCD0D18C3;                     // type:FLOAT.0
-	float                                                                      _0xA39751BC;                     // type:FLOAT.0
-	float                                                                      _0x52B4CC41;                     // type:FLOAT.0
 	float                                                                      _0x498313F3;                     // type:FLOAT.0
 	vec3                                                                       _0xDAE91900;                     // type:VECTOR3.0
 	vec3                                                                       _0x7E596A1E;                     // type:VECTOR3.0
-	float                                                                      _0xB05BC76E;                     // type:FLOAT.0
-	float                                                                      _0x7DA49586;                     // type:FLOAT.0
 };
 
 struct camCinematicMountedCameraMetadataFirstPersonPitchOffset
@@ -18397,7 +17913,6 @@ struct camFirstPersonAimCameraMetadata : camAimCameraMetadata
 	vec2                                                        ShakeAmplitudeScalingForShootingAbilityLimits; // type:VECTOR2.0
 	struct camFirstPersonAimCameraMetadataHeadingCorrection     _0xA4666FD4;                     // type:STRUCT.STRUCTURE
 	float                                                       _0x13AD17D9;                     // type:FLOAT.0
-	string                                                      _0x3E5C7E72;                     // type:STRING.ATHASHVALUE
 };
 
 struct camFirstPersonAimCameraMetadataHeadingCorrection
@@ -18924,9 +18439,6 @@ struct camFollowVehicleCameraMetadata : camFollowCameraMetadata
 	float                                                                       ExtraOrbitPitchOffsetForThirdPersonFarViewMode; // type:FLOAT.0
 	bool                                                                        ShouldForceCutToOrbitDistanceLimitsForThirdPersonFarViewMode; // type:BOOL.0
 	string                                                                      ThirdPersonVehicleAimCameraRef;  // type:STRING.ATHASHVALUE
-	bool                                                                        _0xF2E61275;                     // type:BOOL.0
-	string                                                                      _0x9C7B7565;                     // type:STRING.ATHASHVALUE
-	vec2                                                                        _0xC78A2A89;                     // type:VECTOR2.0
 };
 
 struct camFollowVehicleCameraMetadataDuckUnderOverheadCollisionSettings
@@ -19040,8 +18552,6 @@ struct camGameplayDirectorMetadata : camBaseDirectorMetadata
 	string                                                             _0x099790B7;                     // type:STRING.ATHASHVALUE
 	string                                                             _0x1C82589B;                     // type:STRING.ATHASHVALUE
 	string                                                             _0xB290977E;                     // type:STRING.ATHASHVALUE
-	string                                                             _0x9BE2ACFD;                     // type:STRING.ATHASHVALUE
-	uint                                                               _0x2E166A96;                     // type:UINT.0
 	float                                                              _0x3E18B4D8;                     // type:FLOAT.0
 	float                                                              _0x7922E944;                     // type:FLOAT.0
 	float                                                              _0x563AD63D;                     // type:FLOAT.0
@@ -19081,10 +18591,7 @@ struct camGameplayDirectorMetadata : camBaseDirectorMetadata
 	uint                                                               _0xF3B3F821;                     // type:UINT.0
 	uint                                                               _0xAF490080;                     // type:UINT.0
 	uint                                                               _0x3732BFAE;                     // type:UINT.0
-	uint                                                               _0xDC737002;                     // type:UINT.0
-	uint                                                               _0x16651C70;                     // type:UINT.0
 	uint                                                               _0xF2AC4070;                     // type:UINT.0
-	uint                                                               _0x314B3234;                     // type:UINT.0
 	uint                                                               _0xF4368926;                     // type:UINT.0
 	uint                                                               _0xF9467FA5;                     // type:UINT.0
 	float                                                              _0xEC1DAC4E;                     // type:FLOAT.0
@@ -19110,10 +18617,6 @@ struct camGameplayDirectorMetadata : camBaseDirectorMetadata
 	float                                                              _0x6F49F39C;                     // type:FLOAT.0
 	float                                                              _0x1963BF62;                     // type:FLOAT.0
 	float                                                              _0x7BF3FAE1;                     // type:FLOAT.0
-	string                                                             _0x562258DE;                     // type:STRING.ATHASHVALUE
-	float                                                              _0x3D5013AB;                     // type:FLOAT.0
-	float                                                              _0x82D8AA24;                     // type:FLOAT.0
-	float                                                              _0x5E81A79D;                     // type:FLOAT.0
 	float                                                              _0xD06070D2;                     // type:FLOAT.0
 	float                                                              _0xC31FA4B9;                     // type:FLOAT.0
 	float                                                              _0xE613D849;                     // type:FLOAT.0
@@ -19445,7 +18948,6 @@ struct camReplayDirectorMetadata : camBaseDirectorMetadata
 	float                            _0x37289BF9;                     // type:FLOAT.0
 	float                            _0xE987F24F;                     // type:FLOAT.0
 	float                            _0x523327D3;                     // type:FLOAT.0
-	float                            _0x85DA7FCC;                     // type:FLOAT.0
 };
 
 struct camReplayFreeCameraMetadata : camReplayBaseCameraMetadata
@@ -19492,8 +18994,6 @@ struct camReplayFreeCameraMetadata : camReplayBaseCameraMetadata
 	uint                                                    _0x14807A68;                     // type:UINT.0
 	uint                                                    _0x28A5F467;                     // type:UINT.0
 	uint                                                    _0xA5DCF74D;                     // type:UINT.0
-	float                                                   _0xB46525F7;                     // type:FLOAT.0
-	float                                                   _0x4BDA6931;                     // type:FLOAT.0
 };
 
 struct camReplayPresetCameraMetadata : camReplayBaseCameraMetadata
@@ -19550,7 +19050,6 @@ struct camScriptedFlyCameraMetadata : camScriptedCameraMetadata
 	float                                                MaxHeight;                       // type:FLOAT.0
 	float                                                CapsuleRadius;                   // type:FLOAT.0
 	float                                                MinHeightAboveWater;             // type:FLOAT.0
-	uint                                                 _0xA5A518AA;                     // type:UINT.0
 };
 
 struct camScriptedFlyCameraMetadataInputResponse
@@ -19567,7 +19066,6 @@ struct camSeatSpecificCameras
 	string                           _0x4B302CA8;                     // type:STRING.ATHASHVALUE
 	vec3                             PovCameraOffset;                 // type:VECTOR3.0
 	float                            _0x86608CFC;                     // type:FLOAT.0
-	bool                             _0x1051D9FB;                     // type:BOOL.0
 };
 
 struct camShakeMetadata : camBaseShakeMetadata
@@ -19633,55 +19131,6 @@ struct camSpringMountMetadata : camBaseObjectMetadata
 	vec3                             DampeningForce;                  // type:VECTOR3.0
 };
 
-struct camStickyAimHelperMetadata : camBaseObjectMetadata
-{
-	string                           _0xB8E9EB09;                     // type:STRING.ATHASHVALUE
-	float                            _0x6134E1B8;                     // type:FLOAT.0
-	bool                             _0x7687E4F1;                     // type:BOOL.0
-	bool                             _0x0BE73D63;                     // type:BOOL.0
-	bool                             _0x8DF320B3;                     // type:BOOL.0
-	uint                             _0xF8F631A6;                     // type:UINT.0
-	uint                             _0x98384411;                     // type:UINT.0
-	uint                             _0x4812C42D;                     // type:UINT.0
-	float                            _0x2A2E37EC;                     // type:FLOAT.0
-	float                            _0xB7336FBF;                     // type:FLOAT.0
-	float                            _0x26511CE4;                     // type:FLOAT.0
-	float                            _0x9E42AB13;                     // type:FLOAT.0
-	float                            _0xF1068D9B;                     // type:FLOAT.0
-	float                            _0x12E61D5C;                     // type:FLOAT.0
-	float                            _0x52E30477;                     // type:FLOAT.0
-	float                            _0xF6C9A76E;                     // type:FLOAT.0
-	float                            _0x81835311;                     // type:FLOAT.0
-	float                            _0xCFDBFD28;                     // type:FLOAT.0
-	float                            _0xA6EDC39B;                     // type:FLOAT.0
-	float                            _0x0F7433AF;                     // type:FLOAT.0
-	float                            _0x00554D2F;                     // type:FLOAT.0
-	float                            _0x8F8A7453;                     // type:FLOAT.0
-	bool                             _0x6113745B;                     // type:BOOL.0
-	float                            _0x5BDCC619;                     // type:FLOAT.0
-	float                            _0x15F63D13;                     // type:FLOAT.0
-	float                            _0x229BCD93;                     // type:FLOAT.0
-	float                            _0x73910F92;                     // type:FLOAT.0
-	float                            _0x7D8FD706;                     // type:FLOAT.0
-	bool                             _0xB581BC17;                     // type:BOOL.0
-	float                            _0xFF0A00F5;                     // type:FLOAT.0
-	float                            _0x69B2BE08;                     // type:FLOAT.0
-	float                            _0x8E9B6CED;                     // type:FLOAT.0
-	bool                             _0x07906908;                     // type:BOOL.0
-	float                            _0xA6DC18EC;                     // type:FLOAT.0
-	float                            _0x57645F2E;                     // type:FLOAT.0
-	bool                             _0x5D9D206F;                     // type:BOOL.0
-	float                            _0xBACC8570;                     // type:FLOAT.0
-	float                            _0x467C86E7;                     // type:FLOAT.0
-	bool                             _0xDE38361D;                     // type:BOOL.0
-	float                            _0x3CCE8262;                     // type:FLOAT.0
-	float                            _0x136FD919;                     // type:FLOAT.0
-	float                            _0x931D82AF;                     // type:FLOAT.0
-	float                            _0x31A3B2B7;                     // type:FLOAT.0
-	float                            _0x3FECF75B;                     // type:FLOAT.0
-	float                            _0xF70E1475;                     // type:FLOAT.0
-};
-
 struct camSwitchCameraMetadata : camBaseCameraMetadata
 {
 	string                           _0x4A3968E0;                     // type:STRING.ATHASHVALUE
@@ -19719,7 +19168,6 @@ struct camSyncedSceneDirectorMetadata : camBaseDirectorMetadata
 struct camThirdPersonAimCameraMetadata : camThirdPersonCameraMetadata
 {
 	string                           LockOnEnvelopeRef;               // type:STRING.ATHASHVALUE
-	string                           _0x3E5C7E72;                     // type:STRING.ATHASHVALUE
 	bool                             ShouldDisplayReticule;           // type:BOOL.0
 	bool                             ShouldDisplayReticuleDuringInterpolation; // type:BOOL.0
 	bool                             ShouldAllowInterpolationSourceCameraToPersistReticule; // type:BOOL.0
@@ -19756,13 +19204,10 @@ struct camThirdPersonCameraMetadata : camBaseCameraMetadata
 	string                                                                        BaseAttachVelocityToIgnoreEnvelopeRef; // type:STRING.ATHASHVALUE
 	float                                                                         BaseFov;                         // type:FLOAT.0
 	float                                                                         BaseNearClip;                    // type:FLOAT.0
-	float                                                                         _0xC500A940;                     // type:FLOAT.0
 	bool                                                                          ShouldOrbitRelativeToAttachParentOrientation; // type:BOOL.0
 	bool                                                                          ShouldPersistOrbitOrientationRelativeToAttachParent; // type:BOOL.0
 	float                                                                         AttachParentMatrixForRelativeOrbitSpringConstant; // type:FLOAT.0
 	float                                                                         AttachParentMatrixForRelativeOrbitSpringDampingRatio; // type:FLOAT.0
-	float                                                                         _0x8F6C2678;                     // type:FLOAT.0
-	float                                                                         _0x2B6283C4;                     // type:FLOAT.0
 	float                                                                         MaxAttachParentSubmergedLevelToApplyFullAttachParentMatrixForRelativeOrbit; // type:FLOAT.0
 	float                                                                         MinAircraftGroundSpeedToApplyFullAttachParentMatrixForRelativeOrbit; // type:FLOAT.0
 	float                                                                         MinAircraftContactSpeedToApplyFullAttachParentMatrixForRelativeOrbit; // type:FLOAT.0
@@ -19789,9 +19234,7 @@ struct camThirdPersonCameraMetadata : camBaseCameraMetadata
 	float                                                                         ScreenRatioForMaxFootRoomInTightSpace; // type:FLOAT.0
 	float                                                                         BasePivotHeightScalingForFootRoom; // type:FLOAT.0
 	bool                                                                          ShouldIgnoreVerticalPivotOffsetForFootRoom; // type:BOOL.0
-	struct _0x5AA44B6A                                                            _0x0372E6E0;                     // type:STRUCT.STRUCTURE
 	float                                                                         MinSafeOrbitDistanceScalingForExtensions; // type:FLOAT.0
-	float                                                                         _0x216B9E03;                     // type:FLOAT.0
 	vec2                                                                          CustomOrbitDistanceLimitsToForce; // type:VECTOR2.0
 	float                                                                         OrbitDistanceLimitSpringConstant; // type:FLOAT.0
 	float                                                                         OrbitDistanceLimitSpringDampingRatio; // type:FLOAT.0
@@ -19835,7 +19278,6 @@ struct camThirdPersonCameraMetadata : camBaseCameraMetadata
 	struct camThirdPersonCameraMetadataStealthZoomSettings                        StealthZoomSettings;             // type:STRUCT.STRUCTURE
 	struct camThirdPersonCameraMetadataQuadrupedalHeightSpring                    _0x74116D07;                     // type:STRUCT.STRUCTURE
 	string                                                                        MotionBlurSettings;              // type:STRING.ATHASHVALUE
-	bool                                                                          _0x7E7E9C53;                     // type:BOOL.0
 };
 
 struct camThirdPersonCameraMetadataBasePivotPosition
@@ -19845,7 +19287,6 @@ struct camThirdPersonCameraMetadataBasePivotPosition
 	float                                                                AttachParentHeightRatioToAttainInTightSpace; // type:FLOAT.0
 	bool                                                                 ShouldApplyInAttachParentLocalSpace; // type:BOOL.0
 	struct camThirdPersonCameraMetadataBasePivotPositionRollSettings     RollSettings;                    // type:STRUCT.STRUCTURE
-	vec3                                                                 RelativeOffset;                  // type:VECTOR3.0
 	bool                                                                 ShouldLockVerticalOffset;        // type:BOOL.0
 };
 
@@ -19921,7 +19362,6 @@ struct camThirdPersonCameraMetadataPivotPosition
 	float                            maxDistanceAfterAimingToApplyAlternateScalingMax; // type:FLOAT.0
 	float                            timeAfterAimingToApplyDistanceBlend; // type:FLOAT.0
 	float                            AttachParentHeightScalingForCameraRelativeVerticalOffset_AfterAiming; // type:FLOAT.0
-	float                            _0xAC286CD7;                     // type:FLOAT.0
 };
 
 struct camThirdPersonCameraMetadataQuadrupedalHeightSpring
@@ -19958,8 +19398,6 @@ struct camThirdPersonPedAimCameraMetadata : camThirdPersonAimCameraMetadata
 	bool                                                                     ShouldScriptedAimTaskOverrideOrbitPitchLimits; // type:BOOL.0
 	bool                                                                     ShouldAimSweepOverrideOrbitPitchLimits; // type:BOOL.0
 	string                                                                   DofSettingsForMobilePhoneShallowDofMode; // type:STRING.ATHASHVALUE
-	float                                                                    _0x1277D2A9;                     // type:FLOAT.0
-	bool                                                                     _0xE0BA5510;                     // type:BOOL.0
 };
 
 struct camThirdPersonPedAimCameraMetadataLockOnOrbitDistanceSettings
@@ -20234,7 +19672,6 @@ struct camVehicleCustomSettingsMetadata : camBaseObjectMetadata
 	struct camVehicleCustomSettingsMetadataInvalidCinematcShotsRefsForVehicleSettings     _0x3A847E97;                     // type:STRUCT.STRUCTURE
 	struct camVehicleCustomSettingsMetadataAdditionalBoundScalingVehicleSettings          _0x38F7F865;                     // type:STRUCT.STRUCTURE
 	struct camVehicleCustomSettingsMetadataSeatSpecficCameras                             _0xE5055EA6;                     // type:STRUCT.STRUCTURE
-	bool                                                                                  _0xC4A59764;                     // type:BOOL.0
 };
 
 struct camVehicleCustomSettingsMetadataAdditionalBoundScalingVehicleSettings
@@ -20279,12 +19716,6 @@ struct camVehicleCustomSettingsMetadataSeatSpecficCameras
 {
 	bool                                     ShouldConsiderData;              // type:BOOL.0
 	array<struct camSeatSpecificCameras>     _0x5A7546E2;                     // type:ARRAY.ATARRAY
-};
-
-struct camVehicleRocketSettings
-{
-	string                           ShakeRef;                        // type:STRING.ATHASHVALUE
-	float                            ShakeAmplitude;                  // type:FLOAT.0
 };
 
 struct debugLocation
@@ -20401,7 +19832,6 @@ struct fwProfanityFilter
 {
 	array<string>                    profaneTerms;                    // type:ARRAY.ATARRAY
 	array<string>                    reservedTerms;                   // type:ARRAY.ATARRAY
-	array<string>                    reservedFSCharacters;            // type:ARRAY.ATARRAY
 };
 
 struct iVectorDefault
@@ -20425,21 +19855,23 @@ struct netCatalogBaseItem
 	int                              _0xDC7132D0;                     // type:INT.0
 	string                           category;                        // type:STRING.ATHASHVALUE
 	int                              price;                           // type:INT.0
+	array<string>                    _0x801C4CE9;                     // type:ARRAY.ATARRAY
+	array<string>                    _0x132C5083;                     // type:ARRAY.ATARRAY
 };
 
 struct netCatalogGeneralItem : netCatalogBaseItem
 {
+	string                           _0xB49EBADB;                     // type:STRING.MEMBER
 	string                           statName;                        // type:STRING.ATSTRING
 	enum _0x745177BA                 storageType;                     // type:ENUM.8BIT
 	uchar                            bitShift;                        // type:UCHAR.0
 	uchar                            bitSize;                         // type:UCHAR.0
-	bool                             _0x28B294D5;                     // type:BOOL.0
+	bool                             _0x0E8B4430;                     // type:BOOL.0
 };
 
 struct netCatalogInventoryItem : netCatalogBaseItem
 {
 	string                           statName;                        // type:STRING.ATSTRING
-	bool                             _0x28B294D5;                     // type:BOOL.0
 };
 
 struct netCatalogOnlyItem : netCatalogBaseItem
@@ -20454,7 +19886,6 @@ struct netCatalogOnlyItemWithStat : netCatalogBaseItem
 struct netCatalogPackedStatInventoryItem : netCatalogBaseItem
 {
 	int                              statEnumValue;                   // type:INT.0
-	bool                             _0x28B294D5;                     // type:BOOL.0
 };
 
 struct netCatalogServiceItem : netCatalogBaseItem
@@ -20526,7 +19957,7 @@ struct rage__ControlInput__InputSettings
 	array<struct _0x9D1D47E9>         MapperAssignements;              // type:ARRAY.ATARRAY
 	array<struct _0x2A9A7A65>         RelatedInputs;                   // type:ARRAY.ATARRAY
 	array<struct _0x7463064E>         AxisDefinitions;                 // type:ARRAY.ATARRAY
-	array<struct _0xB4B00571, 32>     InputGroupDefinitions;           // type:ARRAY.ATFIXEDARRAY
+	array<struct _0xB4B00571, 31>     InputGroupDefinitions;           // type:ARRAY.ATFIXEDARRAY
 };
 
 struct rage__ControlInput__Keyboard__KeyInfo
@@ -21255,9 +20686,7 @@ struct rage__cutfVehicleVariationEventArgs : rage__cutfObjectIdEventArgs
 	int                              iSecondBodyColour;               // type:INT.0
 	int                              iSpecularColour;                 // type:INT.0
 	int                              iWheelTrimColour;                // type:INT.0
-	int                              _0xA3C41D37;                     // type:INT.0
 	int                              iLivery;                         // type:INT.0
-	int                              iLivery2;                        // type:INT.0
 	float                            fDirtLevel;                      // type:FLOAT.0
 };
 
@@ -21730,7 +21159,6 @@ struct sStatsMetadataTuning
 	float                            AwardVehicleJumpDistanceB;       // type:FLOAT.0
 	float                            AwardParachuteJumpDistanceA;     // type:FLOAT.0
 	float                            AwardParachuteJumpDistanceB;     // type:FLOAT.0
-	struct NonFlyableAreaArray       nonFlyableAreas;                 // type:STRUCT.STRUCTURE
 };
 
 struct sirenCorona
@@ -22226,9 +21654,7 @@ enum DispatchType
 	DT_SwatHelicopter = 12,
 	DT_PoliceBoat = 13,
 	DT_ArmyVehicle = 14,
-	DT_BikerBackup = 15,
-	_0x9068D472 = 16,
-	_0x3E79FE7F = 17,
+	_0x3E79FE7F = 15,
 };
 
 enum InstallPartition
@@ -22309,9 +21735,6 @@ enum SpecialAbilityType
 	SAT_BULLET_TIME = 2,
 	SAT_SNAPSHOT = 3,
 	SAT_INSULT = 4,
-	_0xA87D1005 = 5,
-	_0x097E49FB = 6,
-	_0x789077F5 = 7,
 };
 
 enum StdDoorRotDir
@@ -22516,9 +21939,7 @@ enum _0x0E8E7201
 	_0x2806D078 = 86,
 	_0x07A6E531 = 87,
 	_0x34F9317B = 88,
-	_0x4240F5A9 = 89,
-	_0xEE129DBD = 90,
-	_0x053AEAD9 = 91,
+	_0x053AEAD9 = 89,
 };
 
 enum _0x0FDA7738
@@ -22768,7 +22189,6 @@ enum _0x230BFCF8
 	_0x64BD88A6 = 10,
 	_0xC7567CB7 = 11,
 	_0x95AA1828 = 12,
-	_0x4DBC6420 = 13,
 };
 
 enum _0x2320574A
@@ -22822,8 +22242,6 @@ enum _0x28B8378B
 	DoesntCollideWithPeds = 16,
 	DoesntCollideWithVehicles = 17,
 	OrientateUpright = 18,
-	AirbornePickup = 19,
-	CollectableInCarByPassengers = 20,
 };
 
 enum _0x29AB9AA4
@@ -22861,14 +22279,13 @@ enum _0x3151D9DF
 	ReportType_OffensiveCrewEmblem = 11,
 	ReportType_PlayerMade_Title = 12,
 	ReportType_PlayerMade_Description = 13,
-	ReportType_PlayerMade_Photo = 14,
-	ReportType_PlayerMade_Content = 15,
-	ReportType_VoiceChat_Annoying = 16,
-	ReportType_VoiceChat_Hate = 17,
-	ReportType_TextChat_Annoying = 18,
-	ReportType_TextChat_Hate = 19,
-	ReportType_Friendly = 20,
-	ReportType_Helpful = 21,
+	ReportType_PlayerMade_Content = 14,
+	ReportType_VoiceChat_Annoying = 15,
+	ReportType_VoiceChat_Hate = 16,
+	ReportType_TextChat_Annoying = 17,
+	ReportType_TextChat_Hate = 18,
+	ReportType_Friendly = 19,
+	ReportType_Helpful = 20,
 };
 
 enum _0x320E22C4
@@ -22895,7 +22312,6 @@ enum _0x320E22C4
 	VC_MILITARY = 19,
 	VC_COMMERCIAL = 20,
 	VC_RAIL = 21,
-	_0xD302EDD7 = 22,
 };
 
 enum _0x34F327B9
@@ -23113,16 +22529,14 @@ enum _0x4858D8D5
 	VEHICLE_TYPE_QUADBIKE = 3,
 	_0x56CC31C5 = 4,
 	_0x2FF668B3 = 5,
-	VEHICLE_TYPE_AMPHIBIOUS_AUTOMOBILE = 6,
-	VEHICLE_TYPE_AMPHIBIOUS_QUADBIKE = 7,
-	VEHICLE_TYPE_HELI = 8,
-	VEHICLE_TYPE_BLIMP = 9,
-	_0x4363538C = 10,
-	VEHICLE_TYPE_BIKE = 11,
-	VEHICLE_TYPE_BICYCLE = 12,
-	VEHICLE_TYPE_BOAT = 13,
-	VEHICLE_TYPE_TRAIN = 14,
-	VEHICLE_TYPE_SUBMARINE = 15,
+	VEHICLE_TYPE_HELI = 6,
+	VEHICLE_TYPE_BLIMP = 7,
+	_0x4363538C = 8,
+	VEHICLE_TYPE_BIKE = 9,
+	VEHICLE_TYPE_BICYCLE = 10,
+	VEHICLE_TYPE_BOAT = 11,
+	VEHICLE_TYPE_TRAIN = 12,
+	VEHICLE_TYPE_SUBMARINE = 13,
 };
 
 enum _0x4A55CE69
@@ -23277,17 +22691,6 @@ enum _0x61BABF2F
 	CF_ALLOWED_COP_PURSUIT = 1,
 };
 
-enum _0x64703CC5
-{
-	None = 0,
-	ArmorPiercing = 1,
-	Explosive = 2,
-	FMJ = 3,
-	HollowPoint = 4,
-	Incendiary = 5,
-	Tracer = 6,
-};
-
 enum _0x658F32E6
 {
 	ikSolverTypeArm = 0,
@@ -23355,11 +22758,7 @@ enum _0x6ABCD159
 	VWT_TUNER = 5,
 	VWT_BIKE = 6,
 	VWT_HIEND = 7,
-	_0x6865BFCC = 8,
-	_0x91961230 = 9,
-	_0x845577AB = 10,
-	_0xD520197F = 11,
-	_0xC7447DC8 = 12,
+	_0x2BAAB8C2 = 8,
 };
 
 enum _0x6B07FAEF
@@ -23595,85 +22994,6 @@ enum _0x7498802B
 	FLAG_USE_FIVE_ANIM_THROW_FP = 116,
 	FLAG_ALLOW_HATS_NO_ROOF = 117,
 	FLAG_HAS_REAR_SEAT_ACTIVITIES = 118,
-	FLAG_HAS_LOWRIDER_HYDRAULICS = 119,
-	FLAG_HAS_BULLET_RESISTANT_GLASS = 120,
-	FLAG_HAS_INCREASED_RAMMING_FORCE = 121,
-	FLAG_HAS_CAPPED_EXPLOSION_DAMAGE = 122,
-	FLAG_HAS_LOWRIDER_DONK_HYDRAULICS = 123,
-	FLAG_HELICOPTER_WITH_LANDING_GEAR = 124,
-	FLAG_JUMPING_CAR = 125,
-	FLAG_HAS_ROCKET_BOOST = 126,
-	FLAG_RAMMING_SCOOP = 127,
-	FLAG_HAS_PARACHUTE = 128,
-	FLAG_RAMP = 129,
-	FLAG_HAS_EXTRA_SHUFFLE_SEAT_ON_VEHICLE = 130,
-	FLAG_FRONT_BOOT = 131,
-	FLAG_HALF_TRACK = 132,
-	FLAG_RESET_TURRET_SEAT_HEADING = 133,
-	FLAG_TURRET_MODS_ON_ROOF = 134,
-	FLAG_UPDATE_WEAPON_BATTERY_BONES = 135,
-	FLAG_DONT_HOLD_LOW_GEARS_WHEN_ENGINE_UNDER_LOAD = 136,
-	FLAG_HAS_GLIDER = 137,
-	FLAG_INCREASE_LOW_SPEED_TORQUE = 138,
-	FLAG_USE_AIRCRAFT_STYLE_WEAPON_TARGETING = 139,
-	FLAG_KEEP_ALL_TURRETS_SYNCHRONISED = 140,
-	FLAG_SET_WANTED_FOR_ATTACHED_VEH = 141,
-	FLAG_TURRET_ENTRY_ATTACH_TO_DRIVER_SEAT = 142,
-	FLAG_USE_STANDARD_FLIGHT_HELMET = 143,
-	FLAG_SECOND_TURRET_MOD = 144,
-	_0x62CC4C3E = 145,
-	FLAG_HAS_EJECTOR_SEATS = 146,
-	_0x2028D687 = 147,
-	FLAG_HAS_JATO_BOOST_MOD = 148,
-	FLAG_IGNORE_TRAPPED_HULL_CHECK = 149,
-	FLAG_HOLD_TO_SHUFFLE = 150,
-	FLAG_TURRET_MOD_WITH_NO_STOCK_TURRET = 151,
-	FLAG_EQUIP_UNARMED_ON_ENTER = 152,
-	FLAG_DISABLE_CAMERA_PUSH_BEYOND = 153,
-	_0xA1897E25 = 154,
-	_0xF8143E8C = 155,
-	_0xD13AB5D3 = 156,
-	_0xF901FAC0 = 157,
-	_0x9D32AA1C = 158,
-	_0xC94059C6 = 159,
-	_0x3684BE67 = 160,
-	_0x44F4E2FA = 161,
-	_0xFA0ECD4C = 162,
-	_0x33913E78 = 163,
-	_0x30B8BB83 = 164,
-	_0x10050F44 = 165,
-	_0x5DE0410D = 166,
-	_0x965536B0 = 167,
-	_0x57BD07F1 = 168,
-	_0x46A6FC8A = 169,
-	_0xE0A431BC = 170,
-	_0x24D9547C = 171,
-	_0x4C8630D9 = 172,
-	_0xC04B5A83 = 173,
-	_0x039057F9 = 174,
-	_0x770E06F5 = 175,
-	_0x62D53E6D = 176,
-	_0x46E89C51 = 177,
-	_0x8691DF23 = 178,
-	_0x2C57438E = 179,
-	_0x7AF4F80A = 180,
-	_0x1373831F = 181,
-	_0xFAA2F6F0 = 182,
-	_0xBBBE2843 = 183,
-	_0xAAD1C588 = 184,
-	_0xB57C16DD = 185,
-	_0xA8054ABA = 186,
-	_0x67AFBE7A = 187,
-	_0x96782F46 = 188,
-	_0xCD60D8E3 = 189,
-	_0x060DD0BF = 190,
-	_0xC1971ED9 = 191,
-	_0xC3E188D6 = 192,
-	_0xE5391C19 = 193,
-	_0x1704EC90 = 194,
-	_0x473C7F30 = 195,
-	_0xAA896A04 = 196,
-	_0x2008DB23 = 197,
 };
 
 enum _0x76382FA4
@@ -23715,10 +23035,6 @@ enum _0x7A3BED50
 	LeftHandedProjctiles = 10,
 	LeftHandedFirstPersonAnims = 11,
 	LeftHandedUnarmedFirstPersonAnims = 12,
-	WeaponAttachedToLeftHand1HOnly = 13,
-	UseBlockingAnimsOutsideAimRange = 14,
-	AllowSingleSideOvershoot = 15,
-	_0x38B88AE9 = 16,
 };
 
 enum _0x7A85C224
@@ -23790,7 +23106,6 @@ enum _0x805B2245
 enum _0x80C72BC0
 {
 	IF_JackedPedExitsWillingly = 0,
-	IF_ScriptFlagOnly = 1,
 };
 
 enum _0x813B6C49
@@ -23888,45 +23203,8 @@ enum _0x8AE262D6
 	EXP_TAG_SNOWBALL = 39,
 	EXP_TAG_PROXMINE = 40,
 	EXP_TAG_VALKYRIE_CANNON = 41,
-	EXP_TAG_AIR_DEFENCE = 42,
-	EXP_TAG_PIPEBOMB = 43,
-	EXP_TAG_VEHICLEMINE = 44,
-	EXP_TAG_EXPLOSIVEAMMO = 45,
-	EXP_TAG_APCSHELL = 46,
-	EXP_TAG_BOMB_CLUSTER = 47,
-	EXP_TAG_BOMB_GAS = 48,
-	EXP_TAG_BOMB_INCENDIARY = 49,
-	EXP_TAG_BOMB_STANDARD = 50,
-	EXP_TAG_TORPEDO = 51,
-	EXP_TAG_TORPEDO_UNDERWATER = 52,
-	EXP_TAG_BOMBUSHKA_CANNON = 53,
-	EXP_TAG_BOMB_CLUSTER_SECONDARY = 54,
-	EXP_TAG_HUNTER_BARRAGE = 55,
-	EXP_TAG_HUNTER_CANNON = 56,
-	EXP_TAG_ROGUE_CANNON = 57,
-	EXP_TAG_MINE_UNDERWATER = 58,
-	EXP_TAG_ORBITAL_CANNON = 59,
-	EXP_TAG_BOMB_STANDARD_WIDE = 60,
-	EXP_TAG_EXPLOSIVEAMMO_SHOTGUN = 61,
-	EXP_TAG_OPPRESSOR2_CANNON = 62,
-	EXP_TAG_MORTAR_KINETIC = 63,
-	EXP_TAG_VEHICLEMINE_KINETIC = 64,
-	EXP_TAG_VEHICLEMINE_EMP = 65,
-	EXP_TAG_VEHICLEMINE_SPIKE = 66,
-	EXP_TAG_VEHICLEMINE_SLICK = 67,
-	EXP_TAG_VEHICLEMINE_TAR = 68,
-	EXP_TAG_SCRIPT_DRONE = 69,
-	EXP_TAG_RAYGUN = 70,
-	EXP_TAG_BURIEDMINE = 71,
-	EXP_TAG_SCRIPT_MISSILE = 72,
-	_0x69C3AF19 = 73,
-	EXP_TAG_BOMB_WATER = 74,
-	EXP_TAG_BOMB_WATER_SECONDARY = 75,
-	_0xF728C4A9 = 76,
-	_0xBAEC056F = 77,
-	EXP_TAG_FLASHGRENADE = 78,
-	EXP_TAG_STUNGRENADE = 79,
-	_0x763D3B3B = 80,
+	EXP_TAG_TORPEDO = 42,
+	EXP_TAG_TORPEDO_UNDERWATER = 43,
 };
 
 enum _0x8B92195C
@@ -23946,11 +23224,7 @@ enum _0x8CFC2EE4
 	FRONT_RIGHT = 1,
 	REAR_LEFT = 2,
 	REAR_RIGHT = 3,
-	FRONT_WINDSCREEN = 4,
-	REAR_WINDSCREEN = 5,
-	_0xC6E65C9A = 6,
-	_0x15211D2C = 7,
-	INVALID = 8,
+	INVALID = 4,
 };
 
 enum _0x8E93A2CE
@@ -23983,11 +23257,6 @@ enum _0x8F261358
 	AlignWithTrajectory = 19,
 	ExplodeAtTrailFxPos = 20,
 	ProximityDetonation = 21,
-	AlignWithTrajectoryYAxis = 22,
-	HomingAttractor = 23,
-	Cluster = 24,
-	_0xE792E56F = 25,
-	_0x8A7D429C = 26,
 };
 
 enum _0x8FC87130
@@ -24074,16 +23343,6 @@ enum _0x9138840C
 	WaitOnStreamingBeforeNavigatingToStartPosition = 71,
 	WillAttractPeds = 72,
 	WillAttractVehicles = 73,
-	_0xF82DCD0E = 74,
-	_0x4C72D1D3 = 75,
-	_0xC82250BE = 76,
-	_0xDB32E86A = 77,
-	_0xC6AF5264 = 78,
-	_0x4C3697E0 = 79,
-	_0xA8193060 = 80,
-	_0xD005A4F0 = 81,
-	_0x23EBF2CA = 82,
-	_0x1F2DBBC5 = 83,
 };
 
 enum _0x92A659FE
@@ -24114,13 +23373,6 @@ enum _0x92A659FE
 	_0x13C3816B = 1398696542,
 };
 
-enum _0x934C2BA3
-{
-	None = 0,
-	NightVision = 1,
-	ThermalVision = 2,
-};
-
 enum _0x9380894B
 {
 	IsPassengerOnlyEntry = 0,
@@ -24133,9 +23385,6 @@ enum _0x9380894B
 	UseFirstMulipleAccessSeatForDirectEntryPoint = 7,
 	IsPlaneHatchEntry = 8,
 	ClimbUpOnly = 9,
-	NotUsableOutsideVehicle = 10,
-	AutoCloseThisDoor = 11,
-	HasClimbDownToWater = 12,
 };
 
 enum _0x9395154F
@@ -24166,13 +23415,7 @@ enum _0x96AFDEA5
 	KeepOnHeadProp = 4,
 	DontDetachOnWorldCollision = 5,
 	DisableFinerAlignTolerance = 6,
-	IsExtraShuffleSeat = 7,
-	DisableWhenTrailerAttached = 8,
-	UseSweepsForTurret = 9,
-	UseSweepLoopsForTurret = 10,
-	GivePilotHelmetForSeat = 11,
-	_0x1EBD2F74 = 12,
-	_0xB513533B = 13,
+	_0x25B59E30 = 7,
 };
 
 enum _0x982F0A37
@@ -24300,7 +23543,6 @@ enum _0x9B409521
 	RA_USE_CACHED_DESIRED_HEADING = 42,
 	RA_ADD_ORIENT_TO_SPINE_Z_OFFSET = 43,
 	RA_ALLOW_PLAYER_EARLY_OUT = 44,
-	_0x76BEAEBE = 45,
 };
 
 enum _0x9CB34EAC
@@ -24482,8 +23724,7 @@ enum _0xA7DA38FF
 	RWT_HATCHET = 9,
 	RWT_ONE_HANDED_CLUB_NO_HATCHET = 10,
 	RWT_MELEE_FIST = 11,
-	RWT_MACHETE = 12,
-	RWT_ANY = 13,
+	RWT_ANY = 12,
 };
 
 enum _0xAA73DD0C
@@ -24527,9 +23768,6 @@ enum _0xABAA9C49
 	VDT_ZTYPE = 20,
 	VDT_LAZER = 21,
 	VDT_SPORTBK = 22,
-	VDT_RACE = 23,
-	VDT_LAZER_VINTAGE = 24,
-	_0xB2851A2D = 25,
 };
 
 enum _0xAC899F59
@@ -24734,7 +23972,7 @@ enum _0xC0B6A160
 	NoAmmoDisplay = 91,
 	TorsoIKForWeaponBlock = 92,
 	LongWeapon = 93,
-	_0xAF443B5F = 94,
+	_0x07F0CBCA = 94,
 	_0xE3C63C3B = 95,
 	_0x1E3D23FF = 96,
 	AssistedAimVehicleWeapon = 97,
@@ -24781,40 +24019,6 @@ enum _0xC0B6A160
 	MeleeFist = 138,
 	NotAllowedForDriveby = 139,
 	AttachReloadObjectToRightHand = 140,
-	CanBeAimedLikeGunWithoutFiring = 141,
-	MeleeMachete = 142,
-	HideReticule = 143,
-	UseHolsterAnimation = 144,
-	BlockFirstPersonStateTransitionWhileFiring = 145,
-	ForceFullFireAnimation = 146,
-	DisableLeftHandIkInDriveby = 147,
-	CanUseInVehMelee = 148,
-	UseVehicleWeaponBoneForward = 149,
-	UseManualTargetingMode = 150,
-	IgnoreTracerVfxMuzzleDirectionCheck = 151,
-	IgnoreHomingCloseThresholdCheck = 152,
-	LockOnRequiresAim = 153,
-	DisableCameraPullAround = 154,
-	VehicleChargedLaunch = 155,
-	ForcePedAsFiringEntity = 156,
-	FiringEntityIgnoresExplosionDamage = 157,
-	_0xBB719965 = 158,
-	_0x8AA35BC0 = 159,
-	_0x11E55FB6 = 160,
-	_0xACD57DF5 = 161,
-	_0x562550DB = 162,
-	_0xAB04FFFF = 163,
-	_0xC0665B3C = 164,
-	_0x968627D2 = 165,
-	_0x276762D5 = 166,
-	_0x68F30C0A = 167,
-	_0x614E1388 = 168,
-	_0xA9CB74E6 = 169,
-	_0x53D0CED3 = 170,
-	_0x3E678BAC = 171,
-	_0xC2A180AE = 172,
-	_0xC03C4B08 = 173,
-	_0x7CACFF1F = 174,
 };
 
 enum _0xC1138376
@@ -24869,36 +24073,30 @@ enum _0xC9E9A69A
 
 enum _0xCAEC3EE2
 {
-	_0xE1B23EA8 = 0,
-	_0x265E5869 = 1,
-	_0x68A3350E = 2,
-	ABON_YEA = 3,
-	_0x743C7FA9 = 4,
-	_0x7B1B9D68 = 5,
-	_0x4A7D7D59 = 6,
-	_0xB50B86B9 = 7,
-	_0x77CA5C5F = 8,
-	_0xDA267213 = 9,
-	_0xEFE56403 = 10,
-	_0xF33FBF07 = 11,
-	_0xBA2E24EF = 12,
-	_0x6404FC12 = 13,
-	_0x4C0838A5 = 14,
-	DEVINS_SNOWLIGHT = 15,
-	_0x87AC81A3 = 16,
-	_0x1D6DC5A1 = 17,
-	_0x3DD79AD9 = 18,
-	_0x45507806 = 19,
-	_0x2C1362D5 = 20,
-	_0x2862E051 = 21,
-	_0x67B1C549 = 22,
-	_0xAEC66B2D = 23,
-	_0x60180457 = 24,
-	_0x25853FB1 = 25,
-	_0xD277418D = 26,
-	_0x6974258D = 27,
-	_0x6C450963 = 28,
-	_0xCD9B626E = 29,
+	_0x265E5869 = 0,
+	_0x68A3350E = 1,
+	ABON_YEA = 2,
+	_0x743C7FA9 = 3,
+	_0x7B1B9D68 = 4,
+	_0x4A7D7D59 = 5,
+	_0xB50B86B9 = 6,
+	_0x77CA5C5F = 7,
+	_0xDA267213 = 8,
+	_0xEFE56403 = 9,
+	_0xF33FBF07 = 10,
+	_0xBA2E24EF = 11,
+	_0x6404FC12 = 12,
+	_0x4C0838A5 = 13,
+	DEVINS_SNOWLIGHT = 14,
+	_0x1D6DC5A1 = 15,
+	_0x3DD79AD9 = 16,
+	_0x45507806 = 17,
+	_0x2C1362D5 = 18,
+	_0x2862E051 = 19,
+	_0x67B1C549 = 20,
+	_0xAEC66B2D = 21,
+	_0x60180457 = 22,
+	_0x25853FB1 = 23,
 };
 
 enum _0xCBB4F135
@@ -24943,7 +24141,6 @@ enum _0xD0D753FF
 	FIRE_EXTINGUISHER = 12,
 	SMOKE = 13,
 	WATER_CANNON = 14,
-	_0x1C8E59AE = 15,
 };
 
 enum _0xD0F7BAE1
@@ -25021,241 +24218,102 @@ enum _0xD8B78C18
 	wing_lf = 52,
 	bonnet = 53,
 	boot = 54,
-	exhaust = 56,
-	exhaust_2 = 57,
-	exhaust_3 = 58,
-	exhaust_4 = 59,
-	exhaust_5 = 60,
-	exhaust_6 = 61,
-	exhaust_7 = 62,
-	exhaust_8 = 63,
-	exhaust_9 = 64,
-	exhaust_10 = 65,
-	exhaust_11 = 66,
-	exhaust_12 = 67,
-	exhaust_13 = 68,
-	exhaust_14 = 69,
-	exhaust_15 = 70,
-	exhaust_16 = 71,
-	_0xFCC1D99C = 72,
-	_0x17330E86 = 73,
-	_0x5191833E = 74,
-	_0xA810A853 = 75,
-	_0x628B9D4E = 76,
-	_0x7562C2FC = 77,
-	_0xBEF5D621 = 78,
-	_0xD1C3FBBD = 79,
-	_0x2B822F3C = 80,
-	_0x3A08CC49 = 81,
-	_0x849A616B = 82,
-	_0x16E305FE = 83,
-	_0xFE27545F = 84,
-	_0x7DF35525 = 85,
-	_0x8543E3BA = 86,
-	_0x827FDE32 = 87,
-	extra_1 = 417,
-	extra_2 = 418,
-	extra_3 = 419,
-	extra_4 = 420,
-	extra_5 = 421,
-	extra_6 = 422,
-	extra_7 = 423,
-	extra_8 = 424,
-	extra_9 = 425,
-	extra_10 = 426,
-	extra_11 = 427,
-	extra_12 = 428,
-	extra_13 = 429,
-	extra_14 = 430,
-	break_extra_1 = 433,
-	break_extra_2 = 434,
-	break_extra_3 = 435,
-	break_extra_4 = 436,
-	break_extra_5 = 437,
-	break_extra_6 = 438,
-	break_extra_7 = 439,
-	break_extra_8 = 440,
-	break_extra_9 = 441,
-	break_extra_10 = 442,
-	mod_col_1 = 443,
-	mod_col_2 = 444,
-	mod_col_3 = 445,
-	mod_col_4 = 446,
-	mod_col_5 = 447,
-	mod_col_6 = 448,
-	mod_col_7 = 449,
-	mod_col_8 = 450,
-	mod_col_9 = 451,
-	mod_col_10 = 452,
-	mod_col_11 = 453,
-	mod_col_12 = 454,
-	mod_col_13 = 455,
-	mod_col_14 = 456,
-	mod_col_15 = 457,
-	mod_col_16 = 458,
-	misc_a = 385,
-	misc_b = 386,
-	misc_c = 387,
-	misc_d = 388,
-	misc_e = 389,
-	misc_f = 390,
-	misc_g = 391,
-	misc_h = 392,
-	misc_i = 393,
-	misc_j = 394,
-	misc_k = 395,
-	misc_l = 396,
-	misc_m = 397,
-	misc_n = 398,
-	misc_o = 399,
-	misc_p = 400,
-	misc_q = 401,
-	misc_r = 402,
-	misc_s = 403,
-	misc_t = 404,
-	misc_u = 405,
-	misc_v = 406,
-	misc_w = 407,
-	misc_x = 408,
-	misc_y = 409,
-	misc_z = 410,
-	misc_1 = 411,
-	misc_2 = 412,
-	handlebars = 95,
-	steeringwheel = 96,
+	exhaust = 55,
+	exhaust_2 = 56,
+	exhaust_3 = 57,
+	exhaust_4 = 58,
+	exhaust_5 = 59,
+	exhaust_6 = 60,
+	exhaust_7 = 61,
+	exhaust_8 = 62,
+	exhaust_9 = 63,
+	exhaust_10 = 64,
+	exhaust_11 = 65,
+	exhaust_12 = 66,
+	exhaust_13 = 67,
+	exhaust_14 = 68,
+	exhaust_15 = 69,
+	exhaust_16 = 70,
+	extra_1 = 292,
+	extra_2 = 293,
+	extra_3 = 294,
+	extra_4 = 295,
+	extra_5 = 296,
+	extra_6 = 297,
+	extra_7 = 298,
+	extra_8 = 299,
+	extra_9 = 300,
+	extra_10 = 301,
+	extra_11 = 302,
+	extra_12 = 303,
+	extra_13 = 304,
+	extra_14 = 305,
+	break_extra_1 = 306,
+	break_extra_2 = 307,
+	break_extra_3 = 308,
+	break_extra_4 = 309,
+	break_extra_5 = 310,
+	break_extra_6 = 311,
+	break_extra_7 = 312,
+	break_extra_8 = 313,
+	break_extra_9 = 314,
+	break_extra_10 = 315,
+	mod_col_1 = 316,
+	mod_col_2 = 317,
+	mod_col_3 = 318,
+	mod_col_4 = 319,
+	mod_col_5 = 320,
+	misc_a = 264,
+	misc_b = 265,
+	misc_c = 266,
+	misc_d = 267,
+	misc_e = 268,
+	misc_f = 269,
+	misc_g = 270,
+	misc_h = 271,
+	misc_i = 272,
+	misc_j = 273,
+	misc_k = 274,
+	misc_l = 275,
+	misc_m = 276,
+	misc_n = 277,
+	misc_o = 278,
+	misc_p = 279,
+	misc_q = 280,
+	misc_r = 281,
+	misc_s = 282,
+	misc_t = 283,
+	misc_u = 284,
+	misc_v = 285,
+	misc_w = 286,
+	misc_x = 287,
+	misc_y = 288,
+	misc_z = 289,
+	misc_1 = 290,
+	misc_2 = 291,
+	handlebars = 78,
 	swingarm = 29,
 	forks_u = 21,
 	forks_l = 22,
-	headlight_l = 107,
-	headlight_r = 108,
-	indicator_lr = 113,
-	indicator_lf = 111,
-	indicator_rr = 114,
-	indicator_rf = 112,
-	taillight_l = 109,
-	taillight_r = 110,
+	headlight_l = 82,
+	headlight_r = 83,
+	indicator_lr = 88,
+	indicator_lf = 86,
+	indicator_rr = 89,
+	indicator_rf = 87,
+	taillight_l = 84,
+	taillight_r = 85,
 	window_lf = 42,
 	window_rf = 43,
 	window_rr = 45,
 	window_lr = 44,
-	window_lm = 46,
-	window_rm = 47,
 	hub_lf = 30,
 	hub_rf = 31,
 	windscreen_r = 41,
-	neon_l = 120,
-	neon_r = 121,
-	neon_f = 122,
-	neon_b = 123,
-	door_dside_f = 3,
-	door_dside_r = 4,
-	door_pside_f = 5,
-	door_pside_r = 6,
-	bobble_head = 377,
-	bobble_base = 378,
-	bobble_hand = 379,
-	engineblock = 380,
-	mod_a = 490,
-	mod_b = 491,
-	mod_c = 492,
-	mod_d = 493,
-	mod_e = 494,
-	mod_f = 495,
-	mod_g = 496,
-	mod_h = 497,
-	mod_i = 498,
-	mod_j = 499,
-	mod_k = 500,
-	mod_l = 501,
-	mod_m = 502,
-	mod_n = 503,
-	mod_o = 504,
-	mod_p = 505,
-	mod_q = 506,
-	mod_r = 507,
-	mod_s = 508,
-	mod_t = 509,
-	mod_u = 510,
-	mod_v = 511,
-	mod_w = 512,
-	mod_x = 513,
-	mod_y = 514,
-	mod_z = 515,
-	mod_aa = 516,
-	mod_ab = 517,
-	mod_ac = 518,
-	mod_ad = 519,
-	mod_ae = 520,
-	mod_af = 521,
-	mod_ag = 522,
-	mod_ah = 523,
-	mod_ai = 524,
-	mod_aj = 525,
-	mod_ak = 526,
-	turret_a1 = 527,
-	turret_a2 = 528,
-	turret_a3 = 529,
-	turret_a4 = 530,
-	turret_b1 = 540,
-	turret_b2 = 541,
-	turret_b3 = 542,
-	turret_b4 = 543,
-	rblade_1mod = 576,
-	rblade_1fast = 577,
-	rblade_2mod = 578,
-	rblade_2fast = 579,
-	rblade_3mod = 580,
-	rblade_3fast = 581,
-	fblade_1mod = 582,
-	fblade_1fast = 583,
-	fblade_2mod = 584,
-	fblade_2fast = 585,
-	fblade_3mod = 586,
-	fblade_3fast = 587,
-	_0x40C607A9 = 588,
-	_0xC0F830D1 = 589,
-	_0xC93733BC = 590,
-	_0x8DF7FF36 = 591,
-	_0xD6FF59FC = 592,
-	_0xD6FF59FC = 593,
-	_0x480CCE68 = 594,
-	_0x12196D1C = 595,
-	_0x2759F5AA = 596,
-	spike_1mod = 597,
-	_0xB58902B2 = 598,
-	_0xEA21B4A2 = 599,
-	spike_2mod = 600,
-	_0x42E56DB3 = 601,
-	_0x42F2DBB6 = 602,
-	spike_3mod = 603,
-	_0xEF1C0789 = 604,
-	_0x8A525F56 = 605,
-	scoop_1mod = 606,
-	scoop_2mod = 607,
-	scoop_3mod = 608,
-	_0x7F525BD6 = 609,
-	_0x9678CE28 = 610,
-	_0x2D417F45 = 611,
-	_0x497C1DBC = 612,
-	_0xDAD99779 = 613,
-	_0x756DA098 = 614,
-	_0x41647580 = 615,
-	_0x788F1DA5 = 616,
-	_0xD0F3AB65 = 617,
-	_0x002BB86A = 618,
-	_0xDC47122F = 619,
-	_0xEC00B1A2 = 620,
-	_0x40C05B28 = 621,
-	_0x52F6FF95 = 622,
-	_0x8363606D = 623,
-	_0x15A004E8 = 624,
-	_0xC8886AAA = 625,
-	_0x542981EE = 626,
-	_0x199A6FB8 = 627,
-	_0x5FD07C23 = 628,
-	_0x2A691155 = 629,
-	reversinglight_l = 118,
-	reversinglight_r = 119,
+	neon_l = 95,
+	neon_r = 96,
+	neon_f = 97,
+	neon_b = 98,
 };
 
 enum _0xD8F7B033
@@ -25362,7 +24420,6 @@ enum _0xDE1B4912
 	_0xC3DD88B5 = 27,
 	_0x902A123D = 28,
 	_0x3F7125DA = 29,
-	_0x494A9410 = 30,
 };
 
 enum _0xE27BD161
@@ -25438,9 +24495,6 @@ enum _0xEB7427A3
 	MoodInjured = 3,
 	MoodNormal = 4,
 	MoodStressed = 5,
-	_0x198257CE = 6,
-	_0x58479B9F = 7,
-	_0x5AC9C0A2 = 8,
 };
 
 enum _0xEB9E6E2C
@@ -25593,7 +24647,6 @@ enum _0xF5B84E35
 	_0xCF2B92DC = 14,
 	DRA_INVOKE_FACIAL_PAIN_ANIMATION = 15,
 	DRA_PRESERVE_STEALTH_MODE = 16,
-	DRA_DONT_DAMAGE_PEDS = 17,
 };
 
 enum _0xF98BEBEE
@@ -25966,221 +25019,203 @@ enum eEventType
 	EVENT_CRIME_CRY_FOR_HELP = 32,
 	EVENT_IN_AIR = 33,
 	EVENT_IN_WATER = 34,
-	EVENT_INCAPACITATED = 35,
-	EVENT_LEADER_ENTERED_CAR_AS_DRIVER = 36,
-	EVENT_LEADER_ENTERED_COVER = 37,
-	EVENT_LEADER_EXITED_CAR_AS_DRIVER = 38,
-	EVENT_LEADER_HOLSTERED_WEAPON = 39,
-	EVENT_LEADER_LEFT_COVER = 40,
-	EVENT_LEADER_UNHOLSTERED_WEAPON = 41,
-	EVENT_MELEE_ACTION = 42,
-	EVENT_MUST_LEAVE_BOAT = 43,
-	EVENT_NEW_TASK = 44,
-	EVENT_NONE = 45,
-	EVENT_OBJECT_COLLISION = 46,
-	EVENT_ON_FIRE = 47,
-	EVENT_OPEN_DOOR = 48,
-	EVENT_SHOVE_PED = 49,
-	EVENT_PED_COLLISION_WITH_PED = 50,
-	EVENT_PED_COLLISION_WITH_PLAYER = 51,
-	EVENT_PED_ENTERED_MY_VEHICLE = 52,
-	EVENT_PED_JACKING_MY_VEHICLE = 53,
-	EVENT_PED_ON_CAR_ROOF = 54,
-	EVENT_PED_TO_CHASE = 55,
-	EVENT_PED_TO_FLEE = 56,
-	EVENT_PLAYER_COLLISION_WITH_PED = 57,
-	_0x7BA020DA = 58,
-	EVENT_POTENTIAL_BE_WALKED_INTO = 59,
-	EVENT_POTENTIAL_BLAST = 60,
-	EVENT_POTENTIAL_GET_RUN_OVER = 61,
-	EVENT_POTENTIAL_WALK_INTO_FIRE = 62,
-	EVENT_POTENTIAL_WALK_INTO_OBJECT = 63,
-	EVENT_POTENTIAL_WALK_INTO_VEHICLE = 64,
-	EVENT_PROVIDING_COVER = 65,
-	EVENT_RADIO_TARGET_POSITION = 66,
-	EVENT_RAN_OVER_PED = 67,
-	_0xA81BCDE5 = 68,
-	EVENT_REACTION_ENEMY_PED = 69,
-	EVENT_REACTION_INVESTIGATE_DEAD_PED = 70,
-	EVENT_REACTION_INVESTIGATE_THREAT = 71,
-	EVENT_REQUEST_HELP_WITH_CONFRONTATION = 72,
-	EVENT_RESPONDED_TO_THREAT = 73,
-	EVENT_REVIVED = 74,
-	EVENT_SCRIPT_COMMAND = 75,
-	EVENT_SHOCKING_BROKEN_GLASS = 76,
-	EVENT_SHOCKING_CAR_ALARM = 77,
-	EVENT_SHOCKING_CAR_CHASE = 78,
-	EVENT_SHOCKING_CAR_CRASH = 79,
-	EVENT_SHOCKING_BICYCLE_CRASH = 80,
-	EVENT_SHOCKING_CAR_PILE_UP = 81,
-	EVENT_SHOCKING_CAR_ON_CAR = 82,
-	EVENT_SHOCKING_DANGEROUS_ANIMAL = 83,
-	EVENT_SHOCKING_DEAD_BODY = 84,
-	EVENT_SHOCKING_DRIVING_ON_PAVEMENT = 85,
-	EVENT_SHOCKING_BICYCLE_ON_PAVEMENT = 86,
-	EVENT_SHOCKING_ENGINE_REVVED = 87,
-	EVENT_SHOCKING_EXPLOSION = 88,
-	EVENT_SHOCKING_FIRE = 89,
-	EVENT_SHOCKING_GUN_FIGHT = 90,
-	EVENT_SHOCKING_GUNSHOT_FIRED = 91,
-	EVENT_SHOCKING_HELICOPTER_OVERHEAD = 92,
-	EVENT_SHOCKING_PARACHUTER_OVERHEAD = 93,
-	EVENT_SHOCKING_PED_KNOCKED_INTO_BY_PLAYER = 94,
-	EVENT_SHOCKING_HORN_SOUNDED = 95,
-	EVENT_SHOCKING_IN_DANGEROUS_VEHICLE = 96,
-	EVENT_SHOCKING_INJURED_PED = 97,
-	EVENT_SHOCKING_MAD_DRIVER = 98,
-	EVENT_SHOCKING_MAD_DRIVER_EXTREME = 99,
-	EVENT_SHOCKING_MAD_DRIVER_BICYCLE = 100,
-	EVENT_SHOCKING_MUGGING = 101,
-	EVENT_SHOCKING_NON_VIOLENT_WEAPON_AIMED_AT = 102,
-	EVENT_SHOCKING_PED_RUN_OVER = 103,
-	EVENT_SHOCKING_PED_SHOT = 104,
-	EVENT_SHOCKING_PLANE_FLY_BY = 105,
-	EVENT_SHOCKING_POTENTIAL_BLAST = 106,
-	EVENT_SHOCKING_PROPERTY_DAMAGE = 107,
-	EVENT_SHOCKING_RUNNING_PED = 108,
-	EVENT_SHOCKING_RUNNING_STAMPEDE = 109,
-	EVENT_SHOCKING_SEEN_CAR_STOLEN = 110,
-	EVENT_SHOCKING_SEEN_CONFRONTATION = 111,
-	EVENT_SHOCKING_SEEN_GANG_FIGHT = 112,
-	EVENT_SHOCKING_SEEN_INSULT = 113,
-	EVENT_SHOCKING_SEEN_MELEE_ACTION = 114,
-	EVENT_SHOCKING_SEEN_NICE_CAR = 115,
-	EVENT_SHOCKING_SEEN_PED_KILLED = 116,
-	EVENT_SHOCKING_SEEN_VEHICLE_TOWED = 117,
-	EVENT_SHOCKING_SEEN_WEAPON_THREAT = 118,
-	EVENT_SHOCKING_SEEN_WEIRD_PED = 119,
-	EVENT_SHOCKING_SEEN_WEIRD_PED_APPROACHING = 120,
-	EVENT_SHOCKING_SIREN = 121,
-	EVENT_SHOCKING_STUDIO_BOMB = 122,
-	EVENT_SHOCKING_VISIBLE_WEAPON = 123,
-	EVENT_SHOT_FIRED = 124,
-	EVENT_SHOT_FIRED_BULLET_IMPACT = 125,
-	EVENT_SHOT_FIRED_WHIZZED_BY = 126,
-	EVENT_FRIENDLY_AIMED_AT = 127,
-	EVENT_FRIENDLY_FIRE_NEAR_MISS = 128,
-	EVENT_SHOUT_BLOCKING_LOS = 129,
-	EVENT_SHOUT_TARGET_POSITION = 130,
-	EVENT_STATIC_COUNT_REACHED_MAX = 131,
-	EVENT_STUCK_IN_AIR = 132,
-	EVENT_SUSPICIOUS_ACTIVITY = 133,
-	_0xA84F246C = 134,
-	EVENT_UNIDENTIFIED_PED = 135,
-	EVENT_VEHICLE_COLLISION = 136,
-	EVENT_VEHICLE_DAMAGE_WEAPON = 137,
-	EVENT_VEHICLE_ON_FIRE = 138,
-	EVENT_WHISTLING_HEARD = 139,
-	EVENT_DISTURBANCE = 140,
-	EVENT_ENTITY_DAMAGED = 141,
-	EVENT_ENTITY_DESTROYED = 142,
-	EVENT_WRITHE = 143,
-	EVENT_HURT_TRANSITION = 144,
-	EVENT_PLAYER_UNABLE_TO_ENTER_VEHICLE = 145,
-	EVENT_SCENARIO_FORCE_ACTION = 146,
-	EVENT_STAT_VALUE_CHANGED = 147,
-	EVENT_PLAYER_DEATH = 148,
-	EVENT_PED_SEEN_DEAD_PED = 149,
-	_0xC92B98C8 = 150,
-	_0xA773C13A = 151,
-	_0x7FC68049 = 152,
-	_0x36B5F57E = 153,
-	_0xE70A7E9C = 154,
-	_0x7BB0EC60 = 155,
-	_0x13137441 = 156,
-	_0x7823923E = 157,
-	_0x1DA46B48 = 158,
-	_0x57205379 = 159,
-	_0xD7941AA2 = 160,
-	_0xC523FA9E = 161,
-	_0x9F396CB7 = 162,
-	_0x8EFAEC43 = 163,
-	_0x6BE93522 = 164,
-	_0x35B9C2F6 = 165,
-	_0x516F2606 = 166,
-	_0x102A0521 = 167,
-	_0x2C24E311 = 168,
-	_0x53C98CF2 = 169,
-	_0x5B32A776 = 170,
-	_0x9155EBDB = 171,
-	_0xB3DEFC77 = 172,
-	_0xE7F5BE65 = 173,
-	EVENT_NETWORK_SCRIPT_EVENT = 174,
-	_0xC2949D06 = 175,
-	_0xB3F4CE20 = 176,
-	_0x515192E4 = 177,
-	EVENT_NETWORK_NETWORK_BAIL = 178,
-	_0x28D7D5CB = 179,
-	_0xC8D473AE = 180,
-	_0xCDD45E2B = 181,
-	_0x2AED0110 = 182,
-	_0xE476A2E5 = 183,
-	_0xBF25281C = 184,
-	_0x8F2C59B5 = 185,
-	_0x19A13553 = 186,
-	_0xF8BB6EED = 187,
-	_0x272B4BB1 = 188,
-	_0x03C0D0BB = 189,
-	_0xC5857F28 = 190,
-	_0x6B39C3C7 = 191,
-	_0x680E9124 = 192,
-	_0x084F397B = 193,
-	_0x50DB843C = 194,
-	_0xB654C626 = 195,
-	_0x60064F81 = 196,
-	EVENT_TEXT_MESSAGE_RECEIVED = 197,
-	EVENT_CLOUD_FILE_RESPONSE = 198,
-	EVENT_NETWORK_PICKUP_RESPAWNED = 199,
-	EVENT_NETWORK_PRESENCE_STAT_UPDATE = 200,
-	EVENT_NETWORK_PED_LEFT_BEHIND = 201,
-	_0x9EE353D5 = 202,
-	_0x084288B7 = 203,
-	_0x9E50D3EB = 204,
-	_0x0EBF7E88 = 205,
-	_0xCDDB7BF9 = 206,
-	_0x35060103 = 207,
-	_0xC45B9C8D = 208,
-	_0x8461B627 = 209,
-	_0x9ACF6B43 = 210,
-	_0x526A8D2B = 211,
-	_0x06F9071A = 212,
-	_0xEBC33AFE = 213,
-	_0x38141B44 = 214,
-	_0xE52648CE = 215,
-	_0xBA04727E = 216,
-	_0x5A87C62C = 217,
-	_0x35869060 = 218,
-	_0xF06BB198 = 219,
-	_0x003F6DC4 = 220,
-	_0x8E787C49 = 221,
-	_0xEC6788FA = 222,
-	_0xB48AD6A2 = 223,
-	_0x05FEB16F = 224,
-	_0x04112C59 = 225,
-	_0x474EBFE0 = 226,
-	_0xAF6C7C96 = 227,
-	_0xC681DA85 = 228,
-	_0x835D6183 = 229,
-	_0x03A52AA7 = 230,
-	_0xF31E4A2A = 231,
-	_0xFFC4CC2B = 232,
-	_0x06EF2524 = 233,
-	_0x157869FC = 234,
-	_0x115B8784 = 235,
-	_0x93AC2785 = 236,
-	_0x6D63129F = 237,
-	_0xBC778D37 = 238,
-	_0x59272A6A = 239,
-	_0x230D7157 = 240,
-	_0x0A1F4F09 = 241,
-	_0x05DC55B6 = 242,
-	_0x4A8A5373 = 243,
-	EVENT_ERRORS_UNKNOWN_ERROR = 244,
-	EVENT_ERRORS_ARRAY_OVERFLOW = 245,
-	EVENT_ERRORS_INSTRUCTION_LIMIT = 246,
-	EVENT_ERRORS_STACK_OVERFLOW = 247,
-	_0x063E563B = 248,
-	_0x9DEA6A90 = 249,
+	EVENT_LEADER_ENTERED_CAR_AS_DRIVER = 35,
+	EVENT_LEADER_ENTERED_COVER = 36,
+	EVENT_LEADER_EXITED_CAR_AS_DRIVER = 37,
+	EVENT_LEADER_HOLSTERED_WEAPON = 38,
+	EVENT_LEADER_LEFT_COVER = 39,
+	EVENT_LEADER_UNHOLSTERED_WEAPON = 40,
+	EVENT_MELEE_ACTION = 41,
+	EVENT_MUST_LEAVE_BOAT = 42,
+	EVENT_NEW_TASK = 43,
+	EVENT_NONE = 44,
+	EVENT_OBJECT_COLLISION = 45,
+	EVENT_ON_FIRE = 46,
+	EVENT_OPEN_DOOR = 47,
+	EVENT_SHOVE_PED = 48,
+	EVENT_PED_COLLISION_WITH_PED = 49,
+	EVENT_PED_COLLISION_WITH_PLAYER = 50,
+	EVENT_PED_ENTERED_MY_VEHICLE = 51,
+	EVENT_PED_JACKING_MY_VEHICLE = 52,
+	EVENT_PED_ON_CAR_ROOF = 53,
+	EVENT_PED_TO_CHASE = 54,
+	EVENT_PED_TO_FLEE = 55,
+	EVENT_PLAYER_COLLISION_WITH_PED = 56,
+	_0x7BA020DA = 57,
+	EVENT_POTENTIAL_BE_WALKED_INTO = 58,
+	EVENT_POTENTIAL_BLAST = 59,
+	EVENT_POTENTIAL_GET_RUN_OVER = 60,
+	EVENT_POTENTIAL_WALK_INTO_FIRE = 61,
+	EVENT_POTENTIAL_WALK_INTO_OBJECT = 62,
+	EVENT_POTENTIAL_WALK_INTO_VEHICLE = 63,
+	EVENT_PROVIDING_COVER = 64,
+	EVENT_RADIO_TARGET_POSITION = 65,
+	EVENT_RAN_OVER_PED = 66,
+	_0xA81BCDE5 = 67,
+	EVENT_REACTION_ENEMY_PED = 68,
+	EVENT_REACTION_INVESTIGATE_DEAD_PED = 69,
+	EVENT_REACTION_INVESTIGATE_THREAT = 70,
+	EVENT_REQUEST_HELP_WITH_CONFRONTATION = 71,
+	EVENT_RESPONDED_TO_THREAT = 72,
+	EVENT_REVIVED = 73,
+	EVENT_SCRIPT_COMMAND = 74,
+	EVENT_SHOCKING_CAR_ALARM = 75,
+	EVENT_SHOCKING_CAR_CHASE = 76,
+	EVENT_SHOCKING_CAR_CRASH = 77,
+	EVENT_SHOCKING_BICYCLE_CRASH = 78,
+	EVENT_SHOCKING_CAR_PILE_UP = 79,
+	EVENT_SHOCKING_CAR_ON_CAR = 80,
+	EVENT_SHOCKING_DANGEROUS_ANIMAL = 81,
+	EVENT_SHOCKING_DEAD_BODY = 82,
+	EVENT_SHOCKING_DRIVING_ON_PAVEMENT = 83,
+	EVENT_SHOCKING_BICYCLE_ON_PAVEMENT = 84,
+	EVENT_SHOCKING_ENGINE_REVVED = 85,
+	EVENT_SHOCKING_EXPLOSION = 86,
+	EVENT_SHOCKING_FIRE = 87,
+	EVENT_SHOCKING_GUN_FIGHT = 88,
+	EVENT_SHOCKING_GUNSHOT_FIRED = 89,
+	EVENT_SHOCKING_HELICOPTER_OVERHEAD = 90,
+	EVENT_SHOCKING_PARACHUTER_OVERHEAD = 91,
+	EVENT_SHOCKING_PED_KNOCKED_INTO_BY_PLAYER = 92,
+	EVENT_SHOCKING_HORN_SOUNDED = 93,
+	EVENT_SHOCKING_IN_DANGEROUS_VEHICLE = 94,
+	EVENT_SHOCKING_INJURED_PED = 95,
+	EVENT_SHOCKING_MAD_DRIVER = 96,
+	EVENT_SHOCKING_MAD_DRIVER_EXTREME = 97,
+	EVENT_SHOCKING_MAD_DRIVER_BICYCLE = 98,
+	EVENT_SHOCKING_MUGGING = 99,
+	EVENT_SHOCKING_NON_VIOLENT_WEAPON_AIMED_AT = 100,
+	EVENT_SHOCKING_PED_RUN_OVER = 101,
+	EVENT_SHOCKING_PED_SHOT = 102,
+	EVENT_SHOCKING_PLANE_FLY_BY = 103,
+	EVENT_SHOCKING_POTENTIAL_BLAST = 104,
+	EVENT_SHOCKING_PROPERTY_DAMAGE = 105,
+	EVENT_SHOCKING_RUNNING_PED = 106,
+	EVENT_SHOCKING_RUNNING_STAMPEDE = 107,
+	EVENT_SHOCKING_SEEN_CAR_STOLEN = 108,
+	EVENT_SHOCKING_SEEN_CONFRONTATION = 109,
+	EVENT_SHOCKING_SEEN_GANG_FIGHT = 110,
+	EVENT_SHOCKING_SEEN_INSULT = 111,
+	EVENT_SHOCKING_SEEN_MELEE_ACTION = 112,
+	EVENT_SHOCKING_SEEN_NICE_CAR = 113,
+	EVENT_SHOCKING_SEEN_PED_KILLED = 114,
+	EVENT_SHOCKING_SEEN_VEHICLE_TOWED = 115,
+	EVENT_SHOCKING_SEEN_WEAPON_THREAT = 116,
+	EVENT_SHOCKING_SEEN_WEIRD_PED = 117,
+	EVENT_SHOCKING_SEEN_WEIRD_PED_APPROACHING = 118,
+	EVENT_SHOCKING_SIREN = 119,
+	EVENT_SHOCKING_STUDIO_BOMB = 120,
+	EVENT_SHOCKING_VISIBLE_WEAPON = 121,
+	EVENT_SHOT_FIRED = 122,
+	EVENT_SHOT_FIRED_BULLET_IMPACT = 123,
+	EVENT_SHOT_FIRED_WHIZZED_BY = 124,
+	EVENT_FRIENDLY_AIMED_AT = 125,
+	EVENT_FRIENDLY_FIRE_NEAR_MISS = 126,
+	EVENT_SHOUT_BLOCKING_LOS = 127,
+	EVENT_SHOUT_TARGET_POSITION = 128,
+	EVENT_STATIC_COUNT_REACHED_MAX = 129,
+	EVENT_STUCK_IN_AIR = 130,
+	EVENT_SUSPICIOUS_ACTIVITY = 131,
+	_0xA84F246C = 132,
+	EVENT_UNIDENTIFIED_PED = 133,
+	EVENT_VEHICLE_COLLISION = 134,
+	EVENT_VEHICLE_DAMAGE_WEAPON = 135,
+	EVENT_VEHICLE_ON_FIRE = 136,
+	EVENT_WHISTLING_HEARD = 137,
+	EVENT_DISTURBANCE = 138,
+	EVENT_ENTITY_DAMAGED = 139,
+	EVENT_ENTITY_DESTROYED = 140,
+	EVENT_WRITHE = 141,
+	EVENT_HURT_TRANSITION = 142,
+	EVENT_PLAYER_UNABLE_TO_ENTER_VEHICLE = 143,
+	EVENT_SCENARIO_FORCE_ACTION = 144,
+	EVENT_STAT_VALUE_CHANGED = 145,
+	EVENT_PLAYER_DEATH = 146,
+	EVENT_PED_SEEN_DEAD_PED = 147,
+	_0xC92B98C8 = 148,
+	_0xA773C13A = 149,
+	_0x7FC68049 = 150,
+	_0x36B5F57E = 151,
+	_0xE70A7E9C = 152,
+	_0x7BB0EC60 = 153,
+	_0x13137441 = 154,
+	_0x7823923E = 155,
+	_0x1DA46B48 = 156,
+	_0x57205379 = 157,
+	_0x6BE93522 = 158,
+	_0x35B9C2F6 = 159,
+	_0x516F2606 = 160,
+	_0x102A0521 = 161,
+	_0x2C24E311 = 162,
+	_0x53C98CF2 = 163,
+	_0x5B32A776 = 164,
+	_0x9155EBDB = 165,
+	_0xB3DEFC77 = 166,
+	_0xE7F5BE65 = 167,
+	EVENT_NETWORK_SCRIPT_EVENT = 168,
+	_0xC2949D06 = 169,
+	_0xB3F4CE20 = 170,
+	_0x515192E4 = 171,
+	EVENT_NETWORK_NETWORK_BAIL = 172,
+	_0x28D7D5CB = 173,
+	_0xC8D473AE = 174,
+	_0xCDD45E2B = 175,
+	_0x2AED0110 = 176,
+	_0xE476A2E5 = 177,
+	_0xBF25281C = 178,
+	_0x8F2C59B5 = 179,
+	_0x19A13553 = 180,
+	_0xF8BB6EED = 181,
+	_0x272B4BB1 = 182,
+	_0x03C0D0BB = 183,
+	_0xC5857F28 = 184,
+	_0x6B39C3C7 = 185,
+	_0x680E9124 = 186,
+	_0x084F397B = 187,
+	_0x50DB843C = 188,
+	_0xB654C626 = 189,
+	_0x60064F81 = 190,
+	EVENT_TEXT_MESSAGE_RECEIVED = 191,
+	EVENT_CLOUD_FILE_RESPONSE = 192,
+	EVENT_NETWORK_PICKUP_RESPAWNED = 193,
+	EVENT_NETWORK_PRESENCE_STAT_UPDATE = 194,
+	EVENT_NETWORK_PED_LEFT_BEHIND = 195,
+	_0x9EE353D5 = 196,
+	_0x084288B7 = 197,
+	_0x9E50D3EB = 198,
+	_0x0EBF7E88 = 199,
+	_0xCDDB7BF9 = 200,
+	_0x35060103 = 201,
+	_0xC45B9C8D = 202,
+	_0x8461B627 = 203,
+	_0x9ACF6B43 = 204,
+	_0x526A8D2B = 205,
+	_0x06F9071A = 206,
+	_0xEBC33AFE = 207,
+	_0x38141B44 = 208,
+	_0xE52648CE = 209,
+	_0xBA04727E = 210,
+	_0x5A87C62C = 211,
+	_0x35869060 = 212,
+	_0xF06BB198 = 213,
+	_0x003F6DC4 = 214,
+	_0x8E787C49 = 215,
+	_0xEC6788FA = 216,
+	_0xB48AD6A2 = 217,
+	_0x05FEB16F = 218,
+	_0x04112C59 = 219,
+	_0x474EBFE0 = 220,
+	_0xAF6C7C96 = 221,
+	_0xC681DA85 = 222,
+	_0x835D6183 = 223,
+	_0x03A52AA7 = 224,
+	_0xF31E4A2A = 225,
+	_0xFFC4CC2B = 226,
+	_0x06EF2524 = 227,
+	_0x157869FC = 228,
+	_0x115B8784 = 229,
+	_0x4A8A5373 = 230,
+	_0x9DEA6A90 = 231,
 	EVENT_INVALID = 4294967295,
 };
 
@@ -26317,24 +25352,22 @@ enum eMenuOption
 	MENU_OPTION_GFX_AMBIENTOCC = 30,
 	MENU_OPTION_GFX_DXVERSION = 31,
 	MENU_OPTION_GFX_NIGHTLIGHTS = 32,
-	MENU_OPTION_ROLL_YAW_PITCH = 33,
-	MENU_OPTION_MEMORY_GRAPH = 34,
-	MENU_OPTION_SCREEN_TYPE = 35,
-	MENU_OPTION_DISPLAY_VOICE_TYPE = 36,
-	MENU_OPTION_VOICE_FEEDBACK = 37,
-	MENU_OPTION_MOUSE_TYPE = 38,
-	MENU_OPTION_REPLAY_MODE = 39,
-	MENU_OPTION_REPLAY_MEM_LIMIT = 40,
-	MENU_OPTION_REPLAY_AUTO_RESUME_RECORDING = 41,
-	MENU_OPTION_REPLAY_AUTO_SAVE_RECORDING = 42,
-	MENU_OPTION_VIDEO_UPLOAD_PRIVACY = 43,
-	MENU_OPTION_CONTROLS_CONTEXT = 44,
-	MENU_OPTION_DISPLAY_CONTROL_DRIVEBY = 45,
-	MENU_OPTION_FEED_DELAY = 46,
-	MENU_OPTION_GFX_REFLECTION = 47,
-	MENU_OPTION_CAM_VEH_OFF = 48,
-	MENU_OPTION_DISPLAY_MEASUREMENT = 49,
-	MENU_OPTION_FPS_DEFAULT_AIM_TYPE = 50,
+	MENU_OPTION_MEMORY_GRAPH = 33,
+	MENU_OPTION_SCREEN_TYPE = 34,
+	MENU_OPTION_DISPLAY_VOICE_TYPE = 35,
+	MENU_OPTION_VOICE_FEEDBACK = 36,
+	MENU_OPTION_MOUSE_TYPE = 37,
+	MENU_OPTION_REPLAY_MODE = 38,
+	MENU_OPTION_REPLAY_MEM_LIMIT = 39,
+	MENU_OPTION_REPLAY_AUTO_RESUME_RECORDING = 40,
+	MENU_OPTION_VIDEO_UPLOAD_PRIVACY = 41,
+	MENU_OPTION_CONTROLS_CONTEXT = 42,
+	MENU_OPTION_DISPLAY_CONTROL_DRIVEBY = 43,
+	MENU_OPTION_FEED_DELAY = 44,
+	MENU_OPTION_GFX_REFLECTION = 45,
+	MENU_OPTION_CAM_VEH_OFF = 46,
+	MENU_OPTION_DISPLAY_MEASUREMENT = 47,
+	MENU_OPTION_FPS_DEFAULT_AIM_TYPE = 48,
 };
 
 enum eMenuPref
@@ -26478,42 +25511,40 @@ enum eMenuPref
 	PREF_INVERT_MOUSE = 136,
 	PREF_INVERT_MOUSE_FLYING = 137,
 	PREF_INVERT_MOUSE_SUB = 138,
-	PREF_SWAP_ROLL_YAW_MOUSE_FLYING = 139,
-	PREF_MOUSE_AUTOCENTER_BIKE = 140,
-	PREF_MOUSE_AUTOCENTER_CAR = 141,
-	PREF_MOUSE_AUTOCENTER_PLANE = 142,
-	PREF_RESTORE_DEFAULT = 143,
-	PREF_REPLAY_MODE = 144,
-	PREF_REPLAY_MEM_LIMIT = 145,
-	PREF_REPLAY_AUTO_RESUME_RECORDING = 146,
-	PREF_REPLAY_AUTO_SAVE_RECORDING = 147,
-	PREF_VIDEO_UPLOAD_PRIVACY = 148,
-	PREF_BIG_RADAR = 149,
-	PREF_BIG_RADAR_NAMES = 150,
-	PREF_SIXAXIS_HELI = 151,
-	PREF_SIXAXIS_BIKE = 152,
-	PREF_SIXAXIS_BOAT = 153,
-	PREF_SIXAXIS_RELOAD = 154,
-	PREF_SIXAXIS_CALIBRATION = 155,
-	PREF_SIXAXIS_ACTIVITY = 156,
-	PREF_SIXAXIS_AFTERTOUCH = 157,
-	_0x82CAAE17 = 158,
-	PREF_WIRELESS_STEREO_HEADSET = 159,
-	PREF_CTRL_SPEAKER = 160,
-	PREF_CTRL_SPEAKER_VOL = 161,
-	PREF_PULSE_HEADSET = 162,
-	PREF_CTRL_SPEAKER_HEADPHONE = 163,
-	PREF_ALTERNATE_HANDBRAKE = 164,
-	PREF_ALTERNATE_DRIVEBY = 165,
-	PREF_LANDING_PAGE = 166,
-	PREF_UR_PLAYMODE = 167,
-	PREF_UR_AUTOSCAN = 168,
-	PREF_AUDIO_MUTE_ON_FOCUS_LOSS = 169,
-	PREF_ROCKSTAR_EDITOR_TOOLTIP = 170,
-	PREF_ROCKSTAR_EDITOR_EXPORT_GRAPHICS_UPGRADE = 171,
-	PREF_MEASUREMENT_SYSTEM = 172,
-	PREF_FPS_DEFAULT_AIM_TYPE = 173,
-	PREF_FPS_RELATIVE_VEHICLE_CAMERA_DRIVEBY_AIMING = 174,
+	PREF_MOUSE_AUTOCENTER_BIKE = 139,
+	PREF_MOUSE_AUTOCENTER_CAR = 140,
+	PREF_MOUSE_AUTOCENTER_PLANE = 141,
+	PREF_RESTORE_DEFAULT = 142,
+	PREF_REPLAY_MODE = 143,
+	PREF_REPLAY_MEM_LIMIT = 144,
+	PREF_REPLAY_AUTO_RESUME_RECORDING = 145,
+	PREF_VIDEO_UPLOAD_PRIVACY = 146,
+	PREF_BIG_RADAR = 147,
+	PREF_BIG_RADAR_NAMES = 148,
+	PREF_SIXAXIS_HELI = 149,
+	PREF_SIXAXIS_BIKE = 150,
+	PREF_SIXAXIS_BOAT = 151,
+	PREF_SIXAXIS_RELOAD = 152,
+	PREF_SIXAXIS_CALIBRATION = 153,
+	PREF_SIXAXIS_ACTIVITY = 154,
+	PREF_SIXAXIS_AFTERTOUCH = 155,
+	_0x82CAAE17 = 156,
+	PREF_WIRELESS_STEREO_HEADSET = 157,
+	PREF_CTRL_SPEAKER = 158,
+	PREF_CTRL_SPEAKER_VOL = 159,
+	PREF_PULSE_HEADSET = 160,
+	PREF_CTRL_SPEAKER_HEADPHONE = 161,
+	PREF_ALTERNATE_HANDBRAKE = 162,
+	PREF_ALTERNATE_DRIVEBY = 163,
+	PREF_LANDING_PAGE = 164,
+	PREF_UR_PLAYMODE = 165,
+	PREF_UR_AUTOSCAN = 166,
+	PREF_AUDIO_MUTE_ON_FOCUS_LOSS = 167,
+	PREF_ROCKSTAR_EDITOR_TOOLTIP = 168,
+	PREF_ROCKSTAR_EDITOR_EXPORT_GRAPHICS_UPGRADE = 169,
+	PREF_MEASUREMENT_SYSTEM = 170,
+	PREF_FPS_DEFAULT_AIM_TYPE = 171,
+	PREF_FPS_RELATIVE_VEHICLE_CAMERA_DRIVEBY_AIMING = 172,
 };
 
 enum eMenuScreen
@@ -26878,7 +25909,7 @@ enum ePedConfigFlags
 	CPED_CONFIG_FLAG_DisableMelee = 122,
 	_0xFE714397 = 123,
 	_0xB3E660BD = 124,
-	_0x5FED6BFD = 125,
+	_0x9DB5DFB6 = 125,
 	_0xC9D6F66F = 126,
 	_0x519BC986 = 127,
 	_0xAA2C79F8 = 128,
@@ -27142,7 +26173,7 @@ enum ePedConfigFlags
 	_0xA91350FC = 386,
 	_0x3AB23B96 = 387,
 	_0x6300E941 = 388,
-	_0x1C389EAC = 389,
+	_0x5FED6BFD = 389,
 	_0xB4B1CD4C = 390,
 	_0x5459AFB8 = 391,
 	_0x54F27667 = 392,
@@ -27157,60 +26188,6 @@ enum ePedConfigFlags
 	_0xAE398504 = 401,
 	_0xABC58D72 = 402,
 	_0x5E5B9591 = 403,
-	_0x6BA1091E = 404,
-	_0x77840177 = 405,
-	_0x1C7ACAC4 = 406,
-	_0x124420E9 = 407,
-	_0x75A65587 = 408,
-	_0xDFD2D55B = 409,
-	_0xBDD39919 = 410,
-	_0x43DEC267 = 411,
-	_0xE42B7797 = 412,
-	_0x168C7F47 = 413,
-	_0x4F8149F5 = 414,
-	_0xDD9ECA7A = 415,
-	_0x9E7EF9D2 = 416,
-	_0x2C6ED942 = 417,
-	_0xEAC4F3CD = 418,
-	_0xA488727D = 419,
-	_0xCFF5F6DE = 420,
-	_0x6D614599 = 421,
-	_0x36B5E755 = 422,
-	_0xFE401D26 = 423,
-	_0xB2EC0FEB = 424,
-	_0x2B42AE82 = 425,
-	_0x7A95734F = 426,
-	_0xDF4D8617 = 427,
-	_0x578F1F14 = 428,
-	_0x6E9CB79B = 429,
-	_0x5F504094 = 430,
-	_0x153C9500 = 431,
-	_0xCB7A632E = 432,
-	_0xDE727981 = 433,
-	_0xD27E4F86 = 434,
-	_0x12BBB935 = 435,
-	_0xAD0A1277 = 436,
-	_0xEA6AA46A = 437,
-	_0xD5DB4BDA = 438,
-	_0xCB7F3A1E = 439,
-	_0x50178878 = 440,
-	_0x051B4F0D = 441,
-	_0x2FC3DECC = 442,
-	_0xC0030B0B = 443,
-	_0xBBDAF1E9 = 444,
-	_0x944FE59C = 445,
-	_0x506FBA39 = 446,
-	_0xDD45FE84 = 447,
-	_0xE698AE75 = 448,
-	_0x199633F8 = 449,
-	_0xEA5A97AA = 450,
-	_0x7786019F = 451,
-	_0x3A251D83 = 452,
-	_0xA56F6986 = 453,
-	_0x1D19C622 = 454,
-	_0xB68D3EAB = 455,
-	_0x96EFB9BC = 456,
-	_0x4BD5EBAD = 457,
 };
 
 enum ePedDamageZones
@@ -27301,8 +26278,7 @@ enum eShopEnum
 	_0x19FEF3EC = 3,
 	_0x17E8CA0A = 4,
 	_0xA9536981 = 5,
-	_0xD9005C1D = 6,
-	_0x68CB5430 = 7,
+	_0x68CB5430 = 6,
 };
 
 enum eStreamingPolicy
@@ -27357,45 +26333,20 @@ enum eVehicleModType
 	VMT_WING_L = 8,
 	VMT_WING_R = 9,
 	VMT_ROOF = 10,
-	VMT_PLTHOLDER = 11,
-	VMT_PLTVANITY = 12,
-	VMT_INTERIOR1 = 13,
-	VMT_INTERIOR2 = 14,
-	VMT_INTERIOR3 = 15,
-	VMT_INTERIOR4 = 16,
-	VMT_INTERIOR5 = 17,
-	VMT_SEATS = 18,
-	VMT_STEERING = 19,
-	VMT_KNOB = 20,
-	VMT_PLAQUE = 21,
-	VMT_ICE = 22,
-	VMT_TRUNK = 23,
-	VMT_HYDRO = 24,
-	VMT_ENGINEBAY1 = 25,
-	VMT_ENGINEBAY2 = 26,
-	VMT_ENGINEBAY3 = 27,
-	VMT_CHASSIS2 = 28,
-	VMT_CHASSIS3 = 29,
-	VMT_CHASSIS4 = 30,
-	VMT_CHASSIS5 = 31,
-	VMT_DOOR_L = 32,
-	VMT_DOOR_R = 33,
-	VMT_LIVERY_MOD = 34,
-	VMT_LIGHTBAR = 35,
-	VMT_ENGINE = 36,
-	VMT_BRAKES = 37,
-	VMT_GEARBOX = 38,
-	VMT_HORN = 39,
-	VMT_SUSPENSION = 40,
-	VMT_ARMOUR = 41,
-	_0xC36A407C = 42,
-	VMT_TURBO = 43,
-	_0x63E0F1FC = 44,
-	VMT_TYRE_SMOKE = 45,
-	VMT_HYDRAULICS = 46,
-	VMT_XENON_LIGHTS = 47,
-	VMT_WHEELS = 48,
-	VMT_WHEELS_REAR_OR_HYDRAULICS = 49,
+	VMT_ENGINE = 11,
+	VMT_BRAKES = 12,
+	VMT_GEARBOX = 13,
+	VMT_HORN = 14,
+	VMT_SUSPENSION = 15,
+	VMT_ARMOUR = 16,
+	_0xC36A407C = 17,
+	VMT_TURBO = 18,
+	_0x63E0F1FC = 19,
+	VMT_TYRE_SMOKE = 20,
+	VMT_HYDRAULICS = 21,
+	VMT_XENON_LIGHTS = 22,
+	VMT_WHEELS = 23,
+	VMT_WHEELS_REAR_OR_HYDRAULICS = 24,
 };
 
 enum eVfxGroup
@@ -27510,8 +26461,7 @@ enum rage__InputGroup
 	INPUTGROUP_CURSOR = 28,
 	INPUTGROUP_CURSOR_SCROLL = 29,
 	INPUTGROUP_SNIPER_ZOOM_SECONDARY = 30,
-	INPUTGROUP_VEH_HYDRAULICS_CONTROL = 31,
-	MAX_INPUTGROUPS = 32,
+	MAX_INPUTGROUPS = 31,
 	INPUTGROUP_INVALID = 4294967295,
 };
 
@@ -27854,31 +26804,8 @@ enum rage__InputType
 	INPUT_VEH_SLOWMO_UD = 334,
 	INPUT_VEH_SLOWMO_UP_ONLY = 335,
 	INPUT_VEH_SLOWMO_DOWN_ONLY = 336,
-	INPUT_VEH_HYDRAULICS_CONTROL_TOGGLE = 337,
-	INPUT_VEH_HYDRAULICS_CONTROL_LEFT = 338,
-	INPUT_VEH_HYDRAULICS_CONTROL_RIGHT = 339,
-	INPUT_VEH_HYDRAULICS_CONTROL_UP = 340,
-	INPUT_VEH_HYDRAULICS_CONTROL_DOWN = 341,
-	INPUT_VEH_HYDRAULICS_CONTROL_LR = 342,
-	INPUT_VEH_HYDRAULICS_CONTROL_UD = 343,
-	INPUT_SWITCH_VISOR = 344,
-	INPUT_VEH_MELEE_HOLD = 345,
-	INPUT_VEH_MELEE_LEFT = 346,
-	INPUT_VEH_MELEE_RIGHT = 347,
-	INPUT_MAP_POI = 348,
-	INPUT_REPLAY_SNAPMATIC_PHOTO = 349,
-	INPUT_VEH_CAR_JUMP = 350,
-	INPUT_VEH_ROCKET_BOOST = 351,
-	INPUT_VEH_FLY_BOOST = 352,
-	INPUT_VEH_PARACHUTE = 353,
-	INPUT_VEH_BIKE_WINGS = 354,
-	INPUT_VEH_FLY_BOMB_BAY = 355,
-	INPUT_VEH_FLY_COUNTER = 356,
-	INPUT_VEH_TRANSFORM = 357,
-	INPUT_QUAD_LOCO_REVERSE = 358,
-	INPUT_RESPAWN_FASTER = 359,
-	INPUT_HUDMARKER_SELECT = 360,
-	MAX_INPUTS = 361,
+	INPUT_MAP_POI = 337,
+	MAX_INPUTS = 338,
 	UNDEFINED_INPUT = 4294967295,
 	DYNAMIC_MAPPING_MOUSE_X = 4294967286,
 	DYNAMIC_MAPPING_MOUSE_Y = 4294967276,
@@ -28248,7 +27175,6 @@ enum rage__ioMapperSource
 	IOMS_MKB_AXIS = 22,
 	IOMS_TOUCHPAD_ABSOLUTE_AXIS = 23,
 	IOMS_TOUCHPAD_CENTERED_AXIS = 24,
-	IOMS_GAME_CONTROLLED = 25,
 	IOMS_FORCE32 = 2147483647,
 };
 
