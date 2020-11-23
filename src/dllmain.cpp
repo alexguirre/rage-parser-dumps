@@ -566,11 +566,17 @@ static void PrintStruct(std::ofstream& f, parStructure* s, bool html)
 		}
 	}
 	f << "\n{\n";
+
+	std::vector<parMember*> members(&s->members.Items[0], &s->members.Items[s->members.Count]);
+	std::sort(members.begin(), members.end(), [](auto* a, auto* b) {
+		return a->data->offset < b->data->offset;
+	});
+
 	std::string membersStr = "";
 	int padding = 32;
-	for (ptrdiff_t j = 0; j < s->members.Count; j++)
+	for (ptrdiff_t j = 0; j < members.size(); j++)
 	{
-		parMember* m = s->members.Items[j];
+		parMember* m = members[j];
 
 		const std::string mTypeNoHtml = Type(m->data, false);
 		const size_t sizeNoHtml = mTypeNoHtml.size();
@@ -716,7 +722,7 @@ static DWORD WINAPI Main()
 	std::vector<parEnumData*> enums{};
 	const auto addEnum = [&enumsSet, &enums](parEnumData* enumData)
 	{
-		if (!enumsSet.contains(enumData))
+		if (enumsSet.find(enumData) == enumsSet.end())
 		{
 			enumsSet.insert(enumData);
 			enums.push_back(enumData);
