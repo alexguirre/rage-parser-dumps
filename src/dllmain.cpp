@@ -97,7 +97,7 @@ static std::string HashToStr(uint32_t h)
 	}
 }
 
-enum class parMemberType : uint8_t
+enum class parMemberType : uint8_t // 0x1CA39C3D
 {
 	BOOL = 0,
 	CHAR = 1,
@@ -133,6 +133,10 @@ enum class parMemberType : uint8_t
 	INT64 = 31,
 	UINT64 = 32,
 	DOUBLE = 33,
+#if RDR2
+	GUID = 34,
+	_0xFE5A582C = 35,
+#endif
 };
 
 enum class parMemberArraySubtype  // 0xADE25B1B
@@ -151,10 +155,18 @@ enum class parMemberArraySubtype  // 0xADE25B1B
 
 enum class parMemberEnumSubtype  // 0x2721C60A
 {
-	_32BIT = 0,          // 0xAF085554
-	_16BIT = 1,          // 0x0D502D8E
-	_8BIT = 2,           // 0xF2AAF53D
+#if RDR2
+	_0x4A4F3BEC = 0,    // 0x4A4F3BEC
+	_0x16434158 = 1,    // 0x16434158
+	_0x2EFEF517 = 2,    // 0x2EFEF517
+	_0x3BB5B764 = 3,    // 0x3BB5B764
+	ATBITSET = 4,       // 0xB46B5F65
+#else
+	_32BIT = 0,         // 0xAF085554
+	_16BIT = 1,         // 0x0D502D8E
+	_8BIT = 2,          // 0xF2AAF53D
 	ATBITSET = 3,       // 0xB46B5F65
+#endif
 };
 
 enum class parMemberMapSubtype  // 0x9C9F1983
@@ -178,6 +190,9 @@ enum class parMemberStringSubtype  // 0xA5CF41A9
 	ATPARTIALHASHVALUE = 10,    // 0xD552B3C8
 	ATNSHASHSTRING = 11,        // 0x893F9F69
 	ATNSHASHVALUE = 12,         // 0x3767C917
+#if RDR2
+	_0xE8282E2F = 13,           // 0xE8282E2F
+#endif
 };
 
 enum class parMemberStructSubtype  // 0x76214E40
@@ -188,6 +203,13 @@ enum class parMemberStructSubtype  // 0x76214E40
 	POINTER = 3,                    // 0x47073D6E
 	SIMPLE_POINTER = 4,             // 0x67466543
 };
+
+#if RDR2
+enum class parMemberGuidSubtype  // 0xA73F91EB
+{
+	_0xDF7EBE85 = 0, // 0xDF7EBE85
+};
+#endif
 
 static std::string SubtypeToStr(parMemberType type, uint8_t subtype)
 {
@@ -211,9 +233,16 @@ static std::string SubtypeToStr(parMemberType type, uint8_t subtype)
 	case parMemberType::ENUM:
 		switch (static_cast<parMemberEnumSubtype>(subtype))
 		{
+#if RDR2
+		case parMemberEnumSubtype::_0x4A4F3BEC: return "_0x4A4F3BEC";
+		case parMemberEnumSubtype::_0x16434158: return "_0x16434158";
+		case parMemberEnumSubtype::_0x2EFEF517: return "_0x2EFEF517";
+		case parMemberEnumSubtype::_0x3BB5B764: return "_0x3BB5B764";
+#else
 		case parMemberEnumSubtype::_32BIT: return "32BIT";
 		case parMemberEnumSubtype::_16BIT: return "16BIT";
 		case parMemberEnumSubtype::_8BIT: return "8BIT";
+#endif
 		case parMemberEnumSubtype::ATBITSET: return "ATBITSET";
 		}
 		break;
@@ -240,6 +269,9 @@ static std::string SubtypeToStr(parMemberType type, uint8_t subtype)
 		case parMemberStringSubtype::ATPARTIALHASHVALUE: return "ATPARTIALHASHVALUE";
 		case parMemberStringSubtype::ATNSHASHSTRING: return "ATNSHASHSTRING";
 		case parMemberStringSubtype::ATNSHASHVALUE: return "ATNSHASHVALUE";
+#if RDR2
+		case parMemberStringSubtype::_0xE8282E2F: return "_0xE8282E2F";
+#endif
 		}
 		break;
 	case parMemberType::STRUCT:
@@ -252,6 +284,14 @@ static std::string SubtypeToStr(parMemberType type, uint8_t subtype)
 		case parMemberStructSubtype::SIMPLE_POINTER: return "SIMPLE_POINTER";
 		}
 		break;
+#if RDR2
+	case parMemberType::GUID:
+		switch (static_cast<parMemberGuidSubtype>(subtype))
+		{
+		case parMemberGuidSubtype::_0xDF7EBE85: return "_0xDF7EBE85";
+		}
+		break;
+#endif
 	}
 
 	return std::to_string(subtype);
@@ -295,6 +335,10 @@ static const char* TypeToStr(parMemberType type)
 	case parMemberType::INT64: return "INT64";
 	case parMemberType::UINT64: return "UINT64";
 	case parMemberType::DOUBLE: return "DOUBLE";
+#if RDR2
+	case parMemberType::GUID: return "GUID";
+	case parMemberType::_0xFE5A582C: return "_0xFE5A582C";
+#endif
 	default: return "UNKNOWN";
 	}
 }
@@ -337,6 +381,10 @@ static const char* TypeToCasedStr(parMemberType type)
 	case parMemberType::INT64: return "int64";
 	case parMemberType::UINT64: return "uint64";
 	case parMemberType::DOUBLE: return "double";
+#if RDR2
+	case parMemberType::GUID: return "guid";
+	case parMemberType::_0xFE5A582C: return "_0xFE5A582C";
+#endif
 	default: return "UNKNOWN";
 	}
 }
@@ -397,15 +445,25 @@ struct parMember
 struct parStructure
 {
 	void* vtable;
+#if RDR2
+	uint8_t critSection[0x28];
+#endif
 	uint32_t name;
 	uint8_t padding[4];
 	parStructure* baseStructure;
 	uint64_t field_18;
 	uint64_t structureSize;
+#if RDR2
+	uint32_t flags;
+#else
 	uint16_t flags;
+#endif
 	uint16_t alignment;
 	uint16_t versionMajor;
 	uint16_t versionMinor;
+#if RDR2
+	uint8_t padding5A[6];
+#endif
 	struct
 	{
 		parMember** Items;
@@ -418,8 +476,14 @@ struct parStructure
 
 struct parEnumValueData
 {
+#if RDR2
+	uint32_t name;
+	uint32_t padding4;
+	uint64_t value;
+#else
 	uint32_t name;
 	uint32_t value;
+#endif
 };
 
 struct parEnumData
@@ -433,7 +497,11 @@ struct parEnumData
 
 struct parManager
 {
+#if RDR2
+	uint8_t padding[0x48];
+#else
 	uint8_t padding[0x30];
+#endif
 	struct Map
 	{
 		struct Entry
@@ -448,14 +516,15 @@ struct parManager
 	} structures;
 	// ...
 
-	bool isRegisteringAutoStructs() { return *(bool*)((char*)(this) + 0x5C); }
-
-
 	static parManager*& sm_Instance;
 };
 
-parManager*& parManager::sm_Instance = *hook::get_address<parManager**>(hook::get_pattern("48 8B 0D ? ? ? ? 4C 89 74 24 ? 45 33 C0 48 8B D7 C6 44 24 ? ?", 3));
-
+parManager*& parManager::sm_Instance =
+#if RDR2
+	*hook::get_address<parManager**>(hook::get_pattern("48 8B 0D ? ? ? ? 41 B0 01 F2 0F 11 44 24 ? E8 ? ? ? ? 4C 8B C3 48 8D 15", 3));
+#else
+	*hook::get_address<parManager**>(hook::get_pattern("48 8B 0D ? ? ? ? 4C 89 74 24 ? 45 33 C0 48 8B D7 C6 44 24 ? ?", 3));
+#endif
 
 template<int FramesToSkip = 1>
 static void LogStackTrace()
@@ -644,6 +713,11 @@ static void PrintEnum(std::ofstream& f, parEnumData* e, bool html)
 
 static void InitParManager()
 {
+#if RDR2
+	// TODO
+	return;
+#endif
+
 	using Fn = bool (*)(void*);
 
 	uintptr_t theAllocatorAddr = (uintptr_t)hook::get_pattern("48 8D 1D ? ? ? ? A8 08 75 1D 83 C8 08 48 8B CB", 3);
@@ -761,11 +835,13 @@ static DWORD WINAPI Main()
 
 				if (m->data->type == parMemberType::MAP)
 				{
-					parMemberMapData* map = reinterpret_cast<parMemberMapData*>(m);
+					parMemberMapData* map = reinterpret_cast<parMemberMapData*>(m->data);
+
 					if (map->keyData && (map->keyData->type == parMemberType::ENUM || map->keyData->type == parMemberType::BITSET))
 					{
 						addEnum(reinterpret_cast<parMemberEnumData*>(map->keyData)->enumData);
 					}
+
 					if (map->valueData && (map->valueData->type == parMemberType::ENUM || map->valueData->type == parMemberType::BITSET))
 					{
 						addEnum(reinterpret_cast<parMemberEnumData*>(map->valueData)->enumData);
