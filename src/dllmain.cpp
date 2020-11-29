@@ -67,6 +67,11 @@ static void LoadHashes()
 {
 	std::ifstream f{ "dictionary.txt", std::ios::binary | std::ios::in  };
 
+	auto add = [](std::string s) {
+		const auto hash = joaat_case_sensitive(s.c_str());
+		gHashTranslation.try_emplace(hash, std::move(s));
+	};
+
 	spdlog::info("Loading hashes...");
 	int numLines = 0;
 	std::string line;
@@ -77,8 +82,21 @@ static void LoadHashes()
 
 		numLines++;
 
-		const uint32_t hash = joaat_case_sensitive(line.c_str());
-		gHashTranslation.try_emplace(hash, std::move(line));
+		add(line);
+
+		if (line.size() > 0) {
+			line[0] = std::tolower(line[0]);
+			add(line);
+
+			line[0] = std::toupper(line[0]);
+			add(line);
+		}
+
+		std::transform(line.begin(), line.end(), line.begin(), [](char c) { return std::tolower(c); });
+		add(line);
+
+		std::transform(line.begin(), line.end(), line.begin(), [](char c) { return std::toupper(c); });
+		add(line);
 	}
 
 	spdlog::info("	> {} lines, {} unique hashes", numLines, gHashTranslation.size());
@@ -136,6 +154,7 @@ enum class parMemberType : uint8_t // 0x1CA39C3D
 #if RDR2
 	GUID = 34,
 	_0xFE5A582C = 35,
+	QUATV = 36,
 #endif
 };
 
@@ -156,11 +175,25 @@ enum class parMemberArraySubtype  // 0xADE25B1B
 enum class parMemberEnumSubtype  // 0x2721C60A
 {
 #if RDR2
-	_0x4A4F3BEC = 0,    // 0x4A4F3BEC
-	_0x16434158 = 1,    // 0x16434158
-	_0x2EFEF517 = 2,    // 0x2EFEF517
-	_0x3BB5B764 = 3,    // 0x3BB5B764
-	ATBITSET = 4,       // 0xB46B5F65
+	_64BIT = 0,
+	_32BIT = 1,
+	_16BIT = 2,
+	_8BIT = 3,
+#else
+	_32BIT = 0,         // 0xAF085554
+	_16BIT = 1,         // 0x0D502D8E
+	_8BIT = 2,          // 0xF2AAF53D
+#endif
+};
+
+enum class parMemberBitsetSubtype
+{
+#if RDR2
+	_32BIT = 0,         // 0x4A4F3BEC
+	_16BIT = 1,         // 0x16434158
+	_8BIT = 2,          // 0x2EFEF517
+	ATBITSET = 3,       // 0xB46B5F65
+	_64BIT = 4,         // 0x3BB5B764
 #else
 	_32BIT = 0,         // 0xAF085554
 	_16BIT = 1,         // 0x0D502D8E
@@ -191,7 +224,7 @@ enum class parMemberStringSubtype  // 0xA5CF41A9
 	ATNSHASHSTRING = 11,        // 0x893F9F69
 	ATNSHASHVALUE = 12,         // 0x3767C917
 #if RDR2
-	_0xE8282E2F = 13,           // 0xE8282E2F
+	ATHASHVALUE16U = 13,           // 0xE8282E2F
 #endif
 };
 
@@ -234,16 +267,23 @@ static std::string SubtypeToStr(parMemberType type, uint8_t subtype)
 		switch (static_cast<parMemberEnumSubtype>(subtype))
 		{
 #if RDR2
-		case parMemberEnumSubtype::_0x4A4F3BEC: return "_0x4A4F3BEC";
-		case parMemberEnumSubtype::_0x16434158: return "_0x16434158";
-		case parMemberEnumSubtype::_0x2EFEF517: return "_0x2EFEF517";
-		case parMemberEnumSubtype::_0x3BB5B764: return "_0x3BB5B764";
-#else
+		case parMemberEnumSubtype::_64BIT: return "64BIT";
+#endif
 		case parMemberEnumSubtype::_32BIT: return "32BIT";
 		case parMemberEnumSubtype::_16BIT: return "16BIT";
 		case parMemberEnumSubtype::_8BIT: return "8BIT";
+		}
+		break;
+	case parMemberType::BITSET:
+		switch (static_cast<parMemberBitsetSubtype>(subtype))
+		{
+#if RDR2
+		case parMemberBitsetSubtype::_64BIT: return "64BIT";
 #endif
-		case parMemberEnumSubtype::ATBITSET: return "ATBITSET";
+		case parMemberBitsetSubtype::_32BIT: return "32BIT";
+		case parMemberBitsetSubtype::_16BIT: return "16BIT";
+		case parMemberBitsetSubtype::_8BIT: return "8BIT";
+		case parMemberBitsetSubtype::ATBITSET: return "ATBITSET";
 		}
 		break;
 	case parMemberType::MAP:
@@ -270,7 +310,7 @@ static std::string SubtypeToStr(parMemberType type, uint8_t subtype)
 		case parMemberStringSubtype::ATNSHASHSTRING: return "ATNSHASHSTRING";
 		case parMemberStringSubtype::ATNSHASHVALUE: return "ATNSHASHVALUE";
 #if RDR2
-		case parMemberStringSubtype::_0xE8282E2F: return "_0xE8282E2F";
+		case parMemberStringSubtype::ATHASHVALUE16U: return "ATHASHVALUE16U";
 #endif
 		}
 		break;
@@ -338,6 +378,7 @@ static const char* TypeToStr(parMemberType type)
 #if RDR2
 	case parMemberType::GUID: return "GUID";
 	case parMemberType::_0xFE5A582C: return "_0xFE5A582C";
+	case parMemberType::QUATV: return "QUATV";
 #endif
 	default: return "UNKNOWN";
 	}
@@ -384,6 +425,7 @@ static const char* TypeToCasedStr(parMemberType type)
 #if RDR2
 	case parMemberType::GUID: return "guid";
 	case parMemberType::_0xFE5A582C: return "_0xFE5A582C";
+	case parMemberType::QUATV: return "quatV";
 #endif
 	default: return "UNKNOWN";
 	}
