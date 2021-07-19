@@ -851,10 +851,17 @@ struct CAgitatedTrigger
 	string                           Reaction;                        // offset:0x018	type:STRING.ATHASHVALUE
 };
 
+struct CAgitatedTriggerSet
+{
+	string                             Parent;                          // offset:0x000	type:STRING.ATHASHVALUE
+	bitset<enum _0x7C84137D>           Flags;                           // offset:0x004	type:BITSET.32BIT
+	array<struct CAgitatedTrigger>     Triggers;                        // offset:0x008	type:ARRAY.ATARRAY
+};
+
 struct CAgitatedTriggers
 {
-	map<string, struct _0x2EE37A14>     Reactions;                       // offset:0x000	type:MAP.ATBINARYMAP
-	map<string, struct _0x80E77D83>     Sets;                            // offset:0x018	type:MAP.ATBINARYMAP
+	map<string, struct _0x2EE37A14>             Reactions;                       // offset:0x000	type:MAP.ATBINARYMAP
+	map<string, struct CAgitatedTriggerSet>     Sets;                            // offset:0x018	type:MAP.ATBINARYMAP
 };
 
 struct CAiCoverClipVariationHelper__Tunables : CTuning
@@ -16123,13 +16130,6 @@ struct _0x7E82BE27
 struct _0x7F7F3AAC
 {
 	array<struct netCatalogServiceWithThresholdItem>     Items;                           // offset:0x008	type:ARRAY.ATARRAY
-};
-
-struct _0x80E77D83
-{
-	string                             Parent;                          // offset:0x000	type:STRING.ATHASHVALUE
-	bitset<enum _0x7C84137D>           Flags;                           // offset:0x004	type:BITSET.32BIT
-	array<struct CAgitatedTrigger>     Triggers;                        // offset:0x008	type:ARRAY.ATARRAY
 };
 
 struct _0x820B7D71 : _0x8855AD97

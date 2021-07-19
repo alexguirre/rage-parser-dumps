@@ -1021,11 +1021,19 @@ struct CAgitatedTrigger
 	string                           Reaction;                        // offset:0x018	type:STRING.ATHASHVALUE
 };
 </pre>
+<pre class="prettyprint" id="CAgitatedTriggerSet">
+struct CAgitatedTriggerSet
+{
+	string                             Parent;                          // offset:0x000	type:STRING.ATHASHVALUE
+	bitset&lt;enum <a href="#_0x7C84137D">_0x7C84137D</a>&gt;           Flags;                           // offset:0x004	type:BITSET.32BIT
+	array&lt;struct <a href="#CAgitatedTrigger">CAgitatedTrigger</a>&gt;     Triggers;                        // offset:0x008	type:ARRAY.ATARRAY
+};
+</pre>
 <pre class="prettyprint" id="CAgitatedTriggers">
 struct CAgitatedTriggers
 {
-	map&lt;string, struct <a href="#_0x2EE37A14">_0x2EE37A14</a>&gt;     Reactions;                       // offset:0x000	type:MAP.ATBINARYMAP
-	map&lt;string, struct <a href="#_0x80E77D83">_0x80E77D83</a>&gt;     Sets;                            // offset:0x018	type:MAP.ATBINARYMAP
+	map&lt;string, struct <a href="#_0x2EE37A14">_0x2EE37A14</a>&gt;             Reactions;                       // offset:0x000	type:MAP.ATBINARYMAP
+	map&lt;string, struct <a href="#CAgitatedTriggerSet">CAgitatedTriggerSet</a>&gt;     Sets;                            // offset:0x018	type:MAP.ATBINARYMAP
 };
 </pre>
 <pre class="prettyprint" id="CAiCoverClipVariationHelper__Tunables">
@@ -17687,14 +17695,6 @@ struct _0x7E82BE27
 struct _0x7F7F3AAC
 {
 	array&lt;struct <a href="#netCatalogServiceWithThresholdItem">netCatalogServiceWithThresholdItem</a>&gt;     Items;                           // offset:0x008	type:ARRAY.ATARRAY
-};
-</pre>
-<pre class="prettyprint" id="_0x80E77D83">
-struct _0x80E77D83
-{
-	string                             Parent;                          // offset:0x000	type:STRING.ATHASHVALUE
-	bitset&lt;enum <a href="#_0x7C84137D">_0x7C84137D</a>&gt;           Flags;                           // offset:0x004	type:BITSET.32BIT
-	array&lt;struct <a href="#CAgitatedTrigger">CAgitatedTrigger</a>&gt;     Triggers;                        // offset:0x008	type:ARRAY.ATARRAY
 };
 </pre>
 <pre class="prettyprint" id="_0x820B7D71">
