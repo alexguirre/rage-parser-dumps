@@ -651,10 +651,8 @@ static std::string Type(parMemberCommonData* m, bool html = true)
 	return mType;
 }
 
-static void PrintStruct(std::ofstream& f, parStructure* s, bool html)
+static void PrintStruct(std::ofstream& f, parStructure* s, bool html, bool includeOffsets)
 {
-	constexpr bool IncludeOffsets = false;
-
 	const std::string sName = HashToStr(s->name);
 
 	if (html)
@@ -703,7 +701,7 @@ static void PrintStruct(std::ofstream& f, parStructure* s, bool html)
 		membersStr += Format("\t%-*s ", (padding + (mType.size() - sizeNoHtml)), mType.c_str());
 		const std::string subType = SubtypeToStr(m->data->type, m->data->subType);
 		const std::string mName = HashToStr(m->data->name) + ";";
-		if (IncludeOffsets)
+		if (includeOffsets)
 		{
 			membersStr += Format("%-32s // offset:0x%03X\ttype:%s.%s\n", mName.c_str(), m->data->offset, TypeToStr(m->data->type), subType.c_str());
 		}
@@ -789,6 +787,31 @@ static void InitParManager()
 	((Fn)addr)(nullptr);
 }
 
+static void PrintHtmlHeader(std::ofstream& f)
+{
+	f << R"(
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Test</title>
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?autoload=true&amp;skin=default&amp;lang=css"></script>
+    <style type="text/css">
+    </style>
+</head>
+
+<body>
+)";
+}
+
+static void PrintHtmlFooter(std::ofstream& f)
+{
+	f << R"(
+</body>
+</html>
+)";
+}
+
 static DWORD WINAPI Main()
 {
 	if (LoggingEnabled())
@@ -818,20 +841,11 @@ static DWORD WINAPI Main()
 
 	std::ofstream outHtml{ "structs_dump.html" };
 	std::ofstream outTxt{ "structs_dump.txt" };
+	std::ofstream outHtmlWithOffsets{ "structs_dump_with_offsets.html" };
+	std::ofstream outTxtWithOffsets{ "structs_dump_with_offsets.txt" };
 
-	outHtml << R"(
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title>Test</title>
-    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?autoload=true&amp;skin=default&amp;lang=css"></script>
-    <style type="text/css">
-    </style>
-</head>
-
-<body>
-)";
+	PrintHtmlHeader(outHtml);
+	PrintHtmlHeader(outHtmlWithOffsets);
 
 	std::vector<parStructure*> structs{};
 	std::unordered_set<parEnumData*> enumsSet{};
@@ -903,20 +917,22 @@ static DWORD WINAPI Main()
 
 	for (parStructure* s : structs)
 	{
-		PrintStruct(outHtml, s, true);
-		PrintStruct(outTxt, s, false);
+		PrintStruct(outHtml, s, true, false);
+		PrintStruct(outTxt, s, false, false);
+		PrintStruct(outHtmlWithOffsets, s, true, true);
+		PrintStruct(outTxtWithOffsets, s, false, true);
 	}
 
 	for (parEnumData* e : enums)
 	{
 		PrintEnum(outHtml, e, true);
 		PrintEnum(outTxt, e, false);
+		PrintEnum(outHtmlWithOffsets, e, true);
+		PrintEnum(outTxtWithOffsets, e, false);
 	}
 
-	outHtml << R"(
-</body>
-</html>
-)";
+	PrintHtmlFooter(outHtml);
+	PrintHtmlFooter(outHtmlWithOffsets);
 
 	spdlog::info("Dump done");
 	return 0;
