@@ -16265,13 +16265,13 @@ struct FogQuad
 <pre class="prettyprint" id="Gen9ExclusiveAssetsDataPeds">
 struct Gen9ExclusiveAssetsDataPeds
 {
-	array&lt;struct <a href="#_0x130C7140">_0x130C7140</a>&gt;        PedData;                         // offset:0x008	type:ARRAY.ATARRAY
+	array&lt;struct <a href="#PedModelData">PedModelData</a>&gt;       PedData;                         // offset:0x008	type:ARRAY.ATARRAY
 };
 </pre>
 <pre class="prettyprint" id="Gen9ExclusiveAssetsDataVehicles">
 struct Gen9ExclusiveAssetsDataVehicles
 {
-	array&lt;struct <a href="#_0x1AC43676">_0x1AC43676</a>&gt;        VehicleData;                     // offset:0x008	type:ARRAY.ATARRAY
+	array&lt;struct <a href="#VehicleModKitData">VehicleModKitData</a>&gt;     VehicleData;                     // offset:0x008	type:ARRAY.ATARRAY
 };
 </pre>
 <pre class="prettyprint" id="HBAO_Parameters">
@@ -16331,6 +16331,13 @@ struct LicensePlateProbabilityNamed
 {
 	string                           Name;                            // offset:0x000	type:STRING.ATHASHVALUE
 	uint                             Value;                           // offset:0x004	type:UINT.0
+};
+</pre>
+<pre class="prettyprint" id="LocalDrawableIndicesForOnePedComponent">
+struct LocalDrawableIndicesForOnePedComponent
+{
+	enum <a href="#ePedVarComp">ePedVarComp</a>                 ComponentType;                   // offset:0x008	type:ENUM.32BIT
+	array&lt;uint&gt;                      LocalDrawableIndices;            // offset:0x010	type:ARRAY.ATARRAY
 };
 </pre>
 <pre class="prettyprint" id="MR_SSAO_AllScenePresets">
@@ -16490,6 +16497,13 @@ struct PauseMenuPostFXManager
 	float                            FadeOutCheckTreshold;            // offset:0x1F8	type:FLOAT.0
 };
 </pre>
+<pre class="prettyprint" id="PedComponentsForOneDLCPack">
+struct PedComponentsForOneDLCPack
+{
+	string                                                   dlcName;                         // offset:0x008	type:STRING.ATHASHVALUE
+	array&lt;struct <a href="#LocalDrawableIndicesForOnePedComponent">LocalDrawableIndicesForOnePedComponent</a>&gt;     _0x066AD891;                     // offset:0x010	type:ARRAY.ATARRAY
+};
+</pre>
 <pre class="prettyprint" id="PedDecorationCollection">
 struct PedDecorationCollection
 {
@@ -16517,6 +16531,13 @@ struct PedDecorationPreset
 	string                           award;                           // offset:0x034	type:STRING.ATHASHVALUE
 	string                           awardLevel;                      // offset:0x038	type:STRING.ATHASHVALUE
 	bool                             usesTintColor;                   // offset:0x03C	type:BOOL.0
+};
+</pre>
+<pre class="prettyprint" id="PedModelData">
+struct PedModelData
+{
+	string                                       PedModelName;                    // offset:0x008	type:STRING.ATHASHVALUE
+	array&lt;struct <a href="#PedComponentsForOneDLCPack">PedComponentsForOneDLCPack</a>&gt;     DLCData;                         // offset:0x010	type:ARRAY.ATARRAY
 };
 </pre>
 <pre class="prettyprint" id="PlateProbabilities">
@@ -16847,6 +16868,28 @@ struct VehicleFragImpulseRange
 	float                            InputThreshold;                  // offset:0x010	type:FLOAT.0
 };
 </pre>
+<pre class="prettyprint" id="VehicleModKitData">
+struct VehicleModKitData
+{
+	string                              kitName;                         // offset:0x008	type:STRING.ATHASHVALUE
+	array&lt;struct <a href="#VehicleModVisible">VehicleModVisible</a>&gt;     visibleMods;                     // offset:0x010	type:ARRAY.ATARRAY
+	array&lt;struct <a href="#VehicleModStat">VehicleModStat</a>&gt;        statMods;                        // offset:0x020	type:ARRAY.ATARRAY
+};
+</pre>
+<pre class="prettyprint" id="VehicleModStat">
+struct VehicleModStat
+{
+	enum <a href="#eVehicleModType">eVehicleModType</a>             modType;                         // offset:0x008	type:ENUM.32BIT
+	array&lt;uint&gt;                      indices;                         // offset:0x010	type:ARRAY.ATARRAY
+};
+</pre>
+<pre class="prettyprint" id="VehicleModVisible">
+struct VehicleModVisible
+{
+	enum <a href="#eVehicleModType">eVehicleModType</a>             modType;                         // offset:0x008	type:ENUM.32BIT
+	array&lt;string&gt;                    modelNames;                      // offset:0x010	type:ARRAY.ATARRAY
+};
+</pre>
 <pre class="prettyprint" id="VfxLightningCloudBurstCommonSettings">
 struct VfxLightningCloudBurstCommonSettings
 {
@@ -17168,13 +17211,6 @@ struct _0x00FE80C3
 	uint                             _0xE3A5E5AA;                     // offset:0x008	type:UINT.0
 };
 </pre>
-<pre class="prettyprint" id="_0x0171BE5D">
-struct _0x0171BE5D
-{
-	string                           dlcName;                         // offset:0x008	type:STRING.ATHASHVALUE
-	array&lt;struct <a href="#_0xC3692450">_0xC3692450</a>&gt;        _0x066AD891;                     // offset:0x010	type:ARRAY.ATARRAY
-};
-</pre>
 <pre class="prettyprint" id="_0x0625488A">
 struct _0x0625488A : <a href="#EventInstance">EventInstance</a>
 {
@@ -17196,7 +17232,7 @@ struct _0x08FBD27C
 	struct <a href="#_0x67AB17FB">_0x67AB17FB</a>               Conditions;                      // offset:0x000	type:STRUCT.STRUCTURE
 	string                           Exchange;                        // offset:0x078	type:STRING.ATHASHVALUE
 	array&lt;string&gt;                    Exchanges;                       // offset:0x080	type:ARRAY.ATARRAY
-	array&lt;struct <a href="#_0x7E82BE27">_0x7E82BE27</a>&gt;        _0x6F75F0D1;                     // offset:0x090	type:ARRAY.ATARRAY
+	array&lt;struct <a href="#_0x7E82BE27">_0x7E82BE27</a>&gt;        WeightedExchanges;               // offset:0x090	type:ARRAY.ATARRAY
 	array&lt;struct <a href="#_0x369CA7D3">_0x369CA7D3</a>&gt;        ConditionalExchanges;            // offset:0x0A0	type:ARRAY.ATARRAY
 };
 </pre>
@@ -17298,13 +17334,6 @@ struct _0x121385CD
 	array&lt;struct <a href="#EventInstance">EventInstance</a>&gt;      Instances;                       // offset:0x000	type:ARRAY.ATARRAY
 };
 </pre>
-<pre class="prettyprint" id="_0x130C7140">
-struct _0x130C7140
-{
-	string                           PedModelName;                    // offset:0x008	type:STRING.ATHASHVALUE
-	array&lt;struct <a href="#_0x0171BE5D">_0x0171BE5D</a>&gt;        DLCData;                         // offset:0x010	type:ARRAY.ATARRAY
-};
-</pre>
 <pre class="prettyprint" id="_0x150FE51F">
 struct _0x150FE51F
 {
@@ -17330,14 +17359,6 @@ struct _0x1673F273
 struct _0x18F2242F
 {
 	array&lt;struct <a href="#_0x9B31E881">_0x9B31E881</a>, 3&gt;     Resolutions;                     // offset:0x000	type:ARRAY.MEMBER
-};
-</pre>
-<pre class="prettyprint" id="_0x1AC43676">
-struct _0x1AC43676
-{
-	string                           kitName;                         // offset:0x008	type:STRING.ATHASHVALUE
-	array&lt;struct <a href="#_0xB58305FE">_0xB58305FE</a>&gt;        visibleMods;                     // offset:0x010	type:ARRAY.ATARRAY
-	array&lt;struct <a href="#_0xF0424694">_0xF0424694</a>&gt;        statMods;                        // offset:0x020	type:ARRAY.ATARRAY
 };
 </pre>
 <pre class="prettyprint" id="_0x1AD488B9">
@@ -18000,13 +18021,6 @@ struct _0xB42A0C08
 	float                            fadeFar;                         // offset:0x004	type:FLOAT.0
 };
 </pre>
-<pre class="prettyprint" id="_0xB58305FE">
-struct _0xB58305FE
-{
-	enum <a href="#eVehicleModType">eVehicleModType</a>             modType;                         // offset:0x008	type:ENUM.32BIT
-	array&lt;string&gt;                    modelNames;                      // offset:0x010	type:ARRAY.ATARRAY
-};
-</pre>
 <pre class="prettyprint" id="_0xB63EC1F3">
 struct _0xB63EC1F3
 {
@@ -18066,13 +18080,6 @@ struct _0xC1A92DE4
 	array&lt;string&gt;                    PedModels;                       // offset:0x020	type:ARRAY.ATARRAY
 	array&lt;string&gt;                    ObjectModels;                    // offset:0x030	type:ARRAY.ATARRAY
 	array&lt;string&gt;                    ClipSets;                        // offset:0x040	type:ARRAY.ATARRAY
-};
-</pre>
-<pre class="prettyprint" id="_0xC3692450">
-struct _0xC3692450
-{
-	enum <a href="#ePedVarComp">ePedVarComp</a>                 _0x57D905EB;                     // offset:0x008	type:ENUM.32BIT
-	array&lt;uint&gt;                      _0xF1041BAC;                     // offset:0x010	type:ARRAY.ATARRAY
 };
 </pre>
 <pre class="prettyprint" id="_0xCA529D67">
@@ -18218,13 +18225,6 @@ struct _0xEF79CBDB
 {
 	string                           name;                            // offset:0x000	type:STRING.ATHASHVALUE
 	array&lt;struct <a href="#_0x58E12301">_0x58E12301</a>&gt;        switches;                        // offset:0x008	type:ARRAY.ATARRAY
-};
-</pre>
-<pre class="prettyprint" id="_0xF0424694">
-struct _0xF0424694
-{
-	enum <a href="#eVehicleModType">eVehicleModType</a>             modType;                         // offset:0x008	type:ENUM.32BIT
-	array&lt;uint&gt;                      indices;                         // offset:0x010	type:ARRAY.ATARRAY
 };
 </pre>
 <pre class="prettyprint" id="_0xF2A6D58E">

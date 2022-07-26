@@ -14854,12 +14854,12 @@ struct FogQuad
 
 struct Gen9ExclusiveAssetsDataPeds
 {
-	array<struct _0x130C7140>        PedData;                         // type:ARRAY.ATARRAY
+	array<struct PedModelData>       PedData;                         // type:ARRAY.ATARRAY
 };
 
 struct Gen9ExclusiveAssetsDataVehicles
 {
-	array<struct _0x1AC43676>        VehicleData;                     // type:ARRAY.ATARRAY
+	array<struct VehicleModKitData>     VehicleData;                     // type:ARRAY.ATARRAY
 };
 
 struct HBAO_Parameters
@@ -14913,6 +14913,12 @@ struct LicensePlateProbabilityNamed
 {
 	string                           Name;                            // type:STRING.ATHASHVALUE
 	uint                             Value;                           // type:UINT.0
+};
+
+struct LocalDrawableIndicesForOnePedComponent
+{
+	enum ePedVarComp                 ComponentType;                   // type:ENUM.32BIT
+	array<uint>                      LocalDrawableIndices;            // type:ARRAY.ATARRAY
 };
 
 struct MR_SSAO_AllScenePresets
@@ -15055,6 +15061,12 @@ struct PauseMenuPostFXManager
 	float                            FadeOutCheckTreshold;            // type:FLOAT.0
 };
 
+struct PedComponentsForOneDLCPack
+{
+	string                                                   dlcName;                         // type:STRING.ATHASHVALUE
+	array<struct LocalDrawableIndicesForOnePedComponent>     _0x066AD891;                     // type:ARRAY.ATARRAY
+};
+
 struct PedDecorationCollection
 {
 	array<struct PedDecorationPreset>     presets;                         // type:ARRAY.ATARRAY
@@ -15080,6 +15092,12 @@ struct PedDecorationPreset
 	string                           award;                           // type:STRING.ATHASHVALUE
 	string                           awardLevel;                      // type:STRING.ATHASHVALUE
 	bool                             usesTintColor;                   // type:BOOL.0
+};
+
+struct PedModelData
+{
+	string                                       PedModelName;                    // type:STRING.ATHASHVALUE
+	array<struct PedComponentsForOneDLCPack>     DLCData;                         // type:ARRAY.ATARRAY
 };
 
 struct PlateProbabilities
@@ -15369,6 +15387,25 @@ struct VehicleFragImpulseRange
 	float                            OutputMin;                       // type:FLOAT.0
 	float                            OutputMax;                       // type:FLOAT.0
 	float                            InputThreshold;                  // type:FLOAT.0
+};
+
+struct VehicleModKitData
+{
+	string                              kitName;                         // type:STRING.ATHASHVALUE
+	array<struct VehicleModVisible>     visibleMods;                     // type:ARRAY.ATARRAY
+	array<struct VehicleModStat>        statMods;                        // type:ARRAY.ATARRAY
+};
+
+struct VehicleModStat
+{
+	enum eVehicleModType             modType;                         // type:ENUM.32BIT
+	array<uint>                      indices;                         // type:ARRAY.ATARRAY
+};
+
+struct VehicleModVisible
+{
+	enum eVehicleModType             modType;                         // type:ENUM.32BIT
+	array<string>                    modelNames;                      // type:ARRAY.ATARRAY
 };
 
 struct VfxLightningCloudBurstCommonSettings
@@ -15668,12 +15705,6 @@ struct _0x00FE80C3
 	uint                             _0xE3A5E5AA;                     // type:UINT.0
 };
 
-struct _0x0171BE5D
-{
-	string                           dlcName;                         // type:STRING.ATHASHVALUE
-	array<struct _0xC3692450>        _0x066AD891;                     // type:ARRAY.ATARRAY
-};
-
 struct _0x0625488A : EventInstance
 {
 	float                            _0x5FD7B5BF;                     // type:FLOAT.0
@@ -15692,7 +15723,7 @@ struct _0x08FBD27C
 	struct _0x67AB17FB               Conditions;                      // type:STRUCT.STRUCTURE
 	string                           Exchange;                        // type:STRING.ATHASHVALUE
 	array<string>                    Exchanges;                       // type:ARRAY.ATARRAY
-	array<struct _0x7E82BE27>        _0x6F75F0D1;                     // type:ARRAY.ATARRAY
+	array<struct _0x7E82BE27>        WeightedExchanges;               // type:ARRAY.ATARRAY
 	array<struct _0x369CA7D3>        ConditionalExchanges;            // type:ARRAY.ATARRAY
 };
 
@@ -15786,12 +15817,6 @@ struct _0x121385CD
 	array<struct EventInstance>      Instances;                       // type:ARRAY.ATARRAY
 };
 
-struct _0x130C7140
-{
-	string                           PedModelName;                    // type:STRING.ATHASHVALUE
-	array<struct _0x0171BE5D>        DLCData;                         // type:ARRAY.ATARRAY
-};
-
 struct _0x150FE51F
 {
 	float                            Offset;                          // type:FLOAT.0
@@ -15813,13 +15838,6 @@ struct _0x1673F273
 struct _0x18F2242F
 {
 	array<struct _0x9B31E881, 3>     Resolutions;                     // type:ARRAY.MEMBER
-};
-
-struct _0x1AC43676
-{
-	string                           kitName;                         // type:STRING.ATHASHVALUE
-	array<struct _0xB58305FE>        visibleMods;                     // type:ARRAY.ATARRAY
-	array<struct _0xF0424694>        statMods;                        // type:ARRAY.ATARRAY
 };
 
 struct _0x1AD488B9
@@ -16412,12 +16430,6 @@ struct _0xB42A0C08
 	float                            fadeFar;                         // type:FLOAT.0
 };
 
-struct _0xB58305FE
-{
-	enum eVehicleModType             modType;                         // type:ENUM.32BIT
-	array<string>                    modelNames;                      // type:ARRAY.ATARRAY
-};
-
 struct _0xB63EC1F3
 {
 	enum DispatchType                DispatchType;                    // type:ENUM.32BIT
@@ -16471,12 +16483,6 @@ struct _0xC1A92DE4
 	array<string>                    PedModels;                       // type:ARRAY.ATARRAY
 	array<string>                    ObjectModels;                    // type:ARRAY.ATARRAY
 	array<string>                    ClipSets;                        // type:ARRAY.ATARRAY
-};
-
-struct _0xC3692450
-{
-	enum ePedVarComp                 _0x57D905EB;                     // type:ENUM.32BIT
-	array<uint>                      _0xF1041BAC;                     // type:ARRAY.ATARRAY
 };
 
 struct _0xCA529D67
@@ -16608,12 +16614,6 @@ struct _0xEF79CBDB
 {
 	string                           name;                            // type:STRING.ATHASHVALUE
 	array<struct _0x58E12301>        switches;                        // type:ARRAY.ATARRAY
-};
-
-struct _0xF0424694
-{
-	enum eVehicleModType             modType;                         // type:ENUM.32BIT
-	array<uint>                      indices;                         // type:ARRAY.ATARRAY
 };
 
 struct _0xF2A6D58E
