@@ -11,6 +11,7 @@
 #include <unordered_set>
 #include <vector>
 #include <algorithm>
+#include <format>
 
 #if _DEBUG
 static constexpr bool DefaultEnableLogging = true;
@@ -60,6 +61,41 @@ static std::string Format(const char* format, ...)
 	std::vsnprintf(buffer, BufferSize, format, l);
 	va_end(l);
 	return buffer;
+}
+
+static uint16_t GetGameBuild()
+{
+	const char* exeName = 
+#if RDR2
+		"RDR2.exe";
+#else
+		"GTA5.exe";
+#endif
+
+	std::string baseName = "dump";
+
+	DWORD verHandle;
+	DWORD verSize = GetFileVersionInfoSize(exeName, &verHandle);
+	if (verSize != 0 && verHandle == 0)
+	{
+		std::vector<uint8_t> verData(verSize);
+		if (GetFileVersionInfo(exeName, verHandle, verSize, verData.data()))
+		{
+			LPVOID buffer;
+			UINT bufferLength;
+			if (VerQueryValue(verData.data(), "\\", &buffer, &bufferLength) && bufferLength != 0)
+			{
+				VS_FIXEDFILEINFO* verInfo = reinterpret_cast<VS_FIXEDFILEINFO*>(buffer);
+
+				if (verInfo->dwSignature == 0xFEEF04BD)
+				{
+					return (verInfo->dwFileVersionLS >> 16) & 0xFFFF;
+				}
+			}
+		}
+	}
+
+	return 0xFFFF;
 }
 
 static std::unordered_map<uint32_t, std::string> gHashTranslation;
@@ -435,11 +471,14 @@ struct parMemberCommonData
 {
 	uint32_t name;
 	uint8_t padding4[4];
-	uint32_t offset;
-	uint8_t paddingC[4];
+	uint64_t offset;
 	parMemberType type;
 	uint8_t subType;
-	uint8_t field_12[0x6];
+	uint8_t field_12[0x4];
+	struct Flags
+	{
+		uint16_t bUsePhysicalAllocator : 1;
+	} flags;
 	void* attributes;
 };
 
@@ -453,8 +492,12 @@ struct parMemberStructData : public parMemberCommonData
 
 struct parMemberEnumData : public parMemberCommonData
 {
+#if RDR2
+	uint64_t initValue;
+#else
 	uint32_t initValue;
 	uint32_t padding24;
+#endif
 	struct parEnumData* enumData;
 	uint16_t valueCount;
 	uint8_t padding32[0x6];
@@ -462,9 +505,12 @@ struct parMemberEnumData : public parMemberCommonData
 
 struct parMemberArrayData : public parMemberCommonData
 {
-	uint32_t itemByteSize;
-	uint32_t padding24;
-	uint32_t arraySize;
+	uint64_t itemByteSize;
+	union
+	{
+		uint32_t arraySize;
+		uint32_t countOffset; // for POINTER_WITH_COUNT types
+	};
 	uint32_t padding2C;
 	parMemberCommonData* itemData;
 	uint64_t field38;
@@ -558,15 +604,21 @@ struct parManager
 	} structures;
 	// ...
 
-	static parManager*& sm_Instance;
+	static parManager** sm_Instance;
 };
 
-parManager*& parManager::sm_Instance =
+parManager** parManager::sm_Instance = nullptr;
+
+static void FindParManager()
+{
+	spdlog::info("Searching parManager::sm_Instance...");
 #if RDR2
-	*hook::get_address<parManager**>(hook::get_pattern("48 8B 0D ? ? ? ? 41 B0 01 F2 0F 11 44 24 ? E8 ? ? ? ? 4C 8B C3 48 8D 15", 3));
+	parManager::sm_Instance = hook::get_address<parManager**>(hook::get_pattern("48 8B 0D ? ? ? ? E8 ? ? ? ? 84 C0 74 29 48 8B 1D", 3));
 #else
-	*hook::get_address<parManager**>(hook::get_pattern("48 8B 0D ? ? ? ? 4C 89 74 24 ? 45 33 C0 48 8B D7 C6 44 24 ? ?", 3));
+	parManager::sm_Instance = hook::get_address<parManager**>(hook::get_pattern("48 8B 0D ? ? ? ? 4C 89 74 24 ? 45 33 C0 48 8B D7 C6 44 24 ? ?", 3));
 #endif
+	spdlog::info("parManager::sm_Instance = {}", (void*)parManager::sm_Instance);
+}
 
 template<int FramesToSkip = 1>
 static void LogStackTrace()
@@ -754,17 +806,13 @@ static void PrintEnum(std::ofstream& f, parEnumData* e, bool html)
 static void InitParManager()
 {
 #if RDR2
-	// TODO
-	return;
-#endif
 
-	using Fn = bool (*)(void*);
+#else
 
-	uintptr_t theAllocatorAddr = (uintptr_t)hook::get_pattern("48 8D 1D ? ? ? ? A8 08 75 1D 83 C8 08 48 8B CB", 3);
-	theAllocatorAddr = theAllocatorAddr + *(int*)theAllocatorAddr + 4;
+	uintptr_t theAllocatorAddr = hook::get_address<uintptr_t>(hook::get_pattern("48 8D 1D ? ? ? ? A8 08 75 1D 83 C8 08 48 8B CB", 3));
 
-	//spdlog::info("rage::s_TheAllocator         = {}", (void*)theAllocatorAddr);
-	//spdlog::info("rage::s_TheAllocator::vtable = {}", *(void**)theAllocatorAddr);
+	spdlog::info("rage::s_TheAllocator            = {}", (void*)theAllocatorAddr);
+	spdlog::info("rage::s_TheAllocator::__vftable = {}", *(void**)theAllocatorAddr);
 
 	uintptr_t tls = *(uintptr_t*)__readgsqword(0x58);
 	*(uintptr_t*)(tls + 200) = theAllocatorAddr;
@@ -772,6 +820,7 @@ static void InitParManager()
 	*(uintptr_t*)(tls + 184) = theAllocatorAddr;
 
 	// function that loads "common:/data/TVPlaylists", but before it initiliazes parManager if it is not initialized
+	using Fn = bool (*)(void*);
 	void* addr = hook::get_pattern("40 53 48 83 EC 40 48 83 3D ? ? ? ? ? 48 8B D9 75 28");
 
 	// return early to avoid calling rage::parManager::LoadFromStructure, only initialize rage::parManager
@@ -785,6 +834,9 @@ static void InitParManager()
 	patchAddr[6] = 0x90; // nop
 
 	((Fn)addr)(nullptr);
+#endif
+
+	spdlog::info("*parManager::sm_Instance = {}", (void*)*parManager::sm_Instance); spdlog::default_logger()->flush();
 }
 
 static void PrintHtmlHeader(std::ofstream& f)
@@ -812,37 +864,32 @@ static void PrintHtmlFooter(std::ofstream& f)
 )";
 }
 
-static DWORD WINAPI Main()
+static std::string GetDumpBaseName()
 {
-	if (LoggingEnabled())
+	std::string baseName = "dump";
+
+	auto build = GetGameBuild();
+	if (build != 0xFFFF)
 	{
-		spdlog::set_default_logger(spdlog::basic_logger_mt("file_logger", "DumpStructs.log"));
-		spdlog::flush_every(std::chrono::seconds(5));
-	}
-	else
-	{
-		spdlog::set_level(spdlog::level::off);
+		baseName = std::format("b{}", build);
 	}
 
+	return baseName;
+}
 
-	spdlog::info("Initializing...");
+static void Dump(parManager* parMgr)
+{
+	static std::atomic_bool done = false;
+	if (done.exchange(true))
+		return;
 
-	const auto startTime = std::chrono::steady_clock::now();
+	spdlog::info("Begin dump..."); spdlog::default_logger()->flush();
 
-	LoadHashes();
-
-	const auto endTime = std::chrono::steady_clock::now();
-
-	spdlog::info("Initialization finished - Took {} ms", std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count());
-
-	Sleep(25'000);
-
-	spdlog::info("Begin dump...");
-
-	std::ofstream outHtml{ "structs_dump.html" };
-	std::ofstream outTxt{ "structs_dump.txt" };
-	std::ofstream outHtmlWithOffsets{ "structs_dump_with_offsets.html" };
-	std::ofstream outTxtWithOffsets{ "structs_dump_with_offsets.txt" };
+	auto baseName = GetDumpBaseName();
+	std::ofstream outHtml{ baseName + ".html" };
+	std::ofstream outTxt{ baseName + ".txt" };
+	std::ofstream outHtmlWithOffsets{ baseName + "_with_offsets.html" };
+	std::ofstream outTxtWithOffsets{ baseName + "_with_offsets.txt" };
 
 	PrintHtmlHeader(outHtml);
 	PrintHtmlHeader(outHtmlWithOffsets);
@@ -852,28 +899,15 @@ static DWORD WINAPI Main()
 	std::vector<parEnumData*> enums{};
 	const auto addEnum = [&enumsSet, &enums](parEnumData* enumData)
 	{
-		if (enumsSet.find(enumData) == enumsSet.end())
+		if (enumsSet.insert(enumData).second)
 		{
-			enumsSet.insert(enumData);
 			enums.push_back(enumData);
 		}
 	};
 
-	if (parManager::sm_Instance == nullptr)
+	for (uint16_t i = 0; i < parMgr->structures.entryCount; i++)
 	{
-		spdlog::info("parManager::sm_Instance is null, initializing it");
-
-		InitParManager();
-		if (parManager::sm_Instance == nullptr)
-		{
-			spdlog::info("parManager::sm_Instance is still null, returning");
-			return 0;
-		}
-	}
-
-	for (uint16_t i = 0; i < parManager::sm_Instance->structures.entryCount; i++)
-	{
-		auto* entry = parManager::sm_Instance->structures.entries[i];
+		auto* entry = parMgr->structures.entries[i];
 		while (entry != nullptr)
 		{
 			parStructure* s = entry->value;
@@ -934,7 +968,49 @@ static DWORD WINAPI Main()
 	PrintHtmlFooter(outHtml);
 	PrintHtmlFooter(outHtmlWithOffsets);
 
-	spdlog::info("Dump done");
+	spdlog::info("Dump done"); spdlog::default_logger()->flush();
+}
+
+static DWORD WINAPI Main()
+{
+	if (LoggingEnabled())
+	{
+		spdlog::set_default_logger(spdlog::basic_logger_mt("file_logger", "DumpStructs.log"));
+	}
+	else
+	{
+		spdlog::set_level(spdlog::level::off);
+	}
+
+
+	spdlog::info("Initializing...");
+
+	FindParManager();
+
+	const auto startTime = std::chrono::steady_clock::now();
+
+	LoadHashes();
+
+	const auto endTime = std::chrono::steady_clock::now();
+
+	spdlog::info("Initialization finished - Took {} ms", std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count());
+
+	Sleep(25'000);
+
+	if (*parManager::sm_Instance == nullptr)
+	{
+		spdlog::info("parManager::sm_Instance is null, initializing it");
+
+		InitParManager();
+		if (*parManager::sm_Instance == nullptr)
+		{
+			spdlog::info("parManager::sm_Instance is still null, returning"); spdlog::default_logger()->flush();
+			return 0;
+		}
+	}
+
+	Dump(*parManager::sm_Instance);
+
 	return 0;
 }
 
