@@ -22,6 +22,7 @@
       <Filter>dependencies</Filter>
     </ClCompile>
     <ClCompile Include="JsonWriter.cpp" />
+    <ClCompile Include="rage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="dependencies">
@@ -31,5 +32,6 @@
   <ItemGroup>
     <ClInclude Include="Hooking.h" />
     <ClInclude Include="JsonWriter.h" />
+    <ClInclude Include="rage.h" />
   </ItemGroup>
 </Project>
