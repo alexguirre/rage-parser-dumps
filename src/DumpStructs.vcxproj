@@ -184,9 +184,11 @@
     <ClCompile Include="..\dependencies\patterns\Hooking.Patterns.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Hooking.cpp" />
+    <ClCompile Include="JsonWriter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hooking.h" />
+    <ClInclude Include="JsonWriter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

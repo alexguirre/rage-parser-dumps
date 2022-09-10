@@ -21,6 +21,7 @@
     <ClCompile Include="..\dependencies\patterns\Hooking.Patterns.cpp">
       <Filter>dependencies</Filter>
     </ClCompile>
+    <ClCompile Include="JsonWriter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="dependencies">
@@ -29,5 +30,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hooking.h" />
+    <ClInclude Include="JsonWriter.h" />
   </ItemGroup>
 </Project>

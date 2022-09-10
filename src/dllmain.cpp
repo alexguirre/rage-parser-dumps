@@ -13,13 +13,15 @@
 #include <algorithm>
 #include <format>
 
+#include "JsonWriter.h"
+
 #if _DEBUG
 static constexpr bool DefaultEnableLogging = true;
 #else
 static constexpr bool DefaultEnableLogging = true;
 #endif
 
-constexpr uint32_t joaat_case_sensitive(const char* text)
+constexpr uint32_t joaat_literal(const char* text)
 {
 	if (!text)
 	{
@@ -104,7 +106,7 @@ static void LoadHashes()
 	std::ifstream f{ "dictionary.txt", std::ios::binary | std::ios::in  };
 
 	auto add = [](std::string s) {
-		const auto hash = joaat_case_sensitive(s.c_str());
+		const auto hash = joaat_literal(s.c_str());
 		gHashTranslation.try_emplace(hash, std::move(s));
 	};
 
@@ -194,6 +196,15 @@ enum class parMemberType : uint8_t // 0x1CA39C3D
 #endif
 };
 
+enum class parMemberCommonSubtype
+{
+	// these don't seem to be used while parsing, probably used by internal engine tools
+	COLOR = 1, // used with UINT, VECTOR3 (RDR3)
+#if RDR2
+	ANGLE = 2, // used with FLOAT
+#endif
+};
+
 enum class parMemberArraySubtype  // 0xADE25B1B
 {
 	ATARRAY = 0,                        // 0xABE40192
@@ -201,7 +212,7 @@ enum class parMemberArraySubtype  // 0xADE25B1B
 	ATRANGEARRAY = 2,                   // 0x18A25B6B
 	POINTER = 3,                        // 0x47073D6E
 	MEMBER = 4,                         // 0x6CC11BB4
-	_0x2087BB00 = 5,                    // 0x2087BB00
+	_0x2087BB00 = 5,                    // 0x2087BB00 - 32-bit atArray
 	POINTER_WITH_COUNT = 6,             // 0xE2980EB5
 	POINTER_WITH_COUNT_8BIT_IDX = 7,    // 0x254D33B1
 	POINTER_WITH_COUNT_16BIT_IDX = 8,   // 0xB66B6752
@@ -368,6 +379,14 @@ static std::string SubtypeToStr(parMemberType type, uint8_t subtype)
 		}
 		break;
 #endif
+	default:
+		switch (static_cast<parMemberCommonSubtype>(subtype))
+		{
+		case parMemberCommonSubtype::COLOR: return "COLOR";
+#if RDR2
+		case parMemberCommonSubtype::ANGLE: return "ANGLE";
+#endif
+		}
 	}
 
 	return std::to_string(subtype);
@@ -467,6 +486,50 @@ static const char* TypeToCasedStr(parMemberType type)
 	}
 }
 
+template<class T>
+struct atArray
+{
+	T* Items;
+	uint16_t Count;
+	uint16_t Size;
+};
+
+template<class TKey, class TValue>
+struct atMap
+{
+	struct Entry
+	{
+		TKey key;
+		TValue value;
+		Entry* next;
+	};
+
+	Entry** Buckets;
+	uint16_t NumBuckets;
+	uint16_t NumEntries;
+	int8_t field_C[3];
+	bool IsResizable;
+};
+
+template<class TKey, class TValue>
+struct atBinaryMap
+{
+	struct DataPair
+	{
+		TKey Key;
+		TValue Value;
+	};
+
+	bool IsSorted;
+	atArray<DataPair> Pairs;
+};
+
+struct parDelegateHolderBase
+{
+	void* arg;
+	void* func;
+};
+
 struct parMemberCommonData
 {
 	uint32_t name;
@@ -474,20 +537,38 @@ struct parMemberCommonData
 	uint64_t offset;
 	parMemberType type;
 	uint8_t subType;
-	uint8_t field_12[0x4];
-	struct Flags
-	{
-		uint16_t bUsePhysicalAllocator : 1;
-	} flags;
+	uint16_t flags1;
+	uint16_t flags2;
+	uint16_t extraData; // specific to parMemberCommonData derived types
 	void* attributes;
+};
+
+struct parMemberSimpleData : public parMemberCommonData
+{
+#if RDR2
+	double initValue;
+#else
+	float initValue;
+#endif
+};
+
+struct parMemberStringData : public parMemberCommonData
+{
+	uint32_t memberSize; // for subtype MEMBER and WIDE_MEMBER
+
+	uint8_t GetNamespaceIndex() { return static_cast<uint8_t>(extraData); }
 };
 
 struct parMemberStructData : public parMemberCommonData
 {
+	using ExternalNamedResolveCallback = void*(*)(const char* name);
+	using ExternalNamedGetNameCallback = const char*(*)(void* structPtr);
+	using AllocateStructCallback = void*(*)(void* treeNode);
+
 	struct parStructure* structure;
-	uint64_t field_28;
-	uint64_t field_30;
-	uint64_t field_38;
+	ExternalNamedResolveCallback externalNamedResolve;
+	ExternalNamedGetNameCallback externalNamedGetName;
+	AllocateStructCallback allocateStruct;
 };
 
 struct parMemberEnumData : public parMemberCommonData
@@ -505,6 +586,11 @@ struct parMemberEnumData : public parMemberCommonData
 
 struct parMemberArrayData : public parMemberCommonData
 {
+	enum class AllocFlags : uint16_t
+	{
+		USE_PHYSICAL_ALLOCATOR = 1 << 0,
+	};
+
 	uint64_t itemByteSize;
 	union
 	{
@@ -513,54 +599,82 @@ struct parMemberArrayData : public parMemberCommonData
 	};
 	uint32_t padding2C;
 	parMemberCommonData* itemData;
-	uint64_t field38;
+	parDelegateHolderBase* virtualCallback;
+
+	AllocFlags GetAllocFlags() { return static_cast<AllocFlags>(extraData); }
 };
+DEFINE_ENUM_FLAG_OPERATORS(parMemberArrayData::AllocFlags);
 
 struct parMemberMapData : public parMemberCommonData
 {
-	uint64_t field20;
-	uint64_t field28;
+	parDelegateHolderBase* createIterator;
+	parDelegateHolderBase* createInterface;
 	parMemberCommonData* keyData;
 	parMemberCommonData* valueData;
 };
 
 struct parMember
 {
-	void* vtable;
+	void* __vftable;
 	parMemberCommonData* data;
 };
 
 struct parStructure
 {
-	void* vtable;
+	enum class Flags
+#if RDR2
+		: uint32_t
+#else
+		: uint16_t
+#endif
+	{
+		_0xB9C5D274 = 1 << 0, // 0xB9C5D274
+		HAS_NAMES = 1 << 1, // 0x47AF4932
+		ALWAYS_HAS_NAMES = 1 << 2, // 0x9804A870
+		_0x25CB183C = 1 << 3, // 0x25CB183C
+		_0x62BE3669 = 1 << 4, // 0x62BE3669
+		_0x22A1FBDB = 1 << 5, // 0x22A1FBDB
+	};
+
+	void* __vftable;
 #if RDR2
 	uint8_t critSection[0x28];
 #endif
 	uint32_t name;
 	uint8_t padding[4];
 	parStructure* baseStructure;
-	uint64_t field_18;
+	uint64_t baseOffset;
 	uint64_t structureSize;
-#if RDR2
-	uint32_t flags;
-#else
-	uint16_t flags;
-#endif
+	Flags flags;
 	uint16_t alignment;
 	uint16_t versionMajor;
 	uint16_t versionMinor;
 #if RDR2
 	uint8_t padding5A[6];
 #endif
-	struct
-	{
-		parMember** Items;
-		uint16_t Count;
-		uint16_t Size;
-		uint8_t padding[4];
-	} members;
-	// ...
+	atArray<parMember*> members;
+	void* extraAttributes;
+	parDelegateHolderBase factoryNew;
+	parDelegateHolderBase factoryPlacementNew;
+	parDelegateHolderBase getStructureCB;
+	parDelegateHolderBase factoryDelete;
+	atBinaryMap<uint32_t, parDelegateHolderBase*> callbacks;
 };
+DEFINE_ENUM_FLAG_OPERATORS(parStructure::Flags);
+
+struct parStructureStaticData
+{
+	uint32_t name;
+	uint8_t padding[4];
+	const char* nameStr;
+	parStructure* parser;
+	parMemberCommonData** membersData;
+	uint32_t* membersOffsets;
+	const char** memberNames;
+	bool unkFlag1;
+	bool unkFlag2;
+};
+
 
 struct parEnumValueData
 {
@@ -574,12 +688,20 @@ struct parEnumValueData
 #endif
 };
 
+enum class parEnumFlags : uint16_t
+{
+	ENUM_STATIC = 1 << 0, // 0x83E077B4
+	ENUM_HAS_NAMES = 1 << 1, // 0x4725AEB1
+	ENUM_ALWAYS_HAS_NAMES = 1 << 2, // 0x0227ED1D
+};
+DEFINE_ENUM_FLAG_OPERATORS(parEnumFlags);
+
 struct parEnumData
 {
 	parEnumValueData* values;
 	const char** valueNames;
 	uint16_t valueCount;
-	uint16_t flags;
+	parEnumFlags flags;
 	uint32_t name;
 };
 
@@ -590,24 +712,57 @@ struct parManager
 #else
 	uint8_t padding[0x30];
 #endif
-	struct Map
-	{
-		struct Entry
-		{
-			uint32_t key;
-			uint8_t padding[4];
-			parStructure* value;
-			Entry* next;
-		} **entries;
-		uint16_t entryCount;
-		// ...
-	} structures;
+	atMap<uint32_t, parStructure*> structures;
 	// ...
 
 	static parManager** sm_Instance;
 };
 
 parManager** parManager::sm_Instance = nullptr;
+
+static void FlagsToStringAppend(std::string& s, const char* flagStr)
+{
+	if (s.size() > 0) s += ", ";
+	s += flagStr;
+}
+
+#define FLAG_APPEND(flag) if ((flags & FLAG_TYPE::flag) == FLAG_TYPE::flag) FlagsToStringAppend(result, #flag)
+
+static std::string FlagsToString(parEnumFlags flags)
+{
+	std::string result = "";
+#define FLAG_TYPE parEnumFlags
+	FLAG_APPEND(ENUM_STATIC);
+	FLAG_APPEND(ENUM_HAS_NAMES);
+	FLAG_APPEND(ENUM_ALWAYS_HAS_NAMES);
+#undef FLAG_TYPE
+	return result;
+}
+
+static std::string FlagsToString(parStructure::Flags flags)
+{
+	std::string result = "";
+#define FLAG_TYPE parStructure::Flags
+	FLAG_APPEND(_0xB9C5D274);
+	FLAG_APPEND(HAS_NAMES);
+	FLAG_APPEND(ALWAYS_HAS_NAMES);
+	FLAG_APPEND(_0x25CB183C);
+	FLAG_APPEND(_0x62BE3669);
+	FLAG_APPEND(_0x22A1FBDB);
+#undef FLAG_TYPE
+	return result;
+}
+
+static std::string FlagsToString(parMemberArrayData::AllocFlags flags)
+{
+	std::string result = "";
+#define FLAG_TYPE parMemberArrayData::AllocFlags
+	FLAG_APPEND(USE_PHYSICAL_ALLOCATOR);
+#undef FLAG_TYPE
+	return result;
+}
+
+#undef FLAG_APPEND
 
 static void FindParManager()
 {
@@ -784,7 +939,7 @@ static void PrintEnum(std::ofstream& f, parEnumData* e, bool html)
 
 	f << Format("enum %s", eName.c_str());
 	f << "\n{\n";
-	for (ptrdiff_t i = 0; i < e->valueCount; i++)
+	for (size_t i = 0; i < e->valueCount; i++)
 	{
 		parEnumValueData* v = &e->values[i];
 
@@ -877,24 +1032,16 @@ static std::string GetDumpBaseName()
 	return baseName;
 }
 
-static void Dump(parManager* parMgr)
+static std::unordered_map<parStructure*, parStructureStaticData*> structureToStaticData;
+
+struct CollectResult
 {
-	static std::atomic_bool done = false;
-	if (done.exchange(true))
-		return;
+	std::vector<parStructure*> structs;
+	std::vector<parEnumData*> enums;
+};
 
-	spdlog::info("Begin dump..."); spdlog::default_logger()->flush();
-
-	auto baseName = GetDumpBaseName();
-	std::ofstream outHtml{ baseName + ".html" };
-	std::ofstream outTxt{ baseName + ".txt" };
-	std::ofstream outHtmlWithOffsets{ baseName + "_with_offsets.html" };
-	std::ofstream outTxtWithOffsets{ baseName + "_with_offsets.txt" };
-
-	PrintHtmlHeader(outHtml);
-	PrintHtmlHeader(outHtmlWithOffsets);
-
-	std::vector<parStructure*> structs{};
+static CollectResult CollectStructs(parManager* parMgr)
+{	std::vector<parStructure*> structs{};
 	std::unordered_set<parEnumData*> enumsSet{};
 	std::vector<parEnumData*> enums{};
 	const auto addEnum = [&enumsSet, &enums](parEnumData* enumData)
@@ -905,9 +1052,9 @@ static void Dump(parManager* parMgr)
 		}
 	};
 
-	for (uint16_t i = 0; i < parMgr->structures.entryCount; i++)
+	for (uint16_t i = 0; i < parMgr->structures.NumBuckets; i++)
 	{
-		auto* entry = parMgr->structures.entries[i];
+		auto* entry = parMgr->structures.Buckets[i];
 		while (entry != nullptr)
 		{
 			parStructure* s = entry->value;
@@ -943,6 +1090,347 @@ static void Dump(parManager* parMgr)
 		}
 	}
 
+	return { std::move(structs), std::move(enums) };
+}
+
+static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, parMemberCommonData* m)
+{
+	if (m == nullptr)
+	{
+		w.Null(key);
+		return;
+	}
+
+	w.BeginObject(key);
+	w.UInt("name", m->name, json_uint_hex);
+	w.UInt("offset", m->offset, json_uint_hex_no_zero_pad);
+	w.UInt("flags1", m->flags1, json_uint_hex);
+	w.UInt("flags2", m->flags2, json_uint_hex);
+	w.String("type", TypeToStr(m->type));
+	w.String("subtype", SubtypeToStr(m->type, m->subType));
+	switch (m->type)
+	{
+	case parMemberType::STRUCT:
+	{
+		auto* structData = static_cast<parMemberStructData*>(m);
+		if (structData->structure != nullptr)
+		{
+			w.UInt("structName", structData->structure->name, json_uint_hex);
+		}
+		else
+		{
+			w.Null("structName");
+		}
+		if (structData->externalNamedResolve != nullptr)
+		{
+			w.UInt("externalNamedResolveFunc", (uintptr_t)structData->externalNamedResolve - (uintptr_t)GetModuleHandle(NULL), json_uint_hex_no_zero_pad);
+		}
+		if (structData->externalNamedGetName != nullptr)
+		{
+			w.UInt("externalNamedGetNameFunc", (uintptr_t)structData->externalNamedGetName - (uintptr_t)GetModuleHandle(NULL), json_uint_hex_no_zero_pad);
+		}
+		if (structData->allocateStruct != nullptr)
+		{
+			w.UInt("allocateStructFunc", (uintptr_t)structData->allocateStruct - (uintptr_t)GetModuleHandle(NULL), json_uint_hex_no_zero_pad);
+		}
+	}
+	break;
+	case parMemberType::ARRAY:
+	{
+		auto* arrayData = static_cast<parMemberArrayData*>(m);
+		DumpJsonMember(w, "item", arrayData->itemData);
+		// virtualCallback unused in both GTA5 and RDR3 (though most ATARRAY members have it set pointing to a nullsub for some reason)
+		//if (arrayData->virtualCallback != nullptr)
+		//{
+		//	w.UInt("virtualCallbackFunc", (uintptr_t)arrayData->virtualCallback->func - (uintptr_t)GetModuleHandle(NULL), json_uint_hex);
+		//}
+		w.String("allocFlags", FlagsToString(arrayData->GetAllocFlags()));
+		switch (static_cast<parMemberArraySubtype>(m->subType))
+		{
+		case parMemberArraySubtype::ATARRAY:
+		case parMemberArraySubtype::_0x2087BB00:
+			// nothing to add
+			break;
+		case parMemberArraySubtype::ATFIXEDARRAY:
+		case parMemberArraySubtype::ATRANGEARRAY:
+		case parMemberArraySubtype::POINTER:
+		case parMemberArraySubtype::MEMBER:
+		case parMemberArraySubtype::VIRTUAL:
+			w.UInt("arraySize", arrayData->arraySize, json_uint_dec);
+			break;
+		case parMemberArraySubtype::POINTER_WITH_COUNT:
+		case parMemberArraySubtype::POINTER_WITH_COUNT_8BIT_IDX:
+		case parMemberArraySubtype::POINTER_WITH_COUNT_16BIT_IDX:
+			w.UInt("countOffset", arrayData->countOffset, json_uint_hex);
+			break;
+		}
+	}
+	break;
+	case parMemberType::ENUM:
+	case parMemberType::BITSET:
+	{
+		auto* enumData = static_cast<parMemberEnumData*>(m);
+		w.UInt("enumName", enumData->enumData->name, json_uint_hex);
+		w.UInt("initValue", enumData->initValue, json_uint_dec);
+	}
+	break;
+	case parMemberType::MAP:
+	{
+		auto* mapData = static_cast<parMemberMapData*>(m);
+		DumpJsonMember(w, "key", mapData->keyData);
+		DumpJsonMember(w, "value", mapData->valueData);
+		if (mapData->createIterator != nullptr)
+		{
+			w.UInt("createIteratorFunc", (uintptr_t)mapData->createIterator->func - (uintptr_t)GetModuleHandle(NULL), json_uint_hex_no_zero_pad);
+		}
+		if (mapData->createInterface != nullptr)
+		{
+			w.UInt("createInterfaceFunc", (uintptr_t)mapData->createInterface->func - (uintptr_t)GetModuleHandle(NULL), json_uint_hex_no_zero_pad);
+		}
+	}
+	break;
+	case parMemberType::STRING:
+	{
+		auto* stringData = static_cast<parMemberStringData*>(m);
+		switch (static_cast<parMemberStringSubtype>(m->subType))
+		{
+		case parMemberStringSubtype::MEMBER:
+		case parMemberStringSubtype::WIDE_MEMBER:
+			w.UInt("memberSize", stringData->memberSize, json_uint_dec);
+			break;
+		case parMemberStringSubtype::ATNSHASHSTRING:
+		case parMemberStringSubtype::ATNSHASHVALUE:
+			w.UInt("namespaceIndex", stringData->GetNamespaceIndex(), json_uint_dec);
+			break;
+		}
+	}
+	break;
+	case parMemberType::BOOL:
+	case parMemberType::CHAR:
+	case parMemberType::UCHAR:
+	case parMemberType::SHORT:
+	case parMemberType::USHORT:
+	case parMemberType::INT:
+	case parMemberType::UINT:
+	case parMemberType::FLOAT:
+	case parMemberType::SCALARV:
+	case parMemberType::BOOLV:
+	case parMemberType::PTRDIFFT:
+	case parMemberType::SIZET:
+	case parMemberType::FLOAT16:
+	case parMemberType::INT64:
+	case parMemberType::UINT64:
+	case parMemberType::DOUBLE:
+	{
+		auto* simpleData = static_cast<parMemberSimpleData*>(m);
+#if RDR2
+		w.Double("initValue", simpleData->initValue);
+#else
+		w.Float("initValue", simpleData->initValue);
+#endif
+	}
+	break;
+	}
+	w.EndObject();
+}
+
+static void DumpJsonStructure(JsonWriter& w, std::optional<std::string_view> key, parStructure* s)
+{
+	if (s == nullptr)
+	{
+		w.Null(key);
+		return;
+	}
+
+	auto* d = structureToStaticData[s];
+	w.BeginObject(key);
+	{
+		w.UInt("name", s->name, json_uint_hex);
+		if (d->nameStr != nullptr)
+		{
+			w.String("nameStr", d->nameStr);
+		}
+		if (s->baseStructure != nullptr)
+		{
+			w.BeginObject("base");
+			w.UInt("name", s->baseStructure->name, json_uint_hex);
+			w.UInt("offset", s->baseOffset, json_uint_hex_no_zero_pad);
+			w.EndObject();
+		}
+		w.UInt("size", s->structureSize, json_uint_hex_no_zero_pad);
+		w.UInt("alignment", s->alignment, json_uint_hex_no_zero_pad);
+		w.String("flags", FlagsToString(s->flags));
+		w.String("version", std::format("{}.{}", s->versionMajor, s->versionMinor));
+		w.Bool("staticDataUnkFlag1", d->unkFlag1);
+		w.Bool("staticDataUnkFlag2", d->unkFlag2);
+		w.BeginArray("members");
+		for (size_t i = 0; i < s->members.Count; i++)
+		{
+			auto* m = s->members.Items[i];
+			DumpJsonMember(w, std::nullopt, m->data);
+		}
+		w.EndArray();
+		if (d->memberNames != nullptr)
+		{
+			w.BeginArray("memberNames");
+			for (size_t i = 0; i < s->members.Count; i++)
+			{
+				auto* n = d->memberNames[i];
+				w.String(std::nullopt, n);
+			}
+			w.EndArray();
+		}
+
+		w.BeginObject("factories");
+		if (s->factoryNew.func != nullptr)
+		{
+			w.UInt("new", (uintptr_t)s->factoryNew.func - (uintptr_t)GetModuleHandle(NULL), json_uint_hex_no_zero_pad);
+		}
+		else
+		{
+			w.Null("new");
+		}
+		if (s->factoryPlacementNew.func != nullptr)
+		{
+			w.UInt("placementNew", (uintptr_t)s->factoryPlacementNew.func - (uintptr_t)GetModuleHandle(NULL), json_uint_hex_no_zero_pad);
+		}
+		else
+		{
+			w.Null("placementNew");
+		}
+		if (s->factoryDelete.func != nullptr)
+		{
+			w.UInt("delete", (uintptr_t)s->factoryDelete.func - (uintptr_t)GetModuleHandle(NULL), json_uint_hex_no_zero_pad);
+		}
+		else
+		{
+			w.Null("delete");
+		}
+		w.EndObject();
+
+		if (s->getStructureCB.func != nullptr)
+		{
+			w.UInt("getStructureCB", (uintptr_t)s->getStructureCB.func - (uintptr_t)GetModuleHandle(NULL), json_uint_hex_no_zero_pad);
+		}
+		else
+		{
+			w.Null("getStructureCB");
+		}
+
+		if (s->callbacks.Pairs.Count > 0)
+		{
+			w.BeginObject("callbacks");
+			for (size_t i = 0; i < s->callbacks.Pairs.Count; i++)
+			{
+				auto& cb = s->callbacks.Pairs.Items[i];
+				std::string key = "";
+				switch (cb.Key)
+				{
+				case joaat_literal("preloadfast"): key = "PreLoadFast"; break;
+				case joaat_literal("preload"): key = "PreLoad"; break;
+				case joaat_literal("postload"): key = "PostLoad"; break;
+				case joaat_literal("presave"): key = "PreSave"; break;
+				case joaat_literal("postsave"): key = "PostSave"; break;
+				case joaat_literal("removefromstore"): key = "RemoveFromStore"; break;
+				case joaat_literal("preset"): key = "PreSet"; break;
+				case joaat_literal("postset"): key = "PostSet"; break;
+				case joaat_literal("presetfast"): key = "PreSetFast"; break;
+				case joaat_literal("postsetfast"): key = "PostSetFast"; break;
+				case joaat_literal("postpsoplace"): key = "PostPsoPlace"; break;
+				case joaat_literal("visitor"): key = "Visitor"; break;
+				default: key = std::format("callback_0x{:0{}X}", cb.Key, 8); break;
+				}
+
+				w.UInt(key, (uintptr_t)cb.Value->func - (uintptr_t)GetModuleHandle(NULL), json_uint_hex_no_zero_pad);
+			}
+			w.EndObject();
+		}
+	}
+	w.EndObject();
+}
+
+static void DumpJsonEnum(JsonWriter& w, std::optional<std::string_view> key, parEnumData* e)
+{
+	if (e == nullptr)
+	{
+		w.Null(key);
+		return;
+	}
+
+	w.BeginObject(key);
+	w.UInt("name", e->name, json_uint_hex);
+	w.String("flags", FlagsToString(e->flags));
+	w.BeginArray("values");
+	for (size_t i = 0; i < e->valueCount; i++)
+	{
+		auto& v = e->values[i];
+		w.BeginObject();
+		w.UInt("name", v.name, json_uint_hex);
+		w.UInt("value", v.value, json_uint_dec);
+		w.EndObject();
+	}
+	w.EndArray();
+	if (e->valueNames != nullptr)
+	{
+		w.BeginArray("valueNames");
+		for (size_t i = 0; i < e->valueCount; i++)
+		{
+			auto* n = e->valueNames[i];
+			w.String(std::nullopt, n);
+		}
+		w.EndArray();
+	}
+	w.EndObject();
+}
+
+static void DumpJson(parManager* parMgr)
+{
+	const auto collection = CollectStructs(parMgr);
+	auto& structs = collection.structs;
+	auto& enums = collection.enums;
+
+	auto baseName = GetDumpBaseName();
+	JsonWriter w{ baseName + ".json" };
+
+	w.BeginObject();
+#if RDR2
+	w.String("game", "rdr3");
+#else
+	w.String("game", "gta5");
+#endif
+	w.UInt("build", GetGameBuild(), json_uint_dec);
+	w.BeginArray("structs");
+	for (parStructure* s : structs)
+	{
+		DumpJsonStructure(w, std::nullopt, s);
+	}
+	w.EndArray();
+	w.BeginArray("enums");
+	for (parEnumData* e : enums)
+	{
+		DumpJsonEnum(w, std::nullopt, e);
+	}
+	w.EndArray();
+	w.EndObject();
+}
+
+static void Dump(parManager* parMgr)
+{
+	spdlog::info("Begin dump..."); spdlog::default_logger()->flush();
+
+	auto baseName = GetDumpBaseName();
+	std::ofstream outHtml{ baseName + ".html" };
+	std::ofstream outTxt{ baseName + ".txt" };
+	std::ofstream outHtmlWithOffsets{ baseName + "_with_offsets.html" };
+	std::ofstream outTxtWithOffsets{ baseName + "_with_offsets.txt" };
+
+	PrintHtmlHeader(outHtml);
+	PrintHtmlHeader(outHtmlWithOffsets);
+
+	auto collection = CollectStructs(parMgr);
+	auto& structs = collection.structs;
+	auto& enums = collection.enums;
+
 	spdlog::info("{} structs", structs.size());
 	spdlog::info("{} enums", enums.size());
 
@@ -971,6 +1459,14 @@ static void Dump(parManager* parMgr)
 	spdlog::info("Dump done"); spdlog::default_logger()->flush();
 }
 
+static void(*rage__parStructure__BuildStructureFromStaticData_orig)(parStructure* This, parStructureStaticData* staticData);
+static void rage__parStructure__BuildStructureFromStaticData_detour(parStructure* This, parStructureStaticData* staticData)
+{
+	structureToStaticData[This] = staticData;
+	
+	rage__parStructure__BuildStructureFromStaticData_orig(This, staticData);
+}
+
 static DWORD WINAPI Main()
 {
 	if (LoggingEnabled())
@@ -984,6 +1480,17 @@ static DWORD WINAPI Main()
 
 
 	spdlog::info("Initializing...");
+
+	void* rage__parStructure__BuildStructureFromStaticData =
+#if RDR2
+		hook::get_pattern("89 41 30 41 BF ? ? ? ? 4D 85 F6 74 58", -0x24);
+#else
+		hook::get_pattern("48 8B 05 ? ? ? ? 48 83 7A ? ? 48 8B FA 44 8A 60 5C 8B 02", -0x1D);
+#endif
+
+	MH_Initialize();
+	MH_CreateHook(rage__parStructure__BuildStructureFromStaticData, &rage__parStructure__BuildStructureFromStaticData_detour, (void**)&rage__parStructure__BuildStructureFromStaticData_orig);
+	MH_EnableHook(MH_ALL_HOOKS);
 
 	FindParManager();
 
@@ -1008,7 +1515,8 @@ static DWORD WINAPI Main()
 			return 0;
 		}
 	}
-
+	
+	DumpJson(*parManager::sm_Instance);
 	Dump(*parManager::sm_Instance);
 
 	return 0;
