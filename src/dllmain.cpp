@@ -7,20 +7,12 @@
 #include <unordered_map>
 #include <string>
 #include <optional>
-#include <fstream>
 #include <unordered_set>
 #include <vector>
-#include <algorithm>
 #include <format>
 
 #include "rage.h"
 #include "JsonWriter.h"
-
-#if _DEBUG
-static constexpr bool DefaultEnableLogging = true;
-#else
-static constexpr bool DefaultEnableLogging = true;
-#endif
 
 constexpr uint32_t joaat_literal(const char* text)
 {
@@ -43,32 +35,9 @@ constexpr uint32_t joaat_literal(const char* text)
 	return hash;
 }
 
-static bool LoggingEnabled()
-{
-	static bool b = []()
-	{
-		char iniFilePath[MAX_PATH];
-		GetFullPathName("DumpStructs.ini", MAX_PATH, iniFilePath, nullptr);
-		int v = GetPrivateProfileInt("Config", "Log", 0, iniFilePath);
-		return v != 0;
-	}();
-	return DefaultEnableLogging || b;
-}
-
-template<size_t BufferSize = 512>
-static std::string Format(const char* format, ...)
-{
-	char buffer[BufferSize];
-	va_list l;
-	va_start(l, format);
-	std::vsnprintf(buffer, BufferSize, format, l);
-	va_end(l);
-	return buffer;
-}
-
 static uint16_t GetGameBuild()
 {
-	const char* exeName = 
+	const char* exeName =
 #if RDR3
 		"RDR2.exe";
 #else
@@ -99,59 +68,6 @@ static uint16_t GetGameBuild()
 	return 0xFFFF;
 }
 
-static std::unordered_map<uint32_t, std::string> gHashTranslation;
-static void LoadHashes()
-{
-	std::ifstream f{ "dictionary.txt", std::ios::binary | std::ios::in  };
-
-	auto add = [](std::string s) {
-		const auto hash = joaat_literal(s.c_str());
-		gHashTranslation.try_emplace(hash, std::move(s));
-	};
-
-	spdlog::info("Loading hashes...");
-	int numLines = 0;
-	std::string line;
-	while (std::getline(f, line))
-	{
-		if (line.size() > 0 && line.back() == '\n') line.pop_back();
-		if (line.size() > 0 && line.back() == '\r') line.pop_back();
-
-		numLines++;
-
-		add(line);
-
-		if (line.size() > 0) {
-			line[0] = std::tolower(line[0]);
-			add(line);
-
-			line[0] = std::toupper(line[0]);
-			add(line);
-		}
-
-		std::transform(line.begin(), line.end(), line.begin(), [](char c) { return std::tolower(c); });
-		add(line);
-
-		std::transform(line.begin(), line.end(), line.begin(), [](char c) { return std::toupper(c); });
-		add(line);
-	}
-
-	spdlog::info("	> {} lines, {} unique hashes", numLines, gHashTranslation.size());
-}
-
-static std::string HashToStr(uint32_t h)
-{
-	auto it = gHashTranslation.find(h);
-	if (it != gHashTranslation.end())
-	{
-		return it->second;
-	}
-	else
-	{
-		return Format("_0x%08X", h);
-	}
-}
-
 static void FindParManager()
 {
 	spdlog::info("Searching parManager::sm_Instance...");
@@ -163,195 +79,11 @@ static void FindParManager()
 	spdlog::info("parManager::sm_Instance = {}", (void*)parManager::sm_Instance);
 }
 
-template<int FramesToSkip = 1>
-static void LogStackTrace()
-{
-	if (!LoggingEnabled())
-	{
-		return;
-	}
-
-	void* stack[32];
-	USHORT frames = CaptureStackBackTrace(FramesToSkip, 32, stack, NULL);
-
-	spdlog::warn("\tStack Trace:");
-	for (int i = 0; i < frames; i++)
-	{
-		void* address = stack[i];
-		HMODULE module = NULL;
-		GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)address, &module);
-		char moduleName[256];
-		GetModuleFileName(module, moduleName, 256);
-
-		spdlog::warn("\t\t{:16X} - {}+{:08X}", (uintptr_t)address, std::filesystem::path(moduleName).filename().string().c_str(), ((uintptr_t)address - (uintptr_t)module));
-	}
-}
-
-static std::string Link(const char* name)
-{
-	return Format("<a href=\"#%s\">%s</a>", name, name);
-}
-
-static std::string Type(parMemberCommonData* m, bool html = true)
-{
-	std::string mType = TypeToCasedStr(m->type);
-	if (m->type == parMemberType::STRUCT)
-	{
-		parStructure* otherStruct = reinterpret_cast<parMemberStructData*>(m)->structure;
-		const std::string otherName = otherStruct ? HashToStr(otherStruct->name) : "void";
-		mType += " ";
-		mType += otherStruct && html ? Link(otherName.c_str()) : otherName;
-	}
-	else if (m->type == parMemberType::ENUM)
-	{
-		parEnumData* otherEnum = reinterpret_cast<parMemberEnumData*>(m)->enumData;
-		const std::string otherName = otherEnum ? HashToStr(otherEnum->name) : "NULL_ENUM";
-		mType += " ";
-		mType += otherEnum && html ? Link(otherName.c_str()) : otherName;
-	}
-	else if (m->type == parMemberType::BITSET)
-	{
-		parEnumData* otherEnum = reinterpret_cast<parMemberEnumData*>(m)->enumData;
-		mType += html ? "&lt;enum" : "<enum";
-		const std::string otherName = otherEnum ? HashToStr(otherEnum->name) : "NULL_ENUM";
-		mType += " ";
-		mType += otherEnum && html ? Link(otherName.c_str()) : otherName;
-		mType += html ? "&gt;" : ">";
-	}
-	else if (m->type == parMemberType::ARRAY)
-	{
-		parMemberArrayData* arr = reinterpret_cast<parMemberArrayData*>(m);
-		const std::string itemType = arr->itemData ? Type(arr->itemData, html) : "NULL_ITEM_DATA";
-		mType += html ? "&lt;" : "<";
-		mType += itemType;
-		if (arr->arraySize != 0)
-		{
-			mType += ", ";
-			mType += Format("%u", arr->arraySize);
-		}
-		mType += html ? "&gt;" : ">";
-	}
-	else if (m->type == parMemberType::MAP)
-	{
-		parMemberMapData* map = reinterpret_cast<parMemberMapData*>(m);
-		const std::string keyType = map->keyData ? Type(map->keyData, html) : "NULL_KEY_DATA";
-		const std::string valueType = map->valueData ? Type(map->valueData, html) : "NULL_VALUE_DATA";
-		mType += html ? "&lt;" : "<";
-		mType += keyType;
-		mType += ", ";
-		mType += valueType;
-		mType += html ? "&gt;" : ">";
-	}
-
-	return mType;
-}
-
-static void PrintStruct(std::ofstream& f, parStructure* s, bool html, bool includeOffsets)
-{
-	const std::string sName = HashToStr(s->name);
-
-	if (html)
-	{
-		f << Format("<pre class=\"prettyprint\" id=\"%s\">\n", sName.c_str());
-	}
-
-	f << Format("struct %s", sName.c_str());
-	if (s->baseStructure != nullptr)
-	{
-		const std::string baseName = HashToStr(s->baseStructure->name);
-		if (html)
-		{
-			const std::string baseLink = Link(baseName.c_str());
-			f << " : " << baseLink;
-		}
-		else
-		{
-			f << " : " << baseName;
-		}
-	}
-	f << "\n{\n";
-
-	std::vector<parMember*> members(&s->members.Items[0], &s->members.Items[s->members.Count]);
-	std::sort(members.begin(), members.end(), [](auto* a, auto* b) {
-		return a->data->offset < b->data->offset;
-	});
-
-	std::string membersStr = "";
-	int padding = 32;
-	for (ptrdiff_t j = 0; j < members.size(); j++)
-	{
-		parMember* m = members[j];
-
-		const std::string mTypeNoHtml = Type(m->data, false);
-		const size_t sizeNoHtml = mTypeNoHtml.size();
-		if (sizeNoHtml > ((int64_t)padding - 4))
-		{
-			// found a longer name, start again
-			padding = sizeNoHtml + 4;
-			j = -1;
-			membersStr.clear();
-			continue;
-		}
-		const std::string mType = html ? Type(m->data) : mTypeNoHtml;
-		membersStr += Format("\t%-*s ", (padding + (mType.size() - sizeNoHtml)), mType.c_str());
-		const std::string subType = SubtypeToStr(m->data->type, m->data->subType);
-		const std::string mName = HashToStr(m->data->name) + ";";
-		if (includeOffsets)
-		{
-			membersStr += Format("%-32s // offset:0x%03X\ttype:%s.%s\n", mName.c_str(), m->data->offset, TypeToStr(m->data->type), subType.c_str());
-		}
-		else
-		{
-			membersStr += Format("%-32s // type:%s.%s\n", mName.c_str(), TypeToStr(m->data->type), subType.c_str());
-		}
-	}
-	f << membersStr;
-	f << "};\n";
-	if (html)
-	{
-		f << "</pre>\n";
-	}
-	else
-	{
-		f << "\n";
-	}
-}
-
-static void PrintEnum(std::ofstream& f, parEnumData* e, bool html)
-{
-	const std::string eName = HashToStr(e->name);
-	if (html)
-	{
-		f << Format("<pre class=\"prettyprint\" id=\"%s\">\n", eName.c_str());
-	}
-
-	f << Format("enum %s", eName.c_str());
-	f << "\n{\n";
-	for (size_t i = 0; i < e->valueCount; i++)
-	{
-		parEnumValueData* v = &e->values[i];
-
-		const std::string vName = HashToStr(v->name);
-		f << Format("\t%s = %u,\n", vName.c_str(), v->value);
-	}
-	f << "};\n";
-
-	if (html)
-	{
-		f << "</pre>\n";
-	}
-	else
-	{
-		f << "\n";
-	}
-}
-
 static void InitParManager()
 {
 #if RDR3
 
 #else
-
 	uintptr_t theAllocatorAddr = hook::get_address<uintptr_t>(hook::get_pattern("48 8D 1D ? ? ? ? A8 08 75 1D 83 C8 08 48 8B CB", 3));
 
 	spdlog::info("rage::s_TheAllocator            = {}", (void*)theAllocatorAddr);
@@ -380,31 +112,6 @@ static void InitParManager()
 #endif
 
 	spdlog::info("*parManager::sm_Instance = {}", (void*)*parManager::sm_Instance); spdlog::default_logger()->flush();
-}
-
-static void PrintHtmlHeader(std::ofstream& f)
-{
-	f << R"(
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title>Test</title>
-    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?autoload=true&amp;skin=default&amp;lang=css"></script>
-    <style type="text/css">
-    </style>
-</head>
-
-<body>
-)";
-}
-
-static void PrintHtmlFooter(std::ofstream& f)
-{
-	f << R"(
-</body>
-</html>
-)";
 }
 
 static std::string GetDumpBaseName()
@@ -802,51 +509,6 @@ static void DumpJson(parManager* parMgr)
 	w.EndObject();
 }
 
-static void Dump(parManager* parMgr)
-{
-	spdlog::info("Begin dump..."); spdlog::default_logger()->flush();
-
-	auto baseName = GetDumpBaseName();
-	std::ofstream outHtml{ baseName + ".html" };
-	std::ofstream outTxt{ baseName + ".txt" };
-	std::ofstream outHtmlWithOffsets{ baseName + "_with_offsets.html" };
-	std::ofstream outTxtWithOffsets{ baseName + "_with_offsets.txt" };
-
-	PrintHtmlHeader(outHtml);
-	PrintHtmlHeader(outHtmlWithOffsets);
-
-	auto collection = CollectStructs(parMgr);
-	auto& structs = collection.structs;
-	auto& enums = collection.enums;
-
-	spdlog::info("{} structs", structs.size());
-	spdlog::info("{} enums", enums.size());
-
-	std::sort(structs.begin(), structs.end(), [](auto* a, auto* b) { return HashToStr(a->name) < HashToStr(b->name); });
-	std::sort(enums.begin(), enums.end(), [](auto* a, auto* b) { return HashToStr(a->name) < HashToStr(b->name); });
-
-	for (parStructure* s : structs)
-	{
-		PrintStruct(outHtml, s, true, false);
-		PrintStruct(outTxt, s, false, false);
-		PrintStruct(outHtmlWithOffsets, s, true, true);
-		PrintStruct(outTxtWithOffsets, s, false, true);
-	}
-
-	for (parEnumData* e : enums)
-	{
-		PrintEnum(outHtml, e, true);
-		PrintEnum(outTxt, e, false);
-		PrintEnum(outHtmlWithOffsets, e, true);
-		PrintEnum(outTxtWithOffsets, e, false);
-	}
-
-	PrintHtmlFooter(outHtml);
-	PrintHtmlFooter(outHtmlWithOffsets);
-
-	spdlog::info("Dump done"); spdlog::default_logger()->flush();
-}
-
 static void(*rage__parStructure__BuildStructureFromStaticData_orig)(parStructure* This, parStructureStaticData* staticData);
 static void rage__parStructure__BuildStructureFromStaticData_detour(parStructure* This, parStructureStaticData* staticData)
 {
@@ -857,16 +519,7 @@ static void rage__parStructure__BuildStructureFromStaticData_detour(parStructure
 
 static DWORD WINAPI Main()
 {
-	if (LoggingEnabled())
-	{
-		spdlog::set_default_logger(spdlog::basic_logger_mt("file_logger", "DumpStructs.log"));
-	}
-	else
-	{
-		spdlog::set_level(spdlog::level::off);
-	}
-
-
+	spdlog::set_default_logger(spdlog::basic_logger_mt("file_logger", "DumpStructs.log"));
 	spdlog::info("Initializing...");
 
 	void* rage__parStructure__BuildStructureFromStaticData =
@@ -882,13 +535,7 @@ static DWORD WINAPI Main()
 
 	FindParManager();
 
-	const auto startTime = std::chrono::steady_clock::now();
-
-	LoadHashes();
-
-	const auto endTime = std::chrono::steady_clock::now();
-
-	spdlog::info("Initialization finished - Took {} ms", std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count());
+	spdlog::info("Initialization finished");
 
 	Sleep(25'000);
 
@@ -903,10 +550,8 @@ static DWORD WINAPI Main()
 			return 0;
 		}
 	}
-	
-	DumpJson(*parManager::sm_Instance);
-	Dump(*parManager::sm_Instance);
 
+	DumpJson(*parManager::sm_Instance);
 	return 0;
 }
 
