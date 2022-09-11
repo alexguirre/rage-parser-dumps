@@ -3,22 +3,22 @@
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Hooking.cpp" />
-    <ClCompile Include="..\dependencies\minhook\src\buffer.c">
+    <ClCompile Include="..\..\dependencies\minhook\src\buffer.c">
       <Filter>dependencies\minhook</Filter>
     </ClCompile>
-    <ClCompile Include="..\dependencies\minhook\src\hook.c">
+    <ClCompile Include="..\..\dependencies\minhook\src\hook.c">
       <Filter>dependencies\minhook</Filter>
     </ClCompile>
-    <ClCompile Include="..\dependencies\minhook\src\trampoline.c">
+    <ClCompile Include="..\..\dependencies\minhook\src\trampoline.c">
       <Filter>dependencies\minhook</Filter>
     </ClCompile>
-    <ClCompile Include="..\dependencies\minhook\src\hde\hde32.c">
+    <ClCompile Include="..\..\dependencies\minhook\src\hde\hde32.c">
       <Filter>dependencies\minhook</Filter>
     </ClCompile>
-    <ClCompile Include="..\dependencies\minhook\src\hde\hde64.c">
+    <ClCompile Include="..\..\dependencies\minhook\src\hde\hde64.c">
       <Filter>dependencies\minhook</Filter>
     </ClCompile>
-    <ClCompile Include="..\dependencies\patterns\Hooking.Patterns.cpp">
+    <ClCompile Include="..\..\dependencies\patterns\Hooking.Patterns.cpp">
       <Filter>dependencies\patterns</Filter>
     </ClCompile>
   </ItemGroup>

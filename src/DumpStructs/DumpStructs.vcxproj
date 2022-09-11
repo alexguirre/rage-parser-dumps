@@ -47,7 +47,7 @@
   </ImportGroup>
   <PropertyGroup>
     <TargetExt>.asi</TargetExt>
-    <OutDir>..\bin\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>..\..\bin\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="$(Configuration.StartsWith(`Debug`))">
     <LinkIncremental>true</LinkIncremental>
@@ -64,7 +64,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>..\dependencies\spdlog\include;..\dependencies\patterns;..\dependencies\minhook\include;..\dependencies\jitasm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dependencies\spdlog\include;..\..\dependencies\patterns;..\..\dependencies\minhook\include;..\..\dependencies\jitasm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -85,7 +85,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>..\dependencies\spdlog\include;..\dependencies\patterns;..\dependencies\minhook\include;..\dependencies\jitasm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dependencies\spdlog\include;..\..\dependencies\patterns;..\..\dependencies\minhook\include;..\..\dependencies\jitasm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
@@ -104,12 +104,12 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\dependencies\minhook\src\buffer.c" />
-    <ClCompile Include="..\dependencies\minhook\src\hde\hde32.c" />
-    <ClCompile Include="..\dependencies\minhook\src\hde\hde64.c" />
-    <ClCompile Include="..\dependencies\minhook\src\hook.c" />
-    <ClCompile Include="..\dependencies\minhook\src\trampoline.c" />
-    <ClCompile Include="..\dependencies\patterns\Hooking.Patterns.cpp" />
+    <ClCompile Include="..\..\dependencies\minhook\src\buffer.c" />
+    <ClCompile Include="..\..\dependencies\minhook\src\hde\hde32.c" />
+    <ClCompile Include="..\..\dependencies\minhook\src\hde\hde64.c" />
+    <ClCompile Include="..\..\dependencies\minhook\src\hook.c" />
+    <ClCompile Include="..\..\dependencies\minhook\src\trampoline.c" />
+    <ClCompile Include="..\..\dependencies\patterns\Hooking.Patterns.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Hooking.cpp" />
     <ClCompile Include="JsonWriter.cpp" />
