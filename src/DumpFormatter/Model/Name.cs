@@ -7,6 +7,5 @@ namespace DumpFormatter.Model;
 [JsonConverter(typeof(NameConverter))]
 internal readonly record struct Name(uint Hash)
 {
-    public override string ToString()
-        => $"0x{Hash:X08}";
+    public override string ToString() => Joaat.GetString(Hash);
 }

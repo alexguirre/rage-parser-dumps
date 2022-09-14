@@ -3,7 +3,7 @@ using System.Text;
 
 namespace DumpFormatter;
 
-internal class Joaat
+internal static class Joaat
 {
     private static readonly Dictionary<uint, string> translations = new();
 

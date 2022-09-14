@@ -25,22 +25,22 @@ std::string SubtypeToStr(parMemberType type, uint8_t subtype)
 		switch (static_cast<parMemberEnumSubtype>(subtype))
 		{
 #if RDR3
-		case parMemberEnumSubtype::_64BIT: return "64BIT";
+		case parMemberEnumSubtype::_64BIT: return "_64BIT";
 #endif
-		case parMemberEnumSubtype::_32BIT: return "32BIT";
-		case parMemberEnumSubtype::_16BIT: return "16BIT";
-		case parMemberEnumSubtype::_8BIT: return "8BIT";
+		case parMemberEnumSubtype::_32BIT: return "_32BIT";
+		case parMemberEnumSubtype::_16BIT: return "_16BIT";
+		case parMemberEnumSubtype::_8BIT: return "_8BIT";
 		}
 		break;
 	case parMemberType::BITSET:
 		switch (static_cast<parMemberBitsetSubtype>(subtype))
 		{
 #if RDR3
-		case parMemberBitsetSubtype::_64BIT: return "64BIT";
+		case parMemberBitsetSubtype::_64BIT: return "_64BIT";
 #endif
-		case parMemberBitsetSubtype::_32BIT: return "32BIT";
-		case parMemberBitsetSubtype::_16BIT: return "16BIT";
-		case parMemberBitsetSubtype::_8BIT: return "8BIT";
+		case parMemberBitsetSubtype::_32BIT: return "_32BIT";
+		case parMemberBitsetSubtype::_16BIT: return "_16BIT";
+		case parMemberBitsetSubtype::_8BIT: return "_8BIT";
 		case parMemberBitsetSubtype::ATBITSET: return "ATBITSET";
 		}
 		break;

@@ -2,6 +2,7 @@
 using DumpFormatter.Model;
 
 using System.CommandLine;
+using System.Globalization;
 using System.Text;
 using System.Text.Json;
 
@@ -18,6 +19,9 @@ internal static class Program
     
     static int Main(string[] args)
     {
+        CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+        CultureInfo.CurrentUICulture = CultureInfo.InvariantCulture;
+
         var dictionary = new Option<FileInfo?>(new[] { "--dictionary", "-d" }, "The dictionary file used to translate hashes back to text.");
         var format = new Argument<Format>("format", "The dump output format.");
         var input = new Argument<FileInfo>("input", "The input JSON dump file.");
@@ -44,13 +48,6 @@ internal static class Program
             Joaat.LoadDictionary(dictionary.FullName);
         }
 
-        ParDump dump;
-        var opt = new JsonSerializerOptions(JsonSerializerDefaults.Web);
-        using (var inputStream = input.OpenRead())
-        {
-            dump = JsonSerializer.Deserialize<ParDump>(inputStream, opt) ?? throw new ArgumentException($"JSON deserialization of '{input.FullName}' returned null");
-        }
-        
         IDumpFormatter formatter = format switch
         {
             Format.PlainText => new PlainTextFormatter(),
@@ -58,7 +55,14 @@ internal static class Program
             Format.Xsd => new XsdFormatter(),
             _ => throw new ArgumentException($"Unknown format '{format}'"),
         };
-        
+
+        ParDump dump;
+        var opt = new JsonSerializerOptions(JsonSerializerDefaults.Web);
+        using (var inputStream = input.OpenRead())
+        {
+            dump = JsonSerializer.Deserialize<ParDump>(inputStream, opt) ?? throw new ArgumentException($"JSON deserialization of '{input.FullName}' returned null");
+        }
+
         using (var outputStream = output.OpenWrite())
         {
             using var outputWriter = new StreamWriter(outputStream, Encoding.UTF8);
