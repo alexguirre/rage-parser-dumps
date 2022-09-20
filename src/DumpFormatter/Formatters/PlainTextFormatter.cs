@@ -9,7 +9,7 @@ internal class PlainTextFormatter : IDumpFormatter
 {
     private ParDump? dump;
 
-    public void Format(TextWriter writer, ParDump dump)
+    public virtual void Format(TextWriter writer, ParDump dump)
     {
         this.dump = dump;
 
@@ -25,7 +25,7 @@ internal class PlainTextFormatter : IDumpFormatter
         this.dump = null;
     }
 
-    private void FormatStruct(TextWriter w, ParStructure s)
+    protected virtual void FormatStruct(TextWriter w, ParStructure s)
     {
         Debug.Assert(dump != null);
 
@@ -60,7 +60,7 @@ internal class PlainTextFormatter : IDumpFormatter
         w.WriteLine();
     }
 
-    private void FormatEnum(TextWriter w, ParEnum e)
+    protected virtual void FormatEnum(TextWriter w, ParEnum e)
     {
         w.WriteLine($"enum {e.Name}");
         w.WriteLine("{");
@@ -103,40 +103,45 @@ internal class PlainTextFormatter : IDumpFormatter
         return (paddingBetweenTypeAndName, paddingBetweenNameAndComment);
     }
 
-    private void FormatMemberType(StringBuilder sb, ParMember m, out int length)
+    protected virtual void FormatMemberType(StringBuilder sb, ParMember m, out int length)
     {
         var start = sb.Length;
-        sb.Append(TypeToString(m.Type));
-        switch (m.Type)
-        {
-            case ParMemberType.STRUCT:
-                sb.Append(' ');
-                var structName = ((ParMemberStruct)m).StructName;
-                sb.Append(structName?.ToString() ?? "void");
-                break;
-            case ParMemberType.ENUM:
-                sb.Append(' ');
-                sb.Append(((ParMemberEnum)m).EnumName.ToString());
-                break;
-            case ParMemberType.BITSET:
-                sb.Append("<enum ");
-                sb.Append(((ParMemberEnum)m).EnumName.ToString());
-                sb.Append('>');
-                break;
-            case ParMemberType.ARRAY:
-                sb.Append('<');
-                FormatMemberType(sb, ((ParMemberArray)m).Item, out _);
-                sb.Append('>');
-                break;
-            case ParMemberType.MAP:
-                sb.Append('<');
-                FormatMemberType(sb, ((ParMemberMap)m).Key, out _);
-                sb.Append(", ");
-                FormatMemberType(sb, ((ParMemberMap)m).Value, out _);
-                sb.Append('>');
-                break;
-        }
+        formatRecursive(sb, m);
         length = sb.Length - start;
+
+        static void formatRecursive(StringBuilder sb, ParMember m)
+        {
+            sb.Append(TypeToString(m.Type));
+            switch (m.Type)
+            {
+                case ParMemberType.STRUCT:
+                    sb.Append(' ');
+                    var structName = ((ParMemberStruct)m).StructName;
+                    sb.Append(structName?.ToString() ?? "void");
+                    break;
+                case ParMemberType.ENUM:
+                    sb.Append(' ');
+                    sb.Append(((ParMemberEnum)m).EnumName.ToString());
+                    break;
+                case ParMemberType.BITSET:
+                    sb.Append("<enum ");
+                    sb.Append(((ParMemberEnum)m).EnumName.ToString());
+                    sb.Append('>');
+                    break;
+                case ParMemberType.ARRAY:
+                    sb.Append('<');
+                    formatRecursive(sb, ((ParMemberArray)m).Item);
+                    sb.Append('>');
+                    break;
+                case ParMemberType.MAP:
+                    sb.Append('<');
+                    formatRecursive(sb, ((ParMemberMap)m).Key);
+                    sb.Append(", ");
+                    formatRecursive(sb, ((ParMemberMap)m).Value);
+                    sb.Append('>');
+                    break;
+            }
+        }
     }
 
     private void FormatMemberComment(StringBuilder sb, ParMember m)
@@ -156,7 +161,7 @@ internal class PlainTextFormatter : IDumpFormatter
         }
     }
 
-    private string TypeToString(ParMemberType type)
+    private static string TypeToString(ParMemberType type)
         => type switch
         {
             ParMemberType.BOOL => "bool",
