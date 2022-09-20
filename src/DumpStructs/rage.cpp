@@ -150,53 +150,6 @@ const char* TypeToStr(parMemberType type)
 	}
 }
 
-const char* TypeToCasedStr(parMemberType type)
-{
-	switch (type)
-	{
-	case parMemberType::BOOL: return "bool";
-	case parMemberType::CHAR: return "char";
-	case parMemberType::UCHAR: return "uchar";
-	case parMemberType::SHORT: return "short";
-	case parMemberType::USHORT: return "ushort";
-	case parMemberType::INT: return "int";
-	case parMemberType::UINT: return "uint";
-	case parMemberType::FLOAT: return "float";
-	case parMemberType::VEC2V: return "vec2V";
-	case parMemberType::VECTOR2: return "vec2";
-	case parMemberType::VEC3V:  return "vec3V";
-	case parMemberType::VECTOR3: return "vec3";
-	case parMemberType::VEC4V:  return "vec4V";
-	case parMemberType::VECTOR4: return "vec4";
-	case parMemberType::STRING: return "string";
-	case parMemberType::STRUCT: return "struct";
-	case parMemberType::ARRAY: return "array";
-	case parMemberType::ENUM: return "enum";
-	case parMemberType::BITSET: return "bitset";
-	case parMemberType::MAP: return "map";
-	case parMemberType::MAT34V: return "matrix34V";
-	case parMemberType::MATRIX34: return "matrix34";
-	case parMemberType::MAT44V: return "matrix44V";
-	case parMemberType::MATRIX44: return "matrix44";
-	case parMemberType::MAT33V: return "matrix33V";
-	case parMemberType::SCALARV: return "scalarV";
-	case parMemberType::BOOLV: return "boolV";
-	case parMemberType::VECBOOLV: return "vecBoolV";
-	case parMemberType::PTRDIFFT: return "ptrdiff_t";
-	case parMemberType::SIZET: return "size_t";
-	case parMemberType::FLOAT16: return "float16";
-	case parMemberType::INT64: return "int64";
-	case parMemberType::UINT64: return "uint64";
-	case parMemberType::DOUBLE: return "double";
-#if RDR3
-	case parMemberType::GUID: return "guid";
-	case parMemberType::_0xFE5A582C: return "_0xFE5A582C";
-	case parMemberType::QUATV: return "quatV";
-#endif
-	default: return "UNKNOWN";
-	}
-}
-
 static void FlagsToStringAppend(std::string& s, const char* flagStr)
 {
 	if (s.size() > 0) s += ", ";

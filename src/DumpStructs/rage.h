@@ -378,7 +378,6 @@ struct parManager
 
 std::string SubtypeToStr(parMemberType type, uint8_t subtype);
 const char* TypeToStr(parMemberType type);
-const char* TypeToCasedStr(parMemberType type);
 
 std::string FlagsToString(parEnumFlags flags);
 std::string FlagsToString(parStructure::Flags flags);
