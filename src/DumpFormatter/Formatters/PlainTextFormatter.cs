@@ -29,12 +29,7 @@ internal class PlainTextFormatter : IDumpFormatter
     {
         Debug.Assert(dump != null);
 
-        w.Write($"struct {s.Name}");
-        if (s.Base != null)
-        {
-            w.Write($" : {s.Base.Value.Name}");
-        }
-        w.WriteLine();
+        FormatStructHeader(w, s);
         w.WriteLine("{");
         var (paddingBetweenTypeAndName, paddingBetweenNameAndComment) = CalculatePaddingForMembers(s);
         var memberNames = s.MemberNames;
@@ -57,6 +52,16 @@ internal class PlainTextFormatter : IDumpFormatter
         }
         w.Write(membersSB);
         w.WriteLine("};");
+        w.WriteLine();
+    }
+
+    protected virtual void FormatStructHeader(TextWriter w, ParStructure s)
+    {
+        w.Write($"struct {s.NameStr ?? s.Name.ToString()}");
+        if (s.Base != null)
+        {
+            w.Write($" : {s.Base.Value.Name}");
+        }
         w.WriteLine();
     }
 

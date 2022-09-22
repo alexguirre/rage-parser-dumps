@@ -35,6 +35,16 @@ internal class HtmlFormatter : PlainTextFormatter
         w.WriteLine("</pre>");
     }
 
+    protected override void FormatStructHeader(TextWriter w, ParStructure s)
+    {
+        w.Write($"struct {s.NameStr ?? s.Name.ToString()}");
+        if (s.Base != null)
+        {
+            w.Write($" : <a href=\"#{s.Base.Value.Name.Hash:X08}\">{s.Base.Value.Name}</a>");
+        }
+        w.WriteLine();
+    }
+
     protected override void FormatEnum(TextWriter w, ParEnum e)
     {
         w.WriteLine($"<pre class=\"prettyprint\" id=\"{e.Name.Hash:X08}\">");
