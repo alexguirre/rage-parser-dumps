@@ -63,7 +63,7 @@ internal static class Program
             dump = JsonSerializer.Deserialize<ParDump>(inputStream, opt) ?? throw new ArgumentException($"JSON deserialization of '{input.FullName}' returned null");
         }
 
-        using (var outputStream = output.OpenWrite())
+        using (var outputStream = output.Open(FileMode.Create, FileAccess.Write))
         {
             using var outputWriter = new StreamWriter(outputStream, Encoding.UTF8);
             formatter.Format(outputWriter, dump);
