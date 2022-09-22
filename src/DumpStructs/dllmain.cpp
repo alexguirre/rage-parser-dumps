@@ -201,6 +201,10 @@ static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, p
 	w.UInt("offset", m->offset, json_uint_hex_no_zero_pad);
 	w.UInt("flags1", m->flags1, json_uint_hex);
 	w.UInt("flags2", m->flags2, json_uint_hex);
+	if (m->extraData != 0 && m->type != parMemberType::ARRAY && m->type != parMemberType::STRING)
+	{
+		w.UInt("extraData", m->extraData, json_uint_hex);
+	}
 	w.String("type", TypeToStr(m->type));
 	w.String("subtype", SubtypeToStr(m->type, m->subType));
 	switch (m->type)
@@ -239,7 +243,10 @@ static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, p
 		//{
 		//	w.UInt("virtualCallbackFunc", (uintptr_t)arrayData->virtualCallback->func - (uintptr_t)GetModuleHandle(NULL), json_uint_hex);
 		//}
-		w.String("allocFlags", FlagsToString(arrayData->GetAllocFlags()));
+		if (arrayData->GetAllocFlags() != parMemberArrayData::AllocFlags(0))
+		{
+			w.String("allocFlags", FlagsToString(arrayData->GetAllocFlags()));
+		}
 		switch (static_cast<parMemberArraySubtype>(m->subType))
 		{
 		case parMemberArraySubtype::ATARRAY:
