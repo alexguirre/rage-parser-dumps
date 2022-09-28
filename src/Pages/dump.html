@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>rage::par</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script type="module" src="js/dump.js"></script>
+    <script type="module" src="js/components/PageHeader.js"></script>
+</head>
+<body>
+    <header is="page-header"></header>
+    <main>
+        <div id="game-info"></div>
+        <div id="loading">Loading...</div>
+        <div id="dump-subheader" hidden>
+            <input id="search" type="text" placeholder="Search" class="dump-search-box" />
+            <div class="dump-subheader-links">
+                <a id="dump-link-plain-text" download title="plain text" class="dump-icon dump-icon-plain-text"></a>
+                <a id="dump-link-json" download title="json" class="dump-icon dump-icon-json"></a>
+                <a id="dump-link-xsd" download title="xsd" class="dump-icon dump-icon-xsd"></a>
+            </div>
+        </div>
+        <div id="dump-contents"></div>
+    </main>
+</body>
+</html>

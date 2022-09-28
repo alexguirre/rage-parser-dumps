@@ -29,7 +29,12 @@ internal class PlainTextFormatter : IDumpFormatter
     {
         Debug.Assert(dump != null);
 
-        FormatStructHeader(w, s);
+        w.Write($"struct {s.NameStr ?? s.Name.ToString()}");
+        if (s.Base != null)
+        {
+            w.Write($" : {s.Base.Value.Name}");
+        }
+        w.WriteLine();
         w.WriteLine("{");
         var (paddingBetweenTypeAndName, paddingBetweenNameAndComment) = CalculatePaddingForMembers(s);
         var memberNames = s.MemberNames;
@@ -55,16 +60,6 @@ internal class PlainTextFormatter : IDumpFormatter
         w.WriteLine();
     }
 
-    protected virtual void FormatStructHeader(TextWriter w, ParStructure s)
-    {
-        w.Write($"struct {s.NameStr ?? s.Name.ToString()}");
-        if (s.Base != null)
-        {
-            w.Write($" : {s.Base.Value.Name}");
-        }
-        w.WriteLine();
-    }
-
     protected virtual void FormatEnum(TextWriter w, ParEnum e)
     {
         w.WriteLine($"enum {e.Name}");
@@ -81,7 +76,7 @@ internal class PlainTextFormatter : IDumpFormatter
         w.WriteLine();
     }
 
-    private (int PaddingBetweenTypeAndName, int PaddingBetweenNameAndComment) CalculatePaddingForMembers(ParStructure s)
+    protected (int PaddingBetweenTypeAndName, int PaddingBetweenNameAndComment) CalculatePaddingForMembers(ParStructure s)
     {
         int paddingBetweenTypeAndName = 32;
         int paddingBetweenNameAndComment = 32;
@@ -108,7 +103,7 @@ internal class PlainTextFormatter : IDumpFormatter
         return (paddingBetweenTypeAndName, paddingBetweenNameAndComment);
     }
 
-    protected virtual void FormatMemberType(StringBuilder sb, ParMember m, out int length)
+    protected void FormatMemberType(StringBuilder sb, ParMember m, out int length)
     {
         var start = sb.Length;
         formatRecursive(sb, m);
@@ -149,7 +144,7 @@ internal class PlainTextFormatter : IDumpFormatter
         }
     }
 
-    private void FormatMemberComment(StringBuilder sb, ParMember m)
+    protected void FormatMemberComment(StringBuilder sb, ParMember m)
     {
         sb.Append(" // type:");
         sb.Append(m.Type);

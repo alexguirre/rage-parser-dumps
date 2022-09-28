@@ -1,0 +1,244 @@
+:root {
+    --default-font-family: "Roboto", "Helvetica", sans-serif;
+    font-family: var(--default-font-family);
+
+    /* light mode */
+    --theme-background: #f6f8fa;
+    --theme-text: #000000;
+    --theme-switcher-contents: "☀️";
+    --theme-svg-icon-filter: none;
+    --theme-table-background: #f6f8fa;
+    --theme-table-background-alt: #f0f0f0;
+
+    /* based on Github's Light theme */
+    --theme-code-border: 1px solid #050a11;
+    --theme-code-background: #eeeeee;
+    --theme-code-keyword: #d73a49;
+    --theme-code-type: #6f42c1;
+    --theme-code-comment: #529949;
+}
+
+.dark-mode {
+    --theme-background: #11161d;
+    --theme-text: #eeeeee;
+    --theme-switcher-contents: "🌑";
+    --theme-svg-icon-filter: invert(0.8);
+    --theme-table-background: #11161d;
+    --theme-table-background-alt: #22272e;
+
+    /* based on Github's Dark Dimmed theme */
+    --theme-code-border: 1px solid #eeeeee;
+    --theme-code-background: #22272e;
+    --theme-code-keyword: #f47067;
+    --theme-code-type: #dcbdfb;
+    --theme-code-comment: #8ddb8c;
+}
+
+@font-face {
+    font-family: "Redemption";
+    src: url("../fonts/Redemption.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Pricedown";
+    src: url("../fonts/Pricedown.woff2") format("woff2");
+}
+
+body {
+    background: var(--theme-background);
+    color: var(--theme-text);
+    max-width: min(960px, 95%);
+    margin: auto;
+}
+
+header {
+    margin-top: 1.25em;
+    margin-bottom: 1.75em;
+}
+
+.header-title {
+    font-size: 2.5em;
+    font-weight: bold;
+    font-family: monospace;
+    color: var(--theme-text);
+    text-decoration: none;
+}
+
+.header-title:hover {
+    filter: invert(0.35);
+}
+
+.header-link-icon {
+    float: right;
+    margin-top: 0.67em;
+    margin-bottom: 0.67em;
+    margin-right: 0.67em;
+    filter: var(--theme-svg-icon-filter);
+}
+
+.header-link-icon:hover {
+    filter: invert(0.35);
+}
+
+.header-theme-switcher {
+    float: right;
+    margin-top: 0.67em;
+    margin-bottom: 0.67em;
+}
+
+.header-theme-switcher:hover {
+    cursor: pointer;
+    filter: invert(0.125);
+}
+
+.header-theme-switcher::after {
+    content: var(--theme-switcher-contents);
+}
+
+.gta5-font {
+    font-family: "Pricedown", var(--default-font-family);
+}
+
+.rdr3-font {
+    font-family: "Redemption", var(--default-font-family);
+}
+
+.gta5-font > small, .rdr3-font > small {
+    font-family: var(--default-font-family);
+}
+
+.dump-table-wrapper {
+    margin-top: 1em;
+    margin-bottom: 4em;
+}
+
+.dump-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.dump-table th, td {
+    text-align: left;
+    padding: 10px;
+}
+
+.dump-table thead > tr {
+    background-color: var(--theme-table-background);
+    border-bottom: 2px solid var(--theme-text);
+    border-top: 2px solid var(--theme-text);
+}
+
+.dump-table tbody > tr:nth-child(odd) {
+    background-color: var(--theme-table-background-alt);
+}
+
+.dump-table tbody > tr:nth-child(even) {
+    background-color: var(--theme-table-background);
+}
+
+.dump-table tbody > tr:last-child {
+    border-bottom: 2px solid var(--theme-text);
+}
+
+.dump-icon::before {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin-left: 0.7em;
+    margin-right: 0.7em;
+    content: "";
+    background-size: 100%;
+    filter: var(--theme-svg-icon-filter);
+    transition: transform 0.1s;
+}
+
+.dump-icon:hover {
+    filter: invert(0.35);
+}
+
+.dump-icon:hover::before {
+    transform: scale(1.115);
+}
+
+.dump-icon-html::before {
+    margin-right: 0.9em;
+    background: url("../img/dump-icon-html.svg") no-repeat 0 0;
+}
+
+.dump-icon-plain-text::before {
+    background: url("../img/dump-icon-plain-text.svg") no-repeat 0 0;
+}
+
+.dump-icon-json::before {
+    background: url("../img/dump-icon-json.svg") no-repeat 0 0;
+}
+
+.dump-icon-xsd::before {
+    background: url("../img/dump-icon-xsd.svg") no-repeat 0 0;
+}
+
+.dump-subheader-links {
+    float: right;
+    vertical-align: middle;
+}
+
+.dump-search-box {
+    display: inline-block;
+    vertical-align: middle;
+    width: 75%;
+}
+
+#dump-contents > ul {
+    margin-left: 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+#dump-contents > ul > li {
+    padding: 0;
+    margin: 0;
+}
+
+#dump-contents > ul > li > pre {
+    padding: 0;
+    margin: 0;
+    margin-bottom: 0.25em;
+}
+
+code {
+    display: block;
+    overflow-x: auto;
+    padding: 0.8em;
+    background: var(--theme-code-background);
+    border: var(--theme-code-border);
+    border-radius: 6px;
+}
+
+/* code classes use short names to slightly reduce HTML dumps size*/
+/* .code-wrapper */
+/* .c-w {
+} */
+
+/* .code-keyword */
+.c-k {
+    color: var(--theme-code-keyword);
+}
+
+/* .code-type */
+.c-t {
+    color: var(--theme-code-type);
+}
+
+/* .code-type-link */
+.c-t-l {
+    text-decoration: none;
+}
+
+/* .c-t-l:hover {
+    background-color: red;
+} */
+
+/* .code-comment */
+.c-c {
+    color: var(--theme-code-comment);
+}

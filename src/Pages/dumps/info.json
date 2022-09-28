@@ -1,0 +1,30 @@
+{
+    "gta5": [
+        {
+            "build": 1234,
+            "aliases": ["mpdlc"]
+        },
+        {
+            "build": 1491,
+            "aliases": ["mpdlc1", "mp_dlc1"]
+        },
+        {
+            "build": 5678,
+            "aliases": ["mpdlc2"]
+        }
+    ],
+    "rdr3": [
+        {
+            "build": 1234,
+            "aliases": ["mpdlc"]
+        },
+        {
+            "build": 1491,
+            "aliases": ["mpdlc1", "mp_dlc1"]
+        },
+        {
+            "build": 5678,
+            "aliases": ["mpdlc2"]
+        }
+    ]
+}

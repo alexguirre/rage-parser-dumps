@@ -7,85 +7,185 @@ namespace DumpFormatter.Formatters;
 
 internal class HtmlFormatter : PlainTextFormatter
 {
+    private ParDump? dump;
+    
     public override void Format(TextWriter writer, ParDump dump)
     {
-        writer.WriteLine(@"
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset=""utf-8"" />
-    <title>Test</title>
-    <script src=""https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?autoload=true&amp;skin=default&amp;lang=css""></script>
-    <style type=""text/css"">
-    </style>
-</head>
-<body>");
+        this.dump = dump;
 
-        base.Format(writer, dump);
+        writer.Write($"<ul>");
+        foreach (var s in dump.Structs.OrderBy(s => s.Name.ToString()))
+        {
+            FormatStruct(writer, s);
+        }
+        foreach (var e in dump.Enums.OrderBy(s => s.Name.ToString()))
+        {
+            FormatEnum(writer, e);
+        }
+        writer.Write($"</ul>");
 
-        writer.WriteLine(@"
-</body>
-</html>");
+        this.dump = null;
+    }
+
+    private void BeginCodeBlock(TextWriter w, Name name)
+    {
+        w.Write($"<li><pre id=\"{name.Hash:X08}\"><code>");
+    }
+
+    private void EndCodeBlock(TextWriter w, Name name)
+    {
+        w.Write($"</code></pre></li>");
     }
 
     protected override void FormatStruct(TextWriter w, ParStructure s)
     {
-        w.WriteLine($"<pre class=\"prettyprint\" id=\"{s.Name.Hash:X08}\">");
-        base.FormatStruct(w, s);
-        w.WriteLine("</pre>");
-    }
-
-    protected override void FormatStructHeader(TextWriter w, ParStructure s)
-    {
-        w.Write($"struct {s.NameStr ?? s.Name.ToString()}");
+        BeginCodeBlock(w, s.Name);
+        w.Write($"{Keyword("struct")} {Type(s.NameStr ?? s.Name.ToString())}<span class=\"c-w\" hidden>");
         if (s.Base != null)
         {
-            w.Write($" : <a href=\"#{s.Base.Value.Name.Hash:X08}\">{s.Base.Value.Name}</a>");
+            w.Write($" : {TypeLink(s.Base.Value.Name)}");
         }
         w.WriteLine();
+        w.WriteLine("{");
+        var (paddingBetweenTypeAndName, paddingBetweenNameAndComment) = CalculatePaddingForMembers(s);
+        var memberNames = s.MemberNames;
+        var membersOrdered = s.Members.Select((m, i) => (Member: m, Index: i)).OrderBy(m => m.Member.Offset).ToArray();
+        var membersSB = new StringBuilder();
+        var tmpSB = new StringBuilder();
+        for (int i = 0; i < membersOrdered.Length; i++)
+        {
+            var member = membersOrdered[i].Member;
+            var name = !memberNames.IsDefaultOrEmpty ? memberNames[membersOrdered[i].Index] : member.Name.ToString();
+
+            membersSB.Append('\t');
+            tmpSB.Clear();
+            FormatMemberType(tmpSB, member, out var typeLength);
+            FormatMemberTypeHTML(membersSB, member);
+            membersSB.Append(' ', paddingBetweenTypeAndName - typeLength);
+            membersSB.Append(' ');
+            membersSB.Append(name);
+            membersSB.Append(';');
+            membersSB.Append(' ', paddingBetweenNameAndComment - name.Length - 1);
+            FormatMemberCommentHTML(membersSB, member);
+            membersSB.AppendLine();
+        }
+        w.Write(membersSB);
+        w.WriteLine("};</span>");
+        EndCodeBlock(w, s.Name);
     }
 
     protected override void FormatEnum(TextWriter w, ParEnum e)
     {
-        w.WriteLine($"<pre class=\"prettyprint\" id=\"{e.Name.Hash:X08}\">");
-        base.FormatEnum(w, e);
-        w.WriteLine("</pre>");
-    }
-
-    protected override void FormatMemberType(StringBuilder sb, ParMember m, out int length)
-    {
-        int startIndex = sb.Length;
-        base.FormatMemberType(sb, m, out length);
-        sb.Replace("<", "&lt", startIndex, sb.Length - startIndex)
-          .Replace(">", "&gt", startIndex, sb.Length - startIndex);
-
-        // add links to types
-        foreach (var (typeStr, typeName) in enumerateTypeNames(m))
+        BeginCodeBlock(w, e.Name);
+        w.Write(Keyword("enum"));
+        w.Write(' ');
+        w.Write(Type(e.Name.ToString()));
+        w.WriteLine("<span class=\"c-w\" hidden>");
+        w.WriteLine("{");
+        var valueNames = e.ValueNames;
+        for (int i = 0; i < e.Values.Length; i++)
         {
-            if (!typeName.HasValue) { continue; }
+            var value = e.Values[i];
+            var name = !valueNames.IsDefaultOrEmpty ? valueNames[i] : value.Name.ToString();
 
-            var typeNameStr = typeName.Value.ToString();
-            sb.Replace($"{typeStr} {typeNameStr}", $"{typeStr} <a href=\"#{typeName.Value.Hash:X08}\">{typeNameStr}</a>", startIndex, sb.Length - startIndex);
+            w.WriteLine($"\t{name} = {value.Value},");
         }
+        w.WriteLine("};</span>");
+        EndCodeBlock(w, e.Name);
+    }
+    
+    private void FormatMemberTypeHTML(StringBuilder sb, ParMember m)
+    {
+        formatRecursive(sb, m);
 
-        static IEnumerable<(string TypeStr, Name? TypeName)> enumerateTypeNames(ParMember m)
+        static void formatRecursive(StringBuilder sb, ParMember m)
         {
-            switch (m)
+            sb.Append(TypeToString(m.Type));
+            switch (m.Type)
             {
-                case ParMemberStruct s:
-                    yield return ("struct", s.StructName);
+                case ParMemberType.STRUCT:
+                    sb.Append(' ');
+                    var structName = ((ParMemberStruct)m).StructName;
+                    sb.Append(structName != null ? TypeLink(structName.Value) : Keyword("void"));
                     break;
-                case ParMemberEnum e:
-                    yield return ("enum", e.EnumName);
+                case ParMemberType.ENUM:
+                    sb.Append(' ');
+                    sb.Append(TypeLink(((ParMemberEnum)m).EnumName));
                     break;
-                case ParMemberArray arr:
-                    foreach (var n in enumerateTypeNames(arr.Item)) { yield return n; }
+                case ParMemberType.BITSET:
+                    sb.Append('<');
+                    sb.Append(Keyword("enum"));
+                    sb.Append(' ');
+                    sb.Append(TypeLink(((ParMemberEnum)m).EnumName));
+                    sb.Append('>');
                     break;
-                case ParMemberMap map:
-                    foreach (var n in enumerateTypeNames(map.Key)) { yield return n; }
-                    foreach (var n in enumerateTypeNames(map.Value)) { yield return n; }
+                case ParMemberType.ARRAY:
+                    sb.Append('<');
+                    formatRecursive(sb, ((ParMemberArray)m).Item);
+                    sb.Append('>');
+                    break;
+                case ParMemberType.MAP:
+                    sb.Append('<');
+                    formatRecursive(sb, ((ParMemberMap)m).Key);
+                    sb.Append(", ");
+                    formatRecursive(sb, ((ParMemberMap)m).Value);
+                    sb.Append('>');
                     break;
             }
         }
     }
+
+    private void FormatMemberCommentHTML(StringBuilder sb, ParMember m)
+    {
+        sb.Append("<span class=\"c-c\">");
+        FormatMemberComment(sb, m);
+        sb.Append("</span>");
+    }
+
+    private static string TypeToString(ParMemberType type)
+        => type switch
+        {
+            ParMemberType.BOOL => Keyword("bool"),
+            ParMemberType.CHAR => Keyword("char"),
+            ParMemberType.UCHAR => Keyword("uchar"),
+            ParMemberType.SHORT => Keyword("short"),
+            ParMemberType.USHORT => Keyword("ushort"),
+            ParMemberType.INT => Keyword("int"),
+            ParMemberType.UINT => Keyword("uint"),
+            ParMemberType.FLOAT => Keyword("float"),
+            ParMemberType.VECTOR2 => Type("Vector2"),
+            ParMemberType.VECTOR3 => Type("Vector3"),
+            ParMemberType.VECTOR4 => Type("Vector4"),
+            ParMemberType.STRING => Keyword("string"),
+            ParMemberType.STRUCT => Keyword("struct"),
+            ParMemberType.ARRAY => Keyword("array"),
+            ParMemberType.ENUM => Keyword("enum"),
+            ParMemberType.BITSET => Keyword("bitset"),
+            ParMemberType.MAP => Keyword("map"),
+            ParMemberType.MATRIX34 => Type("Matrix34"),
+            ParMemberType.MATRIX44 => Type("Matrix44"),
+            ParMemberType.VEC2V => Type("Vec2V"),
+            ParMemberType.VEC3V => Type("Vec3V"),
+            ParMemberType.VEC4V => Type("Vec4V"),
+            ParMemberType.MAT33V => Type("Mat33V"),
+            ParMemberType.MAT34V => Type("Mat34V"),
+            ParMemberType.MAT44V => Type("Mat44V"),
+            ParMemberType.SCALARV => Type("ScalarV"),
+            ParMemberType.BOOLV => Type("BoolV"),
+            ParMemberType.VECBOOLV => Type("VecBoolV"),
+            ParMemberType.PTRDIFFT => Keyword("ptrdiff_t"),
+            ParMemberType.SIZET => Keyword("size_t"),
+            ParMemberType.FLOAT16 => Keyword("float16"),
+            ParMemberType.INT64 => Keyword("int64"),
+            ParMemberType.UINT64 => Keyword("uint64"),
+            ParMemberType.DOUBLE => Keyword("double"),
+            ParMemberType.GUID => Keyword("guid"),
+            ParMemberType._0xFE5A582C => Type("_0xFE5A582C"),
+            ParMemberType.QUATV => Type("QuatV"),
+            _ => "UNKNOWN",
+        };
+
+    private static string Keyword(string keyword) => $"<span class=\"c-k\">{keyword}</span>";
+    private static string Type(string type) => $"<span class=\"c-t\">{type}</span>";
+    private static string TypeLink(Name name) => $"<a href=\"#{name.Hash:X08}\" class=\"c-t-l\">{Type(name.ToString())}</a>";
 }

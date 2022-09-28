@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>rage::par</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script type="module" src="js/components/PageHeader.js"></script>
+    <script type="module" src="js/components/DumpTablesContainer.js"></script>
+</head>
+<body>
+    <template id="dump-table-template">
+        <link rel="stylesheet" href="css/style.css">
+        <div class="dump-table-wrapper">
+            <h2 class="dump-title">Unknown game</h2>
+            <table class="dump-table">
+                <thead>
+                    <tr>
+                        <th>Build</th>
+                        <th>Aliases</th>
+                        <th>Links</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </template>
+    <template id="dump-table-row-template">
+        <td>???</td>
+        <td>-</td>
+        <td>
+            <a title="html page" class="dump-icon dump-icon-html"></a>
+            <a download title="plain text" class="dump-icon dump-icon-plain-text"></a>
+            <a download title="json" class="dump-icon dump-icon-json"></a>
+            <a download title="xsd" class="dump-icon dump-icon-xsd"></a>
+        </td>
+    </template>
+
+    <header is="page-header"></header>
+    <main>
+        <dump-tables-container></dump-tables-container>
+    </main>
+</body>
+</html>
