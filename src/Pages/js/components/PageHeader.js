@@ -1,3 +1,5 @@
+import { THEME_SWITCHER_ID, themeInit } from "../theming.js";
+
 export default class PageHeader extends HTMLElement {
     constructor() {
         super();
@@ -5,7 +7,7 @@ export default class PageHeader extends HTMLElement {
         const shadow = this.attachShadow({ mode: "open" });
         shadow.innerHTML = `
         <link rel="stylesheet" href="css/style.css">
-        <div id="theme-switcher" class="header-theme-switcher"></div>
+        <div id="${THEME_SWITCHER_ID}" class="header-theme-switcher"></div>
         <a class="header-title" href="/">rage::par</a>
         <a class="header-link-icon" href="https://github.com/alexguirre/gtav-DumpStructs">
             <svg width="24" height="24" viewBox="0 0 16 16" version="1.1" data-view-component="true">
@@ -18,40 +20,3 @@ export default class PageHeader extends HTMLElement {
     }
 }
 customElements.define('page-header', PageHeader, { extends: "header" });
-
-// theme support
-function themeInit(root) {
-    const themeSwitcher = root.querySelector("#theme-switcher");
-    themeSwitcher.addEventListener("click", function() {
-        themeManualToggle();
-    });
-
-    themeUpdate();
-
-    window.addEventListener("storage", function() {
-        themeUpdate();
-    });
-
-    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function() {
-        themeUpdate();
-    });
-}
-
-function themeManualToggle() {
-    let usingDarkTheme = document.body.classList.toggle("dark-mode");
-    localStorage.setItem("theme", usingDarkTheme ? "dark" : "light");
-}
-
-function themeUpdate() {
-    let theme = localStorage.getItem("theme");
-    if (theme === null) {
-        const systemDarkTheme = window.matchMedia("(prefers-color-scheme: dark)");
-        theme = systemDarkTheme.matches ? "dark" : "light";
-    }
-
-    if (theme === "dark") {
-        document.body.classList.add("dark-mode");
-    } else {
-        document.body.classList.remove("dark-mode");
-    }
-}

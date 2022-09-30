@@ -4,8 +4,8 @@
     <meta charset="utf-8" />
     <title>rage::par</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="js/theming.early.js"></script>
     <script type="module" src="js/dump.js"></script>
-    <script type="module" src="js/components/PageHeader.js"></script>
 </head>
 <body>
     <header is="page-header"></header>
@@ -13,14 +13,17 @@
         <div id="game-info"></div>
         <div id="loading">Loading...</div>
         <div id="dump-subheader" hidden>
-            <input id="search" type="text" placeholder="Search" class="dump-search-box" />
+            <input id="dump-search" type="text" placeholder="Search..." class="dump-search-box" />
             <div class="dump-subheader-links">
+                <a id="dump-link-html" download title="html" class="dump-icon dump-icon-html"></a>
                 <a id="dump-link-plain-text" download title="plain text" class="dump-icon dump-icon-plain-text"></a>
                 <a id="dump-link-json" download title="json" class="dump-icon dump-icon-json"></a>
                 <a id="dump-link-xsd" download title="xsd" class="dump-icon dump-icon-xsd"></a>
             </div>
         </div>
-        <div id="dump-contents"></div>
+        <div id="dump-contents" hidden>
+            <p id="dump-contents-error-msg" hidden></p>
+        </div>
     </main>
 </body>
 </html>

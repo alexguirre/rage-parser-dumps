@@ -1,4 +1,4 @@
-import { gameIdToName } from '../util.js';
+import { gameIdToFormattedName } from '../util.js';
 import DumpTableRow from "./DumpTableRow.js";
 
 export default class DumpTable extends HTMLElement {
@@ -15,8 +15,7 @@ export default class DumpTable extends HTMLElement {
         const content = template.content.cloneNode(true);
 
         const header = content.querySelector("h2");
-        header.classList.add(`${game}-font`);
-        header.textContent = gameIdToName(game);
+        header.innerHTML = gameIdToFormattedName(game);
         this.#body = content.querySelector("tbody");
 
         // expand/collapse not needed for now

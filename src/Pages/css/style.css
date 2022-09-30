@@ -9,6 +9,10 @@
     --theme-svg-icon-filter: none;
     --theme-table-background: #f6f8fa;
     --theme-table-background-alt: #f0f0f0;
+    --theme-game-title-base-color: #ffffff;
+    --theme-game-title-border-color: #000000;
+    --theme-game-title-border-offset: 2px;
+    --theme-game-title-border-offset-neg: -2px;
 
     /* based on Github's Light theme */
     --theme-code-border: 1px solid #050a11;
@@ -42,6 +46,11 @@
 @font-face {
     font-family: "Pricedown";
     src: url("../fonts/Pricedown.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Slate W01 Bold Italic";
+    src: url("../fonts/Slate-W01-Bold-Italic.woff2") format("woff2");
 }
 
 body {
@@ -95,21 +104,65 @@ header {
     content: var(--theme-switcher-contents);
 }
 
-.gta5-font {
+/* game titles fonts */
+.gta4-font, .gta5-font, .gta6-font {
     font-family: "Pricedown", var(--default-font-family);
 }
 
-.rdr3-font {
+.gta5-font-detail {
+    color: #559433;
+}
+
+.gta6-font-detail {
+    --theme-game-title-border-color: #f47afe;
+}
+
+.rdr2-font, .rdr3-font {
     font-family: "Redemption", var(--default-font-family);
 }
 
-.gta5-font > small, .rdr3-font > small {
+.rdr3-font-detail {
+    color: #ee0000;
+}
+
+.mp3-font {
+    font-family: "Slate W01 Bold Italic", var(--default-font-family);
+    --theme-game-title-border-offset: 1px;
+    --theme-game-title-border-offset-neg: -1px;
+}
+
+.mp3-font-detail {
+    color: #f1b525;
+}
+
+.gta4-font, .gta5-font, .gta6-font, .gta6-font-detail, .rdr2-font, .rdr3-font, .mp3-font {
+    color: var(--theme-game-title-base-color);
+    text-shadow:
+        var(--theme-game-title-border-offset-neg) var(--theme-game-title-border-offset-neg) 0 var(--theme-game-title-border-color),
+        0                                         var(--theme-game-title-border-offset-neg) 0 var(--theme-game-title-border-color),
+        var(--theme-game-title-border-offset)     var(--theme-game-title-border-offset-neg) 0 var(--theme-game-title-border-color),
+        var(--theme-game-title-border-offset)     0                                         0 var(--theme-game-title-border-color),
+        var(--theme-game-title-border-offset)     var(--theme-game-title-border-offset)     0 var(--theme-game-title-border-color),
+        0                                         var(--theme-game-title-border-offset)     0 var(--theme-game-title-border-color),
+        var(--theme-game-title-border-offset-neg) var(--theme-game-title-border-offset)     0 var(--theme-game-title-border-color),
+        var(--theme-game-title-border-offset-neg) 0                                         0 var(--theme-game-title-border-color);
+}
+
+.mp3-font > small,
+.gta4-font > small,
+.gta5-font > small,
+.gta6-font > small,
+.rdr2-font > small,
+.rdr3-font > small {
+    /* reset font changes for small text */
     font-family: var(--default-font-family);
+    color: var(--theme-text);
+    text-shadow: none;
 }
 
 .dump-table-wrapper {
     margin-top: 1em;
-    margin-bottom: 4em;
+    margin-bottom: 2em;
 }
 
 .dump-table {
@@ -140,13 +193,14 @@ header {
     border-bottom: 2px solid var(--theme-text);
 }
 
-.dump-icon::before {
+.dump-icon {
     display: inline-block;
-    width: 24px;
-    height: 24px;
-    margin-left: 0.7em;
-    margin-right: 0.7em;
-    content: "";
+    width: 28px;
+    height: 28px;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    background-repeat: no-repeat;
+    background-position: 0 50%;
     background-size: 100%;
     filter: var(--theme-svg-icon-filter);
     transition: transform 0.1s;
@@ -154,27 +208,28 @@ header {
 
 .dump-icon:hover {
     filter: invert(0.35);
-}
-
-.dump-icon:hover::before {
     transform: scale(1.115);
 }
 
-.dump-icon-html::before {
-    margin-right: 0.9em;
-    background: url("../img/dump-icon-html.svg") no-repeat 0 0;
+.dump-icon-page {
+    margin-right: 0.7em;
+    background-image: url("../img/dump-icon-page.svg");
 }
 
-.dump-icon-plain-text::before {
-    background: url("../img/dump-icon-plain-text.svg") no-repeat 0 0;
+.dump-icon-html {
+    background-image: url("../img/dump-icon-html.svg");
 }
 
-.dump-icon-json::before {
-    background: url("../img/dump-icon-json.svg") no-repeat 0 0;
+.dump-icon-plain-text {
+    background-image: url("../img/dump-icon-plain-text.svg");
 }
 
-.dump-icon-xsd::before {
-    background: url("../img/dump-icon-xsd.svg") no-repeat 0 0;
+.dump-icon-json {
+    background-image: url("../img/dump-icon-json.svg");
+}
+
+.dump-icon-xsd {
+    background-image: url("../img/dump-icon-xsd.svg");
 }
 
 .dump-subheader-links {
@@ -186,32 +241,61 @@ header {
     display: inline-block;
     vertical-align: middle;
     width: 75%;
+    background: var(--theme-code-background);
+    border: var(--theme-code-border);
+    border-radius: 6px;
+}
+
+#dump-subheader {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+#dump-contents-error-msg {
+    margin: 0;
+}
+
+#dump-contents {
+    background: var(--theme-code-background);
+    border: var(--theme-code-border);
+    border-radius: 6px;
+    padding: 0.4em;
+    margin: 1em 0;
 }
 
 #dump-contents > ul {
-    margin-left: 0;
-    padding-left: 0;
+    margin: 0;
+    padding: 0;
     list-style: none;
 }
 
 #dump-contents > ul > li {
-    padding: 0;
+    padding: 0.08em 0.2em;
     margin: 0;
 }
 
 #dump-contents > ul > li > pre {
     padding: 0;
     margin: 0;
-    margin-bottom: 0.25em;
 }
 
 code {
     display: block;
     overflow-x: auto;
-    padding: 0.8em;
-    background: var(--theme-code-background);
-    border: var(--theme-code-border);
-    border-radius: 6px;
+    /* padding-left: 1.5em; */
+    /* margin-left: 10.0em; */
+    margin-left: 1.0em;
+}
+
+code::before {
+    display: inline-block;
+    content: "+";
+    position: absolute;
+    margin-left: -1.0em;
+}
+
+code.expanded::before {
+    content: "-";
 }
 
 /* code classes use short names to slightly reduce HTML dumps size*/

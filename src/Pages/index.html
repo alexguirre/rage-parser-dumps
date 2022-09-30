@@ -4,8 +4,8 @@
     <meta charset="utf-8" />
     <title>rage::par</title>
     <link rel="stylesheet" href="css/style.css">
-    <script type="module" src="js/components/PageHeader.js"></script>
-    <script type="module" src="js/components/DumpTablesContainer.js"></script>
+    <script src="js/theming.early.js"></script>
+    <script type="module" src="js/index.js"></script>
 </head>
 <body>
     <template id="dump-table-template">
@@ -29,7 +29,8 @@
         <td>???</td>
         <td>-</td>
         <td>
-            <a title="html page" class="dump-icon dump-icon-html"></a>
+            <a title="html page" class="dump-icon dump-icon-page"></a>
+            <a download title="html" class="dump-icon dump-icon-html"></a>
             <a download title="plain text" class="dump-icon dump-icon-plain-text"></a>
             <a download title="json" class="dump-icon dump-icon-json"></a>
             <a download title="xsd" class="dump-icon dump-icon-xsd"></a>

@@ -1,35 +1,47 @@
-import { gameIdToName, getDumpURL } from './util.js';
+// components used in the HTML
+import "./components/PageHeader.js";
+
+import { gameIdToFormattedName, getDumpURL } from './util.js';
 
 function init() {
     const loc = new URL(document.location);
     const game = loc.searchParams.get("game");
     const build = loc.searchParams.get("build");
 
-    let gameName = gameIdToName(game);
-    document.querySelector("#game-info").innerHTML = `
-        <h2 class="${game}-font">${gameName} <small>(build ${build})</small></h2> 
+    let gameName = gameIdToFormattedName(game);
+    document.getElementById("game-info").innerHTML = `
+        <h2>${gameName} <small>(build ${build})</small></h2> 
     `;
     document.title += ` — ${gameName} (build ${build})`;
 
-    document.querySelector("#dump-link-plain-text").href = getDumpURL(game, build, "txt");
-    document.querySelector("#dump-link-json").href = getDumpURL(game, build, "json");
-    document.querySelector("#dump-link-xsd").href = getDumpURL(game, build, "xsd");
+    document.getElementById("dump-link-html").href = getDumpURL(game, build, "html");
+    document.getElementById("dump-link-plain-text").href = getDumpURL(game, build, "txt");
+    document.getElementById("dump-link-json").href = getDumpURL(game, build, "json");
+    document.getElementById("dump-link-xsd").href = getDumpURL(game, build, "xsd");
 
     const htmlLoc = getDumpURL(game, build, "html");
     fetch(htmlLoc)
         .then(response => response.text())
         .then(text => {
-            document.querySelector("#loading").hidden = true;
-            document.querySelector("#dump-subheader").hidden = text.length === 0;
-            const dumpContents = document.querySelector("#dump-contents");
-            dumpContents.innerHTML = text.length !== 0 ? text : "<p>Failed to fetch dump for this build.</p>";
+            const isEmpty = text.length === 0;
+            const dumpContents = document.getElementById("dump-contents");
+            if (isEmpty) {
+                setErrorMsg("Failed to fetch dump for this build.");
+            } else {
+                dumpContents.insertAdjacentHTML("beforeend", text);
+            }
             enableSearch(loc.searchParams.get("search"));
 
             // enable struct collapsing
             dumpContents.querySelectorAll("ul > li").forEach(li => li.addEventListener("click", e => {
                 const codeWrapper = li.querySelector(".c-w");
                 codeWrapper.hidden = !codeWrapper.hidden;
+                li.querySelector("code").classList.toggle("expanded");
             }));
+
+            document.getElementById("loading").hidden = true;
+            document.getElementById("dump-subheader").hidden = isEmpty;
+            dumpContents.hidden = false;
 
             // manually scroll to the struct specified in the URL once the dump is loaded
             if (loc.hash.length > 0) {
@@ -41,29 +53,34 @@ function init() {
             }
         })
         .catch(error => {
-            document.querySelector("#loading").hidden = true;
-            const dumpContents = document.querySelector("#dump-contents");
-            dumpContents.innerHTML = "<p>Failed to fetch dump for this build.</p>";
             console.error(error);
+
+            setErrorMsg("Failed to fetch dump for this build.");
+            document.getElementById("loading").hidden = true;
+            document.getElementById("dump-contents").hidden = false;
         });
 }
 
 function enableSearch(defaultSearch) {
-    const dumpContents = document.querySelector("#dump-contents");
+    const dumpContents = document.getElementById("dump-contents");
     const elements = Array.from(dumpContents.querySelectorAll("ul > li")).map(liElem => ({ name: liElem.querySelector("pre > code > span.c-t").textContent, li: liElem }));
     const doSearch = text => {
+        let numResults = 0;
         let length = elements.length;
         for(let index = 0; index < length; index++) {
             let elem = elements[index];
-            if (text.length === 0) {
-                elem.li.hidden = false;
-            } else {
-                elem.li.hidden = elem.name.indexOf(text) === -1;
+            let hide = text.length !== 0 && elem.name.indexOf(text) === -1;
+            if (!hide) {
+                numResults++;
             }
+
+            elem.li.hidden = hide;
         }
+
+        setErrorMsg(numResults !== 0 ? null : "No results found.");
     }
 
-    const searchInput = document.querySelector("#search");
+    const searchInput = document.getElementById("dump-search");
     searchInput.addEventListener("input", e => {
         const searchText = e.target.value;
 
@@ -82,6 +99,16 @@ function enableSearch(defaultSearch) {
     if (defaultSearch !== null) {
         searchInput.value = defaultSearch;
         doSearch(defaultSearch);
+    }
+}
+
+function setErrorMsg(msg) {
+    const elem = document.getElementById("dump-contents-error-msg");
+    if (msg) {
+        elem.textContent = msg;
+        elem.hidden = false;
+    } else {
+        elem.hidden = true;
     }
 }
 
