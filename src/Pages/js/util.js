@@ -1,3 +1,16 @@
+
+function gameIdToName(id) {
+    switch (id) {
+        case "gta4": return "Grand Theft Auto IV";
+        case "gta5": return "Grand Theft Auto V";
+        case "gta6": return "Grand Theft Auto VI";
+        case "rdr2": return "Red Dead Redemption";
+        case "rdr3": return "Red Dead Redemption II";
+        case "mp3":  return "Max Payne 3";
+        default:     return "Unknown game";
+    }
+}
+
 function gameIdToFormattedName(id) {
     let name = `<span class=\"${id}-font\">`;
     switch (id) {
@@ -17,4 +30,4 @@ function getDumpURL(game, build, ext) {
     return `dumps/${game}/b${build}.${ext}`;
 }
 
-export { gameIdToFormattedName, getDumpURL };
+export { gameIdToName, gameIdToFormattedName, getDumpURL };

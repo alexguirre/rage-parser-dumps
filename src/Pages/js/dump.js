@@ -1,18 +1,15 @@
 // components used in the HTML
 import "./components/PageHeader.js";
 
-import { gameIdToFormattedName, getDumpURL } from './util.js';
+import { gameIdToName, gameIdToFormattedName, getDumpURL } from './util.js';
 
 function init() {
     const loc = new URL(document.location);
     const game = loc.searchParams.get("game");
     const build = loc.searchParams.get("build");
 
-    let gameName = gameIdToFormattedName(game);
-    document.getElementById("game-info").innerHTML = `
-        <h2>${gameName} <small>(build ${build})</small></h2> 
-    `;
-    document.title += ` — ${gameName} (build ${build})`;
+    document.getElementById("game-info").innerHTML = `<h2>${gameIdToFormattedName(game)} <small>(build ${build})</small></h2>`;
+    document.title += ` — ${gameIdToName(game)} (build ${build})`;
 
     document.getElementById("dump-link-html").href = getDumpURL(game, build, "html");
     document.getElementById("dump-link-plain-text").href = getDumpURL(game, build, "txt");
@@ -28,7 +25,12 @@ function init() {
             if (isEmpty) {
                 setErrorMsg("Failed to fetch dump for this build.");
             } else {
-                dumpContents.insertAdjacentHTML("beforeend", text);
+                const dumpHTML = new DOMParser().parseFromString(text, "text/html");
+                const structsList = dumpHTML.querySelector("body > main > ul");
+                for (const codeWrapper of structsList.getElementsByClassName("c-w")) {
+                    codeWrapper.hidden = true;
+                }
+                dumpContents.appendChild(structsList);
             }
             enableSearch(loc.searchParams.get("search"));
 

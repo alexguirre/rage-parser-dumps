@@ -5,14 +5,9 @@
     /* light mode */
     --theme-background: #f6f8fa;
     --theme-text: #000000;
-    --theme-switcher-contents: "☀️";
     --theme-svg-icon-filter: none;
     --theme-table-background: #f6f8fa;
     --theme-table-background-alt: #f0f0f0;
-    --theme-game-title-base-color: #ffffff;
-    --theme-game-title-border-color: #000000;
-    --theme-game-title-border-offset: 2px;
-    --theme-game-title-border-offset-neg: -2px;
 
     /* based on Github's Light theme */
     --theme-code-border: 1px solid #050a11;
@@ -20,12 +15,16 @@
     --theme-code-keyword: #d73a49;
     --theme-code-type: #6f42c1;
     --theme-code-comment: #529949;
+
+    --theme-game-title-base-color: #ffffff;
+    --theme-game-title-border-color: #000000;
+    --theme-game-title-border-offset: 2px;
+    --theme-game-title-border-offset-neg: -2px;
 }
 
 .dark-mode {
     --theme-background: #11161d;
     --theme-text: #eeeeee;
-    --theme-switcher-contents: "🌑";
     --theme-svg-icon-filter: invert(0.8);
     --theme-table-background: #11161d;
     --theme-table-background-alt: #22272e;
@@ -63,6 +62,12 @@ body {
 header {
     margin-top: 1.25em;
     margin-bottom: 1.75em;
+    display: flex;
+    column-gap: 1em;
+}
+
+.header-push {
+    margin-left: auto;
 }
 
 .header-title {
@@ -77,31 +82,22 @@ header {
     filter: invert(0.35);
 }
 
-.header-link-icon {
-    float: right;
+.header-icon {
+    background: none;
+    border: none;
     margin-top: 0.67em;
     margin-bottom: 0.67em;
-    margin-right: 0.67em;
     filter: var(--theme-svg-icon-filter);
 }
 
-.header-link-icon:hover {
+.header-icon:hover {
     filter: invert(0.35);
 }
 
-.header-theme-switcher {
-    float: right;
-    margin-top: 0.67em;
-    margin-bottom: 0.67em;
-}
-
-.header-theme-switcher:hover {
-    cursor: pointer;
-    filter: invert(0.125);
-}
-
-.header-theme-switcher::after {
-    content: var(--theme-switcher-contents);
+.header-icon > img {
+    height: 24px;
+    width: 24px;
+    display:block;
 }
 
 /* game titles fonts */
@@ -168,11 +164,16 @@ header {
 .dump-table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
 }
 
 .dump-table th, td {
     text-align: left;
     padding: 10px;
+}
+
+.dump-table th:first-child {
+    width: 15%;
 }
 
 .dump-table thead > tr {

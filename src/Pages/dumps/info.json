@@ -1,30 +1,73 @@
 {
-    "gta5": [
-        {
-            "build": 1234,
-            "aliases": ["mpdlc"]
-        },
-        {
-            "build": 1491,
-            "aliases": ["mpdlc1", "mp_dlc1"]
-        },
-        {
-            "build": 5678,
-            "aliases": ["mpdlc2"]
-        }
-    ],
+    "gta6": [],
     "rdr3": [
         {
-            "build": 1234,
-            "aliases": ["mpdlc"]
+            "build": "1491",
+            "aliases": ["mptmu001"]
         },
         {
-            "build": 1491,
-            "aliases": ["mpdlc1", "mp_dlc1"]
+            "build": "1436",
+            "aliases": ["mp009", "Blood Money Update"]
         },
         {
-            "build": 5678,
-            "aliases": ["mpdlc2"]
+            "build": "1355",
+            "aliases": ["mp008", "Bounty Hunters Expansion"]
+        },
+        {
+            "build": "1311",
+            "aliases": ["mp007", "Naturalist Update"]
+        }
+    ],
+    "gta5": [
+        {
+            "build": "2699",
+            "aliases": ["mpsum2", "mpsum2_g9ec", "The Criminal Enterprises"]
+        },
+        {
+            "build": "2612",
+            "aliases": ["mpg9ec"]
+        },
+        {
+            "build": "2545",
+            "aliases": ["mpsecurity", "The Contract"]
+        },
+        {
+            "build": "2372",
+            "aliases": ["mptuner", "Los Santos Tuners"]
+        },
+        {
+            "build": "2215",
+            "aliases": []
+        },
+        {
+            "build": "2189",
+            "aliases": ["mpheist4", "Cayo Perico Heist"]
+        },
+        {
+            "build": "2060",
+            "aliases": ["msum", "Los Santos Summer Special"]
+        },
+        {
+            "build": "1868",
+            "aliases": ["mpheist3", "Diamond Casino Heist"]
+        },
+        {
+            "build": "372",
+            "aliases": []
+        }
+    ],
+    "mp3":  [
+        {
+            "build": "1.0.0.255",
+            "aliases": []
+        }
+    ],
+    "rdr2":  [
+    ],
+    "gta4": [
+        {
+            "build": "1.2.0.43",
+            "aliases": []
         }
     ]
 }
