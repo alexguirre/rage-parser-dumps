@@ -7,13 +7,18 @@ namespace DumpFormatter.Formatters;
 
 internal class HtmlFormatter : PlainTextFormatter
 {
-    private ParDump? dump;
-    
     public override void Format(TextWriter writer, ParDump dump)
     {
-        this.dump = dump;
-
-        writer.Write($"<ul>");
+        writer.Write($@"<!DOCTYPE html>
+<html lang=""en"">
+<head>
+    <meta charset=""utf-8"" />
+    <title>{dump.Game.ToUpperInvariant()} (build {dump.Build})</title>
+</head>
+<body>
+    <main>
+        <ul>
+");
         foreach (var s in dump.Structs.OrderBy(s => s.Name.ToString()))
         {
             FormatStruct(writer, s);
@@ -22,9 +27,11 @@ internal class HtmlFormatter : PlainTextFormatter
         {
             FormatEnum(writer, e);
         }
-        writer.Write($"</ul>");
-
-        this.dump = null;
+        writer.Write($@"
+        </ul>
+    </main>
+</body>
+</html>");
     }
 
     private void BeginCodeBlock(TextWriter w, Name name)
@@ -40,7 +47,7 @@ internal class HtmlFormatter : PlainTextFormatter
     protected override void FormatStruct(TextWriter w, ParStructure s)
     {
         BeginCodeBlock(w, s.Name);
-        w.Write($"{Keyword("struct")} {Type(s.NameStr ?? s.Name.ToString())}<span class=\"c-w\" hidden>");
+        w.Write($"{Keyword("struct")} {Type(s.NameStr ?? s.Name.ToString())}<span class=\"c-w\">");
         if (s.Base != null)
         {
             w.Write($" : {TypeLink(s.Base.Value.Name)}");
@@ -80,7 +87,7 @@ internal class HtmlFormatter : PlainTextFormatter
         w.Write(Keyword("enum"));
         w.Write(' ');
         w.Write(Type(e.Name.ToString()));
-        w.WriteLine("<span class=\"c-w\" hidden>");
+        w.WriteLine("<span class=\"c-w\">");
         w.WriteLine("{");
         var valueNames = e.ValueNames;
         for (int i = 0; i < e.Values.Length; i++)

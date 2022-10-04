@@ -7,6 +7,7 @@ function gameIdToName(id) {
         case "rdr2": return "Red Dead Redemption";
         case "rdr3": return "Red Dead Redemption II";
         case "mp3":  return "Max Payne 3";
+        case "mc4": return "Midnight Club: Los Angeles";
         default:     return "Unknown game";
     }
 }
@@ -20,6 +21,7 @@ function gameIdToFormattedName(id) {
         case "rdr2": name += "Red Dead Redemption"; break;
         case "rdr3": name += "Red Dead Redemption <span class=\"rdr3-font-detail\">II</span>"; break;
         case "mp3":  name += "MAX PAYNE <span class=\"mp3-font-detail\">3</span>"; break;
+        case "mc4":  name += "Midnight Club: Los Angeles"; break;
         default:     name += "Unknown game"; break;
     }
     name += "</span>";
@@ -30,4 +32,21 @@ function getDumpURL(game, build, ext) {
     return `dumps/${game}/b${build}.${ext}`;
 }
 
-export { gameIdToName, gameIdToFormattedName, getDumpURL };
+function hideElement(element, hide) {
+    if (hide) {
+        element.classList.add("hidden");
+    } else {
+        element.classList.remove("hidden");
+    }
+}
+
+function animateButtonClick(element) {
+    if (element.animateButtonClickTimeout) {
+        clearTimeout(element.animateButtonClickTimeout);
+    }
+
+    element.classList.add("btn-clicked");
+    element.animateButtonClickTimeout = setTimeout(() => element.classList.remove("btn-clicked"), 200);
+}
+
+export { gameIdToName, gameIdToFormattedName, getDumpURL, hideElement, animateButtonClick };

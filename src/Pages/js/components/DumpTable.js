@@ -1,9 +1,9 @@
-import { gameIdToFormattedName } from '../util.js';
-import DumpTableRow from "./DumpTableRow.js";
+import { gameIdToFormattedName, getDumpURL } from '../util.js';
 
 export default class DumpTable extends HTMLElement {
     #game;
     #body;
+    #rowTemplate;
 
     constructor(game) {
         super();
@@ -11,6 +11,8 @@ export default class DumpTable extends HTMLElement {
         this.#game = game;
 
         const shadow = this.attachShadow({ mode: "open" });
+
+        this.#rowTemplate = document.getElementById("dump-table-row-template");
         const template = document.getElementById("dump-table-template");
         const content = template.content.cloneNode(true);
 
@@ -29,7 +31,25 @@ export default class DumpTable extends HTMLElement {
     }
 
     addRow(build, aliases) {
-        this.#body.appendChild(new DumpTableRow(this.#game, build, aliases));
+        this.#body.appendChild(this.#createRow(build, aliases));
+    }
+
+    #createRow(build, aliases) {
+        const row = this.#rowTemplate.content.cloneNode(true);
+
+        const cols = row.querySelectorAll("td");
+        cols[0].textContent = build;
+        if (aliases.length > 0) {
+            cols[1].textContent = aliases.join(", ");
+        }
+        cols[2].querySelector(".dump-icon-page").href = `dump.html?game=${this.#game}&build=${build}`;
+        cols[2].querySelector(".dump-icon-html").href = getDumpURL(this.#game, build, "html");
+        cols[2].querySelector(".dump-icon-plain-text").href = getDumpURL(this.#game, build, "txt");
+        cols[2].querySelector(".dump-icon-json").href = getDumpURL(this.#game, build, "json");
+        cols[2].querySelector(".dump-icon-xsd").href = getDumpURL(this.#game, build, "xsd");
+
+        return row;
+
     }
 }
 customElements.define('dump-table', DumpTable);

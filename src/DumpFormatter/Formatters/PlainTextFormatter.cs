@@ -7,12 +7,8 @@ namespace DumpFormatter.Formatters;
 
 internal class PlainTextFormatter : IDumpFormatter
 {
-    private ParDump? dump;
-
     public virtual void Format(TextWriter writer, ParDump dump)
     {
-        this.dump = dump;
-
         foreach (var s in dump.Structs.OrderBy(s => s.Name.ToString()))
         {
             FormatStruct(writer, s);
@@ -21,14 +17,10 @@ internal class PlainTextFormatter : IDumpFormatter
         {
             FormatEnum(writer, e);
         }
-
-        this.dump = null;
     }
 
     protected virtual void FormatStruct(TextWriter w, ParStructure s)
     {
-        Debug.Assert(dump != null);
-
         w.Write($"struct {s.NameStr ?? s.Name.ToString()}");
         if (s.Base != null)
         {

@@ -4,25 +4,88 @@
     <meta charset="utf-8" />
     <title>rage::par</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preload" as="image" href="img/logo.svg"> <!-- preload loading spinner image so something shows while the dump loads -->
     <script src="js/theming.early.js"></script>
     <script type="module" src="js/dump.js"></script>
 </head>
-<body>
-    <header is="page-header"></header>
-    <main>
-        <div id="game-info"></div>
-        <div id="loading">Loading...</div>
-        <div id="dump-subheader" hidden>
-            <input id="dump-search" type="text" placeholder="Search..." class="dump-search-box" />
-            <div class="dump-subheader-links">
-                <a id="dump-link-html"       title="Download structures list as HTML"          class="dump-icon dump-icon-html"></a>
-                <a id="dump-link-plain-text" title="Download structures list as plain text"    class="dump-icon dump-icon-plain-text"></a>
-                <a id="dump-link-json"       title="Download JSON dump"                        class="dump-icon dump-icon-json"></a>
-                <a id="dump-link-xsd"        title="Download structures XML Schema Definition" class="dump-icon dump-icon-xsd"></a>
-            </div>
+<body id="dump-body">
+    <template id="code-snippet-template">
+        <link rel="stylesheet" href="css/style.css">
+        <div class="code-snippet-contents">
+            <pre><code id="code"></code></pre>
+            <button id="copy-btn" title="Copy snippet"></button>
         </div>
-        <div id="dump-contents" hidden>
-            <p id="dump-contents-error-msg" hidden></p>
+    </template>
+    <header is="page-header"></header>
+    <main id="dump-main">
+        <div id="dump-subheader" class="row-layout hidden">
+            <div id="dump-game-info"></div>
+            <input id="dump-search-box" type="search" placeholder="Search..." />
+            <a id="dump-link-html"       title="Download structures list as HTML"          class="dump-icon dump-icon-html row-layout-push"></a>
+            <a id="dump-link-plain-text" title="Download structures list as plain text"    class="dump-icon dump-icon-plain-text"></a>
+            <a id="dump-link-json"       title="Download JSON dump"                        class="dump-icon dump-icon-json"></a>
+            <a id="dump-link-xsd"        title="Download structures XML Schema Definition" class="dump-icon dump-icon-xsd"></a>
+        </div>
+        <div id="loading" class="loading-spinner" title="Loading"></div>
+        <p id="dump-error-msg" class="dump-help-msg hidden">This is an error message.</p>
+        <div id="dump-container" class="hidden">
+            <div id="dump-list">
+            </div>
+            <div id="dump-splitter"></div>
+            <div id="dump-details">
+                <p id="dump-details-help-tip" class="dump-help-msg">Select a type.</p>
+                <div id="dump-details-view" class="hidden">
+                    <div class="row-layout">
+                        <button id="dump-details-link" class="link-btn" title="Copy link"></button>
+                        <h3 id="dump-details-name">CSomeStruct</h3>
+                    </div>
+                    <code-snippet id="dump-details-struct" lang="cpp">$struct$ @CSomeStruct@ : <a class="type-link" href="#CBaseStruct">@CBaseStruct@</a>
+{
+    $int$     nValue; // hello world
+    $float$   fDelta;
+    $string$  sText; // a comment
+    $string$  fieldWithAVeryLongLongLongLongLongLongLongLongLongLongLongLongNameThatDoesntFitOnTheScreen;
+};</code-snippet>
+                    Version   - <span id="dump-details-version">1.0</span><br>
+                    Size      - <span id="dump-details-size">123</span><br>
+                    Alignment - <span id="dump-details-alignment">123</span><br>
+                    <h4 id="dump-details-fields-title">Fields</h4>
+                    - nValue   0x00   INT     initValue = 1234<br>
+                    - fDelta   0x04   FLOAT   initValue = 0.5<br>
+                    - sText    0x08   STRING.ATSTRING<br>
+                    <h4 id="dump-details-usage-list-title">Used in</h4>
+                    <ul id="dump-details-usage-list">
+                    </ul>
+                    <h4 id="dump-details-xml-title">XML example</h4>
+                    <code-snippet id="dump-details-xml" lang="xml">&lt;CSomeStruct&gt;
+    &lt;nValue value="1234" /&gt;
+    &lt;fDelta value="0.5" /&gt;
+    &lt;sText&gt;some text&lt;/sText&gt; &lt;!-- a comment --&gt;
+    &lt;sText&gt;some text&lt;/sText&gt;
+    &lt;sText&gt;some text&lt;/sText&gt;
+    &lt;sText&gt;some text&lt;/sText&gt;
+    &lt;sText&gt;some text&lt;/sText&gt;
+    &lt;sText&gt;some text&lt;/sText&gt;
+    &lt;sText&gt;some text&lt;/sText&gt;
+    &lt;sText&gt;some text&lt;/sText&gt;
+    &lt;sText&gt;some text&lt;/sText&gt;
+    &lt;sText&gt;some text&lt;/sText&gt;
+    &lt;sText&gt;some text&lt;/sText&gt;
+    &lt;sText&gt;some text&lt;/sText&gt;
+    &lt;sText&gt;some text&lt;/sText&gt;
+    &lt;sText&gt;some text&lt;/sText&gt;
+    &lt;sText&gt;some text&lt;/sText&gt;
+    &lt;sText&gt;some text&lt;/sText&gt;
+    &lt;sText&gt;some text&lt;/sText&gt;
+    &lt;sText&gt;some text&lt;/sText&gt;
+    &lt;sText&gt;some text&lt;/sText&gt;
+    &lt;sText&gt;some text&lt;/sText&gt;
+    &lt;sText&gt;some text&lt;/sText&gt;
+    &lt;sText&gt;some text&lt;/sText&gt;
+    &lt;sText&gt;some text&lt;/sText&gt;
+&lt;/CSomeStruct&gt;</code-snippet>
+                </div>
+            </div>
         </div>
     </main>
 </body>
