@@ -350,6 +350,40 @@ static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, p
 		}
 	}
 	break;
+	case parMemberType::MATRIX34:
+	case parMemberType::MATRIX44:
+	case parMemberType::MAT33V:
+	case parMemberType::MAT34V:
+	case parMemberType::MAT44V:
+	{
+		auto* matrixData = static_cast<parMemberMatrixData*>(m);
+		w.BeginArray("initValues");
+		for (auto v : matrixData->initValues)
+		{
+			w.Float(std::nullopt, v);
+		}
+		w.EndArray();
+	}
+	break;
+	case parMemberType::VECTOR2:
+	case parMemberType::VECTOR3:
+	case parMemberType::VECTOR4:
+	case parMemberType::VEC2V:
+	case parMemberType::VEC3V:
+	case parMemberType::VEC4V:
+	case parMemberType::VECBOOLV:
+	case parMemberType::_0xFE5A582C:
+	case parMemberType::QUATV:
+	{
+		auto* vecData = static_cast<parMemberVectorData*>(m);
+		w.BeginArray("initValues");
+		for (auto v : vecData->initValues)
+		{
+			w.Float(std::nullopt, v);
+		}
+		w.EndArray();
+	}
+	break;
 	case parMemberType::BOOL:
 	case parMemberType::CHAR:
 	case parMemberType::UCHAR:

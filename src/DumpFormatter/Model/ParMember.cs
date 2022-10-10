@@ -130,6 +130,16 @@ internal record ParMemberSimple(
     double InitValue)
     : ParMember(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes);
 
+internal record ParMemberVector(
+    Name Name, ulong Offset, ulong Flags1, ulong Flags2, ulong ExtraData, ParMemberType Type, ParMemberSubtype Subtype, ParAttributeList? Attributes,
+    double[] InitValues)
+    : ParMember(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes);
+
+internal record ParMemberMatrix(
+    Name Name, ulong Offset, ulong Flags1, ulong Flags2, ulong ExtraData, ParMemberType Type, ParMemberSubtype Subtype, ParAttributeList? Attributes,
+    double[] InitValues)
+    : ParMember(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes);
+
 internal record ParMemberString(
     Name Name, ulong Offset, ulong Flags1, ulong Flags2, ulong ExtraData, ParMemberType Type, ParMemberSubtype Subtype, ParAttributeList? Attributes,
     ulong MemberSize,

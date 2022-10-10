@@ -35,6 +35,8 @@ internal class ParMemberConverter : JsonConverter<ParMember>
         ParAttributeList? Attributes,
         // ParMemberSimple
         [property: JsonConverter(typeof(NumberAsStringConverter))] string InitValue,
+        // ParMemberVector/ParMemberMatrix
+        double[] InitValues,
         // ParMemberString
         ulong MemberSize,
         byte NamespaceIndex,
@@ -75,6 +77,22 @@ internal class ParMemberConverter : JsonConverter<ParMember>
                 ParMemberType.INT64 or
                 ParMemberType.UINT64 or
                 ParMemberType.DOUBLE => new ParMemberSimple(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, double.Parse(InitValue)),
+
+                ParMemberType.VECTOR2 or
+                ParMemberType.VECTOR3 or
+                ParMemberType.VECTOR4 or
+                ParMemberType.VEC2V or
+                ParMemberType.VEC3V or
+                ParMemberType.VEC4V or
+                ParMemberType.VECBOOLV or
+                ParMemberType._0xFE5A582C or 
+                ParMemberType.QUATV => new ParMemberVector(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, InitValues),
+
+                ParMemberType.MATRIX34 or
+                ParMemberType.MATRIX44 or
+                ParMemberType.MAT33V or
+                ParMemberType.MAT34V or
+                ParMemberType.MAT44V => new ParMemberMatrix(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, InitValues),
 
                 ParMemberType.STRING => new ParMemberString(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, MemberSize, NamespaceIndex),
 

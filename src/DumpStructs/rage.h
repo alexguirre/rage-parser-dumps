@@ -253,6 +253,16 @@ struct parMemberSimpleData : public parMemberCommonData
 #endif
 };
 
+struct parMemberVectorData : public parMemberCommonData
+{
+	float initValues[4];
+};
+
+struct parMemberMatrixData : public parMemberCommonData
+{
+	float initValues[16];
+};
+
 struct parMemberStringData : public parMemberCommonData
 {
 	uint32_t memberSize; // for subtype MEMBER and WIDE_MEMBER
