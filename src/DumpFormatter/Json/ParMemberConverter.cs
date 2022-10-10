@@ -85,7 +85,7 @@ internal class ParMemberConverter : JsonConverter<ParMember>
                 ParMemberType.VEC3V or
                 ParMemberType.VEC4V or
                 ParMemberType.VECBOOLV or
-                ParMemberType._0xFE5A582C or 
+                ParMemberType.VEC2F or 
                 ParMemberType.QUATV => new ParMemberVector(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, InitValues),
 
                 ParMemberType.MATRIX34 or

@@ -204,7 +204,7 @@ internal class PlainTextFormatter : IDumpFormatter
             ParMemberType.UINT64 => "uint64",
             ParMemberType.DOUBLE => "double",
             ParMemberType.GUID => "guid",
-            ParMemberType._0xFE5A582C => "_0xFE5A582C",
+            ParMemberType.VEC2F => "Vec2f",
             ParMemberType.QUATV => "QuatV",
             _ => "UNKNOWN",
         };

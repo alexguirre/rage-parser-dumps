@@ -143,7 +143,7 @@ const char* EnumToString(parMemberType type)
 	case parMemberType::DOUBLE: return "DOUBLE";
 #if RDR3
 	case parMemberType::GUID: return "GUID";
-	case parMemberType::_0xFE5A582C: return "_0xFE5A582C";
+	case parMemberType::VEC2F: return "VEC2F";
 	case parMemberType::QUATV: return "QUATV";
 #endif
 	default: return "UNKNOWN";

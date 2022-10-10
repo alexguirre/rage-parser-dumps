@@ -131,7 +131,7 @@ enum class parMemberType : uint8_t // 0x1CA39C3D
 	DOUBLE = 33,
 #if RDR3
 	GUID = 34,
-	_0xFE5A582C = 35,
+	VEC2F = 35,
 	QUATV = 36,
 #endif
 };

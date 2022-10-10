@@ -45,7 +45,7 @@ internal enum ParMemberType
     UINT64,
     DOUBLE,
     GUID,
-    _0xFE5A582C,
+    VEC2F,
     QUATV,
 }
 
