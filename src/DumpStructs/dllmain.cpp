@@ -164,8 +164,15 @@ static CollectResult CollectStructs(parManager* parMgr)
 				{
 					addEnum(reinterpret_cast<parMemberEnumData*>(m->data)->enumData);
 				}
-
-				if (m->data->type == parMemberType::MAP)
+				else if (m->data->type == parMemberType::ARRAY)
+				{
+					parMemberArrayData* arr = reinterpret_cast<parMemberArrayData*>(m->data);
+					if (arr->itemData && (arr->itemData->type == parMemberType::ENUM || arr->itemData->type == parMemberType::BITSET))
+					{
+						addEnum(reinterpret_cast<parMemberEnumData*>(arr->itemData)->enumData);
+					}
+				}
+				else if (m->data->type == parMemberType::MAP)
 				{
 					parMemberMapData* map = reinterpret_cast<parMemberMapData*>(m->data);
 
