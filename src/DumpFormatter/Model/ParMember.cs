@@ -122,24 +122,25 @@ internal record ParMember(
     [property: JsonConverter(typeof(HexConverter))] ulong Flags2,
     [property: JsonConverter(typeof(HexConverter))] ulong ExtraData,
     ParMemberType Type,
-    ParMemberSubtype Subtype);
+    ParMemberSubtype Subtype,
+    ParAttributeList? Attributes);
 
 internal record ParMemberSimple(
-    Name Name, ulong Offset, ulong Flags1, ulong Flags2, ulong ExtraData, ParMemberType Type, ParMemberSubtype Subtype,
+    Name Name, ulong Offset, ulong Flags1, ulong Flags2, ulong ExtraData, ParMemberType Type, ParMemberSubtype Subtype, ParAttributeList? Attributes,
     double InitValue)
-    : ParMember(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype);
+    : ParMember(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes);
 
 internal record ParMemberString(
-    Name Name, ulong Offset, ulong Flags1, ulong Flags2, ulong ExtraData, ParMemberType Type, ParMemberSubtype Subtype,
+    Name Name, ulong Offset, ulong Flags1, ulong Flags2, ulong ExtraData, ParMemberType Type, ParMemberSubtype Subtype, ParAttributeList? Attributes,
     ulong MemberSize,
     byte NamespaceIndex)
-    : ParMember(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype);
+    : ParMember(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes);
 
 internal record ParMemberEnum(
-    Name Name, ulong Offset, ulong Flags1, ulong Flags2, ulong ExtraData, ParMemberType Type, ParMemberSubtype Subtype,
+    Name Name, ulong Offset, ulong Flags1, ulong Flags2, ulong ExtraData, ParMemberType Type, ParMemberSubtype Subtype, ParAttributeList? Attributes,
     Name EnumName,
     ulong InitValue)
-    : ParMember(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype);
+    : ParMember(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes);
 
 [Flags, JsonConverter(typeof(EnumConverter<ParMemberArrayAllocFlags>))]
 internal enum ParMemberArrayAllocFlags : ushort
@@ -148,25 +149,25 @@ internal enum ParMemberArrayAllocFlags : ushort
 }
 
 internal record ParMemberArray(
-    Name Name, ulong Offset, ulong Flags1, ulong Flags2, ulong ExtraData, ParMemberType Type, ParMemberSubtype Subtype,
+    Name Name, ulong Offset, ulong Flags1, ulong Flags2, ulong ExtraData, ParMemberType Type, ParMemberSubtype Subtype, ParAttributeList? Attributes,
     ParMember Item,
     ParMemberArrayAllocFlags AllocFlags,
     ulong? ArraySize,
     ulong? CountOffset)
-    : ParMember(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype);
+    : ParMember(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes);
 
 internal record ParMemberMap(
-    Name Name, ulong Offset, ulong Flags1, ulong Flags2, ulong ExtraData, ParMemberType Type, ParMemberSubtype Subtype,
+    Name Name, ulong Offset, ulong Flags1, ulong Flags2, ulong ExtraData, ParMemberType Type, ParMemberSubtype Subtype, ParAttributeList? Attributes,
     ParMember Key,
     ParMember Value,
     Pointer? CreateIteratorFunc,
     Pointer? CreateInterfaceFunc)
-    : ParMember(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype);
+    : ParMember(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes);
 
 internal record ParMemberStruct(
-    Name Name, ulong Offset, ulong Flags1, ulong Flags2, ulong ExtraData, ParMemberType Type, ParMemberSubtype Subtype,
+    Name Name, ulong Offset, ulong Flags1, ulong Flags2, ulong ExtraData, ParMemberType Type, ParMemberSubtype Subtype, ParAttributeList? Attributes,
     Name? StructName,
     Pointer? ExternalNamedResolveFunc,
     Pointer? ExternalNamedGetNameFunc,
     Pointer? AllocateStructFunc)
-    : ParMember(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype);
+    : ParMember(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes);

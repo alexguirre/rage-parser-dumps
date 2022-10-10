@@ -32,6 +32,7 @@ internal class ParMemberConverter : JsonConverter<ParMember>
         [property: JsonConverter(typeof(HexConverter))] ulong ExtraData,
         ParMemberType Type,
         ParMemberSubtype Subtype,
+        ParAttributeList? Attributes,
         // ParMemberSimple
         [property: JsonConverter(typeof(NumberAsStringConverter))] string InitValue,
         // ParMemberString
@@ -73,20 +74,20 @@ internal class ParMemberConverter : JsonConverter<ParMember>
                 ParMemberType.FLOAT16 or
                 ParMemberType.INT64 or
                 ParMemberType.UINT64 or
-                ParMemberType.DOUBLE => new ParMemberSimple(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, double.Parse(InitValue)),
+                ParMemberType.DOUBLE => new ParMemberSimple(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, double.Parse(InitValue)),
 
-                ParMemberType.STRING => new ParMemberString(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, MemberSize, NamespaceIndex),
+                ParMemberType.STRING => new ParMemberString(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, MemberSize, NamespaceIndex),
 
                 ParMemberType.ENUM or
-                ParMemberType.BITSET => new ParMemberEnum(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, EnumName, ulong.Parse(InitValue)),
+                ParMemberType.BITSET => new ParMemberEnum(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, EnumName, ulong.Parse(InitValue)),
 
-                ParMemberType.ARRAY => new ParMemberArray(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Item!.ToConcreteMember(), AllocFlags, ArraySize, CountOffset),
+                ParMemberType.ARRAY => new ParMemberArray(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, Item!.ToConcreteMember(), AllocFlags, ArraySize, CountOffset),
 
-                ParMemberType.MAP => new ParMemberMap(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Key!.ToConcreteMember(), Value!.ToConcreteMember(), CreateIteratorFunc, CreateInterfaceFunc),
+                ParMemberType.MAP => new ParMemberMap(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, Key!.ToConcreteMember(), Value!.ToConcreteMember(), CreateIteratorFunc, CreateInterfaceFunc),
 
-                ParMemberType.STRUCT => new ParMemberStruct(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, StructName, ExternalNamedResolveFunc, ExternalNamedGetNameFunc, AllocateStructFunc),
+                ParMemberType.STRUCT => new ParMemberStruct(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, StructName, ExternalNamedResolveFunc, ExternalNamedGetNameFunc, AllocateStructFunc),
 
-                _ => new ParMember(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype),
+                _ => new ParMember(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes),
             };
     }
 }

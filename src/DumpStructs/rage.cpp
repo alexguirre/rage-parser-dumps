@@ -103,7 +103,7 @@ std::string SubtypeToStr(parMemberType type, uint8_t subtype)
 	return std::to_string(subtype);
 }
 
-const char* TypeToStr(parMemberType type)
+const char* EnumToString(parMemberType type)
 {
 	switch (type)
 	{
@@ -146,6 +146,18 @@ const char* TypeToStr(parMemberType type)
 	case parMemberType::_0xFE5A582C: return "_0xFE5A582C";
 	case parMemberType::QUATV: return "QUATV";
 #endif
+	default: return "UNKNOWN";
+	}
+}
+
+const char* EnumToString(parAttribute::Type type)
+{
+	switch (type)
+	{
+	case parAttribute::Type::String: return "String";
+	case parAttribute::Type::Int64:  return "Int64";
+	case parAttribute::Type::Double: return "Double";
+	case parAttribute::Type::Bool:   return "Bool";
 	default: return "UNKNOWN";
 	}
 }

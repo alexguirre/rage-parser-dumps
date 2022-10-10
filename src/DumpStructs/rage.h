@@ -49,6 +49,50 @@ struct parDelegateHolderBase
 	void* func;
 };
 
+struct parAttribute
+{
+	enum Type : uint8_t
+	{
+		String = 0,
+		Int64 = 1,
+		Double = 2,
+		Bool = 3,
+	};
+
+	union Value
+	{
+		const char* asString;
+		int64_t asInt64;
+		double asDouble;
+		bool asBool;
+	};
+
+	enum Flags : uint8_t
+	{
+		kOwnsNameString = 0x1,
+		kOwnsValueString = 0x2,
+	};
+
+	const char *name;
+	Value value;
+	Type type;
+	Flags flags;
+};
+
+
+struct parAttributeList
+{
+	enum Flags : uint16_t
+	{
+		kIsSorted = 0x1,
+	};
+
+	atArray<parAttribute> attributes;
+	uint8_t UserData1;
+	uint8_t UserData2;
+	Flags flags;
+};
+
 enum class parMemberType : uint8_t // 0x1CA39C3D
 {
 	BOOL = 0,
@@ -197,7 +241,7 @@ struct parMemberCommonData
 	uint16_t flags1;
 	uint16_t flags2;
 	uint16_t extraData; // specific to parMemberCommonData derived types
-	void* attributes;
+	parAttributeList* attributes;
 };
 
 struct parMemberSimpleData : public parMemberCommonData
@@ -310,7 +354,7 @@ struct parStructure
 	uint8_t padding5A[6];
 #endif
 	atArray<parMember*> members;
-	void* extraAttributes;
+	parAttributeList* extraAttributes;
 	parDelegateHolderBase factoryNew;
 	parDelegateHolderBase factoryPlacementNew;
 	parDelegateHolderBase getStructureCB;
@@ -377,7 +421,9 @@ struct parManager
 
 
 std::string SubtypeToStr(parMemberType type, uint8_t subtype);
-const char* TypeToStr(parMemberType type);
+
+const char* EnumToString(parMemberType type);
+const char* EnumToString(parAttribute::Type type);
 
 std::string FlagsToString(parEnumFlags flags);
 std::string FlagsToString(parStructure::Flags flags);

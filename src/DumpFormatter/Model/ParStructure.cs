@@ -46,6 +46,7 @@ internal record ParStructure(
     bool StaticDataUnkFlag2,
     ImmutableArray<ParMember> Members,
     ImmutableArray<string> MemberNames,
+    ParAttributeList? ExtraAttributes,
     ParStructureFactories Factories,
     Pointer? GetStructureCB,
     Dictionary<string, Pointer>? Callbacks);

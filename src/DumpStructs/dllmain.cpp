@@ -195,6 +195,38 @@ static CollectResult CollectStructs(parManager* parMgr)
 	return { std::move(structs), std::move(enums) };
 }
 
+static void DumpJsonAttributeList(JsonWriter& w, std::optional<std::string_view> key, parAttributeList* attributes)
+{
+	w.BeginObject(key);
+	if (attributes->UserData1 != 0)
+	{
+		w.UInt("userData1", attributes->UserData1, json_uint_dec);
+	}
+	if (attributes->UserData2 != 0)
+	{
+		w.UInt("userData2", attributes->UserData2, json_uint_dec);
+	}
+	w.BeginArray("list");
+	auto& list = attributes->attributes;
+	for (size_t i = 0; i < list.Count; i++)
+	{
+		auto& attr = list.Items[i];
+		w.BeginObject();
+		w.String("name", attr.name);
+		w.String("type", EnumToString(attr.type));
+		switch (attr.type)
+		{
+		case parAttribute::String: w.String("value", attr.value.asString); break;
+		case parAttribute::Int64:  w.Int("value", attr.value.asInt64); break;
+		case parAttribute::Double: w.Double("value", attr.value.asDouble); break;
+		case parAttribute::Bool:   w.Bool("value", attr.value.asBool); break;
+		};
+		w.EndObject();
+	}
+	w.EndArray();
+	w.EndObject();
+}
+
 static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, parMemberCommonData* m)
 {
 	if (m == nullptr)
@@ -212,8 +244,12 @@ static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, p
 	{
 		w.UInt("extraData", m->extraData, json_uint_hex);
 	}
-	w.String("type", TypeToStr(m->type));
+	w.String("type", EnumToString(m->type));
 	w.String("subtype", SubtypeToStr(m->type, m->subType));
+	if (m->attributes != nullptr)
+	{
+		DumpJsonAttributeList(w, "attributes", m->attributes);
+	}
 	switch (m->type)
 	{
 	case parMemberType::STRUCT:
@@ -388,6 +424,11 @@ static void DumpJsonStructure(JsonWriter& w, std::optional<std::string_view> key
 				w.String(std::nullopt, n);
 			}
 			w.EndArray();
+		}
+
+		if (s->extraAttributes != nullptr)
+		{
+			DumpJsonAttributeList(w, "extraAttributes", s->extraAttributes);
 		}
 
 		w.BeginObject("factories");
