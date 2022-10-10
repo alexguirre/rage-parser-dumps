@@ -5,15 +5,15 @@ export default class PageHeader extends HTMLElement {
         super();
 
         const shadow = this.attachShadow({ mode: "open" });
-        shadow.innerHTML = `
-        <link rel="stylesheet" href="css/style.css">
-        <a class="header-title" href="/" title="Home">rage::par</a>
-        <a class="header-push header-icon" href="https://github.com/alexguirre/gtav-DumpStructs" title="GitHub Repository">
-            <img src="img/github.svg"></img>
-        </a>
-        <button id="${THEME_SWITCHER_ID}" class="header-icon" title="Toggle Theme">
-            <img src="img/circle-half-stroke.svg"></img>
-        </button>
+        shadow.innerHTML = /*html*/`
+            <link rel="stylesheet" href="css/style.css">
+            <a class="header-title" href="/" title="Home">rage::par</a>
+            <a class="header-push header-icon" href="https://github.com/alexguirre/gtav-DumpStructs" title="GitHub Repository">
+                <img src="img/github.svg">
+            </a>
+            <button id="${THEME_SWITCHER_ID}" class="header-icon" title="Toggle Theme">
+                <img src="img/theme-switcher.svg">
+            </button>
         `;
 
         themeInit(shadow);

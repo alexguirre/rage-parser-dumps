@@ -20,13 +20,6 @@ export default class DumpTable extends HTMLElement {
         header.innerHTML = gameIdToFormattedName(game);
         this.#body = content.querySelector("tbody");
 
-        // expand/collapse not needed for now
-        // this.#table = content.querySelector("table");
-        // this.#table.hidden = true;
-        // header.addEventListener("click", () => {
-        //     this.#table.hidden = !this.#table.hidden;
-        // });
-
         shadow.appendChild(content);
     }
 
@@ -42,14 +35,12 @@ export default class DumpTable extends HTMLElement {
         if (aliases.length > 0) {
             cols[1].textContent = aliases.join(", ");
         }
-        cols[2].querySelector(".dump-icon-page").href = `dump.html?game=${this.#game}&build=${build}`;
-        cols[2].querySelector(".dump-icon-html").href = getDumpURL(this.#game, build, "html");
-        cols[2].querySelector(".dump-icon-plain-text").href = getDumpURL(this.#game, build, "txt");
-        cols[2].querySelector(".dump-icon-json").href = getDumpURL(this.#game, build, "json");
-        cols[2].querySelector(".dump-icon-xsd").href = getDumpURL(this.#game, build, "xsd");
+        cols[2].querySelector("a").href = `dump.html?game=${this.#game}&build=${build}`;
+        const downloads = cols[2].querySelector("dump-downloads");
+        downloads.setAttribute("game", this.#game);
+        downloads.setAttribute("build", build);
 
         return row;
-
     }
 }
 customElements.define('dump-table', DumpTable);

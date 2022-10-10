@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="css/style.css">
         <div class="dump-table-wrapper">
             <h2 class="dump-title">Unknown game</h2>
-            <table class="dump-table">
+            <table class="themed-table dump-table">
                 <thead>
                     <tr>
                         <th>Build</th>
@@ -29,12 +29,9 @@
         <tr>
             <td>???</td>
             <td>-</td>
-            <td>
-                <a title="View structures list" class="dump-icon dump-icon-page"></a>
-                <a download title="Download structures list as HTML"          class="dump-icon dump-icon-html"></a>
-                <a download title="Download structures list as plain text"    class="dump-icon dump-icon-plain-text"></a>
-                <a download title="Download JSON dump"                        class="dump-icon dump-icon-json"></a>
-                <a download title="Download structures XML Schema Definition" class="dump-icon dump-icon-xsd"></a>
+            <td class="row-layout">
+                <a title="View structures list" class="header-icon"><img src="img/dump-icon-page.svg"></a>
+                <dump-downloads></dump-downloads>
             </td>
         </tr>
     </template>

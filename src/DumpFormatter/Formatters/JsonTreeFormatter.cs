@@ -1,6 +1,9 @@
-﻿using DumpFormatter.Model;
+﻿using DumpFormatter.Json;
+using DumpFormatter.Model;
 
 using System.Collections.Immutable;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -9,22 +12,28 @@ namespace DumpFormatter.Formatters;
 
 internal class JsonTreeFormatter : IDumpFormatter
 {
-    private record Tree(StructNode Structs, List<string> Enums);
-    private class StructNode
+    private record Tree(List<StructNode> Structs, List<Node> Enums);
+    private class Node
     {
         public string Name { get; init; } = "";
+        public string? Markup { get; init; }
+        public List<string>? Usage { get; set; }
+    }
+    private class StructNode : Node
+    {
         public ulong Size { get; init; }
         public ulong Alignment { get; init; }
-        public ParStructureVersion Version { get; init; }
-        public string Markup { get; init; }
-        public List<string>? Usage { get; set; }
+        public ParStructureVersion? Version { get; init; }
+        public List<Field>? Fields { get; init; }
         public List<StructNode>? Children { get; set; }
+        public string? Xml { get; init; }
     };
+    private record Field(string Name, ulong Offset, ParMemberType Type, ParMemberSubtype Subtype);
 
     public virtual void Format(TextWriter writer, ParDump dump)
     {
-        var tree = new Tree(new() { Name = "__root" }, new());
-        var root = tree.Structs;
+        var structsRoot = new StructNode() { Name = "__root", Children = new() };
+        var enums = new List<Node>();
         var nodeDict = new Dictionary<uint, StructNode>();
         foreach (var s in dump.Structs.OrderBy(s => s.Name.ToString()))
         {
@@ -32,9 +41,10 @@ internal class JsonTreeFormatter : IDumpFormatter
         }
         foreach (var e in dump.Enums.OrderBy(s => s.Name.ToString()))
         {
-            tree.Enums.Add(e.Name.ToString());
+            addEnumToTree(e);
         }
 
+        var tree = new Tree(structsRoot.Children, enums);
         var opt = new JsonSerializerOptions(JsonSerializerDefaults.Web) { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };
         writer.Write(JsonSerializer.Serialize(tree, opt));
 
@@ -46,7 +56,7 @@ internal class JsonTreeFormatter : IDumpFormatter
             }
             else
             {
-                var parent = root!;
+                var parent = structsRoot!;
                 if (structure.Base != null)
                 {
                     parent = addStructToTree(dump.Structs.First(s => s.Name == structure.Base.Value.Name));
@@ -54,12 +64,14 @@ internal class JsonTreeFormatter : IDumpFormatter
 
                 var node = new StructNode
                 {
-                    Name = structure.NameStr ?? structure.Name.ToString(),
+                    Name = structure.GetName(),
                     Size = structure.Size,
                     Alignment = structure.Alignment,
-                    Version = structure.Version,
+                    Version = structure.Version != new ParStructureVersion(0, 0) ? structure.Version : null,
+                    Fields = GetStructFields(dump, structure),
                     Markup = GetStructMarkup(dump, structure),
-                    Usage = GetUsage(dump, structure)
+                    Usage = GetStructUsage(dump, structure),
+                    Xml = GetStructXmlMarkup(dump, structure),
                 };
                 parent.Children ??= new();
                 parent.Children.Add(node);
@@ -67,9 +79,31 @@ internal class JsonTreeFormatter : IDumpFormatter
                 return node;
             }
         }
+
+        Node addEnumToTree(ParEnum e)
+        {
+            var node = new Node
+            {
+                Name = e.Name.ToString(),
+                Markup = GetEnumMarkup(dump, e),
+                Usage = GetEnumUsage(dump, e),
+            };
+            enums!.Add(node);
+            return node;
+        }
     }
 
-    private static List<string>? GetUsage(ParDump dump, ParStructure structure)
+    private static List<Field>? GetStructFields(ParDump dump, ParStructure structure)
+    {
+        var names = structure.MemberNames;
+        return structure.Members.IsDefaultOrEmpty ? 
+                null :
+                structure.Members
+                         .Select((m, i) => new Field(!names.IsDefaultOrEmpty ? names[i] : m.Name.ToString(), m.Offset, m.Type, m.Subtype))
+                         .ToList();
+    }
+
+    private static List<string>? GetStructUsage(ParDump dump, ParStructure structure)
     {
         List<string>? usage = null;
         bool tryAddUsage(ParStructure s, ParMember m)
@@ -77,6 +111,47 @@ internal class JsonTreeFormatter : IDumpFormatter
             if (m.Type == ParMemberType.STRUCT)
             {
                 if (((ParMemberStruct)m).StructName == structure.Name)
+                {
+                    usage ??= new();
+                    usage.Add(s.NameStr ?? s.Name.ToString());
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        foreach (var s in dump.Structs)
+        {
+            foreach (var m in s.Members)
+            {
+                if (tryAddUsage(s, m))
+                {
+                    break; // already found a member using this type, don't need to check more members of this struct
+                }
+                else if (m.Type == ParMemberType.ARRAY)
+                {
+                    var arr = (ParMemberArray)m;
+                    if (tryAddUsage(s, arr.Item)) { break; }
+                }
+                else if (m.Type == ParMemberType.MAP)
+                {
+                    var map = (ParMemberMap)m;
+                    if (tryAddUsage(s, map.Key) || tryAddUsage(s, map.Value)) { break; }
+                }
+            }
+        }
+        return usage;
+    }
+
+    private static List<string>? GetEnumUsage(ParDump dump, ParEnum e)
+    {
+        List<string>? usage = null;
+        bool tryAddUsage(ParStructure s, ParMember m)
+        {
+            if (m.Type == ParMemberType.ENUM || m.Type == ParMemberType.BITSET)
+            {
+                if (((ParMemberEnum)m).EnumName == e.Name)
                 {
                     usage ??= new();
                     usage.Add(s.NameStr ?? s.Name.ToString());
@@ -137,9 +212,6 @@ internal class JsonTreeFormatter : IDumpFormatter
         sb.AppendLine("};");
         return sb.ToString();
 
-        static string Keyword(string str) => $"${str}$";
-        static string Type(string str) => $"@{str}@";
-
         static void FormatMemberType(StringBuilder sb, ParMember m)
         {
             formatRecursive(sb, m);
@@ -153,6 +225,10 @@ internal class JsonTreeFormatter : IDumpFormatter
                         sb.Append(' ');
                         var structName = ((ParMemberStruct)m).StructName;
                         sb.Append(structName != null ? Type(structName.Value.ToString()) : Keyword("void"));
+                        if (m.Subtype != ParMemberSubtype.STRUCTURE)
+                        {
+                            sb.Append("*");
+                        }
                         break;
                     case ParMemberType.ENUM:
                         sb.Append(' ');
@@ -223,5 +299,177 @@ internal class JsonTreeFormatter : IDumpFormatter
                 ParMemberType.QUATV => "QuatV",
                 _ => "UNKNOWN",
             };
+    }
+
+    public string GetEnumMarkup(ParDump dump, ParEnum e)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine($"{Keyword("enum")} ={Type(e.Name.ToString())}");
+        sb.AppendLine("{");
+        var valueNames = e.ValueNames;
+        for (int i = 0; i < e.Values.Length; i++)
+        {
+            var value = e.Values[i];
+            var name = !valueNames.IsDefaultOrEmpty ? valueNames[i] : value.Name.ToString();
+
+            sb.AppendLine($"\t{name} = {value.Value},");
+        }
+        sb.AppendLine("};");
+        return sb.ToString();
+    }
+
+    private static string Keyword(string str) => $"${str}$";
+    private static string Type(string str) => $"@{str}@";
+
+    public string GetStructXmlMarkup(ParDump dump, ParStructure root)
+    {
+        var sb = new StringBuilder();
+        int depth = 0;
+        Struct(root);
+        return sb.ToString();
+
+        void Struct(ParStructure s, string? elementName = null, bool addTypeAttribute = false)
+        {
+            Debug.Assert(sb != null);
+
+            elementName ??= s.GetName();
+
+            Indent();
+            depth++;
+            var members = s.Members.AsEnumerable();
+            {
+                var tmp = s;
+                while (tmp.Base != null)
+                {
+                    var baseStruc = dump.Structs.First(st => st.Name == tmp.Base.Value.Name);
+                    members = baseStruc.Members.Concat(members);
+                    tmp = baseStruc;
+                }
+            }
+            sb.Append($"<{elementName}");
+            if (addTypeAttribute)
+            {
+                sb.Append($" {Attr("type")}={Str(s.GetName())}");
+            }
+            sb.AppendLine(">");
+            foreach (var m in members)
+            {
+                Field(m);
+            }
+            depth--;
+            Indent();
+            sb.AppendLine($"</{elementName}>");
+        }
+
+        void Field(ParMember m)
+        {
+            Debug.Assert(sb != null);
+
+            if (m.Type != ParMemberType.STRUCT)
+            {
+                Indent();
+            }
+            switch (m.Type)
+            {
+                case ParMemberType.FLOAT:
+                case ParMemberType.FLOAT16:
+                case ParMemberType.DOUBLE:
+                    sb.AppendLine($"<{m.Name} {Attr("value")}={Str(((ParMemberSimple)m).InitValue.ToString("0.000000"))} />");
+                    break;
+                case ParMemberType.CHAR:
+                case ParMemberType.UCHAR:
+                case ParMemberType.SHORT:
+                case ParMemberType.USHORT:
+                case ParMemberType.INT:
+                case ParMemberType.UINT:
+                case ParMemberType.INT64:
+                case ParMemberType.UINT64:
+                case ParMemberType.PTRDIFFT:
+                case ParMemberType.SIZET:
+                    sb.AppendLine($"<{m.Name} {Attr("value")}={Str(((ParMemberSimple)m).InitValue.ToString("0"))} />");
+                    break;
+                case ParMemberType.BOOL:
+                    sb.AppendLine($"<{m.Name} {Attr("value")}={Str(((ParMemberSimple)m).InitValue == 0.0 ? "false" : "true")} />");
+                    break;
+                case ParMemberType.STRING:
+                    sb.AppendLine($"<{m.Name}>Text</{m.Name}>");
+                    break;
+                case ParMemberType.VEC2V:
+                case ParMemberType.VECTOR2:
+                    sb.AppendLine($"<{m.Name} {Attr("x")}={Str("123.000000")} {Attr("y")}={Str("123.000000")} />"); // TODO: do vector have default values?
+                    break;
+                case ParMemberType.VEC3V:
+                case ParMemberType.VECTOR3:
+                    sb.AppendLine($"<{m.Name} {Attr("x")}={Str("123.000000")} {Attr("y")}={Str("123.000000")} {Attr("z")}={Str("123.000000")} />");
+                    break;
+                case ParMemberType.VEC4V:
+                case ParMemberType.VECTOR4:
+                case ParMemberType.QUATV:
+                    sb.AppendLine($"<{m.Name} {Attr("x")}={Str("123.000000")} {Attr("y")}={Str("123.000000")} {Attr("z")}={Str("123.000000")} {Attr("w")}={Str("123.000000")} />");
+                    break;
+                default:
+                    sb.AppendLine($"<{m.Name} />");
+                    break;
+                case ParMemberType.STRUCT:
+                    var ms = (ParMemberStruct)m;
+                    var struc = ms.StructName == null ? null : dump.Structs.First(st => st.Name == ms.StructName);
+                    switch (m.Subtype)
+                    {
+                        case ParMemberSubtype.EXTERNAL_NAMED:
+                        case ParMemberSubtype.EXTERNAL_NAMED_USERNULL:
+                            Indent();
+                            sb.AppendLine($"<{m.Name} {Attr("ref")}={Str("INSTANCE_NAME")} />");
+                            break;
+                        case ParMemberSubtype.POINTER:
+                        case ParMemberSubtype.SIMPLE_POINTER:
+                            if (depth >= 5)
+                            {
+                                Indent();
+                                sb.AppendLine($"<{m.Name} />"); // if we are too deep, don't generate anymore XML to avoid stackoverflows due to circular references
+                            }
+                            else
+                            {
+                                Debug.Assert(struc != null);
+                                Struct(struc, m.Name.ToString(), addTypeAttribute: true); // TODO: do SIMPLE_POINTERs include the type attribute?
+                            }
+                            break;
+                        default:
+                            Debug.Assert(struc != null);
+                            Struct(struc, m.Name.ToString());
+                            break;
+                    }
+                    break;
+                case ParMemberType.ENUM:
+                //case ParMemberType.BITSET: // TODO: BITSET initValue cannot be compared by equality, the enum values represents the bits
+                    var me = (ParMemberEnum)m;
+                    var @enum = dump.Enums.First(en => en.Name == me.EnumName);
+                    var defaultValue = @enum.Values.FirstOrDefault(v => v.Value == me.InitValue);
+                    if (defaultValue == default)
+                    {
+                        sb.AppendLine($"<{m.Name}>{me.InitValue}</{m.Name}>");
+                    }
+                    else
+                    {
+                        sb.AppendLine($"<{m.Name}>{defaultValue.Name}</{m.Name}>");
+                    }
+                    break;
+                case ParMemberType.ARRAY:
+                    sb.AppendLine($"<{m.Name}>");
+                    depth++;
+                    if (depth < 5)
+                    {
+                        Field(((ParMemberArray)m).Item);
+                    }
+                    depth--;
+                    Indent();
+                    sb.AppendLine($"</{m.Name}>");
+                    break;
+            }
+        }
+
+        void Indent() => sb!.Append('\t', depth);
+
+        static string Attr(string name) => $"${name}$";
+        static string Str(string str) => $"s\"{str}\"s";
     }
 }

@@ -1,6 +1,7 @@
 // components used in the HTML
 import "./components/PageHeader.js";
 import "./components/CodeSnippet.js";
+import "./components/DumpDownloads.js";
 
 import { gameIdToName, gameIdToFormattedName, getDumpURL, hideElement, animateButtonClick } from "./util.js";
 
@@ -14,15 +15,15 @@ function init() {
     const build = loc.searchParams.get(URL_PARAM_BUILD);
 
     document.getElementById("dump-game-info").innerHTML = `<h2>${gameIdToFormattedName(game)} <small>(build ${build})</small></h2>`;
-    document.title += ` — ${gameIdToName(game)} (build ${build})`;
+    document.title = `${gameIdToName(game)} (build ${build}) — ${document.title}`;
 
-    document.getElementById("dump-link-html").href = getDumpURL(game, build, "html");
-    document.getElementById("dump-link-plain-text").href = getDumpURL(game, build, "txt");
-    document.getElementById("dump-link-json").href = getDumpURL(game, build, "json");
-    document.getElementById("dump-link-xsd").href = getDumpURL(game, build, "xsd");
+    const downloads = document.querySelector("dump-downloads");
+    downloads.setGameBuild(game, build);
+
+    const search = new DumpSearchHandler();
 
     hideElement(document.getElementById("dump-subheader"), false);
-
+return;
     const jsonLoc = getDumpURL(game, build, "tree.json");
     fetch(jsonLoc)
         .then(response => response.json())
@@ -30,7 +31,7 @@ function init() {
             if (!tree) {
                 setErrorMsg("Failed to fetch dump for this build.");
             } else {
-                const structTree = tree.structs;
+                const structs = tree.structs;
                 const enums = tree.enums;
 
                 const nodeComparer = (a, b) => a.name.localeCompare(b.name, "en");
@@ -68,15 +69,15 @@ function init() {
                 }
 
                 indent();
-                const structNodes = structTree.children.map(c => ({ type: "struct", ...c}));
-                const enumNodes = enums.map(e => ({type: "enum", name: e}));
+                const structNodes = structs.map(c => ({ type: "struct", ...c}));
+                const enumNodes = enums.map(e => ({type: "enum", ...e}));
                 const nodes = structNodes.concat(enumNodes).sort(nodeComparer);
                 for (const n of nodes) { renderNode(n); }
                 dedent();
 
                 const view = new DumpDetailsView(game, build, html, nodes);
 
-                enableSearch(nodes);
+                search.setNodes(nodes);
                 enableSplitter();
             }
 
@@ -114,7 +115,7 @@ class DumpDetailsView {
         this.#build = build;
         this.#nodes = nodes;
         this.#list = document.getElementById("dump-list");
-        this.#list.innerHTML = listHTML;
+        this.#list.innerHTML += listHTML;
         this.#list.addEventListener("click", this.#onListEntrySelected.bind(this));
         window.addEventListener("hashchange", this.#onLocationHashChanged.bind(this));
         document.getElementById("dump-details-link").addEventListener("click", this.#onCopyLink.bind(this));
@@ -160,6 +161,7 @@ class DumpDetailsView {
         const node = this.#findNodeByName(typeName);
         this.#selectedEntryNode = node;
 
+        const isStruct = node.type !== "enum";
 
         // update URL
         const loc = new URL(document.location);
@@ -169,28 +171,70 @@ class DumpDetailsView {
         hideElement(document.getElementById("dump-details-help-tip"), true);
         hideElement(document.getElementById("dump-details-view"), false);
     
-        document.getElementById("dump-details-name").textContent = typeName;
+        const name = document.getElementById("dump-details-name");
+        name.textContent = typeName;
         entryBtn.classList.add("type-link-selected");
 
         document.getElementById("dump-details-struct").innerHTML = node.markup;
-        document.getElementById("dump-details-version").textContent = node.version;
-        document.getElementById("dump-details-size").textContent = node.size;
-        document.getElementById("dump-details-alignment").textContent = node.alignment;
 
-
-        const usageListTitle = document.getElementById("dump-details-usage-list-title");
-        const usageList = document.getElementById("dump-details-usage-list");
-        if (node.usage) {
-            usageList.innerHTML = node.usage.map(usedInTypeName => `<li><a class="type-link hl-type" href="#${usedInTypeName}">${usedInTypeName}</a></li>`).join("");
-            hideElement(usageListTitle, false);
-            hideElement(usageList, false);
+        const version = document.getElementById("dump-details-version");
+        const size = document.getElementById("dump-details-size");
+        const alignment = document.getElementById("dump-details-alignment");
+        if (isStruct) {
+            version.textContent = node.version ? `Version - ${node.version}` : "";
+            size.textContent = `Size - ${node.size}`;
+            alignment.textContent = `Alignment - ${node.alignment}`;
+            hideElement(version, !node.version);
+            hideElement(size, false);
+            hideElement(alignment, false);
         } else {
-            hideElement(usageListTitle, true);
-            hideElement(usageList, true);
+            version.textContent = "";
+            size.textContent = "";
+            alignment.textContent = "";
+            hideElement(version, true);
+            hideElement(size, true);
+            hideElement(alignment, true);
         }
 
-        animateButtonClick(entryBtn);
+        const fieldsSection = document.getElementById("dump-details-fields-section");
+        const fieldsBody = document.getElementById("dump-details-fields-body");
+        if (isStruct && node.fields) {
+            fieldsBody.innerHTML = node.fields.map(f => {
+                let typeStr = f.type;
+                if (f.subtype !== "NONE") {
+                    typeStr += `.${f.subtype}`;
+                }
+                return /*html*/`<tr><td>${f.offset} (0x${f.offset.toString(16)})</td><!--<td>-</td><td>-</td>--><td>${f.name}</td><td>${typeStr}</td></tr>`;
+            }).join("");
+            hideElement(fieldsSection, false);
+        } else {
+            fieldsBody.innerHTML = "";
+            hideElement(fieldsSection, true);
+        }
 
+        const usageListSection = document.getElementById("dump-details-usage-list-section");
+        const usageList = document.getElementById("dump-details-usage-list");
+        if (node.usage) {
+            usageList.innerHTML = node.usage.map(usedInTypeName => /*html*/`<li><a class="type-link hl-type" href="#${usedInTypeName}">${usedInTypeName}</a></li>`).join("");
+            hideElement(usageListSection, false);
+        } else {
+            usageList.innerHTML = "";
+            hideElement(usageListSection, true);
+        }
+
+        const xmlSection = document.getElementById("dump-details-xml-section");
+        const xml = document.getElementById("dump-details-xml");
+        if (isStruct) {
+            xml.innerHTML = "";
+            xml.appendChild(document.createTextNode(node.xml));
+            hideElement(xmlSection, false);
+        } else {
+            xml.innerHTML = "";
+            hideElement(xmlSection, true);
+        }
+
+        // reset scroll position
+        document.getElementById("dump-details").scroll(0, 0)
     }
 
     #findNodeByName(name) {
@@ -249,50 +293,112 @@ function enableSplitter() {
     });
 }
 
-function enableSearch(nodes) {
-    const bindAssociatedElements = (nodes) => {
-        for (let i = 0; i < nodes.length; i++) {
-            const node = nodes[i];
-            node.element = document.getElementById(node.name).closest("li");
-            if (node.children) {
-                bindAssociatedElements(node.children);
-            }
-        }
-    };
-    bindAssociatedElements(nodes);
+class DumpSearchHandler {
 
-    // TODO: show options to the user
-    const searchOptions = {
+    static defaultOptions = {
         /**
          * String comparison is case-sensitive
          */
-        caseSensitive: false, // TODO: support case sensitive option
+        matchCase: false,
+        /**
+         * Treats the search string as a regular expression.
+         */
+        regex: false,
         /**
          * Matching the base struct will include its derived structs in the search results.
          */
         showChildren: true,
     };
 
-    const doSearch = (nodes, text, state) => {
+    static get storedOptions() {
+        return JSON.parse(localStorage.getItem("searchOptions")) || {};
+    }
+
+    static set storedOptions(v) {
+        return localStorage.setItem("searchOptions", JSON.stringify(v));
+    }
+
+    #options;
+    #noResultsMsg;
+    #input;
+    #nodes;
+
+    constructor() {
+        this.#options = { ...DumpSearchHandler.defaultOptions, ...DumpSearchHandler.storedOptions };
+        this.#bindOption("dump-search-toggle-match-case",    () => this.#options.matchCase,    v => this.#options.matchCase = v);
+        this.#bindOption("dump-search-toggle-regex",         () => this.#options.regex,        v => this.#options.regex = v);
+        this.#bindOption("dump-search-toggle-show-children", () => this.#options.showChildren, v => this.#options.showChildren = v);
+
+        this.#input = document.getElementById("dump-search-input");
+        this.#input.addEventListener("input", this.#onInput.bind(this));
+
+        const defaultSearch = new URL(document.location).searchParams.get(URL_PARAM_SEARCH);
+        if (defaultSearch !== null) {
+            this.#input.value = defaultSearch;
+        }
+    }
+
+    #bindOption(id, getter, setter) {
+        const toggle = document.getElementById(id);
+
+        if (getter()) { toggle.classList.add("enabled"); }
+        else { toggle.classList.remove("enabled"); }
+
+        toggle.addEventListener("click", e => {
+            setter(!getter());
+            if (getter()) { toggle.classList.add("enabled"); }
+            else { toggle.classList.remove("enabled"); }
+
+            // save options
+            DumpSearchHandler.storedOptions = this.#options;
+
+            // refresh search results with new options
+            this.search(this.#input.value);
+        });
+    }
+
+    #onInput(e) {
+        const searchText = e.target.value;
+
+        // update URL
+        const loc = new URL(document.location);
+        if (searchText.length === 0) {
+            loc.searchParams.delete(URL_PARAM_SEARCH)
+        } else {
+            loc.searchParams.set(URL_PARAM_SEARCH, searchText);
+        }
+        history.replaceState(null, "", loc.toString());
+
+        this.search(searchText);
+    }
+
+    search(text) {
+        text = this.#options.matchCase ? text : text.toLowerCase();
+        const numResults = this.#doSearch(this.#nodes, text, {});
+        hideElement(this.#noResultsMsg, numResults !== 0);
+    }
+
+    #doSearch(nodes, text, state) {
         let numResults = 0;
         for(let i = 0; i < nodes.length; i++) {
             const node = nodes[i];
+            const name = this.#options.matchCase ? node.name : node.nameLowerCase;
             let match = false;
-            if (searchOptions.showChildren) {
-                match = state.parentMatch || text.length === 0 || node.name.indexOf(text) !== -1;
+            if (this.#options.showChildren) {
+                match = state.parentMatch || text.length === 0 || name.indexOf(text) !== -1;
                 const prevParentMatch = state.parentMatch;
                 state.parentMatch = match;
 
-                const numChildrenResults = node.children ? doSearch(node.children, text, state) : 0;
+                const numChildrenResults = node.children ? this.#doSearch(node.children, text, state) : 0;
                 numResults += numChildrenResults;
 
                 match = numChildrenResults !== 0 || match;
 
                 state.parentMatch = prevParentMatch;
             } else {
-                const numChildrenResults = node.children ? doSearch(node.children, text, state) : 0;
+                const numChildrenResults = node.children ? this.#doSearch(node.children, text, state) : 0;
                 numResults += numChildrenResults;
-                match = numChildrenResults !== 0 || text.length === 0 || node.name.indexOf(text) !== -1;
+                match = numChildrenResults !== 0 || text.length === 0 || name.indexOf(text) !== -1;
             }
 
 
@@ -306,31 +412,26 @@ function enableSearch(nodes) {
         return numResults;
     }
 
-    const doSearchFromRoot = text => {
-        const numResults = doSearch(nodes, text, {});
-        setErrorMsg(numResults !== 0 ? null : "No results found.");
-    };
+    setNodes(nodes) {
+        const bindAssociatedElements = (nodes) => {
+            for (let i = 0; i < nodes.length; i++) {
+                const node = nodes[i];
+                node.nameLowerCase = node.name.toLowerCase();
+                node.element = document.getElementById(node.name).closest("li");
+                if (node.children) {
+                    bindAssociatedElements(node.children);
+                }
+            }
+        };
+        bindAssociatedElements(nodes);
 
-    const searchInput = document.getElementById("dump-search-box");
-    searchInput.addEventListener("input", e => {
-        const searchText = e.target.value;
+        this.#nodes = nodes;
 
-        // update URL
-        const loc = new URL(document.location);
-        if (searchText.length === 0) {
-            loc.searchParams.delete(URL_PARAM_SEARCH)
-        } else {
-            loc.searchParams.set(URL_PARAM_SEARCH, searchText);
+        this.#noResultsMsg = document.getElementById("dump-no-results-msg");
+
+        if (this.#input.value) {
+            this.search(this.#input.value);
         }
-        history.replaceState(null, "", loc.toString());
-
-        doSearchFromRoot(searchText);
-    });
-
-    const defaultSearch = new URL(document.location).searchParams.get(URL_PARAM_SEARCH);
-    if (defaultSearch !== null) {
-        searchInput.value = defaultSearch;
-        doSearchFromRoot(defaultSearch);
     }
 }
 

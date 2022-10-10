@@ -57,8 +57,8 @@ export default class CodeSnippet extends HTMLElement {
 
         let newHTML = codeHTML;
         for (const m of CodeSnippet.highlightCodeMarkup[language]) {
-            newHTML = newHTML.replace(m.regex, (match, capture) => {
-                return m.replacer ? m.replacer(capture) : `<span class="${m.class}">${capture}</span>`;
+            newHTML = newHTML.replace(m.regex, (...args) => {
+                return m.replacer ? m.replacer(...args) : `<span class="${m.class}">${args[1]}</span>`;
             });
         }
         return newHTML;
@@ -66,14 +66,17 @@ export default class CodeSnippet extends HTMLElement {
 
     static highlightCodeMarkup = {
         "cpp": [
-            {class:"hl-keyword", regex: /\$(.*?)\$/gm },
-            {class:"hl-type",    regex: /\=\@(.*?)\@/gm },
-            {class:"hl-type",    regex: /\@(.*?)\@/gm, replacer: capture => `<a class="type-link hl-type" href="#${capture}">${capture}</a>` },
-            {class:"hl-comment", regex: /(\/\/.*$)/gm },
+            {class:"hl-keyword",        regex: /\$(.*?)\$/gm },
+            {class:"hl-type",           regex: /\=\@(.*?)\@/gm },
+            {class:"hl-type",           regex: /\@(.*?)\@/gm,                   replacer: (_m, c1) => `<a class="type-link hl-type" href="#${c1}">${c1}</a>` },
+            {class:"hl-comment",        regex: /(\/\/.*$)/gm },
+            {class:"hl-number",         regex: /\b([0-9]+)\b/gm },
         ],
         "xml": [
-            {class:"hl-type",    regex: /(&lt;.*?&gt;)/gm },
-            {class:"hl-comment", regex: /(&lt;!--.*?--&gt;)/gm },
+            {class:"hl-xml-element",    regex: /(&lt;\/?)([^!].*?)(\s|&gt;)/gm, replacer: (_m, c1, c2, c3) => `${c1}<span class="hl-xml-element">${c2}</span>${c3}` },
+            {class:"hl-xml-attribute",  regex: /\$(.*?)\$/gm },
+            {class:"hl-string",         regex: /s(".*?")s/gm },
+            {class:"hl-comment",        regex: /(&lt;!--.*?--&gt;)/gm },
         ],
     };
 }

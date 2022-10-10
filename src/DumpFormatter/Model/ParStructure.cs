@@ -47,4 +47,7 @@ internal record ParStructure(
     ParAttributeList? ExtraAttributes,
     ParStructureFactories Factories,
     Pointer? GetStructureCB,
-    Dictionary<string, Pointer>? Callbacks);
+    Dictionary<string, Pointer>? Callbacks)
+{
+    public string GetName() => NameStr ?? Name.ToString();
+}
