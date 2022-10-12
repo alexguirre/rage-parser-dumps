@@ -372,8 +372,10 @@ static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, p
 	case parMemberType::VEC3V:
 	case parMemberType::VEC4V:
 	case parMemberType::VECBOOLV:
+#if RDR3
 	case parMemberType::VEC2F:
 	case parMemberType::QUATV:
+#endif
 	{
 		auto* vecData = static_cast<parMemberVectorData*>(m);
 		w.BeginArray("initValues");
