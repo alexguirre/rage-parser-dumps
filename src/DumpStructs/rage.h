@@ -23,8 +23,14 @@ struct atMap
 	};
 
 	Entry** Buckets;
+#if RDR3
+	uint32_t NumBuckets;
+	uint32_t padding;
+	uint32_t NumEntries;
+#else
 	uint16_t NumBuckets;
 	uint16_t NumEntries;
+#endif
 	int8_t field_C[3];
 	bool IsResizable;
 };
