@@ -1,6 +1,21 @@
 #include "rage.h"
+#include <Hooking.Patterns.h>
 
 parManager** parManager::sm_Instance = nullptr;
+
+
+uint32_t parStructure::FindAlign()
+{
+	using fn_t = uint32_t(parStructure*);
+	static fn_t* fn =
+#if RDR3
+		hook::get_pattern<fn_t>("0F B7 41 52 33 ED 48 8B F9 66 85 C0", -0x14);
+#else
+		hook::get_pattern<fn_t>("0F B7 41 2A 33 F6 48 8B F9 66 85 C0 74 05", -0xF);
+#endif
+
+	return fn(this);
+}
 
 std::string SubtypeToStr(parMemberType type, uint8_t subtype)
 {

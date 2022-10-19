@@ -227,17 +227,20 @@ static void DumpJsonAttributeList(JsonWriter& w, std::optional<std::string_view>
 	w.EndObject();
 }
 
-static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, parMemberCommonData* m)
+static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, parMember* member)
 {
-	if (m == nullptr)
+	if (member == nullptr)
 	{
 		w.Null(key);
 		return;
 	}
 
+	auto* m = member->data;
 	w.BeginObject(key);
 	w.UInt("name", m->name, json_uint_hex);
-	w.UInt("offset", m->offset, json_uint_hex_no_zero_pad);
+	w.UInt("offset", m->offset, json_uint_dec);
+	w.UInt("size", member->GetSize(), json_uint_dec);
+	w.UInt("align", member->FindAlign(), json_uint_dec);
 	w.UInt("flags1", m->flags1, json_uint_hex);
 	w.UInt("flags2", m->flags2, json_uint_hex);
 	if (m->extraData != 0 && m->type != parMemberType::ARRAY && m->type != parMemberType::STRING)
@@ -279,8 +282,9 @@ static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, p
 	break;
 	case parMemberType::ARRAY:
 	{
+		auto* array = static_cast<parMemberArray*>(member);
 		auto* arrayData = static_cast<parMemberArrayData*>(m);
-		DumpJsonMember(w, "item", arrayData->itemData);
+		DumpJsonMember(w, "item", array->item);
 		// virtualCallback unused in both GTA5 and RDR3 (though most ATARRAY members have it set pointing to a nullsub for some reason)
 		//if (arrayData->virtualCallback != nullptr)
 		//{
@@ -321,9 +325,10 @@ static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, p
 	break;
 	case parMemberType::MAP:
 	{
+		auto* map = static_cast<parMemberMap*>(member);
 		auto* mapData = static_cast<parMemberMapData*>(m);
-		DumpJsonMember(w, "key", mapData->keyData);
-		DumpJsonMember(w, "value", mapData->valueData);
+		DumpJsonMember(w, "key", map->key);
+		DumpJsonMember(w, "value", map->value);
 		if (mapData->createIterator != nullptr)
 		{
 			w.UInt("createIteratorFunc", (uintptr_t)mapData->createIterator->func - (uintptr_t)GetModuleHandle(NULL), json_uint_hex_no_zero_pad);
@@ -435,20 +440,18 @@ static void DumpJsonStructure(JsonWriter& w, std::optional<std::string_view> key
 		{
 			w.BeginObject("base");
 			w.UInt("name", s->baseStructure->name, json_uint_hex);
-			w.UInt("offset", s->baseOffset, json_uint_hex_no_zero_pad);
+			w.UInt("offset", s->baseOffset, json_uint_dec);
 			w.EndObject();
 		}
-		w.UInt("size", s->structureSize, json_uint_hex_no_zero_pad);
-		w.UInt("alignment", s->alignment, json_uint_hex_no_zero_pad);
+		w.UInt("size", s->structureSize, json_uint_dec);
+		w.UInt("align", s->FindAlign(), json_uint_dec);
 		w.String("flags", FlagsToString(s->flags));
 		w.String("version", std::format("{}.{}", s->versionMajor, s->versionMinor));
-		w.Bool("staticDataUnkFlag1", d->unkFlag1);
-		w.Bool("staticDataUnkFlag2", d->unkFlag2);
 		w.BeginArray("members");
 		for (size_t i = 0; i < s->members.Count; i++)
 		{
 			auto* m = s->members.Items[i];
-			DumpJsonMember(w, std::nullopt, m->data);
+			DumpJsonMember(w, std::nullopt, m);
 		}
 		w.EndArray();
 		if (d->memberNames != nullptr)

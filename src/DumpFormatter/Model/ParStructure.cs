@@ -32,18 +32,16 @@ internal readonly record struct ParStructureFactories(
 
 internal readonly record struct ParStructureBase(
     Name Name,
-    [property: JsonConverter(typeof(HexConverter))] ulong Offset);
+    ulong Offset);
 
 internal record ParStructure(
     Name Name,
     string? NameStr,
     ParStructureBase? Base,
-    [property: JsonConverter(typeof(HexConverter))] ulong Size,
-    [property: JsonConverter(typeof(HexConverter))] ulong Alignment,
+    ulong Size,
+    ulong Alignment,
     ParStructureFlags Flags,
     ParStructureVersion Version,
-    bool StaticDataUnkFlag1,
-    bool StaticDataUnkFlag2,
     ImmutableArray<ParMember> Members,
     ImmutableArray<string> MemberNames,
     ParAttributeList? ExtraAttributes,

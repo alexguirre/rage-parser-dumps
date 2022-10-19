@@ -26,7 +26,9 @@ internal class ParMemberConverter : JsonConverter<ParMember>
     /// </summary>
     private sealed record ParMemberUnified(
         Name Name,
-        [property: JsonConverter(typeof(HexConverter))] ulong Offset,
+        ulong Offset,
+        ulong Size,
+        ulong Align,
         [property: JsonConverter(typeof(HexConverter))] ulong Flags1,
         [property: JsonConverter(typeof(HexConverter))] ulong Flags2,
         [property: JsonConverter(typeof(HexConverter))] ulong ExtraData,
@@ -76,7 +78,7 @@ internal class ParMemberConverter : JsonConverter<ParMember>
                 ParMemberType.FLOAT16 or
                 ParMemberType.INT64 or
                 ParMemberType.UINT64 or
-                ParMemberType.DOUBLE => new ParMemberSimple(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, double.Parse(InitValue)),
+                ParMemberType.DOUBLE => new ParMemberSimple(Name, Offset, Size, Align, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, double.Parse(InitValue)),
 
                 ParMemberType.VECTOR2 or
                 ParMemberType.VECTOR3 or
@@ -86,26 +88,26 @@ internal class ParMemberConverter : JsonConverter<ParMember>
                 ParMemberType.VEC4V or
                 ParMemberType.VECBOOLV or
                 ParMemberType.VEC2F or 
-                ParMemberType.QUATV => new ParMemberVector(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, InitValues),
+                ParMemberType.QUATV => new ParMemberVector(Name, Offset, Size, Align, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, InitValues),
 
                 ParMemberType.MATRIX34 or
                 ParMemberType.MATRIX44 or
                 ParMemberType.MAT33V or
                 ParMemberType.MAT34V or
-                ParMemberType.MAT44V => new ParMemberMatrix(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, InitValues),
+                ParMemberType.MAT44V => new ParMemberMatrix(Name, Offset, Size, Align, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, InitValues),
 
-                ParMemberType.STRING => new ParMemberString(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, MemberSize, NamespaceIndex),
+                ParMemberType.STRING => new ParMemberString(Name, Offset, Size, Align, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, MemberSize, NamespaceIndex),
 
                 ParMemberType.ENUM or
-                ParMemberType.BITSET => new ParMemberEnum(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, EnumName, ulong.Parse(InitValue)),
+                ParMemberType.BITSET => new ParMemberEnum(Name, Offset, Size, Align, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, EnumName, ulong.Parse(InitValue)),
 
-                ParMemberType.ARRAY => new ParMemberArray(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, Item!.ToConcreteMember(), AllocFlags, ArraySize, CountOffset),
+                ParMemberType.ARRAY => new ParMemberArray(Name, Offset, Size, Align, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, Item!.ToConcreteMember(), AllocFlags, ArraySize, CountOffset),
 
-                ParMemberType.MAP => new ParMemberMap(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, Key!.ToConcreteMember(), Value!.ToConcreteMember(), CreateIteratorFunc, CreateInterfaceFunc),
+                ParMemberType.MAP => new ParMemberMap(Name, Offset, Size, Align, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, Key!.ToConcreteMember(), Value!.ToConcreteMember(), CreateIteratorFunc, CreateInterfaceFunc),
 
-                ParMemberType.STRUCT => new ParMemberStruct(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, StructName, ExternalNamedResolveFunc, ExternalNamedGetNameFunc, AllocateStructFunc),
+                ParMemberType.STRUCT => new ParMemberStruct(Name, Offset, Size, Align, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, StructName, ExternalNamedResolveFunc, ExternalNamedGetNameFunc, AllocateStructFunc),
 
-                _ => new ParMember(Name, Offset, Flags1, Flags2, ExtraData, Type, Subtype, Attributes),
+                _ => new ParMember(Name, Offset, Size, Align, Flags1, Flags2, ExtraData, Type, Subtype, Attributes),
             };
     }
 }

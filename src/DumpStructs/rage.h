@@ -250,7 +250,7 @@ struct parMemberCommonData
 	parAttributeList* attributes;
 };
 
-struct parMemberSimpleData : public parMemberCommonData
+struct parMemberSimpleData : parMemberCommonData
 {
 #if RDR3
 	double initValue;
@@ -259,24 +259,24 @@ struct parMemberSimpleData : public parMemberCommonData
 #endif
 };
 
-struct parMemberVectorData : public parMemberCommonData
+struct parMemberVectorData : parMemberCommonData
 {
 	float initValues[4];
 };
 
-struct parMemberMatrixData : public parMemberCommonData
+struct parMemberMatrixData : parMemberCommonData
 {
 	float initValues[16];
 };
 
-struct parMemberStringData : public parMemberCommonData
+struct parMemberStringData : parMemberCommonData
 {
 	uint32_t memberSize; // for subtype MEMBER and WIDE_MEMBER
 
 	uint8_t GetNamespaceIndex() { return static_cast<uint8_t>(extraData); }
 };
 
-struct parMemberStructData : public parMemberCommonData
+struct parMemberStructData : parMemberCommonData
 {
 	using ExternalNamedResolveCallback = void*(*)(const char* name);
 	using ExternalNamedGetNameCallback = const char*(*)(void* structPtr);
@@ -288,7 +288,7 @@ struct parMemberStructData : public parMemberCommonData
 	AllocateStructCallback allocateStruct;
 };
 
-struct parMemberEnumData : public parMemberCommonData
+struct parMemberEnumData : parMemberCommonData
 {
 #if RDR3
 	uint64_t initValue;
@@ -301,7 +301,7 @@ struct parMemberEnumData : public parMemberCommonData
 	uint8_t padding32[0x6];
 };
 
-struct parMemberArrayData : public parMemberCommonData
+struct parMemberArrayData : parMemberCommonData
 {
 	enum class AllocFlags : uint16_t
 	{
@@ -322,7 +322,7 @@ struct parMemberArrayData : public parMemberCommonData
 };
 DEFINE_ENUM_FLAG_OPERATORS(parMemberArrayData::AllocFlags);
 
-struct parMemberMapData : public parMemberCommonData
+struct parMemberMapData : parMemberCommonData
 {
 	parDelegateHolderBase* createIterator;
 	parDelegateHolderBase* createInterface;
@@ -332,24 +332,43 @@ struct parMemberMapData : public parMemberCommonData
 
 struct parMember
 {
-	void* __vftable;
 	parMemberCommonData* data;
+
+	virtual ~parMember() = 0;
+#if RDR3
+	virtual void ReadTreeNodeFast(void* node, void* dest) = 0;
+#endif
+	virtual void ReadTreeNode(void* node, void* dest) = 0;
+	virtual void LoadExtraAttributes(void* node) = 0;
+	virtual uint32_t GetSize() = 0;
+	virtual uint32_t FindAlign() = 0;
+};
+
+struct parMemberArray : parMember
+{
+	parMember* item;
+};
+
+struct parMemberMap : parMember
+{
+	parMember* key;
+	parMember* value;
 };
 
 struct parStructure
 {
 	enum class Flags
 #if RDR3
-		: uint32_t
+		: uint8_t
 #else
 		: uint16_t
 #endif
 	{
-		_0xB9C5D274 = 1 << 0, // 0xB9C5D274
+		_0xB9C5D274 = 1 << 0, // 0xB9C5D274 - related to alignment. If set, parStructure::FindAlign() starts calculating the alignment with 8, otherwise with 1
 		HAS_NAMES = 1 << 1, // 0x47AF4932
 		ALWAYS_HAS_NAMES = 1 << 2, // 0x9804A870
 		_0x25CB183C = 1 << 3, // 0x25CB183C
-		_0x62BE3669 = 1 << 4, // 0x62BE3669
+		_0x62BE3669 = 1 << 4, // 0x62BE3669 - set when parCguStructure::SetFactories() is called
 		_0x22A1FBDB = 1 << 5, // 0x22A1FBDB
 	};
 
@@ -362,13 +381,16 @@ struct parStructure
 	parStructure* baseStructure;
 	uint64_t baseOffset;
 	uint64_t structureSize;
+#if RDR3
 	Flags flags;
-	uint16_t alignment;
+	uint16_t align; // set after calling parStructure::FindAlign()
+	uint16_t alignOverride; // set in parCguStructure::CreateStructure(). If not 0, overrides the calculated alignment in parStructure::FindAlign()
+#else
+	Flags flags;
+	uint16_t align; // set after calling parStructure::FindAlign()
+#endif
 	uint16_t versionMajor;
 	uint16_t versionMinor;
-#if RDR3
-	uint8_t padding5A[6];
-#endif
 	atArray<parMember*> members;
 	parAttributeList* extraAttributes;
 	parDelegateHolderBase factoryNew;
@@ -376,6 +398,8 @@ struct parStructure
 	parDelegateHolderBase getStructureCB;
 	parDelegateHolderBase factoryDelete;
 	atBinaryMap<uint32_t, parDelegateHolderBase*> callbacks;
+
+	uint32_t FindAlign();
 };
 DEFINE_ENUM_FLAG_OPERATORS(parStructure::Flags);
 
@@ -388,8 +412,8 @@ struct parStructureStaticData
 	parMemberCommonData** membersData;
 	uint32_t* membersOffsets;
 	const char** memberNames;
-	bool unkFlag1;
-	bool unkFlag2;
+	bool bFlag_0xB9C5D274;    // sets parStructure::Flags::_0xB9C5D274
+	bool bFlagAlwaysHasNames; // sets parStructure::Flags::ALWAYS_HAS_NAMES
 };
 
 
