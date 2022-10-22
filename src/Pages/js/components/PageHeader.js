@@ -7,7 +7,7 @@ export default class PageHeader extends HTMLElement {
         const shadow = this.attachShadow({ mode: "open" });
         shadow.innerHTML = /*html*/`
             <link rel="stylesheet" href="css/style.css">
-            <a class="header-title" href="/" title="Home">rage::par</a>
+            <a class="header-title" href="." title="Home">rage::par</a>
             <a class="header-push header-icon" href="https://github.com/alexguirre/gtav-DumpStructs" title="GitHub Repository">
                 <img src="img/github.svg">
             </a>
