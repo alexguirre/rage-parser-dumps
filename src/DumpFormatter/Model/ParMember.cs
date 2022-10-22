@@ -135,7 +135,22 @@ internal record ParMemberSimple(
 internal record ParMemberVector(
     Name Name, ulong Offset, ulong Size, ulong Align, ulong Flags1, ulong Flags2, ulong ExtraData, ParMemberType Type, ParMemberSubtype Subtype, ParAttributeList? Attributes,
     double[] InitValues)
-    : ParMember(Name, Offset, Size, Align, Flags1, Flags2, ExtraData, Type, Subtype, Attributes);
+    : ParMember(Name, Offset, Size, Align, Flags1, Flags2, ExtraData, Type, Subtype, Attributes)
+{
+    public uint NumComponents => Type switch
+    {
+        ParMemberType.VEC2V or
+        ParMemberType.VECTOR2 or
+        ParMemberType.VEC2F => 2,
+        ParMemberType.VEC3V or
+        ParMemberType.VECTOR3 => 3,
+        ParMemberType.VEC4V or
+        ParMemberType.VECTOR4 or
+        ParMemberType.QUATV or
+        ParMemberType.VECBOOLV => 4,
+        _ => throw new InvalidOperationException("Not a vector type"),
+    };
+}
 
 internal record ParMemberMatrix(
     Name Name, ulong Offset, ulong Size, ulong Align, ulong Flags1, ulong Flags2, ulong ExtraData, ParMemberType Type, ParMemberSubtype Subtype, ParAttributeList? Attributes,

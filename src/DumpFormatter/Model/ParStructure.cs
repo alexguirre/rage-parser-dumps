@@ -39,7 +39,7 @@ internal record ParStructure(
     string? NameStr,
     ParStructureBase? Base,
     ulong Size,
-    ulong Alignment,
+    ulong Align,
     ParStructureFlags Flags,
     ParStructureVersion Version,
     ImmutableArray<ParMember> Members,

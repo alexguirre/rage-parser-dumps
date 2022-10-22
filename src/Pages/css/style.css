@@ -11,11 +11,10 @@
     --theme-accent: rgb(var(--theme-accent-rgb));
     --theme-background: #f6f8fa;
     --theme-background-alt: #eeeeee;
+    --theme-background-alt-focus: #d8d8d8;
     --theme-background-highlight: #dddddd;
     --theme-text: #000000;
     --theme-svg-icon-filter: none;
-    --theme-type-link-hover-background: 200, 200, 200;
-    --theme-type-link-selected-background: 216, 216, 216;
 
     /* based on Github's Light theme */
     --theme-code-keyword: #d73a49;
@@ -38,11 +37,10 @@
     --theme-accent-filter: invert(72%) sepia(84%) saturate(2415%) hue-rotate(360deg) brightness(102%) contrast(103%);
     --theme-background: #11161d;
     --theme-background-alt: #22272e;
+    --theme-background-alt-focus: #35393e;
     --theme-background-highlight: #33383f;
     --theme-text: #eeeeee;
     --theme-svg-icon-filter: invert(0.8);
-    --theme-type-link-hover-background: 86, 86, 102;
-    --theme-type-link-selected-background: 66, 66, 82;
 
     /* based on Github's Dark Dimmed theme */
     --theme-code-keyword: #f47067;
@@ -260,7 +258,7 @@ header {
     z-index: 10;
     background-color: var(--theme-background);
     border-radius: 6px;
-    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
     min-width: max-content;
@@ -270,10 +268,6 @@ header {
 .dump-downloads-dropdown-panel .dump-downloads-button {
     border-radius: 6px;
     padding: 0.4em;
-}
-
-.dump-downloads-dropdown-panel .dump-downloads-button:hover {
-    background-color: rgba(--theme-type-link-hover-background, 1.0);
 }
 
 #dump-game-info {
@@ -297,10 +291,11 @@ header {
     font-family: var(--default-monospace-font-family);
     font-size: 1.2em;
     outline: none;
+    box-sizing: border-box;
 }
 
 #dump-search-input:hover, #dump-search-input:focus {
-    filter: invert(0.1);
+    background: var(--theme-background-alt-focus);
 }
 
 #dump-search-options {
@@ -400,8 +395,7 @@ header {
     background-color: var(--theme-background-alt);
     font-family: var(--default-monospace-font-family);
     overflow: auto;
-    width: 30%;
-    padding: 0.67em;
+    width: 20%;
 }
 
 #dump-list ul {
@@ -409,9 +403,9 @@ header {
     padding-left: 1.34em;
 }
 
-#dump-list > ul {
-    padding-left: 0;
-    margin-top: 0;
+#dump-list > ul, #dump-list > * {
+    padding: 0.67em;
+    margin: 0;
 }
 
 #dump-list summary {
@@ -474,12 +468,10 @@ details[open] > summary .dump-entry-icon-container {
     margin: -0.3em;
     padding: 0.3em;
     background: none;
-    background-color: rgba(var(--theme-type-link-hover-background), 0.0);
-    transition: background-color 0.25s;
 }
 
 .type-link:hover {
-    background-color: rgba(var(--theme-type-link-hover-background), 1.0);
+    background: var(--theme-background-alt-focus);
     z-index: 5;
 }
 
@@ -619,9 +611,8 @@ details[open] > summary .dump-entry-icon-container {
     width: var(--size);
     height: var(--size);
     margin: auto;
-    background: url("../img/logo.svg") 50% 50% no-repeat;
+    background: rgba(var(--theme-accent-rgb), 0.1) url("../img/logo.svg") no-repeat 50% 50%;
     background-size: 70%;
-    background-color: rgba(var(--theme-accent-rgb), 0.1);
     border-radius: calc(var(--size) / 2);
     animation: loading-spinner-anim 0.75s infinite cubic-bezier(.39,.58,.57,1);
 }

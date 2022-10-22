@@ -22,13 +22,13 @@ internal class JsonTreeFormatter : IDumpFormatter
     private class StructNode : Node
     {
         public ulong Size { get; init; }
-        public ulong Alignment { get; init; }
+        public ulong Align { get; init; }
         public ParStructureVersion? Version { get; init; }
         public List<Field>? Fields { get; init; }
         public List<StructNode>? Children { get; set; }
         public string? Xml { get; init; }
     };
-    private record Field(string Name, ulong Offset, ParMemberType Type, ParMemberSubtype Subtype);
+    private record Field(string Name, ulong Offset, ulong Size, ulong Align, ParMemberType Type, ParMemberSubtype Subtype);
 
     public virtual void Format(TextWriter writer, ParDump dump)
     {
@@ -66,7 +66,7 @@ internal class JsonTreeFormatter : IDumpFormatter
                 {
                     Name = structure.GetName(),
                     Size = structure.Size,
-                    Alignment = structure.Alignment,
+                    Align = structure.Align,
                     Version = structure.Version != new ParStructureVersion(0, 0) ? structure.Version : null,
                     Fields = GetStructFields(dump, structure),
                     Markup = GetStructMarkup(dump, structure),
@@ -99,7 +99,7 @@ internal class JsonTreeFormatter : IDumpFormatter
         return structure.Members.IsDefaultOrEmpty ? 
                 null :
                 structure.Members
-                         .Select((m, i) => new Field(!names.IsDefaultOrEmpty ? names[i] : m.Name.ToString(), m.Offset, m.Type, m.Subtype))
+                         .Select((m, i) => new Field(!names.IsDefaultOrEmpty ? names[i] : m.Name.ToString(), m.Offset, m.Size, m.Align, m.Type, m.Subtype))
                          .ToList();
     }
 
@@ -295,7 +295,7 @@ internal class JsonTreeFormatter : IDumpFormatter
                 ParMemberType.UINT64 => "uint64",
                 ParMemberType.DOUBLE => "double",
                 ParMemberType.GUID => "guid",
-                ParMemberType._0xFE5A582C => "_0xFE5A582C",
+                ParMemberType.VEC2F => "Vec2f",
                 ParMemberType.QUATV => "QuatV",
                 _ => "UNKNOWN",
             };
@@ -374,7 +374,7 @@ internal class JsonTreeFormatter : IDumpFormatter
                 case ParMemberType.FLOAT:
                 case ParMemberType.FLOAT16:
                 case ParMemberType.DOUBLE:
-                    sb.AppendLine($"<{m.Name} {Attr("value")}={Str(((ParMemberSimple)m).InitValue.ToString("0.000000"))} />");
+                    sb.AppendLine($"<{m.Name} {Attr("value")}={FloatStr(((ParMemberSimple)m).InitValue)} />");
                     break;
                 case ParMemberType.CHAR:
                 case ParMemberType.UCHAR:
@@ -386,27 +386,70 @@ internal class JsonTreeFormatter : IDumpFormatter
                 case ParMemberType.UINT64:
                 case ParMemberType.PTRDIFFT:
                 case ParMemberType.SIZET:
-                    sb.AppendLine($"<{m.Name} {Attr("value")}={Str(((ParMemberSimple)m).InitValue.ToString("0"))} />");
+                    sb.AppendLine($"<{m.Name} {Attr("value")}={IntStr(((ParMemberSimple)m).InitValue)} />");
                     break;
                 case ParMemberType.BOOL:
-                    sb.AppendLine($"<{m.Name} {Attr("value")}={Str(((ParMemberSimple)m).InitValue == 0.0 ? "false" : "true")} />");
+                    sb.AppendLine($"<{m.Name} {Attr("value")}={BoolStr(((ParMemberSimple)m).InitValue)} />");
                     break;
                 case ParMemberType.STRING:
-                    sb.AppendLine($"<{m.Name}>Text</{m.Name}>");
+                    var stringContents = "String";
+                    var initValueAttr = m.Attributes?.List.FirstOrDefault(attr => attr.Name == "initValue"); // TODO: GTA5 also uses initHashValue
+                    if (initValueAttr?.Type == ParAttributeType.String)
+                    {
+                        stringContents = initValueAttr.Value.ToString();
+                    }
+                    sb.AppendLine($"<{m.Name}>{stringContents}</{m.Name}>");
                     break;
                 case ParMemberType.VEC2V:
                 case ParMemberType.VECTOR2:
-                    sb.AppendLine($"<{m.Name} {Attr("x")}={Str("123.000000")} {Attr("y")}={Str("123.000000")} />"); // TODO: do vector have default values?
-                    break;
+                case ParMemberType.VEC2F:
                 case ParMemberType.VEC3V:
                 case ParMemberType.VECTOR3:
-                    sb.AppendLine($"<{m.Name} {Attr("x")}={Str("123.000000")} {Attr("y")}={Str("123.000000")} {Attr("z")}={Str("123.000000")} />");
-                    break;
                 case ParMemberType.VEC4V:
                 case ParMemberType.VECTOR4:
                 case ParMemberType.QUATV:
-                    sb.AppendLine($"<{m.Name} {Attr("x")}={Str("123.000000")} {Attr("y")}={Str("123.000000")} {Attr("z")}={Str("123.000000")} {Attr("w")}={Str("123.000000")} />");
+                    var mv = (ParMemberVector)m;
+                    sb.Append($"<{m.Name} {Attr("x")}={FloatStr(mv.InitValues[0])}");
+                    if (mv.NumComponents >= 2) { sb.Append($" {Attr("y")}={FloatStr(mv.InitValues[1])}"); }
+                    if (mv.NumComponents >= 3) { sb.Append($" {Attr("z")}={FloatStr(mv.InitValues[2])}"); }
+                    if (mv.NumComponents >= 4) { sb.Append($" {Attr("w")}={FloatStr(mv.InitValues[3])}"); }
+                    sb.AppendLine(" />");
                     break;
+                case ParMemberType.VECBOOLV:
+                    var mvb = (ParMemberVector)m;
+                    sb.AppendLine($"<{m.Name} {Attr("x")}={BoolStr(mvb.InitValues[0])} {Attr("y")}={BoolStr(mvb.InitValues[1])} {Attr("z")}={BoolStr(mvb.InitValues[2])} {Attr("w")}={BoolStr(mvb.InitValues[3])} />");
+                    break;
+                case ParMemberType.MAT33V:
+                case ParMemberType.MAT34V:
+                    var mm = (ParMemberMatrix)m;
+                    sb.AppendLine($"<{m.Name} {Attr("content")}={Str(m.Type == ParMemberType.MAT33V ? "matrix33" : "matrix34")}>");
+                    depth++;
+                    Indent(); sb.AppendLine($"{Float(mm.InitValues[0])}\t{Float(mm.InitValues[4])}\t{Float(mm.InitValues[8])}");
+                    Indent(); sb.AppendLine($"{Float(mm.InitValues[1])}\t{Float(mm.InitValues[5])}\t{Float(mm.InitValues[9])}");
+                    Indent(); sb.AppendLine($"{Float(mm.InitValues[2])}\t{Float(mm.InitValues[6])}\t{Float(mm.InitValues[10])}");
+                    if (m.Type == ParMemberType.MAT34V)
+                    {
+                        Indent(); sb.AppendLine($"{Float(mm.InitValues[3])}\t{Float(mm.InitValues[7])}\t{Float(mm.InitValues[11])}");
+                    }
+                    depth--;
+                    Indent();
+                    sb.AppendLine($"</{m.Name}>");
+                    break;
+                case ParMemberType.MAT44V:
+                    var mm2 = (ParMemberMatrix)m;
+                    sb.AppendLine($"<{m.Name} {Attr("content")}={Str("matrix44")}>");
+                    depth++;
+                    Indent(); sb.AppendLine($"{Float(mm2.InitValues[0])}\t{Float(mm2.InitValues[4])}\t{Float(mm2.InitValues[8])}\t{Float(mm2.InitValues[12])}");
+                    Indent(); sb.AppendLine($"{Float(mm2.InitValues[1])}\t{Float(mm2.InitValues[5])}\t{Float(mm2.InitValues[9])}\t{Float(mm2.InitValues[13])}");
+                    Indent(); sb.AppendLine($"{Float(mm2.InitValues[2])}\t{Float(mm2.InitValues[6])}\t{Float(mm2.InitValues[10])}\t{Float(mm2.InitValues[14])}");
+                    Indent(); sb.AppendLine($"{Float(mm2.InitValues[3])}\t{Float(mm2.InitValues[7])}\t{Float(mm2.InitValues[11])}\t{Float(mm2.InitValues[15])}");
+                    depth--;
+                    Indent();
+                    sb.AppendLine($"</{m.Name}>");
+                    break;
+                //case ParMemberType.MATRIX34:
+                //case ParMemberType.MATRIX44:
+                //    throw new NotImplementedException();
                 default:
                     sb.AppendLine($"<{m.Name} />");
                     break;
@@ -468,6 +511,15 @@ internal class JsonTreeFormatter : IDumpFormatter
         }
 
         void Indent() => sb!.Append('\t', depth);
+
+
+        static string Bool(double v) => v == 0.0 ? "false" : "true";
+        static string Int(double v) => v.ToString("0");
+        static string Float(double v) => v.ToString("0.000000");
+
+        static string BoolStr(double v) => Str(Bool(v));
+        static string IntStr(double v) => Str(Int(v));
+        static string FloatStr(double v) => Str(Float(v));
 
         static string Attr(string name) => $"${name}$";
         static string Str(string str) => $"s\"{str}\"s";

@@ -9,7 +9,7 @@ export default class DumpDownloads extends HTMLElement {
         { id: "xsd",        ext: "xsd",         text: "XSD",        desc: "Download structures XML Schema Definition",  icon: "img/icon-xsd.svg" },
     ];
 
-    static html = /*html*/`
+    static html = `
         <link rel="stylesheet" href="css/style.css">
         <div id="dropdown" class="dump-downloads-dropdown">
             <button id="dropdown-button" class="header-icon dump-downloads-button" title="Download">

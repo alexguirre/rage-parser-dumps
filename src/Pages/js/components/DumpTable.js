@@ -1,4 +1,4 @@
-import { gameIdToFormattedName, getDumpURL } from '../util.js';
+import { gameIdToFormattedName } from '../util.js';
 
 export default class DumpTable extends HTMLElement {
     #game;

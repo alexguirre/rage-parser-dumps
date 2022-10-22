@@ -187,7 +187,7 @@ internal class HtmlFormatter : PlainTextFormatter
             ParMemberType.UINT64 => Keyword("uint64"),
             ParMemberType.DOUBLE => Keyword("double"),
             ParMemberType.GUID => Keyword("guid"),
-            ParMemberType._0xFE5A582C => Type("_0xFE5A582C"),
+            ParMemberType.VEC2F => Type("Vec2f"),
             ParMemberType.QUATV => Type("QuatV"),
             _ => "UNKNOWN",
         };

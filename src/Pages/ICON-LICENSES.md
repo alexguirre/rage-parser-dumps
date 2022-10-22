@@ -13,6 +13,7 @@
 [match-case.svg](https://github.com/microsoft/vscode-codicons/blob/main/src/icons/case-sensitive.svg)
 [show-children.svg](https://github.com/microsoft/vscode-codicons/blob/main/src/icons/list-tree.svg)
 [regex.svg](https://github.com/microsoft/vscode-codicons/blob/main/src/icons/regex.svg)
+[match-members.svg](https://github.com/microsoft/vscode-codicons/blob/main/src/icons/symbol-namespace.svg)
 
 ```
 Attribution 4.0 International

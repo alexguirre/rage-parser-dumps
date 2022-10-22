@@ -23,7 +23,7 @@ function init() {
     const search = new DumpSearchHandler();
 
     hideElement(document.getElementById("dump-subheader"), false);
-return;
+
     const jsonLoc = getDumpURL(game, build, "tree.json");
     fetch(jsonLoc)
         .then(response => response.json())
@@ -183,7 +183,7 @@ class DumpDetailsView {
         if (isStruct) {
             version.textContent = node.version ? `Version - ${node.version}` : "";
             size.textContent = `Size - ${node.size}`;
-            alignment.textContent = `Alignment - ${node.alignment}`;
+            alignment.textContent = `Alignment - ${node.align}`;
             hideElement(version, !node.version);
             hideElement(size, false);
             hideElement(alignment, false);
@@ -215,7 +215,7 @@ class DumpDetailsView {
         const usageListSection = document.getElementById("dump-details-usage-list-section");
         const usageList = document.getElementById("dump-details-usage-list");
         if (node.usage) {
-            usageList.innerHTML = node.usage.map(usedInTypeName => /*html*/`<li><a class="type-link hl-type" href="#${usedInTypeName}">${usedInTypeName}</a></li>`).join("");
+            usageList.innerHTML = node.usage.map(usedInTypeName => `<li><a class="type-link hl-type" href="#${usedInTypeName}">${usedInTypeName}</a></li>`).join("");
             hideElement(usageListSection, false);
         } else {
             usageList.innerHTML = "";
@@ -272,6 +272,7 @@ function enableSplitter() {
         dragging = true;
 
         e.preventDefault();
+
     });
 
     document.addEventListener("mousemove", e => {
@@ -297,13 +298,17 @@ class DumpSearchHandler {
 
     static defaultOptions = {
         /**
-         * String comparison is case-sensitive
+         * String comparison is case-sensitive.
          */
         matchCase: false,
         /**
          * Treats the search string as a regular expression.
          */
         regex: false,
+        /**
+         * Search the string in struct member names.
+         */
+        matchMembers: false,
         /**
          * Matching the base struct will include its derived structs in the search results.
          */
@@ -327,8 +332,8 @@ class DumpSearchHandler {
         this.#options = { ...DumpSearchHandler.defaultOptions, ...DumpSearchHandler.storedOptions };
         this.#bindOption("dump-search-toggle-match-case",    () => this.#options.matchCase,    v => this.#options.matchCase = v);
         this.#bindOption("dump-search-toggle-regex",         () => this.#options.regex,        v => this.#options.regex = v);
+        this.#bindOption("dump-search-toggle-match-members", () => this.#options.matchMembers, v => this.#options.matchMembers = v);
         this.#bindOption("dump-search-toggle-show-children", () => this.#options.showChildren, v => this.#options.showChildren = v);
-
         this.#input = document.getElementById("dump-search-input");
         this.#input.addEventListener("input", this.#onInput.bind(this));
 
@@ -373,32 +378,51 @@ class DumpSearchHandler {
     }
 
     search(text) {
-        text = this.#options.matchCase ? text : text.toLowerCase();
-        const numResults = this.#doSearch(this.#nodes, text, {});
+        text = text.trim();
+        let matcher;
+        if (text.length === 0) {
+            matcher = _ => true;
+        } else if (this.#options.regex) {
+            const regex = new RegExp(text, this.#options.matchCase ? undefined : "i");
+            matcher = str => regex.test(str);
+        } else {
+            text = this.#options.matchCase ? text : text.toLowerCase();
+            matcher = str => str.indexOf(text) !== -1;
+        }
+        const numResults = this.#doSearch(this.#nodes, matcher);
         hideElement(this.#noResultsMsg, numResults !== 0);
     }
 
-    #doSearch(nodes, text, state) {
+    /**
+     *
+     * @param {{}[]} nodes
+     * @param {(str: string) => boolean} matcher
+     * @param {{}} state
+     * @returns {number} number of matching elements
+     */
+    #doSearch(nodes, matcher, state = {}) {
         let numResults = 0;
         for(let i = 0; i < nodes.length; i++) {
             const node = nodes[i];
-            const name = this.#options.matchCase ? node.name : node.nameLowerCase;
+            const name = this.#options.matchMembers ?
+                            (this.#options.matchCase ? node.markup : node.markupLowerCase) : // TODO: search only member names with 'matchMembers' set
+                            (this.#options.matchCase ? node.name : node.nameLowerCase);
             let match = false;
             if (this.#options.showChildren) {
-                match = state.parentMatch || text.length === 0 || name.indexOf(text) !== -1;
+                match = state.parentMatch || matcher(name);
                 const prevParentMatch = state.parentMatch;
                 state.parentMatch = match;
 
-                const numChildrenResults = node.children ? this.#doSearch(node.children, text, state) : 0;
+                const numChildrenResults = node.children ? this.#doSearch(node.children, matcher, state) : 0;
                 numResults += numChildrenResults;
 
                 match = numChildrenResults !== 0 || match;
 
                 state.parentMatch = prevParentMatch;
             } else {
-                const numChildrenResults = node.children ? this.#doSearch(node.children, text, state) : 0;
+                const numChildrenResults = node.children ? this.#doSearch(node.children, matcher, state) : 0;
                 numResults += numChildrenResults;
-                match = numChildrenResults !== 0 || text.length === 0 || name.indexOf(text) !== -1;
+                match = numChildrenResults !== 0 || matcher(name);
             }
 
 
@@ -417,6 +441,7 @@ class DumpSearchHandler {
             for (let i = 0; i < nodes.length; i++) {
                 const node = nodes[i];
                 node.nameLowerCase = node.name.toLowerCase();
+                node.markupLowerCase = node.markup.toLowerCase();
                 node.element = document.getElementById(node.name).closest("li");
                 if (node.children) {
                     bindAssociatedElements(node.children);
