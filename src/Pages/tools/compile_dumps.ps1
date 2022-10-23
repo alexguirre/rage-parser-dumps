@@ -38,7 +38,7 @@ foreach ($game in $games) {
         Copy-Item -Path $jsonDump -Destination "$OutputDir\$name\b$build.json"
         & $DumpFormatterExePath --dictionary $dictionary html      $jsonDump "$OutputDir\$name\b$build.html"
         & $DumpFormatterExePath --dictionary $dictionary plaintext $jsonDump "$OutputDir\$name\b$build.txt"
-        & $DumpFormatterExePath --dictionary $dictionary xsd       $jsonDump "$OutputDir\$name\b$build.xsd"
+        #& $DumpFormatterExePath --dictionary $dictionary xsd       $jsonDump "$OutputDir\$name\b$build.xsd"
         & $DumpFormatterExePath --dictionary $dictionary jsontree  $jsonDump "$OutputDir\$name\b$build.tree.json"
     }
 }

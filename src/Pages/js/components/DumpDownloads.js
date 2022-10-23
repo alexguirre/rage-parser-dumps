@@ -6,7 +6,7 @@ export default class DumpDownloads extends HTMLElement {
         { id: "plain-text", ext: "txt",         text: "Plain Text", desc: "Download structures list as plain text",     icon: "img/icon-txt.svg" },
         { id: "json",       ext: "json",        text: "JSON",       desc: "Download JSON dump",                         icon: "img/icon-json.svg" },
         { id: "tree-json",  ext: "tree.json",   text: "tree.json",  desc: "Download tree.json",                         icon: "img/icon-json.svg" },
-        { id: "xsd",        ext: "xsd",         text: "XSD",        desc: "Download structures XML Schema Definition",  icon: "img/icon-xsd.svg" },
+        /*{ id: "xsd",        ext: "xsd",         text: "XSD",        desc: "Download structures XML Schema Definition",  icon: "img/icon-xsd.svg" },*/
     ];
 
     static html = `
