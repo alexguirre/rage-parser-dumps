@@ -2,10 +2,10 @@ import { getDumpURL, hideElement } from "../util.js";
 
 export default class DumpDownloads extends HTMLElement {
     static sources = [
-        { id: "html",       ext: "html",        text: "HTML",       desc: "Download structures list as HTML",           icon: "img/icon-html.svg" },
-        { id: "plain-text", ext: "txt",         text: "Plain Text", desc: "Download structures list as plain text",     icon: "img/icon-txt.svg" },
-        { id: "json",       ext: "json",        text: "JSON",       desc: "Download JSON dump",                         icon: "img/icon-json.svg" },
-        { id: "tree-json",  ext: "tree.json",   text: "tree.json",  desc: "Download tree.json",                         icon: "img/icon-json.svg" },
+        { id: "html",       ext: "html",        text: "HTML",               desc: "Download structures list as HTML",                                       icon: "img/icon-html.svg" },
+        { id: "plain-text", ext: "txt",         text: "Plain Text",         desc: "Download structures list as plain text",                                 icon: "img/icon-txt.svg" },
+        { id: "json",       ext: "json",        text: "JSON",               desc: "Download raw JSON dump",                                                 icon: "img/icon-json.svg" },
+        { id: "tree-json",  ext: "tree.json",   text: "Preprocessed JSON",  desc: "Download preprocessed JSON dump. This is the data source for this site", icon: "img/icon-json.svg" },
         /*{ id: "xsd",        ext: "xsd",         text: "XSD",        desc: "Download structures XML Schema Definition",  icon: "img/icon-xsd.svg" },*/
     ];
 
