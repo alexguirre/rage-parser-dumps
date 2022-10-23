@@ -39,7 +39,7 @@ internal record ParStructure(
     string? NameStr,
     ParStructureBase? Base,
     ulong Size,
-    ulong Alignment,
+    ulong Align,
     ParStructureFlags Flags,
     ParStructureVersion Version,
     ImmutableArray<ParMember> Members,
@@ -47,4 +47,7 @@ internal record ParStructure(
     ParAttributeList? ExtraAttributes,
     ParStructureFactories Factories,
     Pointer? GetStructureCB,
-    Dictionary<string, Pointer>? Callbacks);
+    Dictionary<string, Pointer>? Callbacks)
+{
+    public string GetName() => NameStr ?? Name.ToString();
+}

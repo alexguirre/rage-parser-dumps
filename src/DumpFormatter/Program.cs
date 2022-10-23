@@ -15,6 +15,7 @@ internal static class Program
         PlainText,
         Html,
         Xsd,
+        JsonTree,
     }
     
     static int Main(string[] args)
@@ -53,6 +54,7 @@ internal static class Program
             Format.PlainText => new PlainTextFormatter(),
             Format.Html => new HtmlFormatter(),
             Format.Xsd => new XsdFormatter(),
+            Format.JsonTree => new JsonTreeFormatter(),
             _ => throw new ArgumentException($"Unknown format '{format}'"),
         };
 

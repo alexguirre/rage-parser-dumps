@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>rage::par</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preload" as="image" href="img/logo.svg"> <!-- preload loading spinner image so something shows while the dump loads -->
+    <script src="js/theming.early.js"></script>
+    <script type="module" src="js/dump.js"></script>
+</head>
+<body id="dump-body">
+    <template id="code-snippet-template">
+        <link rel="stylesheet" href="css/style.css">
+        <div class="code-snippet-contents">
+            <pre><code id="code"></code></pre>
+            <button id="copy-btn" title="Copy snippet"></button>
+        </div>
+    </template>
+    <header is="page-header"></header>
+    <main id="dump-main">
+        <div id="dump-subheader" class="row-layout hidden">
+            <div id="dump-game-info"></div>
+            <div id="dump-search-box">
+                <input id="dump-search-input" type="text" placeholder="Search..." />
+                <div id="dump-search-options" class="row-layout">
+                    <button id="dump-search-toggle-match-case"    class="header-icon dump-search-toggle" title="Match Case"><img src="img/match-case.svg"></button>
+                    <button id="dump-search-toggle-regex"         class="header-icon dump-search-toggle" title="Use Regular Expression"><img src="img/regex.svg"></button>
+                    <button id="dump-search-toggle-match-members" class="header-icon dump-search-toggle" title="Match Members"><img src="img/match-members.svg"></button>
+                    <button id="dump-search-toggle-show-children" class="header-icon dump-search-toggle" title="Show Children"><img src="img/show-children.svg"></button>
+                </div>
+            </div>
+            <dump-downloads class="row-layout-push"></dump-downloads>
+        </div>
+        <div id="loading" class="loading-spinner" title="Loading"></div>
+        <p id="dump-error-msg" class="dump-help-msg hidden">This is an error message.</p>
+        <div id="dump-container" class="hidden">
+            <div id="dump-list">
+                <p id="dump-no-results-msg" class="dump-help-msg hidden">No results found.</p>
+            </div>
+            <div id="dump-splitter"></div>
+            <div id="dump-details">
+                <p id="dump-details-help-tip" class="dump-help-msg">Select a type to display its details here.</p>
+                <div id="dump-details-view" class="hidden">
+                    <div class="row-layout">
+                        <button id="dump-details-link" class="link-btn" title="Copy link"></button>
+                        <h3 id="dump-details-name">CSomeStruct</h3>
+                    </div>
+                    <code-snippet id="dump-details-struct" lang="cpp"></code-snippet>
+                    <div class="dump-details-section-contents row-layout">
+                        <span id="dump-details-version">Version - 1.0</span>
+                        <span id="dump-details-size">Size - 123</span>
+                        <span id="dump-details-alignment">Alignment - 123</span>
+                    </div>
+                    <details id="dump-details-fields-section" open>
+                        <summary><h4 class="dump-details-title">Fields</h4></summary>
+                        <table id="dump-details-fields" class="themed-table dump-details-section-contents">
+                            <thead>
+                                <tr>
+                                    <th>Offset</th>
+                                    <!-- <th>Size</th>
+                                    <th>Alignment</th> -->
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dump-details-fields-body">
+                            </tbody>
+                        </table>
+                    </details>
+                    <details id="dump-details-usage-list-section" open>
+                        <summary><h4 class="dump-details-title">Used in</h4></summary>
+                        <ul id="dump-details-usage-list" class="dump-details-section-contents">
+                        </ul>
+                    </details>
+                    <details id="dump-details-xml-section" open>
+                        <summary><h4 class="dump-details-title">XML example</h4></summary>
+                        <div class="dump-details-section-contents"><code-snippet id="dump-details-xml" lang="xml"></code-snippet></div>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

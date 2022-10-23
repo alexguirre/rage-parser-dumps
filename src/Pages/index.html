@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>rage::par</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/theming.early.js"></script>
+    <script type="module" src="js/index.js"></script>
+</head>
+<body>
+    <template id="dump-table-template">
+        <link rel="stylesheet" href="css/style.css">
+        <div class="dump-table-wrapper">
+            <h2 class="dump-title">Unknown game</h2>
+            <table class="themed-table dump-table">
+                <thead>
+                    <tr>
+                        <th>Build</th>
+                        <th>Aliases</th>
+                        <th>Links</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </template>
+    <template id="dump-table-row-template">
+        <tr>
+            <td>???</td>
+            <td>-</td>
+            <td class="row-layout">
+                <a title="View structures list" class="header-icon"><img src="img/dump-icon-page.svg"></a>
+                <dump-downloads></dump-downloads>
+            </td>
+        </tr>
+    </template>
+
+    <header is="page-header"></header>
+    <main>
+        <dump-tables-container></dump-tables-container>
+    </main>
+</body>
+</html>
