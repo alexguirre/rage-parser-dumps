@@ -38,16 +38,7 @@ internal static class Joaat
                 var s = line.Trim();
                 if (s.Length == 0) { continue; }
 
-                var s1u = char.ToUpperInvariant(s[0]) + s[1..];
-                var s1l = char.ToLowerInvariant(s[0]) + s[1..];
-                var su = s.ToUpperInvariant();
-                var sl = s.ToLowerInvariant();
-
                 if (!AddString(s)) { ThrowDuplicateHash(s); }
-                if (s != s1u && !AddString(s1u)) { ThrowDuplicateHash(s1u); }
-                if (s != s1l && !AddString(s1l)) { ThrowDuplicateHash(s1l); }
-                if (s != su && !AddString(su)) { ThrowDuplicateHash(su); }
-                if (s != sl && !AddString(sl)) { ThrowDuplicateHash(sl); }
             //}
             //catch (DuplicateHashException ex)
             //{
