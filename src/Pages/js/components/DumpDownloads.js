@@ -64,9 +64,15 @@ export default class DumpDownloads extends HTMLElement {
     }
 
     #onWindowClick(e) {
-        if (this.#dropdownOpen && e.originalTarget.closest("#dropdown") !== this.#dropdown) {
-            hideElement(this.#panel, true);
-            this.#dropdownOpen = false;
+        if (this.#dropdownOpen) {
+            const buttonBounds = this.#button.getBoundingClientRect();
+            const panelBounds = this.#panel.getBoundingClientRect();
+            const isPointInRect = (x, y, rect) => x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+
+            if (!isPointInRect(e.clientX, e.clientY, buttonBounds) && !isPointInRect(e.clientX, e.clientY, panelBounds)) {
+                hideElement(this.#panel, true);
+                this.#dropdownOpen = false;
+            }
         }
     }
 
