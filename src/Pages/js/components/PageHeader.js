@@ -8,7 +8,7 @@ export default class PageHeader extends HTMLElement {
         shadow.innerHTML = /*html*/`
             <link rel="stylesheet" href="css/style.css">
             <a class="header-title" href="." title="Home">rage::par</a>
-            <a class="header-push header-icon" href="https://github.com/alexguirre/gtav-DumpStructs" title="GitHub Repository">
+            <a class="header-push header-icon" href="https://github.com/alexguirre/rage-parser-dumps" title="GitHub Repository">
                 <img src="img/github.svg">
             </a>
             <button id="${THEME_SWITCHER_ID}" class="header-icon" title="Toggle Theme">
