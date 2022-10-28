@@ -5,6 +5,8 @@
 
     --btn-clicked-anim-scale: 1.25;
 
+    --icon-size: 24px;
+
     /* light mode */
     --theme-accent-rgb: 235, 156, 0;
     --theme-accent-filter: invert(53%) sepia(80%) saturate(1160%) hue-rotate(9deg) brightness(102%) contrast(101%);
@@ -132,8 +134,8 @@ header {
 }
 
 .header-icon > img {
-    height: 24px;
-    width: 24px;
+    width: var(--icon-size);
+    height: var(--icon-size);
     display:block;
     filter: var(--theme-svg-icon-filter);
 }
@@ -216,6 +218,11 @@ header {
     border-top: 2px solid var(--theme-text);
 }
 
+.themed-table tbody > tr > td {
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+}
+
 .themed-table tbody > tr:nth-child(odd) {
     background-color: var(--theme-background-alt);
 }
@@ -229,14 +236,38 @@ header {
 }
 
 .dump-table-wrapper {
+    --dump-table-padding: 1em;
     margin-top: 1em;
     margin-bottom: 2em;
-    padding-left: 1em;
-    padding-right: 1em;
+    padding-left: var(--dump-table-padding);
+    padding-right: var(--dump-table-padding);
 }
 
 .dump-table th:first-child {
+    width: calc(var(--icon-size) * 1.25);
+}
+
+.dump-table th:nth-child(2) {
     width: 15%;
+}
+
+.dump-table tbody > tr:hover {
+    background-color: var(--theme-background-alt-focus);
+}
+
+.dump-table tbody > tr > td:first-child {
+    position: relative;
+}
+
+/* make link fill the entire row */
+.dump-link {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    display: block;
+    width: calc(100vw - var(--dump-table-padding) * 2);
 }
 
 .dump-downloads-dropdown {
@@ -262,6 +293,13 @@ header {
     display: flex;
     flex-direction: column;
     min-width: max-content;
+}
+
+.dump-downloads-dropdown-panel-left {
+    left: 0;
+}
+
+.dump-downloads-dropdown-panel-right {
     right: 0;
 }
 
@@ -481,8 +519,8 @@ details[open] > summary .dump-entry-icon-container {
 }
 
 .link-btn {
-    height: 24px;
-    width: 24px;
+    height: var(--icon-size);
+    width: var(--icon-size);
     border: none;
     padding: 0;
     background: url("../img/link.svg") 0 50% no-repeat;
@@ -523,8 +561,8 @@ details[open] > summary .dump-entry-icon-container {
 }
 
 .code-snippet-contents #copy-btn {
-    height: 24px;
-    width: 24px;
+    height: var(--icon-size);
+    width: var(--icon-size);
     border: none;
     padding: 0;
     position: absolute;

@@ -31,12 +31,12 @@ export default class DumpTable extends HTMLElement {
         const row = this.#rowTemplate.content.cloneNode(true);
 
         const cols = row.querySelectorAll("td");
-        cols[0].textContent = build;
+        cols[1].innerText = build;
         if (aliases.length > 0) {
-            cols[1].textContent = aliases.join(", ");
+            cols[2].innerText = aliases.join(", ");
         }
-        cols[2].querySelector("a").href = `dump.html?game=${this.#game}&build=${build}`;
-        const downloads = cols[2].querySelector("dump-downloads");
+        cols[0].querySelector("a").href = `dump.html?game=${this.#game}&build=${build}`;
+        const downloads = cols[0].querySelector("dump-downloads");
         downloads.setAttribute("game", this.#game);
         downloads.setAttribute("build", build);
 

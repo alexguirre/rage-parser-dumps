@@ -77,6 +77,18 @@ export default class DumpDownloads extends HTMLElement {
     }
 
     #onDropdownButtonClick(e) {
+        if (!this.#dropdownOpen) {
+            // anchor panel on left/right side relative to the button, so it is inside the viewport always
+            const middle = window.innerWidth / 2;
+            if (this.#dropdown.offsetLeft <= middle) {
+                this.#panel.classList.remove("dump-downloads-dropdown-panel-right");
+                this.#panel.classList.add("dump-downloads-dropdown-panel-left");
+            } else {
+                this.#panel.classList.remove("dump-downloads-dropdown-panel-left");
+                this.#panel.classList.add("dump-downloads-dropdown-panel-right");
+            }
+        }
+
         hideElement(this.#panel, this.#dropdownOpen);
         this.#dropdownOpen = !this.#dropdownOpen;
     }
