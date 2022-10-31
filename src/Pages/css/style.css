@@ -17,6 +17,7 @@
     --theme-background-highlight: #dddddd;
     --theme-text: #000000;
     --theme-svg-icon-filter: none;
+    --theme-header-icon-hover-filter: invert(0.35);
 
     /* based on Github's Light theme */
     --theme-code-keyword: #d73a49;
@@ -43,6 +44,7 @@
     --theme-background-highlight: #33383f;
     --theme-text: #eeeeee;
     --theme-svg-icon-filter: invert(0.8);
+    --theme-header-icon-hover-filter: invert(0.35);
 
     /* based on Github's Dark Dimmed theme */
     --theme-code-keyword: #f47067;
@@ -128,15 +130,15 @@ header {
     cursor: pointer;
 }
 
-.header-icon:hover {
-    filter: invert(0.35);
+.header-icon:hover > img {
+    filter: var(--theme-header-icon-hover-filter);
     transform: scale(1.125);
 }
 
 .header-icon > img {
     width: var(--icon-size);
     height: var(--icon-size);
-    display:block;
+    display: block;
     filter: var(--theme-svg-icon-filter);
 }
 
@@ -285,10 +287,11 @@ header {
 }
 
 .dump-downloads-dropdown-panel {
+    --dropdown-panel-border-radius: 6px;
     position: absolute;
     z-index: 10;
     background-color: var(--theme-background);
-    border-radius: 6px;
+    border-radius: var(--dropdown-panel-border-radius);
     box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
@@ -303,9 +306,30 @@ header {
     right: 0;
 }
 
-.dump-downloads-dropdown-panel .dump-downloads-button {
-    border-radius: 6px;
+.dump-downloads-dropdown-entry {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    column-gap: 0.67em;
+    color: var(--theme-text);
+    text-decoration: none;
+    margin: 0;
     padding: 0.4em;
+    --theme-header-icon-hover-filter: var(--theme-svg-icon-filter);
+}
+
+.dump-downloads-dropdown-entry:first-of-type {
+    border-top-left-radius: var(--dropdown-panel-border-radius);
+    border-top-right-radius: var(--dropdown-panel-border-radius);
+}
+
+.dump-downloads-dropdown-entry:last-of-type {
+    border-bottom-left-radius: var(--dropdown-panel-border-radius);
+    border-bottom-right-radius: var(--dropdown-panel-border-radius);
+}
+
+.dump-downloads-dropdown-entry:hover {
+    background-color: var(--theme-background-alt-focus);
 }
 
 #dump-game-info {

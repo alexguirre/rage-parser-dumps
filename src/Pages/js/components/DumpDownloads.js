@@ -1,4 +1,4 @@
-import { getDumpURL, hideElement } from "../util.js";
+import {animateButtonClick, getDumpURL, hideElement} from "../util.js";
 
 export default class DumpDownloads extends HTMLElement {
     static sources = [
@@ -16,7 +16,7 @@ export default class DumpDownloads extends HTMLElement {
                 <img src="img/download.svg">
             </button>
             <div id="dropdown-panel" class="dump-downloads-dropdown-panel hidden">
-                ${DumpDownloads.sources.map(s => `<a id="link-${s.id}" download title="${s.desc}" class="header-icon dump-downloads-button"><img src="${s.icon}">${s.text}</a>`).join("")}
+                ${DumpDownloads.sources.map(s => `<a id="link-${s.id}" download title="${s.desc}" class="dump-downloads-dropdown-entry header-icon"><img src="${s.icon}">${s.text}</a>`).join("")}
             </div>
         </div>
     `;
@@ -59,7 +59,9 @@ export default class DumpDownloads extends HTMLElement {
         this.setAttribute("build", build);
         const shadow = this.shadowRoot;
         for (const s of DumpDownloads.sources) {
-            shadow.getElementById(`link-${s.id}`).href = getDumpURL(game, build, s.ext);
+            const link = shadow.getElementById(`link-${s.id}`);
+            link.href = getDumpURL(game, build, s.ext);
+            link.addEventListener("click", () => animateButtonClick(link.querySelector("img")));
         }
     }
 
