@@ -6,6 +6,7 @@
     --btn-clicked-anim-scale: 1.25;
 
     --icon-size: 24px;
+    --default-border-radius: 4px;
 
     /* light mode */
     --theme-accent-rgb: 235, 156, 0;
@@ -287,11 +288,10 @@ header {
 }
 
 .dump-downloads-dropdown-panel {
-    --dropdown-panel-border-radius: 6px;
     position: absolute;
     z-index: 10;
     background-color: var(--theme-background);
-    border-radius: var(--dropdown-panel-border-radius);
+    border-radius: var(--default-border-radius);
     box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
@@ -319,13 +319,13 @@ header {
 }
 
 .dump-downloads-dropdown-entry:first-of-type {
-    border-top-left-radius: var(--dropdown-panel-border-radius);
-    border-top-right-radius: var(--dropdown-panel-border-radius);
+    border-top-left-radius: var(--default-border-radius);
+    border-top-right-radius: var(--default-border-radius);
 }
 
 .dump-downloads-dropdown-entry:last-of-type {
-    border-bottom-left-radius: var(--dropdown-panel-border-radius);
-    border-bottom-right-radius: var(--dropdown-panel-border-radius);
+    border-bottom-left-radius: var(--default-border-radius);
+    border-bottom-right-radius: var(--default-border-radius);
 }
 
 .dump-downloads-dropdown-entry:hover {
@@ -349,7 +349,7 @@ header {
     color: var(--theme-text);
     background: var(--theme-background-alt);
     border: none;
-    border-radius: 4px;
+    border-radius: var(--default-border-radius);
     font-family: var(--default-monospace-font-family);
     font-size: 1.2em;
     outline: none;
@@ -372,13 +372,13 @@ header {
 .dump-search-toggle {
     padding: 2px;
     margin: -2px;
-    border-radius: 4px;
+    border-radius: var(--default-border-radius);
 }
 
 .dump-search-toggle {
     padding: 2px;
     margin: -2px;
-    border-radius: 4px;
+    border-radius: var(--default-border-radius);
 }
 
 .dump-search-toggle:hover {
@@ -526,7 +526,7 @@ details[open] > summary .dump-entry-icon-container {
     text-decoration: none;
     outline: none;
     border: none;
-    border-radius: 4px;
+    border-radius: var(--default-border-radius);
     margin: -0.3em;
     padding: 0.3em;
     background: none;
@@ -580,6 +580,70 @@ details[open] > summary .dump-entry-icon-container {
     margin-bottom: 1em;
 }
 
+/*.dump-details-struct-wrapper {*/
+/*    position: relative;*/
+/*}*/
+
+/*.dump-details-struct-wrapper #dump-details-struct-language-selector {*/
+/*    position: absolute;*/
+/*    right: calc(0.77em * 4);*/
+/*    top: 0.77em;*/
+/*    transition: opacity 0.2s;*/
+/*    opacity: 0;*/
+/*}*/
+
+/*.dump-details-struct-wrapper:hover #dump-details-struct-language-selector {*/
+/*    opacity: 1;*/
+/*}*/
+
+.radio-group {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    column-gap: 0;
+    background-color: var(--theme-background-alt);
+    border-radius: var(--default-border-radius);
+    width: fit-content;
+}
+
+.radio-group > input {
+    appearance: none;
+    padding: 0;
+    margin: 0;
+}
+
+.radio-group > label {
+    font-family: var(--default-monospace-font-family);
+    padding: 0.3em;
+    width: 2em;
+    text-align: center;
+    vertical-align: center;
+    cursor: pointer;
+}
+
+.radio-group > label:first-of-type {
+    border-top-left-radius: var(--default-border-radius);
+    border-bottom-left-radius: var(--default-border-radius);
+}
+
+.radio-group > label:last-of-type {
+    border-top-right-radius: var(--default-border-radius);
+    border-bottom-right-radius: var(--default-border-radius);
+}
+
+.radio-group > label:hover {
+    background-color: var(--theme-background-alt-focus);
+}
+
+.row-selector > input:focus+label {
+    outline: auto;
+}
+
+.radio-group > input:checked+label {
+    color: var(--theme-accent);
+    background-color: rgba(var(--theme-accent-rgb), 0.2);
+}
+
 .code-snippet-contents {
     position: relative;
 }
@@ -613,7 +677,7 @@ details[open] > summary .dump-entry-icon-container {
     font-family: var(--default-monospace-font-family);
     background: var(--theme-background-alt);
     border: none;
-    border-radius: 4px;
+    border-radius: var(--default-border-radius);
     display: block;
     overflow-x: auto;
     padding: 0.67em;

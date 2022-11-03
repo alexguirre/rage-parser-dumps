@@ -109,6 +109,16 @@ class DumpDetailsView {
     #list;
     #selectedEntryBtn;
     #selectedEntryNode;
+    /**
+     * Container with the radio buttons to select the struct language.
+     * @type {HTMLElement}
+     */
+    #languageSelector;
+    /**
+     * Currently selected struct language.
+     * @type {"pseudocode"|"cpp"|"csharp"}
+     */
+    #selectedLanguage;
 
     constructor(game, build, listHTML, nodes) {
         this.#game = game;
@@ -119,6 +129,10 @@ class DumpDetailsView {
         this.#list.addEventListener("click", this.#onListEntrySelected.bind(this));
         window.addEventListener("hashchange", this.#onLocationHashChanged.bind(this));
         document.getElementById("dump-details-link").addEventListener("click", this.#onCopyLink.bind(this));
+        this.#languageSelector = document.getElementById("dump-details-struct-language-selector");
+        const onSelectedLanguageChangedHandler = this.#onSelectedLanguageChanged.bind(this);
+        this.#languageSelector.querySelectorAll("input").forEach(i => i.addEventListener("change", onSelectedLanguageChangedHandler));
+        this.#selectedLanguage = this.#languageSelector.querySelector("input:checked").value;
     }
 
     #onCopyLink(e) {
@@ -175,7 +189,7 @@ class DumpDetailsView {
         name.textContent = typeName;
         entryBtn.classList.add("type-link-selected");
 
-        document.getElementById("dump-details-struct").innerHTML = node.markup;
+        this.#updateStructMarkup();
 
         const version = document.getElementById("dump-details-version");
         const size = document.getElementById("dump-details-size");
@@ -257,6 +271,22 @@ class DumpDetailsView {
         }
 
         return findRecursive(this.#nodes, name);
+    }
+
+    /**
+     * Fired when a struct language selector radio button is checked.
+     * @param {Event} e
+     */
+    #onSelectedLanguageChanged(e) {
+        this.#selectedLanguage = e.target.value;
+        this.#updateStructMarkup();
+    }
+
+    /**
+     * Updates the struct markup for the currently selected node and language.
+     */
+    #updateStructMarkup() {
+        document.getElementById("dump-details-struct").innerHTML = this.#selectedEntryNode.markup[this.#selectedLanguage];
     }
 }
 
@@ -441,7 +471,7 @@ class DumpSearchHandler {
             for (let i = 0; i < nodes.length; i++) {
                 const node = nodes[i];
                 node.nameLowerCase = node.name.toLowerCase();
-                node.markupLowerCase = node.markup.toLowerCase();
+                node.markupLowerCase = node.markup["pseudocode"].toLowerCase();
                 node.element = document.getElementById(node.name).closest("li");
                 if (node.children) {
                     bindAssociatedElements(node.children);

@@ -13,10 +13,11 @@ namespace DumpFormatter.Formatters;
 internal class JsonTreeFormatter : IDumpFormatter
 {
     private record Tree(List<StructNode> Structs, List<Node> Enums);
+    private record Markup(string Pseudocode, string Cpp, string Csharp);
     private class Node
     {
         public string Name { get; init; } = "";
-        public string? Markup { get; init; }
+        public Markup? Markup { get; init; }
         public List<string>? Usage { get; set; }
     }
     private class StructNode : Node
@@ -185,7 +186,7 @@ internal class JsonTreeFormatter : IDumpFormatter
         return usage;
     }
 
-    public string GetStructMarkup(ParDump dump, ParStructure s)
+    private Markup GetStructMarkup(ParDump dump, ParStructure s)
     {
         var sb = new StringBuilder();
         sb.Append($"{Keyword("struct")} ={Type(s.NameStr ?? s.Name.ToString())}");
@@ -210,7 +211,7 @@ internal class JsonTreeFormatter : IDumpFormatter
             sb.AppendLine();
         }
         sb.AppendLine("};");
-        return sb.ToString();
+        return new(sb.ToString(), "// C++" + Environment.NewLine + sb.ToString(), "// C#" + Environment.NewLine + sb.ToString());
 
         static void FormatMemberType(StringBuilder sb, ParMember m)
         {
@@ -301,7 +302,7 @@ internal class JsonTreeFormatter : IDumpFormatter
             };
     }
 
-    public string GetEnumMarkup(ParDump dump, ParEnum e)
+    private Markup GetEnumMarkup(ParDump dump, ParEnum e)
     {
         var sb = new StringBuilder();
         sb.AppendLine($"{Keyword("enum")} ={Type(e.Name.ToString())}");
@@ -315,7 +316,7 @@ internal class JsonTreeFormatter : IDumpFormatter
             sb.AppendLine($"\t{name} = {value.Value},");
         }
         sb.AppendLine("};");
-        return sb.ToString();
+        return new(sb.ToString(), "// C++" + Environment.NewLine + sb.ToString(), "// C#" + Environment.NewLine + sb.ToString());
     }
 
     private static string Keyword(string str) => $"${str}$";
