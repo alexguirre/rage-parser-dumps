@@ -71,6 +71,7 @@ export default class CodeSnippet extends HTMLElement {
             {class:"hl-type",           regex: /\@(.*?)\@/gm,                   replacer: (_m, c1) => `<a class="type-link hl-type" href="#${c1}">${c1}</a>` },
             {class:"hl-comment",        regex: /(\/\/.*$)/gm },
             {class:"hl-number",         regex: /\b([0-9]+)\b/gm },
+            {class:"hl-number",         regex: /\b(0x[0-9A-Fa-f]+)\b/gm },
         ],
         "xml": [
             {class:"hl-xml-element",    regex: /(&lt;\/?)([^!].*?)(\s|&gt;)/gm, replacer: (_m, c1, c2, c3) => `${c1}<span class="hl-xml-element">${c2}</span>${c3}` },
