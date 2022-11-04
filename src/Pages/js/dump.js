@@ -103,6 +103,28 @@ function init() {
 }
 
 class DumpDetailsView {
+
+    /**
+     * @typedef {Object} DetailsOptions
+     * @property {"pseudocode"|"cpp"|"csharp"} language - Language for displaying the selected struct.
+     */
+    /** @type {DetailsOptions} */
+    static defaultOptions = {
+        language: "pseudocode",
+    };
+
+    /** @returns {DetailsOptions} */
+    static get storedOptions() {
+        return JSON.parse(localStorage.getItem("detailsOptions")) || {};
+    }
+
+    /** @param {DetailsOptions} options */
+    static set storedOptions(options) {
+        return localStorage.setItem("detailsOptions", JSON.stringify(options));
+    }
+
+    /** @type {DetailsOptions} */
+    #options;
     #game;
     #build;
     #nodes;
@@ -114,13 +136,9 @@ class DumpDetailsView {
      * @type {HTMLElement}
      */
     #languageSelector;
-    /**
-     * Currently selected struct language.
-     * @type {"pseudocode"|"cpp"|"csharp"}
-     */
-    #selectedLanguage;
 
     constructor(game, build, listHTML, nodes) {
+        this.#options = { ...DumpDetailsView.defaultOptions, ...DumpDetailsView.storedOptions };
         this.#game = game;
         this.#build = build;
         this.#nodes = nodes;
@@ -130,9 +148,9 @@ class DumpDetailsView {
         window.addEventListener("hashchange", this.#onLocationHashChanged.bind(this));
         document.getElementById("dump-details-link").addEventListener("click", this.#onCopyLink.bind(this));
         this.#languageSelector = document.getElementById("dump-details-struct-language-selector");
+        this.#languageSelector.querySelector(`input[value='${this.#options.language}']`).checked = true;
         const onSelectedLanguageChangedHandler = this.#onSelectedLanguageChanged.bind(this);
         this.#languageSelector.querySelectorAll("input").forEach(i => i.addEventListener("change", onSelectedLanguageChangedHandler));
-        this.#selectedLanguage = this.#languageSelector.querySelector("input:checked").value;
     }
 
     #onCopyLink(e) {
@@ -278,7 +296,8 @@ class DumpDetailsView {
      * @param {Event} e
      */
     #onSelectedLanguageChanged(e) {
-        this.#selectedLanguage = e.target.value;
+        this.#options.language = e.target.value;
+        DumpDetailsView.storedOptions = this.#options;
         this.#updateStructMarkup();
     }
 
@@ -286,7 +305,7 @@ class DumpDetailsView {
      * Updates the struct markup for the currently selected node and language.
      */
     #updateStructMarkup() {
-        document.getElementById("dump-details-struct").innerHTML = this.#selectedEntryNode.markup[this.#selectedLanguage];
+        document.getElementById("dump-details-struct").innerHTML = this.#selectedEntryNode.markup[this.#options.language];
     }
 }
 
