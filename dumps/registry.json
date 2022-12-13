@@ -7,6 +7,10 @@
     ],
     "gta5": [
         {
+            "build": "2802",
+            "aliases": ["mpchristmas3", "mpchristmas3_g9ec", "Los Santos Drug Wars"]
+        },
+        {
             "build": "2699",
             "aliases": ["mpsum2", "mpsum2_g9ec", "The Criminal Enterprises"]
         }
