@@ -199,7 +199,7 @@ class DumpDetailsView {
         const fieldsSection = document.getElementById("dump-details-fields-section");
         const fieldsBody = document.getElementById("dump-details-fields-body");
         if (isStruct && node.fields) {
-            fieldsBody.innerHTML = node.fields.map(f => {
+            fieldsBody.innerHTML = node.fields.sort((a,b) => a.offset > b.offset ? 1 : -1).map(f => {
                 let typeStr = f.type;
                 if (f.subtype !== "NONE") {
                     typeStr += `.${f.subtype}`;
