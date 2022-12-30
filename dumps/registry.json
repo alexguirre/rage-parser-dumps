@@ -8,11 +8,55 @@
     "gta5": [
         {
             "build": "2802",
-            "aliases": ["mpchristmas3", "mpchristmas3_g9ec", "Los Santos Drug Wars"]
+            "aliases": ["Los Santos Drug Wars", "mpchristmas3", "mpchristmas3_g9ec"]
         },
         {
             "build": "2699",
-            "aliases": ["mpsum2", "mpsum2_g9ec", "The Criminal Enterprises"]
+            "aliases": ["The Criminal Enterprises", "mpsum2", "mpsum2_g9ec"]
+        },
+        {
+            "build": "2628",
+            "aliases": []
+        },
+        {
+            "build": "2612",
+            "aliases": ["mpg9ec"]
+        },
+        {
+            "build": "2545",
+            "aliases": ["The Contract", "mpsecurity"]
+        },
+        {
+            "build": "2372",
+            "aliases": ["Los Santos Tuners", "mptuner"]
+        },
+        {
+            "build": "2245",
+            "aliases": []
+        },
+        {
+            "build": "2215",
+            "aliases": []
+        },
+        {
+            "build": "2189",
+            "aliases": ["Cayo Perico Heist", "mpheist"]
+        },
+        {
+            "build": "2060",
+            "aliases": ["Los Santos Summer Special", "mpsum"]
+        },
+        {
+            "build": "1868",
+            "aliases": []
+        },
+        {
+            "build": "372",
+            "aliases": []
+        },
+        {
+            "build": "323",
+            "aliases": []
         }
     ]
 }
