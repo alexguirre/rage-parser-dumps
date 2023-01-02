@@ -19,6 +19,11 @@
     --theme-svg-icon-filter: none;
     --theme-header-icon-hover-filter: invert(0.35);
 
+    --theme-diff-ins: #bee194;
+    --theme-diff-ins-line: #effad8;
+    --theme-diff-del: #ff9393;
+    --theme-diff-del-line: #ffd2d2;
+
     /* based on Github's Light theme */
     --theme-code-keyword: #d73a49;
     --theme-code-type: #6f42c1;
@@ -45,6 +50,11 @@
     --theme-text: #eeeeee;
     --theme-svg-icon-filter: invert(0.8);
     --theme-header-icon-hover-filter: invert(0.35);
+
+    --theme-diff-ins: #4b5a2a;
+    --theme-diff-ins-line: #3d4232;
+    --theme-diff-del: #6f1313;
+    --theme-diff-del-line: #502424;
 
     /* based on Github's Dark Dimmed theme */
     --theme-code-keyword: #f47067;
@@ -618,6 +628,26 @@ details[open] > summary .dump-entry-icon-container {
     overflow-x: auto;
     padding: 0.67em;
     tab-size: 4;
+}
+
+.code-snippet-contents del {
+    text-decoration: none;
+    background-color: var(--theme-diff-del);
+}
+
+.code-snippet-contents ins {
+    text-decoration: none;
+    background-color: var(--theme-diff-ins);
+}
+
+.code-snippet-contents .line-ins {
+    display: block;
+    background-color: var(--theme-diff-ins-line);
+}
+
+.code-snippet-contents .line-del {
+    display: block;
+    background-color: var(--theme-diff-del-line);
 }
 
 /* code highlighting */
