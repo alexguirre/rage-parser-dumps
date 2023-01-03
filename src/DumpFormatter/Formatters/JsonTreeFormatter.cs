@@ -96,7 +96,7 @@ internal class JsonTreeFormatter : IDumpFormatter
     private static List<Field>? GetStructFields(ParDump dump, ParStructure structure)
     {
         var names = structure.MemberNames;
-        return structure.Members.IsDefaultOrEmpty ? 
+        return structure.Members.IsDefaultOrEmpty ?
                 null :
                 structure.Members
                          .Select((m, i) => new Field(!names.IsDefaultOrEmpty ? names[i] : m.Name.ToString(), m.Offset, m.Size, m.Align, m.Type, m.Subtype))
@@ -243,7 +243,12 @@ internal class JsonTreeFormatter : IDumpFormatter
                         break;
                     case ParMemberType.ARRAY:
                         sb.Append('<');
-                        formatRecursive(sb, ((ParMemberArray)m).Item);
+                        var arr = (ParMemberArray)m;
+                        formatRecursive(sb, arr.Item);
+                        if (arr.ArraySize.HasValue)
+                        {
+                            sb.Append($", {arr.ArraySize.Value}");
+                        }
                         sb.Append('>');
                         break;
                     case ParMemberType.MAP:
@@ -483,7 +488,7 @@ internal class JsonTreeFormatter : IDumpFormatter
                     }
                     break;
                 case ParMemberType.ENUM:
-                //case ParMemberType.BITSET: // TODO: BITSET initValue cannot be compared by equality, the enum values represents the bits
+                    //case ParMemberType.BITSET: // TODO: BITSET initValue cannot be compared by equality, the enum values represents the bits
                     var me = (ParMemberEnum)m;
                     var @enum = dump.Enums.First(en => en.Name == me.EnumName);
                     var defaultValue = @enum.Values.FirstOrDefault(v => v.Value == me.InitValue);

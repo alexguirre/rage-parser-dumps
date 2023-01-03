@@ -122,7 +122,12 @@ internal class PlainTextFormatter : IDumpFormatter
                     break;
                 case ParMemberType.ARRAY:
                     sb.Append('<');
-                    formatRecursive(sb, ((ParMemberArray)m).Item);
+                    var arr = (ParMemberArray)m;
+                    formatRecursive(sb, arr.Item);
+                    if (arr.ArraySize.HasValue)
+                    {
+                        sb.Append($", {arr.ArraySize.Value}");
+                    }
                     sb.Append('>');
                     break;
                 case ParMemberType.MAP:
