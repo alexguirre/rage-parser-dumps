@@ -187,14 +187,14 @@ function diffToMarkupInline(diffs, diffsLines) {
             const subNewEnd = subNewLength + subText.length;
             switch (subOp) {
                 case DIFF_INSERT:
-                    if (subNewStart >= newStart && subNewEnd <= newEnd) {
+                    if (op === DIFF_INSERT && subNewStart >= newStart && subNewEnd <= newEnd) {
                         tagsToAdd.push({ pos: start + (subNewStart - newStart), type: INSERT, open: true });
                         tagsToAdd.push({ pos: start + (subNewEnd - newStart), type: INSERT, open: false });
                     }
                     subNewLength += subText.length;
                     break;
                 case DIFF_DELETE:
-                    if (subOriginalStart >= originalStart && subOriginalEnd <= originalEnd) {
+                    if (op === DIFF_DELETE && subOriginalStart >= originalStart && subOriginalEnd <= originalEnd) {
                         tagsToAdd.push({ pos: start + (subOriginalStart - originalStart), type: DELETE, open: true });
                         tagsToAdd.push({ pos: start + (subOriginalEnd - originalStart), type: DELETE, open: false });
                     }
