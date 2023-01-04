@@ -107,7 +107,7 @@ async function init() {
     }
 }
 
-function diff(text1, text2) {
+function diff_characterMode(text1, text2) {
     const dmp = new diff_match_patch();
     const diffs = dmp.diff_main(text1, text2, false);
     dmp.diff_cleanupSemantic(diffs);
@@ -124,6 +124,11 @@ function diff_lineMode(text1, text2) {
     return diffs;
 }
 
+/**
+ * Basic diff display for debugging purposes.
+ * @param diffs array of diffs.
+ * @returns {string} markup with HTML to highlight the changes.
+ */
 function diffToMarkupBasic(diffs) {
     let markup = "";
     for (const diff of diffs) {
@@ -144,6 +149,12 @@ function diffToMarkupBasic(diffs) {
     return markup;
 }
 
+/**
+ * Displays the diff with deletions and insertions "inlined", sequentially in the same text.
+ * @param diffs array of character-mode diffs.
+ * @param diffsLines array of line-mode diffs.
+ * @returns {string} markup with HTML to highlight the changes.
+ */
 function diffToMarkupInline(diffs, diffsLines) {
     const LINE_INSERT = 0, LINE_DELETE = 1, INSERT = 2, DELETE = 4;
     const tagsToAdd = [];
@@ -245,9 +256,9 @@ function diffToMarkupInline(diffs, diffsLines) {
 
 /**
  * In some cases {@link diff_lineMode} returns diffs with incomplete lines, not ending in new lines characters
- * (e.g. `CSpecialAbilityData` diff between b372 and b2802). This breaks the visual output of {@link diffToMarkupInline}.
- * This function finds DIFF_EQUALs with incomplete lines, trims them and adds the incomplete line chunks to the
- * corresponding DIFF_INSERT/DELETEs, so these form complete lines.
+ * (e.g. `CSpecialAbilityData` or `CVehicleDriveByAnimInfo` diff between b372 and b2802). This breaks the visual
+ * output of {@link diffToMarkupInline}. This function finds DIFF_EQUALs with incomplete lines, trims them and
+ * adds the incomplete line chunks to the corresponding DIFF_INSERT/DELETEs, so these form complete lines.
  */
 function fixLineDiffs(diffsLines) {
     for (let i = 0; i < diffsLines.length; i++) {
@@ -294,7 +305,7 @@ function fixLineDiffs(diffsLines) {
 }
 
 function computeDiffMarkup(markupA, markupB) {
-    const diffs = diff(markupA, markupB);
+    const diffs = diff_characterMode(markupA, markupB);
     const diffsLines = diff_lineMode(markupA, markupB);
     fixLineDiffs(diffsLines);
     return diffToMarkupInline(diffs, diffsLines)/* +
