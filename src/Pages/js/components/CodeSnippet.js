@@ -9,6 +9,14 @@ import { animateButtonClick } from "../util.js";
  * Supported languages: `cpp`, `xml`.
  */
 export default class CodeSnippet extends HTMLElement {
+    static html = `
+        <link rel="stylesheet" href="css/style.css">
+        <div class="code-snippet-contents">
+            <pre><code id="code"></code></pre>
+            <button id="copy-btn" title="Copy snippet"></button>
+        </div>
+    `;
+
     #codeElement;
     #codeChangesObserver;
 
@@ -16,10 +24,7 @@ export default class CodeSnippet extends HTMLElement {
         super();
 
         const shadow = this.attachShadow({ mode: "open" });
-        const template = document.getElementById("code-snippet-template");
-        const content = template.content.cloneNode(true);
-
-        shadow.appendChild(content);
+        shadow.innerHTML = CodeSnippet.html;
 
         shadow.getElementById("copy-btn").addEventListener("click", this.onCopy.bind(this));
 
@@ -59,6 +64,20 @@ export default class CodeSnippet extends HTMLElement {
         for (const m of CodeSnippet.highlightCodeMarkup[language]) {
             newHTML = newHTML.replace(m.regex, (...args) => {
                 return m.replacer ? m.replacer(...args) : `<span class="${m.class}">${args[1]}</span>`;
+            });
+        }
+        return newHTML;
+    }
+
+    static removeMarkup(language, codeHTML) {
+        if (!codeHTML) {
+            return codeHTML;
+        }
+
+        let newHTML = codeHTML;
+        for (const m of CodeSnippet.highlightCodeMarkup[language]) {
+            newHTML = newHTML.replace(m.regex, (...args) => {
+                return args[1];
             });
         }
         return newHTML;

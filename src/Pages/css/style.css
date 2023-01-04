@@ -410,23 +410,37 @@ header {
     margin: 0;
 }
 
-#dump-error-msg {
+.dump-error-msg {
+    font-size: 1.5rem;
+    padding: 0.5em;
     margin: auto;
+    text-align: center;
+    background: rgb(221 19 19 / 41%);
+    border-radius: 8px;
+    width: fit-content;
 }
 
-#dump-body {
+.dump-body {
     /* prevent page scrolling */
     display: flex;
     flex-flow: column;
     height: 100vh;
 }
 
-#dump-main {
+.dump-main {
+    overflow: hidden;
     flex: 1;
+}
+
+dump-tree {
+    height: 100%;
+}
+
+.dump-tree-root {
+    height: 100%;
     overflow: hidden;
     display: flex;
     flex-flow: column;
-    height: 100vh;
 }
 
 #dump-container {
@@ -702,6 +716,8 @@ details[open] > summary .dump-entry-icon-container {
     --size: min(16vh, 16vw);
     width: var(--size);
     height: var(--size);
+    position: fixed;
+    inset: 0;
     margin: auto;
     background: rgba(var(--theme-accent-rgb), 0.1) url("../img/logo.svg") no-repeat 50% 50%;
     background-size: 70%;
