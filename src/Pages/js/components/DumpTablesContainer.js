@@ -4,8 +4,6 @@ export default class DumpTablesContainer extends HTMLElement {
     constructor() {
         super();
 
-        this.attachShadow({ mode: "open" });
-
         this.fetchInfo();
     }
 
@@ -22,7 +20,7 @@ export default class DumpTablesContainer extends HTMLElement {
                 table.addRow(dumpInfo.build, dumpInfo.aliases);
             }
     
-            this.shadowRoot.appendChild(table);
+            this.appendChild(table);
         });
     }
 }

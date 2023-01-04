@@ -1,6 +1,36 @@
 import { gameIdToFormattedName } from '../util.js';
 
 export default class DumpTable extends HTMLElement {
+
+    static html = `
+        <link rel="stylesheet" href="css/style.css">
+        <div class="dump-table-wrapper">
+            <h2 class="dump-title">Unknown game</h2>
+            <table class="themed-table dump-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Build</th>
+                        <th>Aliases</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    `;
+
+    static htmlRow = `
+        <tr>
+            <td>
+                <a class="dump-link" title="Open Dump Browser"></a>
+                <dump-downloads></dump-downloads>
+            </td>
+            <td>???</td>
+            <td>–</td>
+        </tr>
+    `;
+
     #game;
     #body;
     #rowTemplate;
@@ -10,17 +40,15 @@ export default class DumpTable extends HTMLElement {
 
         this.#game = game;
 
+        this.#rowTemplate = document.createElement("template");
+        this.#rowTemplate.innerHTML = DumpTable.htmlRow;
+
         const shadow = this.attachShadow({ mode: "open" });
+        shadow.innerHTML = DumpTable.html;
 
-        this.#rowTemplate = document.getElementById("dump-table-row-template");
-        const template = document.getElementById("dump-table-template");
-        const content = template.content.cloneNode(true);
-
-        const header = content.querySelector("h2");
+        const header = shadow.querySelector("h2");
         header.innerHTML = gameIdToFormattedName(game);
-        this.#body = content.querySelector("tbody");
-
-        shadow.appendChild(content);
+        this.#body = shadow.querySelector("tbody");
     }
 
     addRow(build, aliases) {
