@@ -4,14 +4,13 @@ import DumpTree from "./components/DumpTree.js";
 
 import { gameIdToName, getDumpURL, hideElement } from "./util.js"
 
-const URL_PARAM_BUILD_A = "build-a";
-const URL_PARAM_BUILD_B = "build-b";
-
 async function init() {
     const loc = new URL(document.location);
     const game = loc.searchParams.get(DumpTree.URL_PARAM_GAME);
-    const buildA = loc.searchParams.get(URL_PARAM_BUILD_A);
-    const buildB = loc.searchParams.get(URL_PARAM_BUILD_B);
+    const buildA = loc.searchParams.get(DumpTree.URL_PARAM_BUILD_A);
+    const buildB = loc.searchParams.get(DumpTree.URL_PARAM_BUILD_B);
+
+    document.title = `${gameIdToName(game)} (build ${buildA} ↔ ${buildB}) — ${document.title}`;
 
     const errMsg = `Failed to fetch dumps for ${gameIdToName(game)} builds ${buildA} and ${buildB}.`;
     const jsonLocA = getDumpURL(game, buildA, "tree.json");
@@ -25,7 +24,7 @@ async function init() {
         } else {
             const treeDiff = getTreeDiff(treeA, treeB);
 
-            document.getElementById("dump-tree").setTree(treeDiff, game, `${buildA} ↔ ${buildB}`);
+            document.getElementById("dump-tree").setTree(treeDiff, game, buildA, buildB);
             hideElement(document.getElementById("loading"), true);
         }
     } catch (error) {

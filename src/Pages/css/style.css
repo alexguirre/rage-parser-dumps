@@ -342,18 +342,41 @@ header {
     background-color: var(--theme-background-alt-focus);
 }
 
-#dump-game-info {
+.dump-body {
+    /* prevent page scrolling */
+    display: flex;
+    flex-flow: column;
+    height: 100vh;
+}
+
+.dump-main {
+    overflow: hidden;
+    flex: 1;
+}
+
+dump-tree {
+    height: 100%;
+}
+
+.dump-tree-root {
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-flow: column;
+}
+
+.dump-tree-root #game-info {
     display: inline-block;
 }
 
-#dump-search-box {
+.dump-tree-root #search-box {
     display: inline-block;
     flex-grow: 1;
     position: relative;
     margin-left: 0.5em;
 }
 
-#dump-search-input {
+.dump-tree-root #search-input {
     width: 100%;
     padding: 0.3em;
     color: var(--theme-text);
@@ -366,11 +389,12 @@ header {
     box-sizing: border-box;
 }
 
-#dump-search-input:hover, #dump-search-input:focus {
+.dump-tree-root #search-input:hover,
+.dump-tree-root #search-input:focus {
     background: var(--theme-background-alt-focus);
 }
 
-#dump-search-options {
+.dump-tree-root #search-options {
     position: absolute;
     right: 0;
     top: 0;
@@ -420,30 +444,7 @@ header {
     width: fit-content;
 }
 
-.dump-body {
-    /* prevent page scrolling */
-    display: flex;
-    flex-flow: column;
-    height: 100vh;
-}
-
-.dump-main {
-    overflow: hidden;
-    flex: 1;
-}
-
-dump-tree {
-    height: 100%;
-}
-
-.dump-tree-root {
-    height: 100%;
-    overflow: hidden;
-    display: flex;
-    flex-flow: column;
-}
-
-#dump-container {
+.dump-tree-root #contents {
     flex: 1;
     overflow: hidden;
     display: flex;
@@ -451,13 +452,13 @@ dump-tree {
     border-top: 2px solid var(--theme-accent);
 }
 
-#dump-subheader {
+.dump-tree-root #subheader {
     padding-left: 1em;
     padding-right: 1em;
     column-gap: 0.5em;
 }
 
-#dump-splitter {
+.dump-tree-root #splitter {
     display: block;
     width: 4px;
     cursor: col-resize;
@@ -467,34 +468,35 @@ dump-tree {
     opacity: 0.0;
 }
 
-#dump-splitter:hover {
+.dump-tree-root #splitter:hover {
     opacity: 0.6;
     transition-delay: 0.75s;
 }
 
-#dump-splitter.dragging {
+.dump-tree-root #splitter.dragging {
     opacity: 0.9;
     transition: none;
 }
 
-#dump-list {
+.dump-tree-root #list {
     background-color: var(--theme-background-alt);
     font-family: var(--default-monospace-font-family);
     overflow: auto;
     width: 20%;
 }
 
-#dump-list ul {
+.dump-tree-root #list ul {
     list-style: none;
     padding-left: 1.34em;
 }
 
-#dump-list > ul, #dump-list > * {
+.dump-tree-root #list > ul,
+.dump-tree-root #list > * {
     padding: 0.67em;
     margin: 0;
 }
 
-#dump-list summary {
+.dump-tree-root #list summary {
     list-style: none;
     outline: none;
 }
@@ -583,13 +585,13 @@ details[open] > summary .dump-entry-icon-container {
     transform: scale(1.115);
 }
 
-#dump-details {
+.dump-tree-root #details {
     padding: 0.67em;
     flex: 1;
     overflow: auto;
 }
 
-#dump-details-name {
+.dump-tree-root #details-name {
     font-family: var(--default-monospace-font-family);
     margin-top: 0;
     margin-bottom: 0;

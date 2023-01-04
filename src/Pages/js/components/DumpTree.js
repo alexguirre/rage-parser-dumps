@@ -5,44 +5,47 @@ import {animateButtonClick, gameIdToFormattedName, gameIdToName, hideElement} fr
 export default class DumpTree extends HTMLElement {
     static URL_PARAM_GAME = "game";
     static URL_PARAM_BUILD = "build";
+    static URL_PARAM_BUILD_A = "build-a";
+    static URL_PARAM_BUILD_B = "build-b";
     static URL_PARAM_SEARCH = "search";
 
     static html = `
         <link rel="stylesheet" href="css/style.css">
         <div class="dump-tree-root">
-            <div id="dump-subheader" class="row-layout hidden">
-                <div id="dump-game-info"></div>
-                <div id="dump-search-box">
-                    <input id="dump-search-input" type="text" placeholder="Search..." />
-                    <div id="dump-search-options" class="row-layout">
-                        <button id="dump-search-toggle-match-case"    class="header-icon dump-search-toggle" title="Match Case"><img src="img/match-case.svg"></button>
-                        <button id="dump-search-toggle-regex"         class="header-icon dump-search-toggle" title="Use Regular Expression"><img src="img/regex.svg"></button>
-                        <button id="dump-search-toggle-match-members" class="header-icon dump-search-toggle" title="Match Members"><img src="img/match-members.svg"></button>
-                        <button id="dump-search-toggle-show-children" class="header-icon dump-search-toggle" title="Show Children"><img src="img/show-children.svg"></button>
+            <div id="subheader" class="row-layout hidden">
+                <div id="game-info"></div>
+                <div id="search-box">
+                    <input id="search-input" type="text" placeholder="Search..." />
+                    <div id="search-options" class="row-layout">
+                        <button id="search-toggle-match-case"    class="header-icon dump-search-toggle" title="Match Case"><img src="img/match-case.svg"></button>
+                        <button id="search-toggle-regex"         class="header-icon dump-search-toggle" title="Use Regular Expression"><img src="img/regex.svg"></button>
+                        <button id="search-toggle-match-members" class="header-icon dump-search-toggle" title="Match Members"><img src="img/match-members.svg"></button>
+                        <button id="search-toggle-show-children" class="header-icon dump-search-toggle" title="Show Children"><img src="img/show-children.svg"></button>
                     </div>
                 </div>
+                <dump-downloads id="downloads" class="row-layout-push"></dump-downloads>
             </div>
-            <div id="dump-container" class="hidden">
-                <div id="dump-list">
-                    <p id="dump-no-results-msg" class="dump-help-msg hidden">No results found.</p>
+            <div id="contents" class="hidden">
+                <div id="list">
+                    <p id="no-results-msg" class="dump-help-msg hidden">No results found.</p>
                 </div>
-                <div id="dump-splitter"></div>
-                <div id="dump-details">
-                    <p id="dump-details-help-tip" class="dump-help-msg">Select a type to display its details here.</p>
-                    <div id="dump-details-view" class="hidden">
+                <div id="splitter"></div>
+                <div id="details">
+                    <p id="details-help-tip" class="dump-help-msg">Select a type to display its details here.</p>
+                    <div id="details-view" class="hidden">
                         <div class="row-layout">
-                            <button id="dump-details-link" class="link-btn" title="Copy link"></button>
-                            <h3 id="dump-details-name">CSomeStruct</h3>
+                            <button id="details-link" class="link-btn" title="Copy link"></button>
+                            <h3 id="details-name">CSomeStruct</h3>
                         </div>
-                        <code-snippet id="dump-details-struct" lang="cpp"></code-snippet>
+                        <code-snippet id="details-struct" lang="cpp"></code-snippet>
                         <div class="dump-details-section-contents row-layout">
-                            <span id="dump-details-version">Version - 1.0</span>
-                            <span id="dump-details-size">Size - 123</span>
-                            <span id="dump-details-alignment">Alignment - 123</span>
+                            <span id="details-version">Version - 1.0</span>
+                            <span id="details-size">Size - 123</span>
+                            <span id="details-alignment">Alignment - 123</span>
                         </div>
-                        <details id="dump-details-fields-section" open>
+                        <details id="details-fields-section" open>
                             <summary><h4 class="dump-details-title">Fields</h4></summary>
-                            <table id="dump-details-fields" class="themed-table dump-details-section-contents">
+                            <table id="details-fields" class="themed-table dump-details-section-contents">
                                 <thead>
                                     <tr>
                                         <th>Offset</th>
@@ -50,18 +53,18 @@ export default class DumpTree extends HTMLElement {
                                         <th>Type</th>
                                     </tr>
                                 </thead>
-                                <tbody id="dump-details-fields-body">
+                                <tbody id="details-fields-body">
                                 </tbody>
                             </table>
                         </details>
-                        <details id="dump-details-usage-list-section" open>
+                        <details id="details-usage-list-section" open>
                             <summary><h4 class="dump-details-title">Used in</h4></summary>
-                            <ul id="dump-details-usage-list" class="dump-details-section-contents">
+                            <ul id="details-usage-list" class="dump-details-section-contents">
                             </ul>
                         </details>
-                        <details id="dump-details-xml-section" open>
+                        <details id="details-xml-section" open>
                             <summary><h4 class="dump-details-title">XML example</h4></summary>
-                            <div class="dump-details-section-contents"><code-snippet id="dump-details-xml" lang="xml"></code-snippet></div>
+                            <div class="dump-details-section-contents"><code-snippet id="details-xml" lang="xml"></code-snippet></div>
                         </details>
                     </div>
                 </div>
@@ -70,7 +73,8 @@ export default class DumpTree extends HTMLElement {
     `;
 
     #game;
-    #build;
+    #buildA;
+    #buildB;
     #tree;
     #list;
     #selectedEntryBtn;
@@ -86,13 +90,13 @@ export default class DumpTree extends HTMLElement {
         const shadow = this.attachShadow({ mode: "open" });
         shadow.innerHTML = DumpTree.html;
 
-        this.#list = this.shadowRoot.getElementById("dump-list");
+        this.#list = this.shadowRoot.getElementById("list");
         this.#list.addEventListener("click", this.#onListEntrySelected.bind(this));
     }
 
     connectedCallback() {
         window.addEventListener("hashchange", this.#onLocationHashChanged.bind(this));
-        this.shadowRoot.getElementById("dump-details-link").addEventListener("click", this.#onCopyLink.bind(this));
+        this.shadowRoot.getElementById("details-link").addEventListener("click", this.#onCopyLink.bind(this));
 
         this.#initSplitter();
         this.#initSearch();
@@ -101,15 +105,24 @@ export default class DumpTree extends HTMLElement {
     disconnectedCallback() {
     }
 
-    setTree(tree, game, build) {
+    setTree(tree, game, buildA, buildB) {
         this.#game = game;
-        this.#build = build;
+        this.#buildA = buildA;
+        this.#buildB = buildB;
         this.#tree = tree;
 
-        this.shadowRoot.getElementById("dump-game-info").innerHTML = `<h2>${gameIdToFormattedName(game)} <small>(build ${build})</small></h2>`;
-        document.title = `${gameIdToName(game)} (build ${build}) — ${document.title}`;
+        const isDiff = buildB !== null;
+        const downloads = this.shadowRoot.getElementById("downloads");
+        const info = this.shadowRoot.getElementById("game-info");
+        if (!isDiff) {
+            downloads.setGameBuild(game, buildA);
+            info.innerHTML = `<h2>${gameIdToFormattedName(game)} <small>(build ${buildA})</small></h2>`;
+        } else {
+            hideElement(downloads, true);
+            info.innerHTML = `<h2>${gameIdToFormattedName(game)} <small>(build ${buildA} ↔ ${buildB})</small></h2>`;
+        }
 
-        hideElement(this.shadowRoot.getElementById("dump-subheader"), false);
+        hideElement(this.shadowRoot.getElementById("subheader"), false);
 
         this.#renderTree(tree);
 
@@ -130,7 +143,7 @@ export default class DumpTree extends HTMLElement {
             this.#search(this.#searchInput.value)
         }
 
-        hideElement(this.shadowRoot.getElementById("dump-container"), false);
+        hideElement(this.shadowRoot.getElementById("contents"), false);
 
         // manually scroll to the struct specified in the URL once the dump is loaded
         const loc = new URL(document.location);
@@ -147,11 +160,16 @@ export default class DumpTree extends HTMLElement {
         const url = new URL(document.location);
         Array.from(url.searchParams.keys()).forEach(k => url.searchParams.delete(k));
         url.searchParams.set(DumpTree.URL_PARAM_GAME, this.#game);
-        url.searchParams.set(DumpTree.URL_PARAM_BUILD, this.#build);
+        if (this.#buildA !== null && this.#buildB !== null) {
+            url.searchParams.set(DumpTree.URL_PARAM_BUILD_A, this.#buildA);
+            url.searchParams.set(DumpTree.URL_PARAM_BUILD_B, this.#buildB);
+        } else if (this.#buildA !== null) {
+            url.searchParams.set(DumpTree.URL_PARAM_BUILD, this.#buildA);
+        }
         url.hash = `#${this.#selectedEntryNode.name}`;
         navigator.clipboard.writeText(url.toString());
 
-        animateButtonClick(this.shadowRoot.getElementById("dump-details-link"));
+        animateButtonClick(this.shadowRoot.getElementById("details-link"));
     }
 
     #onListEntrySelected(e) {
@@ -183,6 +201,9 @@ export default class DumpTree extends HTMLElement {
         const node = this.#findNodeByName(typeName);
         this.#selectedEntryNode = node;
 
+        // for now the diff view only shows the struct code snippet
+        const isDiff = this.#buildB !== null;
+
         const isStruct = node.type !== "enum";
 
         // update URL
@@ -190,19 +211,19 @@ export default class DumpTree extends HTMLElement {
         loc.hash = typeName;
         history.replaceState(null, "", loc.toString());
 
-        hideElement(this.shadowRoot.getElementById("dump-details-help-tip"), true);
-        hideElement(this.shadowRoot.getElementById("dump-details-view"), false);
+        hideElement(this.shadowRoot.getElementById("details-help-tip"), true);
+        hideElement(this.shadowRoot.getElementById("details-view"), false);
 
-        const name = this.shadowRoot.getElementById("dump-details-name");
+        const name = this.shadowRoot.getElementById("details-name");
         name.textContent = typeName;
         entryBtn.classList.add("type-link-selected");
 
-        this.shadowRoot.getElementById("dump-details-struct").innerHTML = node.markup;
+        this.shadowRoot.getElementById("details-struct").innerHTML = node.markup;
 
-        const version = this.shadowRoot.getElementById("dump-details-version");
-        const size = this.shadowRoot.getElementById("dump-details-size");
-        const alignment = this.shadowRoot.getElementById("dump-details-alignment");
-        if (isStruct) {
+        const version = this.shadowRoot.getElementById("details-version");
+        const size = this.shadowRoot.getElementById("details-size");
+        const alignment = this.shadowRoot.getElementById("details-alignment");
+        if (!isDiff && isStruct) {
             version.textContent = node.version ? `Version - ${node.version}` : "";
             size.textContent = `Size - ${node.size}`;
             alignment.textContent = `Alignment - ${node.align}`;
@@ -218,15 +239,15 @@ export default class DumpTree extends HTMLElement {
             hideElement(alignment, true);
         }
 
-        const fieldsSection = this.shadowRoot.getElementById("dump-details-fields-section");
-        const fieldsBody = this.shadowRoot.getElementById("dump-details-fields-body");
-        if (isStruct && node.fields) {
+        const fieldsSection = this.shadowRoot.getElementById("details-fields-section");
+        const fieldsBody = this.shadowRoot.getElementById("details-fields-body");
+        if (!isDiff && isStruct && node.fields) {
             fieldsBody.innerHTML = node.fields.sort((a,b) => a.offset > b.offset ? 1 : -1).map(f => {
                 let typeStr = f.type;
                 if (f.subtype !== "NONE") {
                     typeStr += `.${f.subtype}`;
                 }
-                return /*html*/`<tr><td>${f.offset} (0x${f.offset.toString(16)})</td><!--<td>-</td><td>-</td>--><td>${f.name}</td><td>${typeStr}</td></tr>`;
+                return `<tr><td>${f.offset} (0x${f.offset.toString(16)})</td><td>${f.name}</td><td>${typeStr}</td></tr>`;
             }).join("");
             hideElement(fieldsSection, false);
         } else {
@@ -234,9 +255,9 @@ export default class DumpTree extends HTMLElement {
             hideElement(fieldsSection, true);
         }
 
-        const usageListSection = this.shadowRoot.getElementById("dump-details-usage-list-section");
-        const usageList = this.shadowRoot.getElementById("dump-details-usage-list");
-        if (node.usage) {
+        const usageListSection = this.shadowRoot.getElementById("details-usage-list-section");
+        const usageList = this.shadowRoot.getElementById("details-usage-list");
+        if (!isDiff && node.usage) {
             usageList.innerHTML = node.usage.map(usedInTypeName => `<li><a class="type-link hl-type" href="#${usedInTypeName}">${usedInTypeName}</a></li>`).join("");
             hideElement(usageListSection, false);
         } else {
@@ -244,9 +265,9 @@ export default class DumpTree extends HTMLElement {
             hideElement(usageListSection, true);
         }
 
-        const xmlSection = this.shadowRoot.getElementById("dump-details-xml-section");
-        const xml = this.shadowRoot.getElementById("dump-details-xml");
-        if (isStruct) {
+        const xmlSection = this.shadowRoot.getElementById("details-xml-section");
+        const xml = this.shadowRoot.getElementById("details-xml");
+        if (!isDiff && isStruct) {
             xml.innerHTML = "";
             xml.appendChild(document.createTextNode(node.xml));
             hideElement(xmlSection, false);
@@ -256,7 +277,7 @@ export default class DumpTree extends HTMLElement {
         }
 
         // reset scroll position
-        this.shadowRoot.getElementById("dump-details").scroll(0, 0)
+        this.shadowRoot.getElementById("details").scroll(0, 0)
     }
 
     #findNodeByName(name) {
@@ -330,11 +351,11 @@ export default class DumpTree extends HTMLElement {
         dedent();
 
         this.#list.innerHTML += html;
-        this.#noResultsMsg = this.shadowRoot.getElementById("dump-no-results-msg");
+        this.#noResultsMsg = this.shadowRoot.getElementById("no-results-msg");
     }
 
     #initSplitter() {
-        const splitter = this.shadowRoot.getElementById("dump-splitter");
+        const splitter = this.shadowRoot.getElementById("splitter");
 
         let dragging = false;
         let startX, startWidth;
@@ -368,11 +389,11 @@ export default class DumpTree extends HTMLElement {
 
     #initSearch() {
         this.#searchOptions = { ...DumpTree.defaultSearchOptions, ...DumpTree.storedSearchOptions };
-        this.#bindSearchOption("dump-search-toggle-match-case",    () => this.#searchOptions.matchCase,    v => this.#searchOptions.matchCase = v);
-        this.#bindSearchOption("dump-search-toggle-regex",         () => this.#searchOptions.regex,        v => this.#searchOptions.regex = v);
-        this.#bindSearchOption("dump-search-toggle-match-members", () => this.#searchOptions.matchMembers, v => this.#searchOptions.matchMembers = v);
-        this.#bindSearchOption("dump-search-toggle-show-children", () => this.#searchOptions.showChildren, v => this.#searchOptions.showChildren = v);
-        this.#searchInput = this.shadowRoot.getElementById("dump-search-input");
+        this.#bindSearchOption("search-toggle-match-case",    () => this.#searchOptions.matchCase,    v => this.#searchOptions.matchCase = v);
+        this.#bindSearchOption("search-toggle-regex",         () => this.#searchOptions.regex,        v => this.#searchOptions.regex = v);
+        this.#bindSearchOption("search-toggle-match-members", () => this.#searchOptions.matchMembers, v => this.#searchOptions.matchMembers = v);
+        this.#bindSearchOption("search-toggle-show-children", () => this.#searchOptions.showChildren, v => this.#searchOptions.showChildren = v);
+        this.#searchInput = this.shadowRoot.getElementById("search-input");
         this.#searchInput.addEventListener("input", this.#onSearchInput.bind(this));
 
         const defaultSearch = new URL(document.location).searchParams.get(DumpTree.URL_PARAM_SEARCH);

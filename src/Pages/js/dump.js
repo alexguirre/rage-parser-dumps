@@ -11,6 +11,8 @@ async function init() {
     const game = loc.searchParams.get(DumpTree.URL_PARAM_GAME);
     const build = loc.searchParams.get(DumpTree.URL_PARAM_BUILD);
 
+    document.title = `${gameIdToName(game)} (build ${build}) — ${document.title}`;
+
     const errMsg = `Failed to fetch dumps for ${gameIdToName(game)} build ${build}.`;
     const jsonLoc = getDumpURL(game, build, "tree.json");
     try {
@@ -19,7 +21,7 @@ async function init() {
         if (!tree) {
             setErrorMsg(errMsg);
         } else {
-            document.getElementById("dump-tree").setTree(tree, game, build);
+            document.getElementById("dump-tree").setTree(tree, game, build, null);
             hideElement(document.getElementById("loading"), true);
         }
     } catch (error) {
