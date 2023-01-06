@@ -271,6 +271,23 @@ header {
     position: relative;
 }
 
+/* 4th columns contains the "Select for compare"/"Compare with selected" button */
+/* by default these buttons are hidden */
+.dump-table tbody > tr > td:nth-child(4) > * {
+    visibility: collapse;
+    position: relative; /* to place the compare buttons in front of the "Open Dump Browser" link */
+}
+
+/* always show the selected compare button */
+.dump-table tbody > tr > td:nth-child(4) > *:first-child[data-selected] {
+    visibility: visible;
+}
+
+/* show compare button on row hover */
+.dump-table tbody > tr:hover > td:nth-child(4) > * {
+    visibility: visible;
+}
+
 /* make link fill the entire row */
 .dump-link {
     content: "";
