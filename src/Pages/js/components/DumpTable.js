@@ -1,18 +1,21 @@
-import {gameIdToFormattedName, hideElement} from '../util.js';
+import {gameIdToFormattedName, gameIdToName, hideElement} from '../util.js';
 
 export default class DumpTable extends HTMLElement {
 
     static html = `
         <link rel="stylesheet" href="css/style.css">
         <div class="dump-table-wrapper">
-            <h2 class="dump-title">Unknown game</h2>
+            <div class="dump-header row-layout">
+                <h2 class="dump-title">Unknown game</h2>
+                <button class="themed-button row-layout-push" id="compare" title="Compare">Compare</button>
+                <span id="compare-help" class="dump-help-msg hidden">Select builds to compare: <span id="compare-build-a">???</span> ↔ <span id="compare-build-b">???</span></span>
+            </div>
             <table class="themed-table dump-table">
                 <thead>
                     <tr>
                         <th></th>
                         <th>Build</th>
                         <th>Aliases</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -29,18 +32,13 @@ export default class DumpTable extends HTMLElement {
             </td>
             <td>???</td>
             <td>–</td>
-            <td>
-                <button title="Select for compare">Select for compare</button>
-                <button title="Compare with selected" class="hidden">Compare with selected</button>
-            </td>
         </tr>
     `;
 
     #game;
     #body;
     #rowTemplate;
-    #onSelectForCompareHandler;
-    #onCompareWithSelectedHandler;
+    #onBuildLinkClickHandler;
     #buildSelectedForCompare;
 
     constructor(game) {
@@ -58,8 +56,10 @@ export default class DumpTable extends HTMLElement {
         header.innerHTML = gameIdToFormattedName(game);
         this.#body = shadow.querySelector("tbody");
 
-        this.#onSelectForCompareHandler = this.#onSelectForCompare.bind(this);
-        this.#onCompareWithSelectedHandler = this.#onCompareWithSelected.bind(this);
+        const compare = shadow.getElementById("compare");
+        compare.title = `Compare ${gameIdToName(this.#game)} builds`;
+        compare.addEventListener("click", this.#onCompare.bind(this));
+        this.#onBuildLinkClickHandler = this.#onBuildLinkClick.bind(this)
         this.#buildSelectedForCompare = null;
     }
 
@@ -76,53 +76,91 @@ export default class DumpTable extends HTMLElement {
         if (aliases.length > 0) {
             cols[2].innerText = aliases.join(", ");
         }
-        cols[0].querySelector("a").href = `dump.html?game=${this.#game}&build=${build}`;
+        const link = cols[0].querySelector("a");
+        link.href = `dump.html?game=${this.#game}&build=${build}`;
+        link.title = `Open dump browser for ${gameIdToName(this.#game)} build ${build}`;
+        link.addEventListener("click", this.#onBuildLinkClickHandler);
         const downloads = cols[0].querySelector("dump-downloads");
         downloads.setAttribute("game", this.#game);
         downloads.setAttribute("build", build);
 
-        cols[3].querySelector("button:first-child").addEventListener("click", this.#onSelectForCompareHandler);
-        cols[3].querySelector("button:last-child").addEventListener("click", this.#onCompareWithSelectedHandler);
-
         return row;
     }
 
-    #onSelectForCompare(e) {
-        console.log(e);
-        console.log(e.target);
-        const isSelected = e.target.dataset.selected !== undefined;
-        if (isSelected) {
-            // unselect
-            this.#buildSelectedForCompare = null;
-            delete e.target.dataset.selected;
-            this.#body.querySelectorAll("tr > td:nth-child(4) > button:first-child").forEach(b => hideElement(b, false));
-            this.#body.querySelectorAll("tr > td:nth-child(4) > button:last-child").forEach(b => hideElement(b, true));
-        } else {
-            // select
-            this.#buildSelectedForCompare = e.target.parentElement.parentElement.dataset.build;
-            e.target.dataset.selected = "";
-            this.#body.querySelectorAll("tr > td:nth-child(4) > button:first-child").forEach(b => {
-                if (b !== e.target) {
-                    hideElement(b, true);
-                }
+    #onCompare(e) {
+        const table = this.#body.parentElement;
+        const compareBtn = e.target;
+        const compareHelp = this.shadowRoot.getElementById("compare-help");
+        const isCompareSelecting = table.dataset.compare !== undefined;
+        hideElement(compareHelp, isCompareSelecting);
+        if (isCompareSelecting) {
+            delete table.dataset.compare;
+
+            compareBtn.title = compareBtn.titleOld;
+            compareBtn.innerText = compareBtn.innerTextOld;
+            this.shadowRoot.querySelectorAll("tr > td > a").forEach(a => {
+                a.title = a.titleOld;
+                a.href = a.hrefOld;
             });
-            this.#body.querySelectorAll("tr > td:nth-child(4) > button:last-child").forEach(b => {
-                if (b.parentElement !== e.target.parentElement) {
-                    hideElement(b, false);
+        } else {
+            table.dataset.compare = "";
+
+            compareBtn.titleOld = compareBtn.title;
+            compareBtn.innerTextOld = compareBtn.innerText;
+            compareBtn.title = `Stop selecting ${gameIdToName(this.#game)} builds to compare`;
+            compareBtn.innerText = "Stop selection";
+            this.shadowRoot.querySelectorAll("tr > td > a").forEach(a => {
+                a.titleOld = a.title;
+                a.hrefOld = a.href;
+                a.titleCompareSelect = `Select ${gameIdToName(this.#game)} build ${a.parentElement.parentElement.dataset.build} to compare`;
+                a.titleCompareUnselect = `Unselect ${gameIdToName(this.#game)} build ${a.parentElement.parentElement.dataset.build} to compare`;
+                a.title = a.titleCompareSelect;
+                if (a.hrefCompare) {
+                    a.href = a.hrefCompare;
+                } else {
+                    a.removeAttribute("href");
                 }
             });
         }
     }
 
-    #onCompareWithSelected(e) {
-        if (this.#buildSelectedForCompare === null) {
-            return;
+    #onBuildLinkClick(e) {
+        const table = this.#body.parentElement;
+        const isCompareSelecting = table.dataset.compare !== undefined;
+        if (isCompareSelecting) {
+            const link = e.target;
+            const row = link.parentElement.parentElement;
+            const build = row.dataset.build;
+            if (this.#buildSelectedForCompare === null) {
+                // selected first build
+                link.title = link.titleCompareUnselect;
+                row.dataset.compareSelected = "";
+                this.shadowRoot.getElementById("compare-build-a").innerText = build;
+                this.#buildSelectedForCompare = build;
+                this.shadowRoot.querySelectorAll("tr > td > a").forEach(a => {
+                    if (a !== link) { // give the diff.html URL to the other links
+                        const secondBuild = a.parentElement.parentElement.dataset.build;
+                        a.hrefCompare = `diff.html?game=${this.#game}&build-a=${build}&build-b=${secondBuild}`;
+                        a.href = a.hrefCompare;
+                    }
+                });
+            } else if (this.#buildSelectedForCompare === build) {
+                // unselected first build
+                link.title = link.titleCompareSelect;
+                delete row.dataset.compareSelected;
+                this.shadowRoot.getElementById("compare-build-a").innerText = "???";
+                this.#buildSelectedForCompare = null;
+                this.shadowRoot.querySelectorAll("tr > td > a").forEach(a => {
+                    a.hrefCompare = null;
+                    a.removeAttribute("href");
+                });
+            } else {
+                // selected second build
+                row.dataset.compareSelected = "";
+                this.shadowRoot.getElementById("compare-build-b").innerText = build;
+                // at this point the clicked link has a valid href with a diff.html URL which will open now
+            }
         }
-
-        const buildA = this.#buildSelectedForCompare;
-        const buildB = e.target.parentElement.parentElement.dataset.build;
-
-        window.location = `diff.html?game=${this.#game}&build-a=${buildA}&build-b=${buildB}`;
     }
 }
 customElements.define('dump-table', DumpTable);

@@ -152,6 +152,10 @@ header {
     filter: var(--theme-svg-icon-filter);
 }
 
+.dump-title {
+    margin-block: 0;
+}
+
 /* game titles fonts */
 .gta4-font, .gta5-font, .gta6-font {
     font-family: "Pricedown", var(--default-font-family);
@@ -208,6 +212,21 @@ header {
     text-shadow: none;
 }
 
+.themed-button {
+    font-size: 1rem;
+    padding: 0.11em 1.33em;
+    color: var(--theme-text);
+    background-color: var(--theme-background-alt);
+    border: 2px solid var(--theme-text);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.themed-button:hover,
+.themed-button:focus-visible {
+    background-color: var(--theme-background-alt-focus);
+}
+
 .themed-table {
     width: 100%;
     border-collapse: collapse;
@@ -255,6 +274,10 @@ header {
     padding-right: var(--dump-table-padding);
 }
 
+.dump-header {
+    margin-block: 0.83em;
+}
+
 .dump-table th:first-child {
     width: calc(var(--icon-size) * 1.25);
 }
@@ -267,25 +290,16 @@ header {
     background-color: var(--theme-background-alt-focus);
 }
 
+.dump-table[data-compare] tbody > tr[data-compare-selected] {
+    background-color: rgba(var(--theme-accent-rgb), 0.4);
+}
+
+.dump-table[data-compare] tbody > tr[data-compare-selected]:hover {
+    background-color: rgba(var(--theme-accent-rgb), 0.7);
+}
+
 .dump-table tbody > tr > td:first-child {
     position: relative;
-}
-
-/* 4th columns contains the "Select for compare"/"Compare with selected" button */
-/* by default these buttons are hidden */
-.dump-table tbody > tr > td:nth-child(4) > * {
-    visibility: collapse;
-    position: relative; /* to place the compare buttons in front of the "Open Dump Browser" link */
-}
-
-/* always show the selected compare button */
-.dump-table tbody > tr > td:nth-child(4) > *:first-child[data-selected] {
-    visibility: visible;
-}
-
-/* show compare button on row hover */
-.dump-table tbody > tr:hover > td:nth-child(4) > * {
-    visibility: visible;
 }
 
 /* make link fill the entire row */
@@ -297,6 +311,7 @@ header {
     bottom: 0;
     display: block;
     width: calc(100vw - var(--dump-table-padding) * 2);
+    cursor: pointer;
 }
 
 .dump-downloads-dropdown {
