@@ -215,6 +215,7 @@ header {
 .themed-button {
     font-size: 1rem;
     padding: 0.11em 1.33em;
+    min-width: 8em;
     color: var(--theme-text);
     background-color: var(--theme-background-alt);
     border: 2px solid var(--theme-text);
@@ -267,7 +268,7 @@ header {
 }
 
 dump-tables-container:has(dump-table[data-compare]) > dump-table:not([data-compare])  {
-    filter: opacity(0.25);
+    opacity: 0.25;
     pointer-events: none;
 }
 

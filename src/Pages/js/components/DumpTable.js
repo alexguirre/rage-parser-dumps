@@ -7,8 +7,9 @@ export default class DumpTable extends HTMLElement {
         <div class="dump-table-wrapper">
             <div class="dump-header row-layout">
                 <h2 class="dump-title">Unknown game</h2>
-                <button class="themed-button row-layout-push" id="compare" title="Compare">Compare</button>
+                <div class="row-layout-push"></div>
                 <span id="compare-help" class="dump-help-msg hidden">Select builds to compare: <span id="compare-build-a">???</span> ↔ <span id="compare-build-b">???</span></span>
+                <button class="themed-button" id="compare" title="Compare">Compare</button>
             </div>
             <table class="themed-table dump-table">
                 <thead>
@@ -110,7 +111,7 @@ export default class DumpTable extends HTMLElement {
             compareBtn.titleOld = compareBtn.title;
             compareBtn.innerTextOld = compareBtn.innerText;
             compareBtn.title = `Stop selecting ${gameIdToName(this.#game)} builds to compare`;
-            compareBtn.innerText = "Stop selection";
+            compareBtn.innerText = "Cancel";
             this.shadowRoot.querySelectorAll("tr > td > a").forEach(a => {
                 a.titleOld = a.title;
                 a.hrefOld = a.href;
