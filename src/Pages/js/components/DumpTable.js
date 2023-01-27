@@ -91,9 +91,10 @@ export default class DumpTable extends HTMLElement {
         const table = this.#body.parentElement;
         const compareBtn = e.target;
         const compareHelp = this.shadowRoot.getElementById("compare-help");
-        const isCompareSelecting = table.dataset.compare !== undefined;
+        const isCompareSelecting = this.dataset.compare !== undefined;
         hideElement(compareHelp, isCompareSelecting);
         if (isCompareSelecting) {
+            delete this.dataset.compare;
             delete table.dataset.compare;
 
             compareBtn.title = compareBtn.titleOld;
@@ -103,6 +104,7 @@ export default class DumpTable extends HTMLElement {
                 a.href = a.hrefOld;
             });
         } else {
+            this.dataset.compare = "";
             table.dataset.compare = "";
 
             compareBtn.titleOld = compareBtn.title;
@@ -125,8 +127,7 @@ export default class DumpTable extends HTMLElement {
     }
 
     #onBuildLinkClick(e) {
-        const table = this.#body.parentElement;
-        const isCompareSelecting = table.dataset.compare !== undefined;
+        const isCompareSelecting = this.dataset.compare !== undefined;
         if (isCompareSelecting) {
             const link = e.target;
             const row = link.parentElement.parentElement;

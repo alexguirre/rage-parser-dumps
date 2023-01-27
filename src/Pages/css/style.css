@@ -266,6 +266,11 @@ header {
     border-bottom: 2px solid var(--theme-text);
 }
 
+dump-tables-container:has(dump-table[data-compare]) > dump-table:not([data-compare])  {
+    filter: opacity(0.25);
+    pointer-events: none;
+}
+
 .dump-table-wrapper {
     --dump-table-padding: 1em;
     margin-top: 1em;
