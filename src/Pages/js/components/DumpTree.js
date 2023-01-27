@@ -315,10 +315,29 @@ export default class DumpTree extends HTMLElement {
             html += "</ul>";
         };
         const renderEntry = node => {
+            console.log(node.diffType);
+            let tip = `${node.type} ${node.name}`;
+            let diffIcon = "";
+            switch (node.diffType) {
+                case "a":
+                    diffIcon = `<div class="dump-entry-icon dump-entry-icon-diff-added"></div>`;
+                    tip += " • Added";
+                    break;
+                case "m":
+                    diffIcon = `<div class="dump-entry-icon dump-entry-icon-diff-modified"></div>`;
+                    tip += " • Modified";
+                    break;
+                case "r":
+                    diffIcon = `<div class="dump-entry-icon dump-entry-icon-diff-removed"></div>`;
+                    tip += " • Removed";
+                    break;
+            }
+
             return `
                     <div class="dump-entry" id="${node.name}">
                         ${(node.children && node.children.length > 0) ? `<div class="dump-entry-icon dump-entry-icon-container"></div>` : `<div class="dump-entry-icon"></div>`}
-                        <div class="dump-entry-button type-link" title="${node.type} ${node.name}">
+                        <div class="dump-entry-button type-link text-diff-added" title="${tip}">
+                            ${diffIcon}
                             <div class="dump-entry-icon dump-entry-icon-${node.type}"></div>
                             <span>${node.name}</span>
                         </div>

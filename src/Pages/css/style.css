@@ -542,15 +542,15 @@ dump-tree {
 
 .dump-entry-icon {
     flex-shrink: 0;
-    height: 12px;
-    width: 12px;
+    height: 16px;
+    width: 16px;
     display: block;
     background-size: 100%;
 }
 
 .dump-entry-icon-container {
     cursor: pointer;
-    background-image: url("../img/container-close-icon.svg");
+    background: no-repeat center/80% url("../img/container-close-icon.svg");
     filter: var(--theme-svg-icon-filter);
 }
 
@@ -568,6 +568,21 @@ details[open] > summary .dump-entry-icon-container {
 
 .dump-entry-icon-enum {
     background-image: url("../img/enum-icon.svg");
+}
+
+.dump-entry-icon-diff-added {
+    background-image: url("../img/diff-added.svg");
+    filter: var(--theme-svg-icon-filter);
+}
+
+.dump-entry-icon-diff-modified {
+    background-image: url("../img/diff-modified.svg");
+    filter: var(--theme-svg-icon-filter);
+}
+
+.dump-entry-icon-diff-removed {
+    background-image: url("../img/diff-removed.svg");
+    filter: var(--theme-svg-icon-filter);
 }
 
 .dump-entry-button {

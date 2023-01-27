@@ -14,6 +14,9 @@
 [show-children.svg](https://github.com/microsoft/vscode-codicons/blob/main/src/icons/list-tree.svg)
 [regex.svg](https://github.com/microsoft/vscode-codicons/blob/main/src/icons/regex.svg)
 [match-members.svg](https://github.com/microsoft/vscode-codicons/blob/main/src/icons/symbol-namespace.svg)
+[diff-added.svg](https://github.com/microsoft/vscode-codicons/blob/main/src/icons/diff-added.svg)
+[diff-modified.svg](https://github.com/microsoft/vscode-codicons/blob/main/src/icons/diff-modified.svg): changed to make border thinner like `diff-added.svg`.
+[diff-removed.svg](https://github.com/microsoft/vscode-codicons/blob/main/src/icons/diff-removed.svg)
 
 ```
 Attribution 4.0 International
