@@ -373,6 +373,13 @@ export default class DumpTree extends HTMLElement {
 
         this.#list.innerHTML += html;
         this.#noResultsMsg = this.shadowRoot.getElementById("no-results-msg");
+
+        if (this.#nodes.length === 0) {
+            const isDiff = this.#buildB !== null;
+            this.#noResultsMsg.innerText = isDiff ? "No changes between these builds." : "No types in this build.";
+            hideElement(this.#noResultsMsg, false);
+            hideElement(this.shadowRoot.getElementById("details-help-tip"), true);
+        }
     }
 
     #initSplitter() {
