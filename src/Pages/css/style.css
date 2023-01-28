@@ -19,6 +19,11 @@
     --theme-svg-icon-filter: none;
     --theme-header-icon-hover-filter: invert(0.35);
 
+    --theme-diff-ins: #bee194;
+    --theme-diff-ins-line: #effad8;
+    --theme-diff-del: #ff9393;
+    --theme-diff-del-line: #ffd2d2;
+
     /* based on Github's Light theme */
     --theme-code-keyword: #d73a49;
     --theme-code-type: #6f42c1;
@@ -45,6 +50,11 @@
     --theme-text: #eeeeee;
     --theme-svg-icon-filter: invert(0.8);
     --theme-header-icon-hover-filter: invert(0.35);
+
+    --theme-diff-ins: #4b5a2a;
+    --theme-diff-ins-line: #3d4232;
+    --theme-diff-del: #6f1313;
+    --theme-diff-del-line: #502424;
 
     /* based on Github's Dark Dimmed theme */
     --theme-code-keyword: #f47067;
@@ -142,6 +152,10 @@ header {
     filter: var(--theme-svg-icon-filter);
 }
 
+.dump-title {
+    margin-block: 0;
+}
+
 /* game titles fonts */
 .gta4-font, .gta5-font, .gta6-font {
     font-family: "Pricedown", var(--default-font-family);
@@ -198,6 +212,22 @@ header {
     text-shadow: none;
 }
 
+.themed-button {
+    font-size: 1rem;
+    padding: 0.11em 1.33em;
+    min-width: 8em;
+    color: var(--theme-text);
+    background-color: var(--theme-background-alt);
+    border: 2px solid var(--theme-text);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.themed-button:hover,
+.themed-button:focus-visible {
+    background-color: var(--theme-background-alt-focus);
+}
+
 .themed-table {
     width: 100%;
     border-collapse: collapse;
@@ -237,12 +267,21 @@ header {
     border-bottom: 2px solid var(--theme-text);
 }
 
+dump-tables-container:has(dump-table[data-compare]) > dump-table:not([data-compare])  {
+    opacity: 0.25;
+    pointer-events: none;
+}
+
 .dump-table-wrapper {
     --dump-table-padding: 1em;
     margin-top: 1em;
     margin-bottom: 2em;
     padding-left: var(--dump-table-padding);
     padding-right: var(--dump-table-padding);
+}
+
+.dump-header {
+    margin-block: 0.83em;
 }
 
 .dump-table th:first-child {
@@ -255,6 +294,14 @@ header {
 
 .dump-table tbody > tr:hover {
     background-color: var(--theme-background-alt-focus);
+}
+
+.dump-table[data-compare] tbody > tr[data-compare-selected] {
+    background-color: rgba(var(--theme-accent-rgb), 0.4);
+}
+
+.dump-table[data-compare] tbody > tr[data-compare-selected]:hover {
+    background-color: rgba(var(--theme-accent-rgb), 0.7);
 }
 
 .dump-table tbody > tr > td:first-child {
@@ -270,6 +317,7 @@ header {
     bottom: 0;
     display: block;
     width: calc(100vw - var(--dump-table-padding) * 2);
+    cursor: pointer;
 }
 
 .dump-downloads-dropdown {
@@ -332,18 +380,41 @@ header {
     background-color: var(--theme-background-alt-focus);
 }
 
-#dump-game-info {
+.dump-body {
+    /* prevent page scrolling */
+    display: flex;
+    flex-flow: column;
+    height: 100vh;
+}
+
+.dump-main {
+    overflow: hidden;
+    flex: 1;
+}
+
+dump-tree {
+    height: 100%;
+}
+
+.dump-tree-root {
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-flow: column;
+}
+
+.dump-tree-root #game-info {
     display: inline-block;
 }
 
-#dump-search-box {
+.dump-tree-root #search-box {
     display: inline-block;
     flex-grow: 1;
     position: relative;
     margin-left: 0.5em;
 }
 
-#dump-search-input {
+.dump-tree-root #search-input {
     width: 100%;
     padding: 0.3em;
     color: var(--theme-text);
@@ -356,11 +427,12 @@ header {
     box-sizing: border-box;
 }
 
-#dump-search-input:hover, #dump-search-input:focus {
+.dump-tree-root #search-input:hover,
+.dump-tree-root #search-input:focus {
     background: var(--theme-background-alt-focus);
 }
 
-#dump-search-options {
+.dump-tree-root #search-options {
     position: absolute;
     right: 0;
     top: 0;
@@ -400,26 +472,17 @@ header {
     margin: 0;
 }
 
-#dump-error-msg {
+.dump-error-msg {
+    font-size: 1.5rem;
+    padding: 0.5em;
     margin: auto;
+    text-align: center;
+    background: rgb(221 19 19 / 41%);
+    border-radius: 8px;
+    width: fit-content;
 }
 
-#dump-body {
-    /* prevent page scrolling */
-    display: flex;
-    flex-flow: column;
-    height: 100vh;
-}
-
-#dump-main {
-    flex: 1;
-    overflow: hidden;
-    display: flex;
-    flex-flow: column;
-    height: 100vh;
-}
-
-#dump-container {
+.dump-tree-root #contents {
     flex: 1;
     overflow: hidden;
     display: flex;
@@ -427,13 +490,13 @@ header {
     border-top: 2px solid var(--theme-accent);
 }
 
-#dump-subheader {
+.dump-tree-root #subheader {
     padding-left: 1em;
     padding-right: 1em;
     column-gap: 0.5em;
 }
 
-#dump-splitter {
+.dump-tree-root #splitter {
     display: block;
     width: 4px;
     cursor: col-resize;
@@ -443,34 +506,35 @@ header {
     opacity: 0.0;
 }
 
-#dump-splitter:hover {
+.dump-tree-root #splitter:hover {
     opacity: 0.6;
     transition-delay: 0.75s;
 }
 
-#dump-splitter.dragging {
+.dump-tree-root #splitter.dragging {
     opacity: 0.9;
     transition: none;
 }
 
-#dump-list {
+.dump-tree-root #list {
     background-color: var(--theme-background-alt);
     font-family: var(--default-monospace-font-family);
     overflow: auto;
     width: 20%;
 }
 
-#dump-list ul {
+.dump-tree-root #list ul {
     list-style: none;
     padding-left: 1.34em;
 }
 
-#dump-list > ul, #dump-list > * {
+.dump-tree-root #list > ul,
+.dump-tree-root #list > * {
     padding: 0.67em;
     margin: 0;
 }
 
-#dump-list summary {
+.dump-tree-root #list summary {
     list-style: none;
     outline: none;
 }
@@ -484,15 +548,15 @@ header {
 
 .dump-entry-icon {
     flex-shrink: 0;
-    height: 12px;
-    width: 12px;
+    height: 16px;
+    width: 16px;
     display: block;
     background-size: 100%;
 }
 
 .dump-entry-icon-container {
     cursor: pointer;
-    background-image: url("../img/container-close-icon.svg");
+    background: no-repeat center/80% url("../img/container-close-icon.svg");
     filter: var(--theme-svg-icon-filter);
 }
 
@@ -510,6 +574,21 @@ details[open] > summary .dump-entry-icon-container {
 
 .dump-entry-icon-enum {
     background-image: url("../img/enum-icon.svg");
+}
+
+.dump-entry-icon-diff-added {
+    background-image: url("../img/diff-added.svg");
+    filter: var(--theme-svg-icon-filter);
+}
+
+.dump-entry-icon-diff-modified {
+    background-image: url("../img/diff-modified.svg");
+    filter: var(--theme-svg-icon-filter);
+}
+
+.dump-entry-icon-diff-removed {
+    background-image: url("../img/diff-removed.svg");
+    filter: var(--theme-svg-icon-filter);
 }
 
 .dump-entry-button {
@@ -559,13 +638,13 @@ details[open] > summary .dump-entry-icon-container {
     transform: scale(1.115);
 }
 
-#dump-details {
+.dump-tree-root #details {
     padding: 0.67em;
     flex: 1;
     overflow: auto;
 }
 
-#dump-details-name {
+.dump-tree-root #details-name {
     font-family: var(--default-monospace-font-family);
     margin-top: 0;
     margin-bottom: 0;
@@ -620,6 +699,26 @@ details[open] > summary .dump-entry-icon-container {
     tab-size: 4;
 }
 
+.code-snippet-contents del {
+    text-decoration: none;
+    background-color: var(--theme-diff-del);
+}
+
+.code-snippet-contents ins {
+    text-decoration: none;
+    background-color: var(--theme-diff-ins);
+}
+
+.code-snippet-contents .line-ins {
+    display: block;
+    background-color: var(--theme-diff-ins-line);
+}
+
+.code-snippet-contents .line-del {
+    display: block;
+    background-color: var(--theme-diff-del-line);
+}
+
 /* code highlighting */
 .hl-keyword {
     color: var(--theme-code-keyword);
@@ -672,6 +771,8 @@ details[open] > summary .dump-entry-icon-container {
     --size: min(16vh, 16vw);
     width: var(--size);
     height: var(--size);
+    position: fixed;
+    inset: 0;
     margin: auto;
     background: rgba(var(--theme-accent-rgb), 0.1) url("../img/logo.svg") no-repeat 50% 50%;
     background-size: 70%;

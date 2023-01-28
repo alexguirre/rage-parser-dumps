@@ -9,34 +9,6 @@
     <script type="module" src="js/index.js"></script>
 </head>
 <body>
-    <template id="dump-table-template">
-        <link rel="stylesheet" href="css/style.css">
-        <div class="dump-table-wrapper">
-            <h2 class="dump-title">Unknown game</h2>
-            <table class="themed-table dump-table">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Build</th>
-                        <th>Aliases</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-    </template>
-    <template id="dump-table-row-template">
-        <tr>
-            <td>
-                <a class="dump-link" title="Open Dump Browser"></a>
-                <dump-downloads></dump-downloads>
-            </td>
-            <td>???</td>
-            <td>-</td>
-        </tr>
-    </template>
-
     <header is="page-header"></header>
     <main>
         <dump-tables-container></dump-tables-container>

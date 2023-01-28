@@ -9,6 +9,14 @@ import { animateButtonClick } from "../util.js";
  * Supported languages: `cpp`, `xml`.
  */
 export default class CodeSnippet extends HTMLElement {
+    static html = `
+        <link rel="stylesheet" href="css/style.css">
+        <div class="code-snippet-contents">
+            <pre><code id="code"></code></pre>
+            <button id="copy-btn" title="Copy snippet"></button>
+        </div>
+    `;
+
     #codeElement;
     #codeChangesObserver;
 
@@ -16,10 +24,7 @@ export default class CodeSnippet extends HTMLElement {
         super();
 
         const shadow = this.attachShadow({ mode: "open" });
-        const template = document.getElementById("code-snippet-template");
-        const content = template.content.cloneNode(true);
-
-        shadow.appendChild(content);
+        shadow.innerHTML = CodeSnippet.html;
 
         shadow.getElementById("copy-btn").addEventListener("click", this.onCopy.bind(this));
 
@@ -33,7 +38,7 @@ export default class CodeSnippet extends HTMLElement {
      * Gets the code markup from the inner HTML, highlights it and moves it to the shadow DOM to show it to the user.
      */
     refreshCode() {
-        const language = this.getAttribute("lang") || "cpp";
+        const language = this.getAttribute("code-lang") || "cpp";
         this.#codeElement.innerHTML = CodeSnippet.highlightCode(language, this.innerHTML);
     }
 
@@ -64,11 +69,32 @@ export default class CodeSnippet extends HTMLElement {
         return newHTML;
     }
 
+    static removeMarkup(language, codeHTML) {
+        if (!codeHTML) {
+            return codeHTML;
+        }
+
+        let newHTML = codeHTML;
+        for (const m of CodeSnippet.highlightCodeMarkup[language]) {
+            newHTML = newHTML.replace(m.regex, (...args) => {
+                return args[1];
+            });
+        }
+        return newHTML;
+    }
+
     static highlightCodeMarkup = {
         "cpp": [
             {class:"hl-keyword",        regex: /\$(.*?)\$/gm },
-            {class:"hl-type",           regex: /\=\@(.*?)\@/gm },
-            {class:"hl-type",           regex: /\@(.*?)\@/gm,                   replacer: (_m, c1) => `<a class="type-link hl-type" href="#${c1}">${c1}</a>` },
+            {class:"hl-type",           regex: /=@(.*?)@/gm },
+            {class:"hl-type",           regex: /@(.*?)@/gm,                   replacer: (_m, c1) => `<a class="type-link hl-type" href="#${c1}">${c1}</a>` },
+            {class:"hl-comment",        regex: /(\/\/.*$)/gm },
+            {class:"hl-number",         regex: /\b([0-9]+)\b/gm },
+        ],
+        "cpp-nolinks": [
+            {class:"hl-keyword",        regex: /\$(.*?)\$/gm },
+            {class:"hl-type",           regex: /=@(.*?)@/gm },
+            {class:"hl-type",           regex: /@(.*?)@/gm },
             {class:"hl-comment",        regex: /(\/\/.*$)/gm },
             {class:"hl-number",         regex: /\b([0-9]+)\b/gm },
         ],
