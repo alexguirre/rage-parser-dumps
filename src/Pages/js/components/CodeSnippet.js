@@ -38,7 +38,7 @@ export default class CodeSnippet extends HTMLElement {
      * Gets the code markup from the inner HTML, highlights it and moves it to the shadow DOM to show it to the user.
      */
     refreshCode() {
-        const language = this.getAttribute("lang") || "cpp";
+        const language = this.getAttribute("code-lang") || "cpp";
         this.#codeElement.innerHTML = CodeSnippet.highlightCode(language, this.innerHTML);
     }
 
@@ -86,8 +86,15 @@ export default class CodeSnippet extends HTMLElement {
     static highlightCodeMarkup = {
         "cpp": [
             {class:"hl-keyword",        regex: /\$(.*?)\$/gm },
-            {class:"hl-type",           regex: /\=\@(.*?)\@/gm },
-            {class:"hl-type",           regex: /\@(.*?)\@/gm,                   replacer: (_m, c1) => `<a class="type-link hl-type" href="#${c1}">${c1}</a>` },
+            {class:"hl-type",           regex: /=@(.*?)@/gm },
+            {class:"hl-type",           regex: /@(.*?)@/gm,                   replacer: (_m, c1) => `<a class="type-link hl-type" href="#${c1}">${c1}</a>` },
+            {class:"hl-comment",        regex: /(\/\/.*$)/gm },
+            {class:"hl-number",         regex: /\b([0-9]+)\b/gm },
+        ],
+        "cpp-nolinks": [
+            {class:"hl-keyword",        regex: /\$(.*?)\$/gm },
+            {class:"hl-type",           regex: /=@(.*?)@/gm },
+            {class:"hl-type",           regex: /@(.*?)@/gm },
             {class:"hl-comment",        regex: /(\/\/.*$)/gm },
             {class:"hl-number",         regex: /\b([0-9]+)\b/gm },
         ],

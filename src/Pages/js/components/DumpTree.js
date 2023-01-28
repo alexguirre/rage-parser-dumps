@@ -37,7 +37,7 @@ export default class DumpTree extends HTMLElement {
                             <button id="details-link" class="link-btn" title="Copy link"></button>
                             <h3 id="details-name">CSomeStruct</h3>
                         </div>
-                        <code-snippet id="details-struct" lang="cpp"></code-snippet>
+                        <code-snippet id="details-struct" code-lang="cpp"></code-snippet>
                         <div class="dump-details-section-contents row-layout">
                             <span id="details-version">Version - 1.0</span>
                             <span id="details-size">Size - 123</span>
@@ -64,7 +64,7 @@ export default class DumpTree extends HTMLElement {
                         </details>
                         <details id="details-xml-section" open>
                             <summary><h4 class="dump-details-title">XML example</h4></summary>
-                            <div class="dump-details-section-contents"><code-snippet id="details-xml" lang="xml"></code-snippet></div>
+                            <div class="dump-details-section-contents"><code-snippet id="details-xml" code-lang="xml"></code-snippet></div>
                         </details>
                     </div>
                 </div>
@@ -218,7 +218,9 @@ export default class DumpTree extends HTMLElement {
         name.textContent = typeName;
         entryBtn.classList.add("type-link-selected");
 
-        this.shadowRoot.getElementById("details-struct").innerHTML = node.markup;
+        const structSnippet = this.shadowRoot.getElementById("details-struct");
+        structSnippet.setAttribute("code-lang", isDiff ? "cpp-nolinks" : "cpp");
+        structSnippet.innerHTML = node.markup;
 
         const version = this.shadowRoot.getElementById("details-version");
         const size = this.shadowRoot.getElementById("details-size");
