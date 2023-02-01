@@ -19,6 +19,10 @@
     ],
     "gta5": [
         {
+            "build": "2824",
+            "aliases": ["Security Update"]
+        },
+        {
             "build": "2802",
             "aliases": ["Los Santos Drug Wars", "mpchristmas3", "mpchristmas3_g9ec"]
         },
