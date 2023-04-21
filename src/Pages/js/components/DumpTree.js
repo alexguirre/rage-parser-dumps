@@ -2,6 +2,89 @@ import "./CodeSnippet.js";
 import "./DumpDownloads.js";
 import {animateButtonClick, gameIdToFormattedName, gameIdToName, hideElement} from "../util.js";
 
+class TreeNode {
+    /** @type {"struct"|"enum"} */
+    type;
+    /** @type {string} */
+    name;
+    /** @type {string} */
+    nameLowerCase;
+    /** @type {string} */
+    markup;
+    /** @type {string} */
+    markupLowerCase;
+    /** @type {HTMLLIElement} */
+    element;
+    /** @type {TreeNode|null} */
+    previousSibling;
+    /** @type {TreeNode|null} */
+    nextSibling;
+    /** @type {TreeNode|null} */
+    parent;
+    /** @type {TreeNode[]|null} */
+    children;
+    /**
+     * Object with the JSON data.
+     * @param {{}} type
+     */
+    data;
+
+    constructor(type, nodeData, noChildren= false) {
+        this.type = type;
+        this.name = nodeData.name;
+        this.markup = nodeData.markup;
+        this.nameLowerCase = this.name.toLowerCase();
+        this.markupLowerCase = this.markup.toLowerCase();
+        this.element = null;
+        this.previousSibling = null;
+        this.nextSibling = null;
+        this.parent = null;
+        this.children = null;
+        this.data = nodeData;
+
+        if (!noChildren && nodeData.children && nodeData.children.length > 0) {
+            this.children = new Array(nodeData.children.length);
+            for (let i = 0; i < nodeData.children.length; i++) {
+                this.children[i] = new TreeNode("struct", nodeData.children[i]);
+            }
+            this.children.sort(TreeNode.compare);
+        }
+    }
+
+    /**
+     * Creates an unlinked copy of this node.
+     * @returns {TreeNode}
+     */
+    copy() {
+        const copy = new TreeNode(this.type, this.data, true);
+        copy.element = this.element;
+        copy.previousSibling = null;
+        copy.nextSibling = null;
+        copy.parent = null;
+        copy.children = null;
+        return copy;
+    }
+
+    hasChildren() { return this.children && this.children.length > 0; }
+    isExpanded() {
+        const detailsElem = this.hasChildren() && this.element.querySelector("details");
+        return detailsElem && detailsElem.open;
+    }
+    expand(state) {
+        const detailsElem = this.hasChildren() && this.element.querySelector("details");
+        if (detailsElem) {
+            detailsElem.open = state;
+        }
+    }
+
+    /**
+     * @param {TreeNode} a
+     * @param {TreeNode} b
+     * @returns {number}
+     */
+    static compare(a, b) { return a.name.localeCompare(b.name, "en"); }
+}
+
 export default class DumpTree extends HTMLElement {
     static URL_PARAM_GAME = "game";
     static URL_PARAM_BUILD = "build";
@@ -26,7 +109,7 @@ export default class DumpTree extends HTMLElement {
                 <dump-downloads id="downloads" class="row-layout-push"></dump-downloads>
             </div>
             <div id="contents" class="hidden">
-                <div id="list">
+                <div id="tree" tabindex="0">
                     <p id="no-results-msg" class="dump-help-msg hidden">No results found.</p>
                 </div>
                 <div id="splitter"></div>
@@ -75,11 +158,16 @@ export default class DumpTree extends HTMLElement {
     #game;
     #buildA;
     #buildB;
+    #treeData;
     #tree;
-    #list;
+    /** @type {TreeNode|null} */
+    #treeNavFocusNode = null;
     #selectedEntryBtn;
-    #selectedEntryNode;
+    #selectedEntryNode = null;
+    /** @type {TreeNode[]} */
     #nodes;
+    /** @type {TreeNode[]} */
+    #visibleNodes;
     #searchOptions;
     #searchInput;
     #noResultsMsg;
@@ -89,9 +177,6 @@ export default class DumpTree extends HTMLElement {
 
         const shadow = this.attachShadow({ mode: "open" });
         shadow.innerHTML = DumpTree.html;
-
-        this.#list = this.shadowRoot.getElementById("list");
-        this.#list.addEventListener("click", this.#onListEntrySelected.bind(this));
     }
 
     connectedCallback() {
@@ -100,16 +185,22 @@ export default class DumpTree extends HTMLElement {
 
         this.#initSplitter();
         this.#initSearch();
+
+        this.#tree = this.shadowRoot.getElementById("tree");
+        this.#tree.addEventListener("click", this.#onTreeEntrySelected.bind(this));
+        this.#tree.addEventListener("keydown", this.#onTreeKeydown.bind(this));
+        this.#tree.addEventListener("focusin", this.#onTreeFocusIn.bind(this));
+        this.#tree.addEventListener("focusout", this.#onTreeFocusOut.bind(this));
     }
 
     disconnectedCallback() {
     }
 
-    setTree(tree, game, buildA, buildB) {
+    setTree(treeData, game, buildA, buildB) {
         this.#game = game;
         this.#buildA = buildA;
         this.#buildB = buildB;
-        this.#tree = tree;
+        this.#treeData = treeData;
 
         const isDiff = buildB !== null;
         const downloads = this.shadowRoot.getElementById("downloads");
@@ -124,20 +215,22 @@ export default class DumpTree extends HTMLElement {
 
         hideElement(this.shadowRoot.getElementById("subheader"), false);
 
-        this.#renderTree(tree);
+        this.#renderTree(treeData);
 
-        const bindAssociatedElementsToNodes = (nodes) => {
+        const postRenderInitNodes = (nodes, parent) => {
             for (let i = 0; i < nodes.length; i++) {
                 const node = nodes[i];
-                node.nameLowerCase = node.name.toLowerCase();
-                node.markupLowerCase = node.markup.toLowerCase();
                 node.element = this.shadowRoot.getElementById(node.name).closest("li");
+                node.previousSibling = i > 0 ? nodes[i - 1] : null;
+                node.nextSibling = i < nodes.length - 1 ? nodes[i + 1] : null;
+                node.parent = parent;
                 if (node.children) {
-                    bindAssociatedElementsToNodes(node.children);
+                    postRenderInitNodes(node.children, node);
                 }
             }
         };
-        bindAssociatedElementsToNodes(this.#nodes);
+        postRenderInitNodes(this.#nodes, null);
+        this.#visibleNodes = this.#nodes;
 
         if (this.#searchInput.value) {
             this.#search(this.#searchInput.value)
@@ -172,7 +265,152 @@ export default class DumpTree extends HTMLElement {
         animateButtonClick(this.shadowRoot.getElementById("details-link"));
     }
 
-    #onListEntrySelected(e) {
+    /**
+     *
+     * @param {FocusEvent} e
+     */
+    #onTreeFocusIn(e) {
+        if (e.target !== this.#tree) {
+            // focus from mouse click, ignore it
+            return;
+        }
+
+        if (this.#selectedEntryNode !== null) {
+            // focus on the selected node initially
+            this.#treeNavFocusNode = this.#selectedEntryNode;
+        }
+
+        if (this.#treeNavFocusNode === null || this.#findVisibleNodeBy(n => n === this.#treeNavFocusNode) === null) {
+            // set focus to the first visible node if no node was selected yet or if the selected node is no longer visible
+            this.#treeNavFocusNode = this.#findVisibleNodeBy(_ => true)
+        }
+
+        if (this.#treeNavFocusNode !== null) {
+            this.#treeNavFocusNode.element.querySelector(".dump-entry-button").dataset.treeFocus = true;
+        }
+    }
+
+    /**
+     *
+     * @param {FocusEvent} e
+     */
+    #onTreeFocusOut(e) {
+        if (this.#treeNavFocusNode !== null) {
+            delete this.#treeNavFocusNode.element.querySelector(".dump-entry-button").dataset.treeFocus;
+        }
+    }
+
+    /**
+     * Set the currently focused node in the tree for keyboard navigation.
+     * @param {TreeNode|null} node
+     */
+    #setTreeFocusNode(node) {
+        if (this.#treeNavFocusNode !== null) {
+            delete this.#treeNavFocusNode.element.querySelector(".dump-entry-button").dataset.treeFocus;
+        }
+
+        this.#treeNavFocusNode = node;
+        if (this.#treeNavFocusNode !== null) {
+            const btn = this.#treeNavFocusNode.element.querySelector(".dump-entry-button");
+            btn.dataset.treeFocus = true;
+            btn.scrollIntoView({ block: "nearest", inline: "end" });
+            // TODO: should details be opened on focus or only on Enter key?
+            // this.open(btn);
+        }
+    }
+
+    /**
+     * Handle tree keyboard navigation.
+     * Follows these guidelines for keyboard interaction: https://www.w3.org/WAI/ARIA/apg/patterns/treeview/
+     * @param {KeyboardEvent} e
+     */
+    #onTreeKeydown(e) {
+        const focusNode = this.#treeNavFocusNode;
+        if (focusNode === null) {
+            return;
+        }
+
+        let consumed = false;
+        switch (e.key) {
+            case "ArrowLeft":
+                consumed = true;
+                if (focusNode.isExpanded()) {
+                    // focus is on an open node, closes the node
+                    focusNode.expand(false);
+                } else {
+                    // focus is on a child node that is also either an end node
+                    // or a closed node, moves focus to its parent node.
+                    if (focusNode.parent !== null) {
+                        this.#setTreeFocusNode(focusNode.parent);
+                    }
+                }
+                break;
+            case "ArrowRight":
+                consumed = true;
+                if (focusNode.isExpanded()) {
+                    // focus is on an open node, moves focus to the first child node
+                    this.#setTreeFocusNode(focusNode.children[0]);
+                } else {
+                    // focus is on a closed node, opens the node; focus does not move
+                    focusNode.expand(true);
+                }
+                break;
+            case "ArrowUp":
+                consumed = true;
+                // moves focus to the previous node that is focusable without opening
+                // or closing a node
+                let prevNode = focusNode.previousSibling;
+                while (prevNode !== null && prevNode.isExpanded()) {
+                    prevNode = prevNode.children[prevNode.children.length - 1];
+                }
+                if (prevNode === null) {
+                    prevNode = focusNode.parent;
+                }
+                if (prevNode !== null) {
+                    this.#setTreeFocusNode(prevNode);
+                }
+                break;
+            case "ArrowDown":
+                consumed = true;
+                // moves focus to the next node that is focusable without opening
+                // or closing a node
+                let nextNode = focusNode.isExpanded() ? focusNode.children[0] : focusNode.nextSibling;
+                let n = focusNode;
+                while (nextNode === null && n.parent !== null) {
+                    nextNode = n.parent.nextSibling;
+                    n = n.parent;
+                }
+                if (nextNode !== null) {
+                    this.#setTreeFocusNode(nextNode);
+                }
+                break;
+            case "Home":
+                consumed = true;
+                // moves focus to the first node in the tree without opening or closing a node
+                this.#setTreeFocusNode(this.#findVisibleNodeBy(_ => true));
+                break;
+            case "End":
+                consumed = true;
+                // moves focus to the last node in the tree that is focusable without opening a node
+                const isExpandedRecursive = n => {
+                    return n.parent === null || (n.parent.isExpanded() && isExpandedRecursive(n.parent));
+                };
+                this.#setTreeFocusNode(this.#findLastVisibleNodeBy(isExpandedRecursive));
+                break;
+            case "Enter":
+                consumed = true;
+                // activates the node
+                this.open(focusNode.element.querySelector(".dump-entry-button"));
+                break;
+        }
+
+        if (consumed) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
+    }
+
+    #onTreeEntrySelected(e) {
         const btn = e.target.closest(".dump-entry-button");
         this.open(btn);
 
@@ -183,7 +421,7 @@ export default class DumpTree extends HTMLElement {
 
     #onLocationHashChanged(e) {
         const id = new URL(e.newURL).hash;
-        const btn = this.#list.querySelector(`${id} > .dump-entry-button`);
+        const btn = this.#tree.querySelector(`${id} > .dump-entry-button`);
         this.open(btn);
     }
 
@@ -226,10 +464,10 @@ export default class DumpTree extends HTMLElement {
         const size = this.shadowRoot.getElementById("details-size");
         const alignment = this.shadowRoot.getElementById("details-alignment");
         if (!isDiff && isStruct) {
-            version.textContent = node.version ? `Version - ${node.version}` : "";
-            size.textContent = `Size - ${node.size}`;
-            alignment.textContent = `Alignment - ${node.align}`;
-            hideElement(version, !node.version);
+            version.textContent = node.data.version ? `Version - ${node.data.version}` : "";
+            size.textContent = `Size - ${node.data.size}`;
+            alignment.textContent = `Alignment - ${node.data.align}`;
+            hideElement(version, !node.data.version);
             hideElement(size, false);
             hideElement(alignment, false);
         } else {
@@ -243,8 +481,8 @@ export default class DumpTree extends HTMLElement {
 
         const fieldsSection = this.shadowRoot.getElementById("details-fields-section");
         const fieldsBody = this.shadowRoot.getElementById("details-fields-body");
-        if (!isDiff && isStruct && node.fields) {
-            fieldsBody.innerHTML = node.fields.sort((a,b) => a.offset > b.offset ? 1 : -1).map(f => {
+        if (!isDiff && isStruct && node.data.fields) {
+            fieldsBody.innerHTML = node.data.fields.sort((a,b) => a.offset > b.offset ? 1 : -1).map(f => {
                 let typeStr = f.type;
                 if (f.subtype !== "NONE") {
                     typeStr += `.${f.subtype}`;
@@ -259,8 +497,8 @@ export default class DumpTree extends HTMLElement {
 
         const usageListSection = this.shadowRoot.getElementById("details-usage-list-section");
         const usageList = this.shadowRoot.getElementById("details-usage-list");
-        if (!isDiff && node.usage) {
-            usageList.innerHTML = node.usage.map(usedInTypeName => `<li><a class="type-link hl-type" href="#${usedInTypeName}">${usedInTypeName}</a></li>`).join("");
+        if (!isDiff && node.data.usage) {
+            usageList.innerHTML = node.data.usage.map(usedInTypeName => `<li><a class="type-link hl-type" href="#${usedInTypeName}">${usedInTypeName}</a></li>`).join("");
             hideElement(usageListSection, false);
         } else {
             usageList.innerHTML = "";
@@ -271,7 +509,7 @@ export default class DumpTree extends HTMLElement {
         const xml = this.shadowRoot.getElementById("details-xml");
         if (!isDiff && isStruct) {
             xml.innerHTML = "";
-            xml.appendChild(document.createTextNode(node.xml));
+            xml.appendChild(document.createTextNode(node.data.xml));
             hideElement(xmlSection, false);
         } else {
             xml.innerHTML = "";
@@ -282,11 +520,56 @@ export default class DumpTree extends HTMLElement {
         this.shadowRoot.getElementById("details").scroll(0, 0)
     }
 
+    /**
+     * @param {string} name
+     * @returns {TreeNode|null}
+     */
     #findNodeByName(name) {
+        return this.#findNodeBy(node => node.name === name)
+    }
+
+    /**
+     * @param {(TreeNode) => boolean} predicate
+     * @returns {TreeNode|null}
+     */
+    #findNodeBy(predicate) {
+        return this.#findNodeByCore(this.#nodes, predicate);
+    }
+
+    /**
+     * @param {(TreeNode) => boolean} predicate
+     * @returns {TreeNode|null}
+     */
+    #findLastNodeBy(predicate) {
+        return this.#findLastNodeByCore(this.#nodes, predicate);
+    }
+
+    /**
+     * @param {(TreeNode) => boolean} predicate
+     * @returns {TreeNode|null}
+     */
+    #findVisibleNodeBy(predicate) {
+        return this.#findNodeByCore(this.#visibleNodes, predicate);
+    }
+
+    /**
+     * @param {(TreeNode) => boolean} predicate
+     * @returns {TreeNode|null}
+     */
+    #findLastVisibleNodeBy(predicate) {
+        return this.#findLastNodeByCore(this.#visibleNodes, predicate);
+    }
+
+    /**
+     * @param {TreeNode[]} nodes
+     * @param {(TreeNode) => boolean} predicate
+     * @returns {TreeNode|null}
+     */
+    #findNodeByCore(nodes, predicate) {
         const findRecursive = (nodes, name) => {
             for (let i = 0; i < nodes.length; i++) {
                 const node = nodes[i];
-                if (node.name === name) {
+                if (predicate(node)) {
                     return node;
                 }
 
@@ -301,26 +584,54 @@ export default class DumpTree extends HTMLElement {
             return null;
         }
 
-        return findRecursive(this.#nodes, name);
+        return findRecursive(nodes, name);
     }
 
-    #renderTree(tree) {
-        const structs = tree.structs;
-        const enums = tree.enums;
-        const nodeComparer = (a, b) => a.name.localeCompare(b.name, "en");
+    /**
+     * @param {TreeNode[]} nodes
+     * @param {(TreeNode) => boolean} predicate
+     * @returns {TreeNode|null}
+     */
+    #findLastNodeByCore(nodes, predicate) {
+        const findRecursive = (nodes, name) => {
+            for (let i = nodes.length - 1; i >= 0; i--) {
+                const node = nodes[i];
+                if (node.children) {
+                    const childResult = findRecursive(node.children, name);
+                    if (childResult) {
+                        return childResult;
+                    }
+                }
+
+                if (predicate(node)) {
+                    return node;
+                }
+            }
+
+            return null;
+        }
+
+        return findRecursive(nodes, name);
+    }
+
+    #renderTree(treeData) {
+        const structs = treeData.structs;
+        const enums = treeData.enums;
 
         let html = "";
         const indent = () => {
-            html += "<ul>";
+            html += html.length === 0 ? `<ul role="tree">` : `<ul role="group">`;
         }
         const dedent = () => {
             html += "</ul>";
         };
+        /**
+         * @param {TreeNode} node
+         */
         const renderEntry = node => {
-            console.log(node.diffType);
             let tip = `${node.type} ${node.name}`;
             let diffIcon = "";
-            switch (node.diffType) {
+            switch (node.data.diffType) {
                 case "a":
                     diffIcon = `<div class="dump-entry-icon dump-entry-icon-diff-added"></div>`;
                     tip += " • Added";
@@ -338,7 +649,7 @@ export default class DumpTree extends HTMLElement {
             return `
                     <div class="dump-entry" id="${node.name}">
                         ${(node.children && node.children.length > 0) ? `<div class="dump-entry-icon dump-entry-icon-container"></div>` : `<div class="dump-entry-icon"></div>`}
-                        <div class="dump-entry-button type-link text-diff-added" title="${tip}">
+                        <div class="dump-entry-button type-link" title="${tip}">
                             ${diffIcon}
                             <div class="dump-entry-icon dump-entry-icon-${node.type}"></div>
                             <span>${node.name}</span>
@@ -346,13 +657,16 @@ export default class DumpTree extends HTMLElement {
                     </div>
                     `;
         }
+        /**
+         * @param {TreeNode} node
+         */
         const renderNode = node => {
-            html += "<li>";
+            html += `<li role="treeitem">`;
             if (node.children && node.children.length > 0) {
-                html += `<details open><summary>${renderEntry(node)}</summary>`;
+                html += `<details open><summary tabindex="-1">${renderEntry(node)}</summary>`;
                 indent();
-                for (const c of node.children.sort(nodeComparer)) {
-                    renderNode({type: "struct", ...c});
+                for (const c of node.children) {
+                    renderNode(c);
                 }
                 dedent();
                 html += "</details>";
@@ -363,15 +677,15 @@ export default class DumpTree extends HTMLElement {
         }
 
         indent();
-        const structNodes = structs.map(c => ({type: "struct", ...c}));
-        const enumNodes = enums.map(e => ({type: "enum", ...e}));
-        this.#nodes = structNodes.concat(enumNodes).sort(nodeComparer);
+        const structNodes = structs.map(s => new TreeNode("struct", s));
+        const enumNodes = enums.map(e => new TreeNode("enum", e));
+        this.#nodes = structNodes.concat(enumNodes).sort(TreeNode.compare);
         for (const n of this.#nodes) {
             renderNode(n);
         }
         dedent();
 
-        this.#list.innerHTML += html;
+        this.#tree.innerHTML += html;
         this.#noResultsMsg = this.shadowRoot.getElementById("no-results-msg");
 
         if (this.#nodes.length === 0) {
@@ -476,8 +790,9 @@ export default class DumpTree extends HTMLElement {
             text = this.#searchOptions.matchCase ? text : text.toLowerCase();
             matcher = str => str.indexOf(text) !== -1;
         }
-        const numResults = this.#doSearch(this.#nodes, matcher);
-        hideElement(this.#noResultsMsg, numResults !== 0);
+        this.#visibleNodes = this.#doSearch(this.#nodes, matcher);
+        this.#treeNavFocusNode = null; // reset focus
+        hideElement(this.#noResultsMsg, this.#visibleNodes.length !== 0);
     }
 
     /**
@@ -485,42 +800,50 @@ export default class DumpTree extends HTMLElement {
      * @param {{}[]} nodes
      * @param {(str: string) => boolean} matcher
      * @param {{}} state
-     * @returns {number} number of matching elements
+     * @returns {TreeNode[]} tree of matching nodes
      */
     #doSearch(nodes, matcher, state = {}) {
-        let numResults = 0;
+        let results = [];
         for(let i = 0; i < nodes.length; i++) {
             const node = nodes[i];
             const name = this.#searchOptions.matchMembers ?
                 (this.#searchOptions.matchCase ? node.markup : node.markupLowerCase) : // TODO: search only member names with 'matchMembers' set
                 (this.#searchOptions.matchCase ? node.name : node.nameLowerCase);
             let match = false;
+            let childrenResults = null;
             if (this.#searchOptions.showChildren) {
                 match = state.parentMatch || matcher(name);
                 const prevParentMatch = state.parentMatch;
                 state.parentMatch = match;
 
-                const numChildrenResults = node.children ? this.#doSearch(node.children, matcher, state) : 0;
-                numResults += numChildrenResults;
-
-                match = numChildrenResults !== 0 || match;
+                childrenResults = node.children ? this.#doSearch(node.children, matcher, state) : null;
+                match = (childrenResults && childrenResults.length > 0) || match;
 
                 state.parentMatch = prevParentMatch;
             } else {
-                const numChildrenResults = node.children ? this.#doSearch(node.children, matcher, state) : 0;
-                numResults += numChildrenResults;
-                match = numChildrenResults !== 0 || matcher(name);
+                childrenResults = node.children ? this.#doSearch(node.children, matcher, state) : null;
+                match = (childrenResults && childrenResults.length > 0) || matcher(name);
             }
 
 
             if (match) {
-                numResults++;
+                const nodeCopy = node.copy();
+                if (results.length > 0) {
+                    const prevNode = results[results.length - 1];
+                    prevNode.nextSibling = nodeCopy;
+                    nodeCopy.previousSibling = prevNode;
+                }
+                nodeCopy.children = childrenResults;
+                if (nodeCopy.children) {
+                    nodeCopy.children.forEach(c => c.parent = nodeCopy);
+                }
+                results.push(nodeCopy);
             }
 
             hideElement(node.element, !match);
         }
 
-        return numResults;
+        return results;
     }
 
     static defaultSearchOptions = {

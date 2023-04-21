@@ -516,25 +516,27 @@ dump-tree {
     transition: none;
 }
 
-.dump-tree-root #list {
+.dump-tree-root #tree {
     background-color: var(--theme-background-alt);
     font-family: var(--default-monospace-font-family);
     overflow: auto;
     width: 20%;
+    scroll-padding-top: 1rem;
+    scroll-padding-bottom: 1rem;
 }
 
-.dump-tree-root #list ul {
+.dump-tree-root #tree ul {
     list-style: none;
     padding-left: 1.34em;
 }
 
-.dump-tree-root #list > ul,
-.dump-tree-root #list > * {
+.dump-tree-root #tree > ul,
+.dump-tree-root #tree > * {
     padding: 0.67em;
     margin: 0;
 }
 
-.dump-tree-root #list summary {
+.dump-tree-root #tree summary {
     list-style: none;
     outline: none;
 }
@@ -596,6 +598,12 @@ details[open] > summary .dump-entry-icon-container {
     column-gap: 0.5em;
     align-items: center;
     margin-top: 0.3em;
+    scroll-margin: 3rem 1rem;
+}
+
+.dump-entry-button[data-tree-focus] {
+    outline: 2px var(--theme-accent) solid !important;
+    z-index: 5;
 }
 
 .type-link {
