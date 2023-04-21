@@ -66,6 +66,11 @@
     --theme-code-string: #ce9178;
 }
 
+:focus-visible {
+    outline: 2px var(--theme-accent) solid;
+    border-radius: 4px;
+}
+
 @font-face {
     font-family: "Redemption";
     src: url("../fonts/Redemption.woff2") format("woff2");
@@ -611,7 +616,6 @@ details[open] > summary .dump-entry-icon-container {
     font-family: var(--default-monospace-font-family);
     color: var(--theme-text);
     text-decoration: none;
-    outline: none;
     border: none;
     border-radius: 4px;
     margin: -0.3em;
@@ -639,6 +643,7 @@ details[open] > summary .dump-entry-icon-container {
     filter: var(--theme-svg-icon-filter);
     transition: transform 0.1s;
     cursor: pointer;
+    outline-offset: 2px;
 }
 
 .link-btn:hover {
@@ -685,9 +690,11 @@ details[open] > summary .dump-entry-icon-container {
     transition: transform 0.1s, opacity 0.2s;
     opacity: 0;
     cursor: pointer;
+    outline-offset: 2px;
 }
 
-.code-snippet-contents:hover #copy-btn {
+.code-snippet-contents:hover #copy-btn,
+.code-snippet-contents #copy-btn:focus {
     opacity: 1;
 }
 
