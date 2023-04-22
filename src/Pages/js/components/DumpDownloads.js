@@ -1,11 +1,12 @@
+import "./SvgIcon.js";
 import {animateButtonClick, getDumpURL, hideElement} from "../util.js";
 
 export default class DumpDownloads extends HTMLElement {
     static sources = [
-        { id: "html",       ext: "html",        text: "HTML",               desc: "Download structures list as HTML",                                       icon: "img/icon-html.svg" },
-        { id: "plain-text", ext: "txt",         text: "Plain Text",         desc: "Download structures list as plain text",                                 icon: "img/icon-txt.svg" },
-        { id: "json",       ext: "json",        text: "JSON",               desc: "Download raw JSON dump",                                                 icon: "img/icon-json.svg" },
-        { id: "tree-json",  ext: "tree.json",   text: "Preprocessed JSON",  desc: "Download preprocessed JSON dump. This is the data source for this site", icon: "img/icon-json.svg" },
+        { id: "html",       ext: "html",        text: "HTML",               desc: "Download structures list as HTML",                                       icon: "icon-html" },
+        { id: "plain-text", ext: "txt",         text: "Plain Text",         desc: "Download structures list as plain text",                                 icon: "icon-txt" },
+        { id: "json",       ext: "json",        text: "JSON",               desc: "Download raw JSON dump",                                                 icon: "icon-json" },
+        { id: "tree-json",  ext: "tree.json",   text: "Preprocessed JSON",  desc: "Download preprocessed JSON dump. This is the data source for this site", icon: "icon-json" },
         /*{ id: "xsd",        ext: "xsd",         text: "XSD",        desc: "Download structures XML Schema Definition",  icon: "img/icon-xsd.svg" },*/
     ];
 
@@ -13,10 +14,14 @@ export default class DumpDownloads extends HTMLElement {
         <link rel="stylesheet" href="css/style.css">
         <div id="dropdown" class="dump-downloads-dropdown">
             <button id="dropdown-button" class="header-icon dump-downloads-button" title="Download">
-                <img src="img/download.svg">
+                <svg-icon icon="download" clickable />
             </button>
             <div id="dropdown-panel" class="dump-downloads-dropdown-panel hidden">
-                ${DumpDownloads.sources.map(s => `<a id="link-${s.id}" download title="${s.desc}" class="dump-downloads-dropdown-entry header-icon"><img src="${s.icon}">${s.text}</a>`).join("")}
+                ${DumpDownloads.sources.map(s =>
+                    `<a id="link-${s.id}" download title="${s.desc}" class="dump-downloads-dropdown-entry header-icon">
+                            <svg-icon icon="${s.icon}">
+                            ${s.text}
+                    </a>`).join("")}
             </div>
         </div>
     `;
@@ -61,7 +66,7 @@ export default class DumpDownloads extends HTMLElement {
         for (const s of DumpDownloads.sources) {
             const link = shadow.getElementById(`link-${s.id}`);
             link.href = getDumpURL(game, build, s.ext);
-            link.addEventListener("click", () => animateButtonClick(link.querySelector("img")));
+            link.addEventListener("click", () => animateButtonClick(link.querySelector("svg")));
         }
     }
 
@@ -93,6 +98,8 @@ export default class DumpDownloads extends HTMLElement {
 
         hideElement(this.#panel, this.#dropdownOpen);
         this.#dropdownOpen = !this.#dropdownOpen;
+        e.stopPropagation();
+        e.preventDefault();
     }
 }
 customElements.define('dump-downloads', DumpDownloads);

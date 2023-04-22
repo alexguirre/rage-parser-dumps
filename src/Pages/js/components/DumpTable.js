@@ -121,7 +121,7 @@ export default class DumpTable extends HTMLElement {
                 if (a.hrefCompare) {
                     a.href = a.hrefCompare;
                 } else {
-                    a.removeAttribute("href");
+                    a.href = "#";
                 }
             });
         }
@@ -146,6 +146,7 @@ export default class DumpTable extends HTMLElement {
                         a.href = a.hrefCompare;
                     }
                 });
+                e.preventDefault(); // prevent adding # to the URL
             } else if (this.#buildSelectedForCompare === build) {
                 // unselected first build
                 link.title = link.titleCompareSelect;
@@ -154,8 +155,9 @@ export default class DumpTable extends HTMLElement {
                 this.#buildSelectedForCompare = null;
                 this.shadowRoot.querySelectorAll("tr > td > a").forEach(a => {
                     a.hrefCompare = null;
-                    a.removeAttribute("href");
+                    a.href = "#";
                 });
+                e.preventDefault(); // prevent adding # to the URL
             } else {
                 // selected second build
                 row.dataset.compareSelected = "";
