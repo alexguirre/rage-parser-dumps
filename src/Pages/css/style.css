@@ -612,8 +612,8 @@ details[open] > summary .dump-entry-icon-container {
     scroll-margin: 3rem 1rem;
 }
 
-.dump-entry-button[data-tree-focus] {
-    outline: 2px var(--theme-accent) solid !important;
+:focus-visible .dump-entry-button[data-tree-focus] {
+    outline: 2px var(--theme-accent) solid;
     z-index: 5;
 }
 
