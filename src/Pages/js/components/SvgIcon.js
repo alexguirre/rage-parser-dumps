@@ -22,8 +22,7 @@ export default class SvgIcon extends HTMLElement {
     }
 
     async #updateIcon() {
-        const response = await fetch(`img/${this.icon}.svg`);
-        this.innerHTML = await response.text() + this.#origInnerHTML;
+        this.innerHTML = await SvgIcon.#fetchIcon(this.icon) + this.#origInnerHTML;
         this.#svg = this.querySelector("svg");
         this.#svg.setAttribute("fill", "currentColor");
     }
@@ -36,5 +35,20 @@ export default class SvgIcon extends HTMLElement {
                 break;
         }
     }
+
+    static async #fetchIcon(icon) {
+        if (SvgIcon.#fetchIconCache.has(icon)) {
+            return await SvgIcon.#fetchIconCache.get(icon);
+        }
+        const promise = fetch(`img/${icon}.svg`)
+            .then(response => response.ok ? response.text() : Promise.reject(response))
+            .catch(failure => {
+                      console.error(`Failed to fetch icon '${icon}'`, failure);
+                      return `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>`;
+                  });
+        SvgIcon.#fetchIconCache.set(icon, promise);
+        return await promise;
+    }
+    static #fetchIconCache = new Map();
 }
 customElements.define('svg-icon', SvgIcon);
