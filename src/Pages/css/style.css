@@ -334,6 +334,7 @@ dump-tables-container:has(dump-table[data-compare]) > dump-table:not([data-compa
     display: block;
     width: calc(100vw - var(--dump-table-padding) * 2);
     cursor: pointer;
+    outline-offset: 0;
 }
 
 .dump-downloads-dropdown {
