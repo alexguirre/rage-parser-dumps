@@ -98,6 +98,8 @@ export default class DumpDownloads extends HTMLElement {
 
         hideElement(this.#panel, this.#dropdownOpen);
         this.#dropdownOpen = !this.#dropdownOpen;
+        e.stopPropagation();
+        e.preventDefault();
     }
 }
 customElements.define('dump-downloads', DumpDownloads);
