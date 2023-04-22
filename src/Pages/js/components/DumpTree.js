@@ -1,3 +1,4 @@
+import "./SvgIcon.js";
 import "./CodeSnippet.js";
 import "./DumpDownloads.js";
 import {animateButtonClick, gameIdToFormattedName, gameIdToName, hideElement} from "../util.js";
@@ -100,10 +101,10 @@ export default class DumpTree extends HTMLElement {
                 <div id="search-box">
                     <input id="search-input" type="text" placeholder="Search..." />
                     <div id="search-options" class="row-layout">
-                        <button id="search-toggle-match-case"    class="header-icon dump-search-toggle" title="Match Case"><img src="img/match-case.svg"></button>
-                        <button id="search-toggle-regex"         class="header-icon dump-search-toggle" title="Use Regular Expression"><img src="img/regex.svg"></button>
-                        <button id="search-toggle-match-members" class="header-icon dump-search-toggle" title="Match Members"><img src="img/match-members.svg"></button>
-                        <button id="search-toggle-show-children" class="header-icon dump-search-toggle" title="Show Children"><img src="img/show-children.svg"></button>
+                        <button id="search-toggle-match-case"    class="header-icon dump-search-toggle" title="Match Case"><svg-icon icon="match-case" clickable /></button>
+                        <button id="search-toggle-regex"         class="header-icon dump-search-toggle" title="Use Regular Expression"><svg-icon icon="regex" clickable /></button>
+                        <button id="search-toggle-match-members" class="header-icon dump-search-toggle" title="Match Members"><svg-icon icon="match-members" clickable /></button>
+                        <button id="search-toggle-show-children" class="header-icon dump-search-toggle" title="Show Children"><svg-icon icon="show-children" clickable /></button>
                     </div>
                 </div>
                 <dump-downloads id="downloads" class="row-layout-push"></dump-downloads>
@@ -117,7 +118,9 @@ export default class DumpTree extends HTMLElement {
                     <p id="details-help-tip" class="dump-help-msg">Select a type to display its details here.</p>
                     <div id="details-view" class="hidden">
                         <div class="row-layout">
-                            <button id="details-link" class="link-btn" title="Copy link"></button>
+                            <button id="details-link" class="header-icon" title="Copy link">
+                                <svg-icon icon="link" clickable />
+                            </button>
                             <h3 id="details-name">CSomeStruct</h3>
                         </div>
                         <code-snippet id="details-struct" code-lang="cpp"></code-snippet>

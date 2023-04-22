@@ -1,4 +1,4 @@
-
+import "./SvgIcon.js";
 import { animateButtonClick } from "../util.js";
 
 /**
@@ -13,7 +13,9 @@ export default class CodeSnippet extends HTMLElement {
         <link rel="stylesheet" href="css/style.css">
         <div class="code-snippet-contents">
             <pre><code id="code"></code></pre>
-            <button id="copy-btn" title="Copy snippet"></button>
+            <button id="copy-btn" class="header-icon" title="Copy snippet">
+                <svg-icon icon="copy-icon" clickable />
+            </button>
         </div>
     `;
 

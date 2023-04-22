@@ -9,7 +9,6 @@
 
     /* light mode */
     --theme-accent-rgb: 235, 156, 0;
-    --theme-accent-filter: invert(53%) sepia(80%) saturate(1160%) hue-rotate(9deg) brightness(102%) contrast(101%);
     --theme-accent: rgb(var(--theme-accent-rgb));
     --theme-background: #f6f8fa;
     --theme-background-alt: #eeeeee;
@@ -17,7 +16,6 @@
     --theme-background-highlight: #dddddd;
     --theme-text: #000000;
     --theme-svg-icon-filter: none;
-    --theme-header-icon-hover-filter: invert(0.35);
 
     --theme-diff-ins: #bee194;
     --theme-diff-ins-line: #effad8;
@@ -42,14 +40,12 @@
 .dark-mode {
     color-scheme: dark;
     --theme-accent-rgb: 255, 176, 0;
-    --theme-accent-filter: invert(72%) sepia(84%) saturate(2415%) hue-rotate(360deg) brightness(102%) contrast(103%);
     --theme-background: #11161d;
     --theme-background-alt: #22272e;
     --theme-background-alt-focus: #35393e;
     --theme-background-highlight: #33383f;
     --theme-text: #eeeeee;
     --theme-svg-icon-filter: invert(0.8);
-    --theme-header-icon-hover-filter: invert(0.35);
 
     --theme-diff-ins: #4b5a2a;
     --theme-diff-ins-line: #3d4232;
@@ -68,6 +64,7 @@
 
 :focus-visible {
     outline: 2px var(--theme-accent) solid;
+    outline-offset: 2px;
     border-radius: 4px;
 }
 
@@ -139,22 +136,36 @@ header {
 .header-icon {
     background: none;
     border: none;
-    margin-top: 0.67em;
-    margin-bottom: 0.67em;
     transition: transform 0.1s;
     cursor: pointer;
+    padding: 0;
 }
 
-.header-icon:hover > img {
-    filter: var(--theme-header-icon-hover-filter);
-    transform: scale(1.125);
+svg-icon {
+    display: block;
+    color: var(--theme-text);
 }
 
-.header-icon > img {
+svg-icon > svg {
+    vertical-align: middle;
     width: var(--icon-size);
     height: var(--icon-size);
-    display: block;
-    filter: var(--theme-svg-icon-filter);
+}
+
+/* not currently used, but this is how we could change the size of the icons */
+/*svg-icon[size="small"] > svg {
+    width: 16px;
+    height: 16px;
+}
+
+svg-icon[size="big"] > svg {
+    width: 32px;
+    height: 32px;
+}*/
+
+svg-icon[clickable]:hover > svg {
+    filter: invert(0.35);
+    transform: scale(1.125);
 }
 
 .dump-title {
@@ -368,7 +379,6 @@ dump-tables-container:has(dump-table[data-compare]) > dump-table:not([data-compa
     text-decoration: none;
     margin: 0;
     padding: 0.4em;
-    --theme-header-icon-hover-filter: var(--theme-svg-icon-filter);
 }
 
 .dump-downloads-dropdown-entry:first-of-type {
@@ -450,17 +460,10 @@ dump-tree {
     padding: 2px;
     margin: -2px;
     border-radius: 4px;
-}
-
-.dump-search-toggle {
-    padding: 2px;
-    margin: -2px;
-    border-radius: 4px;
+    outline-offset: 0;
 }
 
 .dump-search-toggle:hover {
-    filter: none; /* remove hover effects from .header-icon */
-    transform: none;
     background-color: var(--theme-background-highlight);
 }
 
@@ -468,8 +471,8 @@ dump-tree {
     background-color: rgba(var(--theme-accent-rgb), 0.2);
 }
 
-.dump-search-toggle.enabled > img {
-    filter: var(--theme-accent-filter);
+.dump-search-toggle.enabled > svg-icon {
+    color: var(--theme-accent);
 }
 
 .dump-help-msg {
@@ -528,6 +531,7 @@ dump-tree {
     width: 20%;
     scroll-padding-top: 1rem;
     scroll-padding-bottom: 1rem;
+    outline-offset: 0;
 }
 
 .dump-tree-root #tree ul {
@@ -633,24 +637,6 @@ details[open] > summary .dump-entry-icon-container {
     color: var(--theme-accent);
 }
 
-.link-btn {
-    height: var(--icon-size);
-    width: var(--icon-size);
-    border: none;
-    padding: 0;
-    background: url("../img/link.svg") 0 50% no-repeat;
-    background-size: 100%;
-    filter: var(--theme-svg-icon-filter);
-    transition: transform 0.1s;
-    cursor: pointer;
-    outline-offset: 2px;
-}
-
-.link-btn:hover {
-    filter: invert(0.35);
-    transform: scale(1.115);
-}
-
 .dump-tree-root #details {
     padding: 0.67em;
     flex: 1;
@@ -677,30 +663,16 @@ details[open] > summary .dump-entry-icon-container {
 }
 
 .code-snippet-contents #copy-btn {
-    height: var(--icon-size);
-    width: var(--icon-size);
-    border: none;
-    padding: 0;
     position: absolute;
     right: 0.77em;
     top: 0.77em;
-    background: url("../img/copy-icon.svg") 0 0 no-repeat;
-    background-size: 100%;
-    filter: var(--theme-svg-icon-filter);
-    transition: transform 0.1s, opacity 0.2s;
+    transition: opacity 0.2s;
     opacity: 0;
-    cursor: pointer;
-    outline-offset: 2px;
 }
 
 .code-snippet-contents:hover #copy-btn,
 .code-snippet-contents #copy-btn:focus {
     opacity: 1;
-}
-
-.code-snippet-contents #copy-btn:hover {
-    filter: invert(0.35);
-    transform: scale(1.115);
 }
 
 .code-snippet-contents code {
