@@ -1,0 +1,12 @@
+{
+  "name": "rage-parser-dumps",
+  "author": "alexguirre",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.5"
+  }
+}
