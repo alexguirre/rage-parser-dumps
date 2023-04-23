@@ -1,5 +1,9 @@
+import {GameId, Registry}  from "../types.js";
 import DumpTable from './DumpTable.js';
 
+/**
+ * Groups the dump tables for all available games defined in the registry.json file.
+ */
 export default class DumpTablesContainer extends HTMLElement {
     constructor() {
         super();
@@ -13,11 +17,11 @@ export default class DumpTablesContainer extends HTMLElement {
             .then(data => this.render(data));
     }
 
-    render(registry) {
+    render(registry: Registry) {
         Object.keys(registry).forEach(game => {
-            const table = new DumpTable(game);
-            for (const dumpInfo of registry[game]) {
-                table.addRow(dumpInfo.build, dumpInfo.aliases);
+            const table = new DumpTable(game as GameId);
+            for (const build of registry[game as GameId]) {
+                table.addRow(build);
             }
     
             this.appendChild(table);

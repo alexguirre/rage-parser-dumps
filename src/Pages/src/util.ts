@@ -1,5 +1,4 @@
-
-type GameId = "gta4" | "gta5" | "gta6" | "rdr2" | "rdr3" | "mp3" | "mc4" | "pong";
+import { GameId } from "./types.js";
 
 export function gameIdToName(id: GameId): string {
     switch (id) {
