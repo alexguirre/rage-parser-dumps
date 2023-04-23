@@ -15,7 +15,7 @@ internal enum ParEnumFlags : ushort
 
 internal readonly record struct ParEnumValue(
     Name Name,
-    ulong Value);
+    long Value);
 
 internal record ParEnum(
     Name Name,

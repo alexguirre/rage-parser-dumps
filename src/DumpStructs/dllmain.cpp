@@ -320,7 +320,7 @@ static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, p
 	{
 		auto* enumData = static_cast<parMemberEnumData*>(m);
 		w.UInt("enumName", enumData->enumData->name, json_uint_hex);
-		w.UInt("initValue", enumData->initValue, json_uint_dec);
+		w.Int("initValue", enumData->initValue);
 	}
 	break;
 	case parMemberType::MAP:
@@ -555,7 +555,7 @@ static void DumpJsonEnum(JsonWriter& w, std::optional<std::string_view> key, par
 		auto& v = e->values[i];
 		w.BeginObject();
 		w.UInt("name", v.name, json_uint_hex);
-		w.UInt("value", v.value, json_uint_dec);
+		w.Int("value", v.value);
 		w.EndObject();
 	}
 	w.EndArray();

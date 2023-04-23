@@ -291,9 +291,9 @@ struct parMemberStructData : parMemberCommonData
 struct parMemberEnumData : parMemberCommonData
 {
 #if RDR3
-	uint64_t initValue;
+	int64_t initValue;
 #else
-	uint32_t initValue;
+	int32_t initValue;
 	uint32_t padding24;
 #endif
 	struct parEnumData* enumData;
@@ -422,10 +422,10 @@ struct parEnumValueData
 #if RDR3
 	uint32_t name;
 	uint32_t padding4;
-	uint64_t value;
+	int64_t value;
 #else
 	uint32_t name;
-	uint32_t value;
+	int32_t value;
 #endif
 };
 

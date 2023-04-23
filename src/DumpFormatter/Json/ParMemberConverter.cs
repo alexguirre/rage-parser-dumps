@@ -99,7 +99,7 @@ internal class ParMemberConverter : JsonConverter<ParMember>
                 ParMemberType.STRING => new ParMemberString(Name, Offset, Size, Align, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, MemberSize, NamespaceIndex),
 
                 ParMemberType.ENUM or
-                ParMemberType.BITSET => new ParMemberEnum(Name, Offset, Size, Align, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, EnumName, ulong.Parse(InitValue)),
+                ParMemberType.BITSET => new ParMemberEnum(Name, Offset, Size, Align, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, EnumName, long.Parse(InitValue)),
 
                 ParMemberType.ARRAY => new ParMemberArray(Name, Offset, Size, Align, Flags1, Flags2, ExtraData, Type, Subtype, Attributes, Item!.ToConcreteMember(), AllocFlags, ArraySize, CountOffset),
 

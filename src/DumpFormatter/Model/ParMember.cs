@@ -166,7 +166,7 @@ internal record ParMemberString(
 internal record ParMemberEnum(
     Name Name, ulong Offset, ulong Size, ulong Align, ulong Flags1, ulong Flags2, ulong ExtraData, ParMemberType Type, ParMemberSubtype Subtype, ParAttributeList? Attributes,
     Name EnumName,
-    ulong InitValue)
+    long InitValue)
     : ParMember(Name, Offset, Size, Align, Flags1, Flags2, ExtraData, Type, Subtype, Attributes);
 
 [Flags, JsonConverter(typeof(EnumConverter<ParMemberArrayAllocFlags>))]
