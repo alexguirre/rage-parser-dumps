@@ -142687,7 +142687,7 @@
 					"flags2": "0xFFFF",
 					"type": "UINT",
 					"subtype": "COLOR",
-					"initValue": -16777216
+					"initValue": 4278190080
 				},
 				{
 					"name": "0xF7DE214C",
