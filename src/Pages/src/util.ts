@@ -1,5 +1,7 @@
 
-function gameIdToName(id) {
+type GameId = "gta4" | "gta5" | "gta6" | "rdr2" | "rdr3" | "mp3" | "mc4" | "pong";
+
+export function gameIdToName(id: GameId): string {
     switch (id) {
         case "gta4": return "Grand Theft Auto IV";
         case "gta5": return "Grand Theft Auto V";
@@ -13,7 +15,7 @@ function gameIdToName(id) {
     }
 }
 
-function gameIdToFormattedName(id) {
+export function gameIdToFormattedName(id: GameId): string {
     let name = `<span class=\"${id}-font\">`;
     switch (id) {
         case "gta4": name += "Grand Theft Auto IV"; break;
@@ -30,17 +32,17 @@ function gameIdToFormattedName(id) {
     return name;
 }
 
-function getDumpURL(game, build, ext) {
+export function getDumpURL(game: GameId, build: string, ext: string): string {
     return `dumps/${game}/b${build}.${ext}`;
 }
 
 const HIDDEN_CLASS = "hidden";
 
-function isElementHidden(element) {
+export function isElementHidden(element: HTMLElement) {
     return element.classList.contains(HIDDEN_CLASS);
-} 
+}
 
-function hideElement(element, hide) {
+export function hideElement(element: HTMLElement, hide: boolean) {
     if (hide) {
         element.classList.add(HIDDEN_CLASS);
     } else {
@@ -48,13 +50,17 @@ function hideElement(element, hide) {
     }
 }
 
-function animateButtonClick(element) {
-    if (element.animateButtonClickTimeout) {
-        clearTimeout(element.animateButtonClickTimeout);
+let animateButtonClickTimeouts: WeakMap<HTMLElement, number> | null = null;
+export function animateButtonClick(element: HTMLElement) {
+    if (animateButtonClickTimeouts === null) {
+        animateButtonClickTimeouts = new WeakMap();
+    }
+
+    const existingTimeout = animateButtonClickTimeouts.get(element);
+    if (existingTimeout !== undefined) {
+        clearTimeout(existingTimeout);
     }
 
     element.classList.add("btn-clicked");
-    element.animateButtonClickTimeout = setTimeout(() => element.classList.remove("btn-clicked"), 200);
+    animateButtonClickTimeouts.set(element, setTimeout(() => element.classList.remove("btn-clicked"), 200));
 }
-
-export { gameIdToName, gameIdToFormattedName, getDumpURL, isElementHidden, hideElement, animateButtonClick };
