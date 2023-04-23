@@ -11,13 +11,13 @@ export default class DumpTablesContainer extends HTMLElement {
         this.fetchInfo();
     }
 
-    fetchInfo() {
+    fetchInfo(): void {
         fetch("dumps/registry.json")
             .then(response => response.json())
             .then(data => this.render(data));
     }
 
-    render(registry: Registry) {
+    render(registry: Registry): void {
         Object.keys(registry).forEach(game => {
             const table = new DumpTable(game as GameId);
             for (const build of registry[game as GameId]) {

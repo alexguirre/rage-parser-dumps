@@ -95,12 +95,12 @@ export default class DumpTable extends HTMLElement {
         this.#onBuildLinkClickHandler = this.#onBuildLinkClick.bind(this);
     }
 
-    addRow(entry: RegistryEntry) {
+    addRow(entry: RegistryEntry): void {
         this.#body.appendChild(this.#createRow(entry));
         (this.#body.lastElementChild as HTMLElement).dataset.build = entry.build;
     }
 
-    #createRow(entry: RegistryEntry) {
+    #createRow(entry: RegistryEntry): Node {
         const row = this.#rowTemplate.content.cloneNode(true) as DocumentFragment;
 
         const cols = row.querySelectorAll("td");
@@ -130,7 +130,7 @@ export default class DumpTable extends HTMLElement {
         return row;
     }
 
-    #onCompare(e: MouseEvent) {
+    #onCompare(e: MouseEvent): void {
         if (this.#linksExtraData === null) {
             this.#linksExtraData = new WeakMap();
         }
@@ -198,7 +198,7 @@ export default class DumpTable extends HTMLElement {
         }
     }
 
-    #onBuildLinkClick(e: MouseEvent) {
+    #onBuildLinkClick(e: MouseEvent): void {
         const isCompareSelecting = this.dataset.compare !== undefined;
         if (isCompareSelecting) {
             if (this.#linksExtraData === null) {

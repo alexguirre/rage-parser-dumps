@@ -37,11 +37,11 @@ export function getDumpURL(game: GameId, build: string, ext: string): string {
 
 const HIDDEN_CLASS = "hidden";
 
-export function isElementHidden(element: HTMLElement) {
+export function isElementHidden(element: HTMLElement): boolean {
     return element.classList.contains(HIDDEN_CLASS);
 }
 
-export function hideElement(element: HTMLElement, hide: boolean) {
+export function hideElement(element: HTMLElement, hide: boolean): void {
     if (hide) {
         element.classList.add(HIDDEN_CLASS);
     } else {
@@ -50,7 +50,7 @@ export function hideElement(element: HTMLElement, hide: boolean) {
 }
 
 let animateButtonClickTimeouts: WeakMap<HTMLElement, number> | null = null;
-export function animateButtonClick(element: HTMLElement) {
+export function animateButtonClick(element: HTMLElement): void {
     if (animateButtonClickTimeouts === null) {
         animateButtonClickTimeouts = new WeakMap();
     }

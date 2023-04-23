@@ -1,6 +1,6 @@
 
 // This must be the first script loaded by a page to prevent a flash of unstyled content (especifically a white screen when using dark theme).
-function themeEarlyInit() {
+function themeEarlyInit(): void {
     themeUpdate();
 
     window.addEventListener("storage", function() {
@@ -12,7 +12,7 @@ function themeEarlyInit() {
     });
 }
 
-function themeUpdate() {
+function themeUpdate(): void {
     let theme = localStorage.getItem("theme");
     if (theme === null) {
         const systemDarkTheme = window.matchMedia("(prefers-color-scheme: dark)");
