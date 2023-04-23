@@ -97,7 +97,7 @@ export default class DumpTable extends HTMLElement {
 
     addRow(entry: RegistryEntry): void {
         this.#body.appendChild(this.#createRow(entry));
-        (this.#body.lastElementChild as HTMLElement).dataset.build = entry.build;
+        (this.#body.lastElementChild as HTMLElement).dataset["build"] = entry.build;
     }
 
     #createRow(entry: RegistryEntry): Node {
@@ -148,11 +148,11 @@ export default class DumpTable extends HTMLElement {
         if (compareHelp === null) {
             throw new Error("compare-help element not found");
         }
-        const isCompareSelecting = this.dataset.compare !== undefined;
+        const isCompareSelecting = this.dataset["compare"] !== undefined;
         hideElement(compareHelp, isCompareSelecting);
         if (isCompareSelecting) {
-            delete this.dataset.compare;
-            delete table.dataset.compare;
+            delete this.dataset["compare"];
+            delete table.dataset["compare"];
 
             compareBtn.title = this.#compareBtnTitleOld;
             compareBtn.innerText = this.#compareBtnInnerTextOld;
@@ -166,8 +166,8 @@ export default class DumpTable extends HTMLElement {
                 a.href = aData.hrefOld;
             });
         } else {
-            this.dataset.compare = "";
-            table.dataset.compare = "";
+            this.dataset["compare"] = "";
+            table.dataset["compare"] = "";
 
             this.#compareBtnTitleOld = compareBtn.title;
             this.#compareBtnInnerTextOld = compareBtn.innerText;
@@ -185,8 +185,8 @@ export default class DumpTable extends HTMLElement {
 
                 data.titleOld = a.title;
                 data.hrefOld = a.href;
-                data.titleCompareSelect = `Select ${gameIdToName(this.#game)} build ${a.parentElement!.parentElement!.dataset.build} to compare`;
-                data.titleCompareUnselect = `Unselect ${gameIdToName(this.#game)} build ${a.parentElement!.parentElement!.dataset.build} to compare`;
+                data.titleCompareSelect = `Select ${gameIdToName(this.#game)} build ${a.parentElement!.parentElement!.dataset["build"]} to compare`;
+                data.titleCompareUnselect = `Unselect ${gameIdToName(this.#game)} build ${a.parentElement!.parentElement!.dataset["build"]} to compare`;
                 this.#linksExtraData!.set(a, data);
                 a.title = data.titleCompareSelect;
                 if (data.hrefCompare) {
@@ -199,7 +199,7 @@ export default class DumpTable extends HTMLElement {
     }
 
     #onBuildLinkClick(e: MouseEvent): void {
-        const isCompareSelecting = this.dataset.compare !== undefined;
+        const isCompareSelecting = this.dataset["compare"] !== undefined;
         if (isCompareSelecting) {
             if (this.#linksExtraData === null) {
                 this.#linksExtraData = new WeakMap();
@@ -215,7 +215,7 @@ export default class DumpTable extends HTMLElement {
                 throw new Error("link extra data not found");
             }
             const row = link.parentElement!.parentElement!;
-            const build = row.dataset.build;
+            const build = row.dataset["build"];
             if (build === undefined) {
                 throw new Error("expected build data attribute in row");
             }
@@ -223,7 +223,7 @@ export default class DumpTable extends HTMLElement {
             if (this.#buildSelectedForCompare === null) {
                 // selected first build
                 link.title = linkData.titleCompareUnselect;
-                row.dataset.compareSelected = "";
+                row.dataset["compareSelected"] = "";
                 shadowRoot.getElementById("compare-build-a")!.innerText = build;
                 this.#buildSelectedForCompare = build;
                 shadowRoot.querySelectorAll("tr > td > a").forEach(elem => {
@@ -233,7 +233,7 @@ export default class DumpTable extends HTMLElement {
                         if (aData === undefined) {
                             throw new Error("link extra data not found");
                         }
-                        const secondBuild = a.parentElement!.parentElement!.dataset.build;
+                        const secondBuild = a.parentElement!.parentElement!.dataset["build"];
                         aData.hrefCompare = `diff.html?game=${this.#game}&build-a=${build}&build-b=${secondBuild}`;
                         a.href = aData.hrefCompare;
                     }
@@ -242,7 +242,7 @@ export default class DumpTable extends HTMLElement {
             } else if (this.#buildSelectedForCompare === build) {
                 // unselected first build
                 link.title = linkData.titleCompareSelect;
-                delete row.dataset.compareSelected;
+                delete row.dataset["compareSelected"];
                 shadowRoot.getElementById("compare-build-a")!.innerText = "???";
                 this.#buildSelectedForCompare = null;
                 shadowRoot.querySelectorAll("tr > td > a").forEach(elem => {
@@ -257,7 +257,7 @@ export default class DumpTable extends HTMLElement {
                 e.preventDefault(); // prevent adding # to the URL
             } else {
                 // selected second build
-                row.dataset.compareSelected = "";
+                row.dataset["compareSelected"] = "";
                 shadowRoot.getElementById("compare-build-b")!.innerText = build;
                 // at this point the clicked link has a valid href with a diff.html URL which will open now
             }

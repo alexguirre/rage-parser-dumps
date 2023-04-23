@@ -26,7 +26,7 @@ export default class SvgIcon extends HTMLElement {
         svg?.setAttribute("fill", "currentColor");
     }
 
-    attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
+    attributeChangedCallback(name: string, _oldValue: string, newValue: string): void {
         switch(name) {
             case 'icon':
                 this.#updateIcon(newValue)

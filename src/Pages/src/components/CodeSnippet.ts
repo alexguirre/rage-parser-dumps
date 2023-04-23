@@ -103,11 +103,11 @@ export class CodeSnippet extends HTMLElement {
         this.refreshCode();
     }
 
-    #onCodeChanged(mutations: MutationRecord[], observer: MutationObserver): void {
+    #onCodeChanged(_mutations: MutationRecord[], _observer: MutationObserver): void {
         this.refreshCode();
     }
 
-    onCopy(e: MouseEvent): void {
+    onCopy(_e: MouseEvent): void {
         const text = this.#codeElement.textContent;
         if (text !== null) {
             navigator.clipboard.writeText(text);
