@@ -7,9 +7,8 @@
  */
 export default class SvgIcon extends HTMLElement {
     // note: `clickable` and `size` attributes are handled in CSS
-    icon;
-    #svg;
-    #origInnerHTML;
+
+    readonly #origInnerHTML: string;
 
     constructor() {
         super();
@@ -17,28 +16,29 @@ export default class SvgIcon extends HTMLElement {
         this.#origInnerHTML = this.innerHTML;
     }
 
-    static get observedAttributes() {
+    static get observedAttributes(): string[] {
         return ["icon"];
     }
 
-    async #updateIcon() {
-        this.innerHTML = await SvgIcon.#fetchIcon(this.icon) + this.#origInnerHTML;
-        this.#svg = this.querySelector("svg");
-        this.#svg.setAttribute("fill", "currentColor");
+    async #updateIcon(icon: string): Promise<void> {
+        this.innerHTML = await SvgIcon.#fetchIcon(icon) + this.#origInnerHTML;
+        const svg = this.querySelector("svg");
+        svg?.setAttribute("fill", "currentColor");
     }
 
-    attributeChangedCallback(name, oldValue, newValue) {
+    attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
         switch(name) {
             case 'icon':
-                this.icon = newValue;
-                this.#updateIcon();
+                this.#updateIcon(newValue)
+                    .catch(failure => console.error(`Failed to update icon '${newValue}'`, failure));
                 break;
         }
     }
 
-    static async #fetchIcon(icon) {
-        if (SvgIcon.#fetchIconCache.has(icon)) {
-            return await SvgIcon.#fetchIconCache.get(icon);
+    static #fetchIcon(icon: string): Promise<string> {
+        const existingPromise = SvgIcon.#fetchIconCache.get(icon);
+        if (existingPromise !== undefined) {
+            return existingPromise;
         }
         const promise = fetch(`img/${icon}.svg`)
             .then(response => response.ok ? response.text() : Promise.reject(response))
@@ -47,8 +47,8 @@ export default class SvgIcon extends HTMLElement {
                 return `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>`;
             });
         SvgIcon.#fetchIconCache.set(icon, promise);
-        return await promise;
+        return promise;
     }
-    static #fetchIconCache = new Map();
+    static #fetchIconCache: Map<string, Promise<string>> = new Map();
 }
 customElements.define('svg-icon', SvgIcon);
