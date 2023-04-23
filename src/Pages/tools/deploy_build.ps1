@@ -12,7 +12,7 @@ param (
 
 Push-Location "$RootDir\src\Pages\"
 npm i
-npm run build
+npm run deploy-build
 Pop-Location
 
 New-Item -Path $OutputDir -ItemType Directory

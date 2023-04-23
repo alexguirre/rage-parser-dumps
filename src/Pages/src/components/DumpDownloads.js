@@ -1,5 +1,5 @@
-import "./SvgIcon.js";
-import {animateButtonClick, getDumpURL, hideElement} from "../util.js";
+import "./SvgIcon";
+import {animateButtonClick, getDumpURL, hideElement} from "../util";
 
 export default class DumpDownloads extends HTMLElement {
     static sources = [

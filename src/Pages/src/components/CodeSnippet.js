@@ -1,5 +1,5 @@
-import "./SvgIcon.js";
-import { animateButtonClick } from "../util.js";
+import "./SvgIcon";
+import { animateButtonClick } from "../util";
 
 /**
  * Code box with a button to copy the snippet and basic highlighting support, through a custom markup.

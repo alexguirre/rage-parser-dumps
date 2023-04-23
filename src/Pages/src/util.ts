@@ -1,4 +1,4 @@
-import { GameId } from "./types.js";
+import { GameId } from "./types";
 
 export function gameIdToName(id: GameId): string {
     switch (id) {
@@ -49,7 +49,7 @@ export function hideElement(element: HTMLElement, hide: boolean): void {
     }
 }
 
-let animateButtonClickTimeouts: WeakMap<HTMLElement, number> | null = null;
+let animateButtonClickTimeouts: WeakMap<HTMLElement, any> | null = null;
 export function animateButtonClick(element: HTMLElement): void {
     if (animateButtonClickTimeouts === null) {
         animateButtonClickTimeouts = new WeakMap();

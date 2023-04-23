@@ -1,10 +1,10 @@
 // components used in the HTML
-import "./components/PageHeader.js";
-import "./components/CodeSnippet.js";
-import "./components/DumpDownloads.js";
+import "./components/PageHeader";
+import "./components/CodeSnippet";
+import "./components/DumpDownloads";
 
-import { gameIdToName, getDumpURL, hideElement } from "./util.js";
-import DumpTree from "./components/DumpTree.js";
+import { gameIdToName, getDumpURL, hideElement } from "./util";
+import DumpTree from "./components/DumpTree";
 
 async function init() {
     const loc = new URL(document.location);

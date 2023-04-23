@@ -1,7 +1,7 @@
-import "./SvgIcon.js";
-import "./CodeSnippet.js";
-import "./DumpDownloads.js";
-import {animateButtonClick, gameIdToFormattedName, gameIdToName, hideElement} from "../util.js";
+import "./SvgIcon";
+import "./CodeSnippet";
+import "./DumpDownloads";
+import {animateButtonClick, gameIdToFormattedName, gameIdToName, hideElement} from "../util";
 
 class TreeNode {
     /** @type {"struct"|"enum"} */

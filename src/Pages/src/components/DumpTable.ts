@@ -1,5 +1,5 @@
-import {gameIdToFormattedName, gameIdToName, hideElement} from '../util.js';
-import {GameId, RegistryEntry} from "../types.js";
+import {gameIdToFormattedName, gameIdToName, hideElement} from '../util';
+import {GameId, RegistryEntry} from "../types";
 
 /**
  * Extra data associated to a row link for implementing the "compare selection" mode.

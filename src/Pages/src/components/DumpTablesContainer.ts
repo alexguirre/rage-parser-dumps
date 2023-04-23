@@ -1,5 +1,5 @@
-import {GameId, Registry}  from "../types.js";
-import DumpTable from './DumpTable.js';
+import {GameId, Registry}  from "../types";
+import DumpTable from './DumpTable';
 
 /**
  * Groups the dump tables for all available games defined in the registry.json file.

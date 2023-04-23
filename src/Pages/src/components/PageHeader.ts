@@ -1,5 +1,5 @@
-import "./SvgIcon.js";
-import { THEME_SWITCHER_ID, themeInit } from "../theming.js";
+import "./SvgIcon";
+import { THEME_SWITCHER_ID, themeInit } from "../theming";
 
 export default class PageHeader extends HTMLElement {
     constructor() {

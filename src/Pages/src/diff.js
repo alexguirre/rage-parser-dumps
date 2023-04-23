@@ -1,8 +1,9 @@
 // components used in the HTML
-import "./components/PageHeader.js";
-import DumpTree from "./components/DumpTree.js";
+import "./components/PageHeader";
+import DumpTree from "./components/DumpTree";
 
-import { gameIdToName, getDumpURL, hideElement } from "./util.js"
+import {gameIdToName, getDumpURL, hideElement} from "./util"
+import {DIFF_DELETE, DIFF_EQUAL, DIFF_INSERT, diff_match_patch} from "./diff_match_patch";
 
 async function init() {
     const loc = new URL(document.location);
