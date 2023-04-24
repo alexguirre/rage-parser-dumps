@@ -3,7 +3,7 @@ const path = require("path");
 module.exports = {
     mode: "production",
     entry: {
-        index: "./src/index.js",
+        index: "./src/index.ts",
         dump: "./src/dump.js",
         diff: "./src/diff.js",
         "theming.early": "./src/theming.early.ts",
