@@ -3,7 +3,7 @@ import "./CodeSnippet";
 import "./DumpDownloads";
 import {animateButtonClick, gameIdToFormattedName, hideElement} from "../util";
 import DumpDownloads from "./DumpDownloads";
-import {GameId, JTree, JTreeNode, JTreeStructNode} from "../types";
+import {GameId, JTree, JTreeNode, JTreeStructNode, hasDiffInfo} from "../types";
 
 type TreeNodeType = "struct" | "enum";
 class TreeNode {
@@ -731,7 +731,7 @@ export default class DumpTree extends HTMLElement {
         const renderEntry = (node: TreeNode): string => {
             let tip = `${node.type} ${node.name}`;
             let diffIcon = "";
-            switch (node.data.diffType) {
+            switch (hasDiffInfo(node.data) && node.data.diffType) {
                 case "a":
                     diffIcon = `<div class="dump-entry-icon dump-entry-icon-diff-added"></div>`;
                     tip += " • Added";

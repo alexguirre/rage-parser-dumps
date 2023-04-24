@@ -5,7 +5,7 @@ module.exports = {
     entry: {
         index: "./src/index.ts",
         dump: "./src/dump.ts",
-        diff: "./src/diff.js",
+        diff: "./src/diff.ts",
         "theming.early": "./src/theming.early.ts",
     },
     module: {

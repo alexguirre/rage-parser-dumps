@@ -47,7 +47,13 @@ export interface JTreeNode {
     usage?: string[];
 
     // additional info added when calculating diffs
-    diffType?: "a" | "r" | "m";
+}
+
+/**
+ * Properties added to {@link JTreeNode}s after calculating diffs.
+ */
+export interface JTreeNodeWithDiffInfo extends JTreeNode {
+    diffType: "a" | "r" | "m";
 }
 
 /**
@@ -63,6 +69,12 @@ export interface JTreeStructNode extends JTreeNode {
 }
 
 /**
+ * Properties added to {@link JTreeStructNode}s after calculating diffs.
+ */
+export interface JTreeStructNodeWithDiffInfo extends JTreeStructNode, JTreeNodeWithDiffInfo {
+}
+
+/**
  * Field of a {@link JTreeStructNode}.
  */
 export type JTreeStructField = {
@@ -73,3 +85,7 @@ export type JTreeStructField = {
     type: string,
     subtype: string,
 };
+
+export function hasDiffInfo(node: JTreeNode): node is JTreeNodeWithDiffInfo {
+    return "diffType" in node;
+}
