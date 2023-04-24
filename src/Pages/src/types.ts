@@ -28,3 +28,48 @@ export type RegistryEntry = {
     build: string;
     aliases: string[];
 };
+
+/**
+ * Model for the *.tree.json file.
+ * @see {@link DumpFormatter/Formatters/JsonTreeFormatter.cs} for the C# implementation.
+ */
+export type JTree = {
+    structs: JTreeStructNode[],
+    enums: JTreeNode[],
+};
+
+/**
+ * Common properties for all nodes (structs and enums) in the {@link JTree}.
+ */
+export interface JTreeNode {
+    name: string;
+    markup: string;
+    usage?: string[];
+
+    // additional info added when calculating diffs
+    diffType?: "a" | "r" | "m";
+}
+
+/**
+ * Specific properties for struct nodes in the {@link JTree}.
+ */
+export interface JTreeStructNode extends JTreeNode {
+    size: number,
+    align: number,
+    version?: string,
+    fields?: JTreeStructField[],
+    children?: JTreeStructNode[],
+    xml: string,
+}
+
+/**
+ * Field of a {@link JTreeStructNode}.
+ */
+export type JTreeStructField = {
+    name: string;
+    offset: number,
+    size: number,
+    align: number,
+    type: string,
+    subtype: string,
+};

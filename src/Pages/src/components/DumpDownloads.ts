@@ -1,6 +1,6 @@
 import "./SvgIcon";
 import {animateButtonClick, getDumpURL, hideElement} from "../util";
-import {GameId} from "../types";
+import {GameId, isGameId} from "../types";
 
 export default class DumpDownloads extends HTMLElement {
     static readonly sources: readonly { id: string, ext: string, text: string, desc: string, icon: string }[] = [
@@ -64,10 +64,9 @@ export default class DumpDownloads extends HTMLElement {
     connectedCallback(): void {
         const game = this.getAttribute("game");
         const build = this.getAttribute("build");
-        if (game === null || build === null) {
-            throw new Error("game and build attributes must be set");
+        if (game !== null && build !== null && isGameId(game)) {
+            this.setGameBuild(game, build);
         }
-        this.setGameBuild(game as GameId, build);
 
         window.addEventListener("click", this.#onWindowClickHandler);
     }
