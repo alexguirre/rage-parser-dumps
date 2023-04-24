@@ -1,10 +1,8 @@
 name: Pages Deployment
 
 on:
-  # Runs on pushes targeting the master branch
   push:
-    branches: [master]
-
+  pull_request:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -25,8 +23,7 @@ jobs:
 
       - name: Build Pages
         run: |
-          Copy-Item -Path ./src/Pages/ -Destination ./_pages -Recurse -Exclude ("*.ps1", "*.md")
-          ./src/Pages/tools/compile_dumps.ps1 -RootDir . -DumpFormatterExePath ./_bin/DumpFormatter.exe -OutputDir ./_pages/dumps
+          ./src/Pages/tools/deploy_build.ps1 -RootDir . -DumpFormatterExePath ./_bin/DumpFormatter.exe -OutputDir ./_pages
 
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v1.0.4
@@ -34,6 +31,7 @@ jobs:
           path: ./_pages
 
   deploy:
+    if: github.ref == 'refs/heads/master'
     needs: build
     runs-on: windows-latest
 

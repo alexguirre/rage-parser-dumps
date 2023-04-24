@@ -1,8 +1,9 @@
-import "./SvgIcon.js";
-import {animateButtonClick, getDumpURL, hideElement} from "../util.js";
+import "./SvgIcon";
+import {animateButtonClick, getDumpURL, hideElement} from "../util";
+import {GameId, isGameId} from "../types";
 
 export default class DumpDownloads extends HTMLElement {
-    static sources = [
+    static readonly sources: readonly { id: string, ext: string, text: string, desc: string, icon: string }[] = [
         { id: "html",       ext: "html",        text: "HTML",               desc: "Download structures list as HTML",                                       icon: "icon-html" },
         { id: "plain-text", ext: "txt",         text: "Plain Text",         desc: "Download structures list as plain text",                                 icon: "icon-txt" },
         { id: "json",       ext: "json",        text: "JSON",               desc: "Download raw JSON dump",                                                 icon: "icon-json" },
@@ -10,7 +11,7 @@ export default class DumpDownloads extends HTMLElement {
         /*{ id: "xsd",        ext: "xsd",         text: "XSD",        desc: "Download structures XML Schema Definition",  icon: "img/icon-xsd.svg" },*/
     ];
 
-    static html = `
+    static readonly html = `
         <link rel="stylesheet" href="css/style.css">
         <div id="dropdown" class="dump-downloads-dropdown">
             <button id="dropdown-button" class="header-icon dump-downloads-button" title="Download">
@@ -26,20 +27,33 @@ export default class DumpDownloads extends HTMLElement {
         </div>
     `;
 
-    #dropdown;
-    #button;
-    #panel;
-    #onWindowClickHandler;
-    #dropdownOpen;
+    readonly #dropdown: HTMLElement;
+    readonly #button: HTMLElement;
+    readonly #panel: HTMLElement;
+    readonly #onWindowClickHandler;
+    #dropdownOpen: boolean;
 
     constructor() {
         super();
         const shadow = this.attachShadow({ mode: "open" });
         shadow.innerHTML = DumpDownloads.html;
 
-        this.#dropdown = shadow.getElementById("dropdown");
-        this.#button = shadow.getElementById("dropdown-button");
-        this.#panel = shadow.getElementById("dropdown-panel");
+        const dropdown = shadow.getElementById("dropdown");
+        if (dropdown === null) {
+            throw new Error("dropdown element not found");
+        }
+        const button = shadow.getElementById("dropdown-button");
+        if (button === null) {
+            throw new Error("dropdown-button element not found");
+        }
+        const panel = shadow.getElementById("dropdown-panel");
+        if (panel === null) {
+            throw new Error("dropdown-panel element not found");
+        }
+
+        this.#dropdown = dropdown;
+        this.#button = button;
+        this.#panel = panel;
 
         this.#button.addEventListener("click", this.#onDropdownButtonClick.bind(this));
         this.#onWindowClickHandler = this.#onWindowClick.bind(this);
@@ -47,34 +61,44 @@ export default class DumpDownloads extends HTMLElement {
         this.#dropdownOpen = false;
     }
 
-    connectedCallback() {
+    connectedCallback(): void {
         const game = this.getAttribute("game");
         const build = this.getAttribute("build");
-        this.setGameBuild(game, build);
+        if (game !== null && build !== null && isGameId(game)) {
+            this.setGameBuild(game, build);
+        }
 
         window.addEventListener("click", this.#onWindowClickHandler);
     }
 
-    disconnectedCallback() {
+    disconnectedCallback(): void {
         window.removeEventListener("click", this.#onWindowClickHandler);
     }
 
-    setGameBuild(game, build) {
+    setGameBuild(game: GameId, build: string): void {
         this.setAttribute("game", game);
         this.setAttribute("build", build);
-        const shadow = this.shadowRoot;
+        const shadow = this.shadowRoot!;
         for (const s of DumpDownloads.sources) {
-            const link = shadow.getElementById(`link-${s.id}`);
+            const link = shadow.getElementById(`link-${s.id}`) as HTMLAnchorElement | null;
+            if (link === null) {
+                throw new Error(`link-${s.id} element not found`);
+            }
             link.href = getDumpURL(game, build, s.ext);
-            link.addEventListener("click", () => animateButtonClick(link.querySelector("svg")));
+            link.addEventListener("click", () => {
+                const svg = link.querySelector("svg");
+                if (svg !== null) {
+                    animateButtonClick(svg);
+                }
+            });
         }
     }
 
-    #onWindowClick(e) {
+    #onWindowClick(e: MouseEvent): void {
         if (this.#dropdownOpen) {
             const buttonBounds = this.#button.getBoundingClientRect();
             const panelBounds = this.#panel.getBoundingClientRect();
-            const isPointInRect = (x, y, rect) => x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+            const isPointInRect = (x: number, y: number, rect: DOMRect) => x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
 
             if (!isPointInRect(e.clientX, e.clientY, buttonBounds) && !isPointInRect(e.clientX, e.clientY, panelBounds)) {
                 hideElement(this.#panel, true);
@@ -83,7 +107,7 @@ export default class DumpDownloads extends HTMLElement {
         }
     }
 
-    #onDropdownButtonClick(e) {
+    #onDropdownButtonClick(e: MouseEvent): void {
         if (!this.#dropdownOpen) {
             // anchor panel on left/right side relative to the button, so it is inside the viewport always
             const middle = window.innerWidth / 2;

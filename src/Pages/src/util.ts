@@ -1,5 +1,6 @@
+import { GameId } from "./types";
 
-function gameIdToName(id) {
+export function gameIdToName(id: GameId): string {
     switch (id) {
         case "gta4": return "Grand Theft Auto IV";
         case "gta5": return "Grand Theft Auto V";
@@ -13,7 +14,7 @@ function gameIdToName(id) {
     }
 }
 
-function gameIdToFormattedName(id) {
+export function gameIdToFormattedName(id: GameId): string {
     let name = `<span class=\"${id}-font\">`;
     switch (id) {
         case "gta4": name += "Grand Theft Auto IV"; break;
@@ -30,17 +31,17 @@ function gameIdToFormattedName(id) {
     return name;
 }
 
-function getDumpURL(game, build, ext) {
+export function getDumpURL(game: GameId, build: string, ext: string): string {
     return `dumps/${game}/b${build}.${ext}`;
 }
 
 const HIDDEN_CLASS = "hidden";
 
-function isElementHidden(element) {
+export function isElementHidden(element: HTMLElement): boolean {
     return element.classList.contains(HIDDEN_CLASS);
-} 
+}
 
-function hideElement(element, hide) {
+export function hideElement(element: HTMLElement, hide: boolean): void {
     if (hide) {
         element.classList.add(HIDDEN_CLASS);
     } else {
@@ -48,13 +49,17 @@ function hideElement(element, hide) {
     }
 }
 
-function animateButtonClick(element) {
-    if (element.animateButtonClickTimeout) {
-        clearTimeout(element.animateButtonClickTimeout);
+let animateButtonClickTimeouts: WeakMap<Element, number> | null = null;
+export function animateButtonClick(element: Element): void {
+    if (animateButtonClickTimeouts === null) {
+        animateButtonClickTimeouts = new WeakMap();
+    }
+
+    const existingTimeout = animateButtonClickTimeouts.get(element);
+    if (existingTimeout !== undefined) {
+        clearTimeout(existingTimeout);
     }
 
     element.classList.add("btn-clicked");
-    element.animateButtonClickTimeout = setTimeout(() => element.classList.remove("btn-clicked"), 200);
+    animateButtonClickTimeouts.set(element, setTimeout(() => element.classList.remove("btn-clicked"), 200));
 }
-
-export { gameIdToName, gameIdToFormattedName, getDumpURL, isElementHidden, hideElement, animateButtonClick };

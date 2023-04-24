@@ -1,49 +1,73 @@
 // components used in the HTML
-import "./components/PageHeader.js";
-import DumpTree from "./components/DumpTree.js";
+import "./components/PageHeader";
+import DumpTree from "./components/DumpTree";
 
-import { gameIdToName, getDumpURL, hideElement } from "./util.js"
+import {gameIdToName, getDumpURL, hideElement} from "./util"
+import {DIFF_DELETE, DIFF_EQUAL, DIFF_INSERT, diff_match_patch} from "./diff_match_patch";
+import {isGameId, JTree, JTreeNodeWithDiffInfo, JTreeStructNode, JTreeStructNodeWithDiffInfo} from "./types";
 
-async function init() {
-    const loc = new URL(document.location);
+type Diff = { [0]: number, [1]: string }; // typed alias for diff_match_patch.Diff;
+
+async function init(): Promise<{ error?: any, errorMessage: string } | null> {
+    const loc = new URL(document.location.href);
     const game = loc.searchParams.get(DumpTree.URL_PARAM_GAME);
     const buildA = loc.searchParams.get(DumpTree.URL_PARAM_BUILD_A);
     const buildB = loc.searchParams.get(DumpTree.URL_PARAM_BUILD_B);
+    if (game === null || buildA === null || buildB === null) {
+        const missing = [];
+        if (game === null) { missing.push(DumpTree.URL_PARAM_GAME); }
+        if (buildA === null) { missing.push(DumpTree.URL_PARAM_BUILD_A); }
+        if (buildB === null) { missing.push(DumpTree.URL_PARAM_BUILD_B); }
+        return { errorMessage: `Missing required URL query parameters: ${missing.join(", ")}.` };
+    }
+
+    if (!isGameId(game)) {
+        return { errorMessage: `Invalid game ID '${game}'.` };
+    }
 
     document.title = `${gameIdToName(game)} (build ${buildA} ↔ ${buildB}) — ${document.title}`;
 
-    const errMsg = `Failed to fetch dumps for ${gameIdToName(game)} builds ${buildA} and ${buildB}.`;
+    const tree = document.getElementById("dump-tree");
+    if (tree === null) {
+        throw new Error("dump-tree element not found");
+    }
+
+    const loading = document.getElementById("loading");
+    if (loading === null) {
+        throw new Error("loading element not found");
+    }
+
+    const errorMessage = `Failed to fetch dumps for ${gameIdToName(game)} builds ${buildA} and ${buildB}.`;
     const jsonLocA = getDumpURL(game, buildA, "tree.json");
     const jsonLocB = getDumpURL(game, buildB, "tree.json");
     try {
-        const responses = await Promise.all([fetch(jsonLocA), fetch(jsonLocB)]);
-        const treeA = await responses[0].json();
-        const treeB = await responses[1].json();
-        if (!treeA || !treeB) {
-            setErrorMsg(errMsg);
-        } else {
+        const [treeA, treeB] = await Promise.all([
+            fetch(jsonLocA).then(r => r.json()),
+            fetch(jsonLocB).then(r => r.json()),
+        ]);
+        if (treeA && treeB) {
             const treeDiff = getTreeDiff(treeA, treeB);
 
-            document.getElementById("dump-tree").setTree(treeDiff, game, buildA, buildB);
-            hideElement(document.getElementById("loading"), true);
+            (tree as DumpTree).setTree(treeDiff, game, buildA, buildB);
+            hideElement(loading, true);
+        } else {
+            return { errorMessage };
         }
     } catch (error) {
-        console.error(error);
-
-        setErrorMsg(errMsg);
-        hideElement(document.getElementById("loading"), true);
-        hideElement(document.getElementById("dump-tree"), true);
+        return { error, errorMessage };
     }
+
+    return null;
 }
 
-function diff_characterMode(text1, text2) {
+function diff_characterMode(text1: string, text2: string): Diff[] {
     const dmp = new diff_match_patch();
     const diffs = dmp.diff_main(text1, text2, false);
     dmp.diff_cleanupSemantic(diffs);
     return diffs;
 }
 
-function diff_lineMode(text1, text2) {
+function diff_lineMode(text1: string, text2: string): Diff[] {
     // from https://github.com/google/diff-match-patch/wiki/Line-or-Word-Diffs#line-mode
     const dmp = new diff_match_patch();
     const a = dmp.diff_linesToChars_(text1, text2);
@@ -58,7 +82,8 @@ function diff_lineMode(text1, text2) {
  * @param diffs array of diffs.
  * @returns {string} markup with HTML to highlight the changes.
  */
-function diffToMarkupBasic(diffs) {
+// @ts-ignore
+function diffToMarkupBasic(diffs: Diff[]): string {
     let markup = "";
     for (const diff of diffs) {
         const op = diff[0];    // Operation (insert, delete, equal)
@@ -84,9 +109,9 @@ function diffToMarkupBasic(diffs) {
  * @param diffsLines array of line-mode diffs.
  * @returns {string} markup with HTML to highlight the changes.
  */
-function diffToMarkupInline(diffs, diffsLines) {
+function diffToMarkupInline(diffs: Diff[], diffsLines: Diff[]): string {
     const LINE_INSERT = 0, LINE_DELETE = 1, INSERT = 2, DELETE = 4;
-    const tagsToAdd = [];
+    const tagsToAdd: { pos: number, type: number, open: boolean }[] = [];
 
     let originalPos = 0;
     let newPos = 0;
@@ -158,7 +183,7 @@ function diffToMarkupInline(diffs, diffsLines) {
     }
 
     let offset = 0;
-    tagsToAdd.sort(x => x.start);
+    tagsToAdd.sort(x => x.pos);
     for (const p of tagsToAdd) { // insert tags in markup string
         let tag = "";
         switch (p.type) {
@@ -189,7 +214,7 @@ function diffToMarkupInline(diffs, diffsLines) {
  * output of {@link diffToMarkupInline}. This function finds DIFF_EQUALs with incomplete lines, trims them and
  * adds the incomplete line chunks to the corresponding DIFF_INSERT/DELETEs, so these form complete lines.
  */
-function fixLineDiffs(diffsLines) {
+function fixLineDiffs(diffsLines: Diff[]): void {
     for (let i = 0; i < diffsLines.length; i++) {
         const diff = diffsLines[i];
         if (diff[0] === DIFF_EQUAL) {
@@ -233,7 +258,7 @@ function fixLineDiffs(diffsLines) {
     }
 }
 
-function computeDiffMarkup(markupA, markupB) {
+function computeDiffMarkup(markupA: string, markupB: string): string {
     const diffs = diff_characterMode(markupA, markupB);
     const diffsLines = diff_lineMode(markupA, markupB);
     fixLineDiffs(diffsLines);
@@ -246,11 +271,11 @@ function computeDiffMarkup(markupA, markupB) {
         "\n===========================\n" + markupB*/;
 }
 
-function getTreeDiff(treeA, treeB) {
-    let res = { structs: [], enums: [] };
+function getTreeDiff(treeA: JTree, treeB: JTree): JTree {
+    let res: JTree = { structs: [], enums: [] };
 
-    function getFlatStructsArray(tree) {
-        function rec(struct, arr) {
+    function getFlatStructsArray(tree: JTree): JTreeStructNode[] {
+        function rec(struct: JTreeStructNode, arr: JTreeStructNode[]): void {
             arr.push(struct);
             if (struct.children) {
                 for (const c of struct.children) {
@@ -259,7 +284,7 @@ function getTreeDiff(treeA, treeB) {
             }
         }
 
-        let res = []
+        let res: JTreeStructNode[] = []
         for (const s of tree.structs) {
             rec(s, res);
         }
@@ -272,33 +297,36 @@ function getTreeDiff(treeA, treeB) {
     const structsBMap = new Map(structsB.map(s => [s.name, s]));
     const structsRemoved = structsA.filter(e => !structsBMap.has(e.name));
     const structsAdded = structsB.filter(e => !structsAMap.has(e.name));
-    const structsModified = structsA.filter(e => structsBMap.has(e.name) && structsBMap.get(e.name).markup !== e.markup);
+    const structsModified = structsA.filter(e => structsBMap.has(e.name) && structsBMap.get(e.name)!.markup !== e.markup);
     for (const s of structsRemoved) {
-        const ss = {
-            markupA: s.markup,
-            markupB: "",
-            diffType: "r",
+        const a = s.markup;
+        const b = "";
+        const ss: JTreeStructNodeWithDiffInfo = {
             ...s,
+            markup: computeDiffMarkup(a, b),
+            diffType: "r",
         };
         delete ss.children;
         res.structs.push(ss);
     }
     for (const s of structsAdded) {
-        const ss = {
-            markupA: "",
-            markupB: s.markup,
-            diffType: "a",
+        const a = "";
+        const b = s.markup;
+        const ss: JTreeStructNodeWithDiffInfo = {
             ...s,
+            markup: computeDiffMarkup(a, b),
+            diffType: "a",
         };
         delete ss.children;
         res.structs.push(ss);
     }
     for (const s of structsModified) {
-        const ss = {
-            markupA: s.markup,
-            markupB: structsBMap.get(s.name).markup,
-            diffType: "m",
+        const a = s.markup;
+        const b = structsBMap.get(s.name)?.markup || "";
+        const ss: JTreeStructNodeWithDiffInfo = {
             ...s,
+            markup: computeDiffMarkup(a, b),
+            diffType: "m",
         };
         delete ss.children;
         res.structs.push(ss);
@@ -308,42 +336,46 @@ function getTreeDiff(treeA, treeB) {
     const enumsB = new Map(treeB.enums.map(e => [e.name, e]));
     const enumsRemoved = treeA.enums.filter(e => !enumsB.has(e.name));
     const enumsAdded = treeB.enums.filter(e => !enumsA.has(e.name));
-    const enumsModified = treeA.enums.filter(e => enumsB.has(e.name) && enumsB.get(e.name).markup !== e.markup);
+    const enumsModified = treeA.enums.filter(e => enumsB.has(e.name) && enumsB.get(e.name)!.markup !== e.markup);
     for (const e of enumsRemoved) {
-        res.enums.push({
+        const a = e.markup;
+        const b = "";
+        const ee: JTreeNodeWithDiffInfo = {
             name: e.name,
-            markupA: e.markup,
-            markupB: "",
+            markup: computeDiffMarkup(a, b),
             diffType: "r",
-        });
+        };
+        res.enums.push(ee);
     }
     for (const e of enumsAdded) {
-        res.enums.push({
+        const a = "";
+        const b = e.markup;
+        const ee: JTreeNodeWithDiffInfo = {
             name: e.name,
-            markupA: "",
-            markupB: e.markup,
+            markup: computeDiffMarkup(a, b),
             diffType: "a",
-        });
+        };
+        res.enums.push(ee);
     }
     for (const e of enumsModified) {
-        res.enums.push({
+        const a = e.markup;
+        const b = enumsB.get(e.name)?.markup || "";
+        const ee: JTreeNodeWithDiffInfo = {
             name: e.name,
-            markupA: e.markup,
-            markupB: enumsB.get(e.name).markup,
+            markup: computeDiffMarkup(a, b),
             diffType: "m",
-        });
-    }
-    for (const e of res.enums) {
-        e.markup = computeDiffMarkup(e.markupA, e.markupB);
-    }
-    for (const s of res.structs) {
-        s.markup = computeDiffMarkup(s.markupA, s.markupB);
+        };
+        res.enums.push(ee);
     }
     return res;
 }
 
-function setErrorMsg(msg) {
+function setErrorMessage(msg: string): void {
     const elem = document.getElementById("dump-error-msg");
+    if (elem === null) {
+        return;
+    }
+
     if (msg) {
         elem.textContent = msg;
         hideElement(elem, false);
@@ -352,4 +384,24 @@ function setErrorMsg(msg) {
     }
 }
 
-init();
+init().then((err) => {
+    if (err == null) {
+        return;
+    }
+
+    const { error, errorMessage} = err;
+    if (error) {
+        console.error(error);
+    }
+    if (errorMessage) {
+        setErrorMessage(errorMessage);
+    }
+    const tree = document.getElementById("dump-tree");
+    if (tree !== null) {
+        hideElement(tree, true);
+    }
+    const loading = document.getElementById("loading");
+    if (loading !== null) {
+        hideElement(loading, true);
+    }
+});
