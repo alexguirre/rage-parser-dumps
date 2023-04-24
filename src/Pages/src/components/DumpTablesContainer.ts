@@ -1,4 +1,4 @@
-import {GameId, Registry}  from "../types";
+import {isGameId, Registry} from "../types";
 import DumpTable from './DumpTable';
 
 /**
@@ -19,8 +19,11 @@ export default class DumpTablesContainer extends HTMLElement {
 
     render(registry: Registry): void {
         Object.keys(registry).forEach(game => {
-            const table = new DumpTable(game as GameId);
-            for (const build of registry[game as GameId]) {
+            if (!isGameId(game)) {
+                throw new Error(`Invalid game id: ${game}`)
+            }
+            const table = new DumpTable(game);
+            for (const build of registry[game]!) {
                 table.addRow(build);
             }
     

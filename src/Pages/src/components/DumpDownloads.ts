@@ -3,7 +3,7 @@ import {animateButtonClick, getDumpURL, hideElement} from "../util";
 import {GameId} from "../types";
 
 export default class DumpDownloads extends HTMLElement {
-    static readonly sources: { id: string, ext: string, text: string, desc: string, icon: string }[] = [
+    static readonly sources: readonly { id: string, ext: string, text: string, desc: string, icon: string }[] = [
         { id: "html",       ext: "html",        text: "HTML",               desc: "Download structures list as HTML",                                       icon: "icon-html" },
         { id: "plain-text", ext: "txt",         text: "Plain Text",         desc: "Download structures list as plain text",                                 icon: "icon-txt" },
         { id: "json",       ext: "json",        text: "JSON",               desc: "Download raw JSON dump",                                                 icon: "icon-json" },

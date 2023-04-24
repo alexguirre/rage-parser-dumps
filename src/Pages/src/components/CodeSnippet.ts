@@ -53,7 +53,7 @@ export type CodeSnippetLanguage = "cpp" | "cpp-nolinks" | "xml";
  * @see {@link CodeSnippetLanguage} for supported languages.
  */
 export class CodeSnippet extends HTMLElement {
-    static html = `
+    static readonly html = `
         <link rel="stylesheet" href="css/style.css">
         <div class="code-snippet-contents">
             <pre><code id="code"></code></pre>
