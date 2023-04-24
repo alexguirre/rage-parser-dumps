@@ -4,7 +4,7 @@ module.exports = {
     mode: "production",
     entry: {
         index: "./src/index.ts",
-        dump: "./src/dump.js",
+        dump: "./src/dump.ts",
         diff: "./src/diff.js",
         "theming.early": "./src/theming.early.ts",
     },
