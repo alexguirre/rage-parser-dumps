@@ -49,8 +49,8 @@ export function hideElement(element: HTMLElement, hide: boolean): void {
     }
 }
 
-let animateButtonClickTimeouts: WeakMap<HTMLElement, any> | null = null;
-export function animateButtonClick(element: HTMLElement): void {
+let animateButtonClickTimeouts: WeakMap<Element, number> | null = null;
+export function animateButtonClick(element: Element): void {
     if (animateButtonClickTimeouts === null) {
         animateButtonClickTimeouts = new WeakMap();
     }
