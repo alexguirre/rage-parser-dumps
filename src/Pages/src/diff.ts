@@ -183,7 +183,6 @@ function diffToMarkupInline(diffs: Diff[], diffsLines: Diff[]): string {
     }
 
     let offset = 0;
-    tagsToAdd.sort(x => x.pos);
     for (const p of tagsToAdd) { // insert tags in markup string
         let tag = "";
         switch (p.type) {
