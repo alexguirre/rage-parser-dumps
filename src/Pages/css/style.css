@@ -553,63 +553,105 @@ dump-tree {
 }
 
 .dump-entry {
-    display: flex;
+    position: relative;
+    display: inline-flex;
     column-gap: 0.5em;
     align-items: center;
     margin-top: 0.3em;
+    margin-left: 1.5em;
 }
 
-.dump-entry-icon {
-    flex-shrink: 0;
-    height: 16px;
-    width: 16px;
-    display: block;
-    background-size: 100%;
-}
-
-.dump-entry-icon-container {
+.dump-entry-parent::before {
+    content: "";
     cursor: pointer;
-    background: no-repeat center/80% url("../img/container-close-icon.svg");
+    position: absolute;
+    left: -1.5em;
+    height: 1.0em;
+    width: 1.0em;
     filter: var(--theme-svg-icon-filter);
+    background: no-repeat center/80% url("../img/container-open-icon.svg");
 }
 
-.dump-entry-icon-container:hover {
+.dump-entry-parent:hover:not(:has(*:hover))::before {
+    /* when hovering the parent but not any children
+    (i.e. hovering the open/close icon not the entry button) */
     filter: invert(0.35);
 }
 
-details[open] > summary .dump-entry-icon-container {
-    background-image: url("../img/container-open-icon.svg");
+.dump-entry-li[data-collapsed] > .dump-entry-parent::before {
+    background-image: url("../img/container-close-icon.svg");
 }
 
-.dump-entry-icon-struct {
-    background-image: url("../img/struct-icon.svg");
-}
-
-.dump-entry-icon-enum {
-    background-image: url("../img/enum-icon.svg");
-}
-
-.dump-entry-icon-diff-added {
-    background-image: url("../img/diff-added.svg");
-    filter: var(--theme-svg-icon-filter);
-}
-
-.dump-entry-icon-diff-modified {
-    background-image: url("../img/diff-modified.svg");
-    filter: var(--theme-svg-icon-filter);
-}
-
-.dump-entry-icon-diff-removed {
-    background-image: url("../img/diff-removed.svg");
-    filter: var(--theme-svg-icon-filter);
+.dump-entry-li[data-collapsed] > ul {
+    display: none !important;
+    visibility: collapse !important;
 }
 
 .dump-entry-button {
-    display: flex;
+    position: relative;
+    display: inline-flex;
     column-gap: 0.5em;
     align-items: center;
-    margin-top: 0.3em;
     scroll-margin: 3rem 1rem;
+    text-indent: 1.25em;
+}
+
+.dump-entry-button::before {
+    content: "";
+    position: absolute;
+    left: 0.25em;
+    margin: auto;
+    height: 1.0em;
+    width: 1.0em;
+    background: no-repeat center;
+    background-size: 100%;
+}
+
+.dump-entry-button-struct::before {
+    background-image: url("../img/struct-icon.svg");
+}
+
+.dump-entry-button-enum::before {
+    background-image: url("../img/enum-icon.svg");
+}
+
+.dump-entry-button-diff-added,
+.dump-entry-button-diff-modified,
+.dump-entry-button-diff-removed {
+    /* indent the button text more to fit both the struct/enum and diff icons */
+    text-indent: 2.5em;
+}
+
+.dump-entry-button-diff-added::after,
+.dump-entry-button-diff-modified::after,
+.dump-entry-button-diff-removed::after {
+    content: "";
+    position: absolute;
+    left: 0.25em;
+    margin: auto;
+    height: 1.0em;
+    width: 1.0em;
+    background: no-repeat center;
+    filter: var(--theme-svg-icon-filter);
+}
+
+.dump-entry-button-diff-added::before,
+.dump-entry-button-diff-modified::before,
+.dump-entry-button-diff-removed::before {
+    /* offset the struct/enum icon to fit the diff icon before */
+    left: 1.5em;
+}
+
+.dump-entry-button-diff-added::after {
+    background-image: url("../img/diff-added.svg");
+}
+
+.dump-entry-button-diff-modified::after {
+    background-image: url("../img/diff-modified.svg");
+}
+
+.dump-entry-button-diff-removed::after {
+    background-image: url("../img/diff-removed.svg");
 }
 
 :focus-visible .dump-entry-button[data-tree-focus] {

@@ -55,13 +55,25 @@ class TreeNode {
 
     hasChildren(): boolean { return this.children !== null && this.children.length > 0; }
     isExpanded(): boolean {
-        const detailsElem = (this.hasChildren() && this.element?.querySelector("details")) || null;
-        return detailsElem !== null && detailsElem.open;
+        const elem = (this.hasChildren() && this.element) || null;
+        return TreeNode.isExpanded(elem);
     }
     expand(state: boolean): void {
-        const detailsElem = (this.hasChildren() && this.element?.querySelector("details")) || null;
-        if (detailsElem !== null) {
-            detailsElem.open = state;
+        const elem = (this.hasChildren() && this.element) || null;
+        TreeNode.expand(elem, state);
+    }
+
+    static isExpanded(elem: HTMLLIElement | null): boolean {
+        return elem !== null && elem.dataset["collapsed"] === undefined;
+    }
+
+    static expand(elem: HTMLLIElement | null, state: boolean): void {
+        if (elem !== null) {
+            if (state) {
+                delete elem.dataset["collapsed"];
+            } else {
+                elem.dataset["collapsed"] = "";
+            }
         }
     }
 
@@ -180,7 +192,7 @@ export default class DumpTree extends HTMLElement {
             throw new Error("tree element not found");
         }
         this.#tree = tree;
-        this.#tree.addEventListener("click", this.#onTreeEntrySelected.bind(this));
+        this.#tree.addEventListener("click", this.#onTreeClick.bind(this));
         this.#tree.addEventListener("keydown", this.#onTreeKeydown.bind(this));
         this.#tree.addEventListener("focusin", this.#onTreeFocusIn.bind(this));
         this.#tree.addEventListener("focusout", this.#onTreeFocusOut.bind(this));
@@ -544,12 +556,23 @@ export default class DumpTree extends HTMLElement {
         }
     }
 
-    #onTreeEntrySelected(e: MouseEvent): void {
-        const btn = (e.target as HTMLElement | null)?.closest(".dump-entry-button") || null;
-        this.open(btn as HTMLElement | null);
+    #onTreeClick(e: MouseEvent): void {
+        const target = e.target as HTMLElement | null;
+        if (target === null) {
+            return;
+        }
 
-        if (btn) {
-            e.preventDefault();
+        if (target.classList.contains("dump-entry-parent") &&
+            e.clientX < target.getBoundingClientRect().x /* click on the ::before element with open/close arrow */) {
+            const elem = target.parentElement as HTMLLIElement | null;
+            TreeNode.expand(elem, !TreeNode.isExpanded(elem));
+        } else {
+            const btn = target.closest(".dump-entry-button");
+            this.open(btn as HTMLElement | null);
+
+            if (btn) {
+                e.preventDefault();
+            }
         }
     }
 
@@ -728,45 +751,48 @@ export default class DumpTree extends HTMLElement {
         const dedent = () => {
             html += "</ul>";
         };
-        const renderEntry = (node: TreeNode): string => {
+        const renderEntry = (node: TreeNode): void => {
             let tip = `${node.type} ${node.name}`;
-            let diffIcon = "";
+            let typeClass = "";
+            switch (node.type) {
+                case "struct":
+                    typeClass = "dump-entry-button-struct";
+                    break;
+                case "enum":
+                    typeClass = "dump-entry-button-enum";
+                    break;
+            }
+            let diffClass = "";
             switch (hasDiffInfo(node.data) && node.data.diffType) {
                 case "a":
-                    diffIcon = `<div class="dump-entry-icon dump-entry-icon-diff-added"></div>`;
+                    diffClass = "dump-entry-button-diff-added";
                     tip += " • Added";
                     break;
                 case "m":
-                    diffIcon = `<div class="dump-entry-icon dump-entry-icon-diff-modified"></div>`;
+                    diffClass = "dump-entry-button-diff-modified";
                     tip += " • Modified";
                     break;
                 case "r":
-                    diffIcon = `<div class="dump-entry-icon dump-entry-icon-diff-removed"></div>`;
+                    diffClass = "dump-entry-button-diff-removed";
                     tip += " • Removed";
                     break;
             }
 
-            return `<div class="dump-entry" id="${node.name}">
-                        ${(node.children && node.children.length > 0) ? `<div class="dump-entry-icon dump-entry-icon-container"></div>` : `<div class="dump-entry-icon"></div>`}
-                        <div class="dump-entry-button type-link" title="${tip}">
-                            ${diffIcon}
-                            <div class="dump-entry-icon dump-entry-icon-${node.type}"></div>
+            html += `<div class="dump-entry ${(node.children && node.children.length > 0) ? "dump-entry-parent" : ""}" id="${node.name}">
+                        <div class="dump-entry-button ${typeClass} ${diffClass} type-link" title="${tip}">
                             <span>${node.name}</span>
                         </div>
                     </div>`;
         }
         const renderNode = (node: TreeNode): void => {
-            html += `<li role="treeitem">`;
+            html += `<li class="dump-entry-li" role="treeitem">`;
+            renderEntry(node);
             if (node.children && node.children.length > 0) {
-                html += `<details open><summary tabindex="-1">${renderEntry(node)}</summary>`;
                 indent();
                 for (const c of node.children) {
                     renderNode(c);
                 }
                 dedent();
-                html += "</details>";
-            } else {
-                html += renderEntry(node);
             }
             html += "</li>";
         }
