@@ -5,14 +5,12 @@
     <title>rage::par</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="preload" as="image" href="img/logo.svg"> <!-- preload loading spinner image so something shows while the dump loads -->
     <script src="js/theming.early.js"></script>
     <script type="module" src="js/dump.js"></script>
 </head>
 <body class="dump-body">
     <header is="page-header"></header>
     <main class="dump-main">
-        <div id="loading" class="loading-spinner" title="Loading"></div>
         <p id="dump-error-msg" class="dump-error-msg hidden">This is an error message.</p>
         <dump-tree id="dump-tree"></dump-tree>
     </main>

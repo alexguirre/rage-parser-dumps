@@ -14,7 +14,7 @@ export default class DumpDownloads extends HTMLElement {
     static readonly html = `
         <link rel="stylesheet" href="css/style.css">
         <div id="dropdown" class="dump-downloads-dropdown">
-            <button id="dropdown-button" class="header-icon dump-downloads-button" title="Download">
+            <button id="dropdown-button" class="header-icon dump-downloads-button" title="Download" disabled>
                 <svg-icon icon="download" clickable />
             </button>
             <div id="dropdown-panel" class="dump-downloads-dropdown-panel hidden">
@@ -28,7 +28,7 @@ export default class DumpDownloads extends HTMLElement {
     `;
 
     readonly #dropdown: HTMLElement;
-    readonly #button: HTMLElement;
+    readonly #button: HTMLButtonElement;
     readonly #panel: HTMLElement;
     readonly #onWindowClickHandler;
     #dropdownOpen: boolean;
@@ -42,7 +42,7 @@ export default class DumpDownloads extends HTMLElement {
         if (dropdown === null) {
             throw new Error("dropdown element not found");
         }
-        const button = shadow.getElementById("dropdown-button");
+        const button = shadow.getElementById("dropdown-button") as HTMLButtonElement;
         if (button === null) {
             throw new Error("dropdown-button element not found");
         }
@@ -52,22 +52,29 @@ export default class DumpDownloads extends HTMLElement {
         }
 
         this.#dropdown = dropdown;
-        this.#button = button;
+        this.#button = button
         this.#panel = panel;
 
         this.#button.addEventListener("click", this.#onDropdownButtonClick.bind(this));
         this.#onWindowClickHandler = this.#onWindowClick.bind(this);
+        for (const s of DumpDownloads.sources) {
+            const link = shadow.getElementById(`link-${s.id}`) as HTMLAnchorElement | null;
+            if (link === null) {
+                throw new Error(`link-${s.id} element not found`);
+            }
+            link.addEventListener("click", () => {
+                const svg = link.querySelector("svg");
+                if (svg !== null) {
+                    animateButtonClick(svg);
+                }
+            });
+        }
 
         this.#dropdownOpen = false;
     }
 
     connectedCallback(): void {
-        const game = this.getAttribute("game");
-        const build = this.getAttribute("build");
-        if (game !== null && build !== null && isGameId(game)) {
-            this.setGameBuild(game, build);
-        }
-
+        this.enable();
         window.addEventListener("click", this.#onWindowClickHandler);
     }
 
@@ -78,6 +85,16 @@ export default class DumpDownloads extends HTMLElement {
     setGameBuild(game: GameId, build: string): void {
         this.setAttribute("game", game);
         this.setAttribute("build", build);
+        this.enable();
+    }
+
+    enable(): void {
+        const game = this.getAttribute("game");
+        const build = this.getAttribute("build");
+        if (game === null || build === null || !isGameId(game)) {
+            return;
+        }
+
         const shadow = this.shadowRoot!;
         for (const s of DumpDownloads.sources) {
             const link = shadow.getElementById(`link-${s.id}`) as HTMLAnchorElement | null;
@@ -85,13 +102,20 @@ export default class DumpDownloads extends HTMLElement {
                 throw new Error(`link-${s.id} element not found`);
             }
             link.href = getDumpURL(game, build, s.ext);
-            link.addEventListener("click", () => {
-                const svg = link.querySelector("svg");
-                if (svg !== null) {
-                    animateButtonClick(svg);
-                }
-            });
         }
+        this.#button.disabled = false;
+    }
+
+    disable(): void {
+        const shadow = this.shadowRoot!;
+        for (const s of DumpDownloads.sources) {
+            const link = shadow.getElementById(`link-${s.id}`) as HTMLAnchorElement | null;
+            if (link === null) {
+                throw new Error(`link-${s.id} element not found`);
+            }
+            link.href = "";
+        }
+        this.#button.disabled = true;
     }
 
     #onWindowClick(e: MouseEvent): void {

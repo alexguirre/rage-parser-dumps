@@ -483,13 +483,16 @@ dump-tree {
 }
 
 .dump-error-msg {
+    position: fixed;
+    inset: 20vh 0 auto 0;
     font-size: 1.5rem;
     padding: 0.5em;
-    margin: auto;
+    margin: 0 auto 0 auto;
     text-align: center;
     background: rgb(221 19 19 / 41%);
     border-radius: 8px;
     width: fit-content;
+    z-index: 1000;
 }
 
 .dump-tree-root #contents {
@@ -527,6 +530,7 @@ dump-tree {
 }
 
 .dump-tree-root #tree {
+    position: relative;
     background-color: var(--theme-background-alt);
     font-family: var(--default-monospace-font-family);
     overflow: auto;
@@ -542,7 +546,7 @@ dump-tree {
 }
 
 .dump-tree-root #tree > ul,
-.dump-tree-root #tree > * {
+.dump-tree-root #tree > p {
     padding: 0.67em;
     margin: 0;
 }
@@ -797,22 +801,81 @@ dump-tree {
     }
 }
 
-
-.loading-spinner {
-    --size: min(16vh, 16vw);
-    width: var(--size);
-    height: var(--size);
-    position: fixed;
-    inset: 0;
-    margin: auto;
-    background: rgba(var(--theme-accent-rgb), 0.1) url("../img/logo.svg") no-repeat 50% 50%;
-    background-size: 70%;
-    border-radius: calc(var(--size) / 2);
-    animation: loading-spinner-anim 0.75s infinite cubic-bezier(.39,.58,.57,1);
+.dump-entry.placeholder {
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
-@keyframes loading-spinner-anim {
-    to {
-        transform: rotate(360deg) scale(1.5);
+.dump-entry.placeholder > .dump-entry-button {
+    width: 8em;
+    height: 1.333em;
+}
+
+.placeholder {
+    background: var(--theme-background-alt-focus);
+    pointer-events: none;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.placeholder::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 50%;
+    z-index: 2;
+    width: 200%;
+    margin-left: -100%;
+    pointer-events: none;
+    content: "";
+    background: linear-gradient(
+            to right,
+            rgba(var(--theme-accent-rgb), 0) 37%,
+            rgba(var(--theme-accent-rgb), 0.35) 50%,
+            rgba(var(--theme-accent-rgb), 0) 63%)
+    50% 50%;
+    animation: placeholder-animation 1.0s linear infinite;
+}
+
+.placeholder-do-fade-out {
+    position: absolute;
+    animation: placeholder-fade-out 0.1s linear forwards;
+}
+
+.placeholder-do-fade-in,
+.dump-error-msg {
+    animation: placeholder-fade-in 0.1s linear forwards;
+}
+
+@keyframes placeholder-animation {
+    0% {
+        transform: translate3d(-30%, 0, 0);
+    }
+    100% {
+        transform: translate3d(30%, 0, 0);
+    }
+}
+
+@keyframes placeholder-fade-out {
+    0% {
+        visibility: visible;
+        opacity: 1;
+    }
+    99% {
+        visibility: visible;
+    }
+    100% {
+        visibility: collapse;
+        opacity: 0;
+    }
+}
+
+@keyframes placeholder-fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
     }
 }

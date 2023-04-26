@@ -90,27 +90,52 @@ export default class DumpTree extends HTMLElement {
     static readonly html = `
         <link rel="stylesheet" href="css/style.css">
         <div class="dump-tree-root">
-            <div id="subheader" class="row-layout hidden">
+            <div id="subheader" class="row-layout">
                 <div id="game-info"></div>
                 <div id="search-box">
-                    <input id="search-input" type="text" placeholder="Search..." />
+                    <input id="search-input" type="text" placeholder="Search..." disabled />
                     <div id="search-options" class="row-layout">
-                        <button id="search-toggle-match-case"    class="header-icon dump-search-toggle" title="Match Case"><svg-icon icon="match-case" clickable /></button>
-                        <button id="search-toggle-regex"         class="header-icon dump-search-toggle" title="Use Regular Expression"><svg-icon icon="regex" clickable /></button>
-                        <button id="search-toggle-match-members" class="header-icon dump-search-toggle" title="Match Members"><svg-icon icon="match-members" clickable /></button>
-                        <button id="search-toggle-show-children" class="header-icon dump-search-toggle" title="Show Children"><svg-icon icon="show-children" clickable /></button>
+                        <button id="search-toggle-match-case"    class="header-icon dump-search-toggle" disabled title="Match Case"><svg-icon icon="match-case" clickable /></button>
+                        <button id="search-toggle-regex"         class="header-icon dump-search-toggle" disabled title="Use Regular Expression"><svg-icon icon="regex" clickable /></button>
+                        <button id="search-toggle-match-members" class="header-icon dump-search-toggle" disabled title="Match Members"><svg-icon icon="match-members" clickable /></button>
+                        <button id="search-toggle-show-children" class="header-icon dump-search-toggle" disabled title="Show Children"><svg-icon icon="show-children" clickable /></button>
                     </div>
                 </div>
                 <dump-downloads id="downloads" class="row-layout-push"></dump-downloads>
             </div>
-            <div id="contents" class="hidden">
+            <div id="contents">
                 <div id="tree" tabindex="0">
+                    <ul id="loading-placeholder" aria-hidden="true" title="Loading">
+                        <li class="dump-entry-li"><div class="dump-entry placeholder"><div class="dump-entry-button type-link"></div></div></li>
+                        <li class="dump-entry-li"><div class="dump-entry placeholder"><div class="dump-entry-button type-link"></div></div></li>
+                        <li class="dump-entry-li"><div class="dump-entry placeholder"><div class="dump-entry-button type-link"></div></div></li>
+                        <li class="dump-entry-li"><div class="dump-entry placeholder"><div class="dump-entry-button type-link"></div></div></li>
+                        <li class="dump-entry-li"><div class="dump-entry placeholder"><div class="dump-entry-button type-link"></div></div></li>
+                        <li class="dump-entry-li"><div class="dump-entry placeholder"><div class="dump-entry-button type-link"></div></div></li>
+                        <li class="dump-entry-li"><div class="dump-entry placeholder"><div class="dump-entry-button type-link"></div></div>
+                            <ul>
+                                <li class="dump-entry-li"><div class="dump-entry placeholder"><div class="dump-entry-button type-link"></div></div>
+                                    <ul>
+                                        <li class="dump-entry-li"><div class="dump-entry placeholder"><div class="dump-entry-button type-link"></div></div></li>
+                                        <li class="dump-entry-li"><div class="dump-entry placeholder"><div class="dump-entry-button type-link"></div></div></li>
+                                        <li class="dump-entry-li"><div class="dump-entry placeholder"><div class="dump-entry-button type-link"></div></div></li>
+                                    </ul>
+                                </li>
+                                <li class="dump-entry-li"><div class="dump-entry placeholder"><div class="dump-entry-button type-link"></div></div></li>
+                                <li class="dump-entry-li"><div class="dump-entry placeholder"><div class="dump-entry-button type-link"></div></div></li>
+                                <li class="dump-entry-li"><div class="dump-entry placeholder"><div class="dump-entry-button type-link"></div></div></li>
+                                <li class="dump-entry-li"><div class="dump-entry placeholder"><div class="dump-entry-button type-link"></div></div></li>
+                            </ul>
+                        </li>
+                        <li class="dump-entry-li"><div class="dump-entry placeholder"><div class="dump-entry-button type-link"></div></div></li>
+                        <li class="dump-entry-li"><div class="dump-entry placeholder"><div class="dump-entry-button type-link"></div></div></li>
+                    </ul>
                     <p id="no-results-msg" class="dump-help-msg hidden">No results found.</p>
                 </div>
                 <div id="splitter"></div>
                 <div id="details">
-                    <p id="details-help-tip" class="dump-help-msg">Select a type to display its details here.</p>
-                    <div id="details-view" class="hidden">
+                    <p id="details-help-tip" class="dump-help-msg hidden">Select a type to display its details here.</p>
+                    <div id="details-view" class="placeholder-do-fade-in hidden">
                         <div class="row-layout">
                             <button id="details-link" class="header-icon" title="Copy link">
                                 <svg-icon icon="link" clickable />
@@ -177,6 +202,8 @@ export default class DumpTree extends HTMLElement {
     readonly #detailsXmlSection: HTMLElement;
     readonly #detailsXml: HTMLElement;
     readonly #noResultsMsg: HTMLElement;
+    readonly #loadingPlaceholder: HTMLElement;
+    readonly #downloads: DumpDownloads;
     readonly #splitterHandler: SplitterHandler;
     readonly #searchHandler: SearchHandler;
     readonly #onLocationHashChangedHandler;
@@ -294,6 +321,18 @@ export default class DumpTree extends HTMLElement {
         }
         this.#noResultsMsg = noResultsMsg;
 
+        const loadingPlaceholder = shadow.getElementById("loading-placeholder");
+        if (loadingPlaceholder === null) {
+            throw new Error("loading-placeholder element not found");
+        }
+        this.#loadingPlaceholder = loadingPlaceholder;
+
+        const downloads = shadow.getElementById("downloads") as DumpDownloads | null;
+        if (downloads === null) {
+            throw new Error("downloads element not found");
+        }
+        this.#downloads = downloads;
+
         this.#onLocationHashChangedHandler = this.#onLocationHashChanged.bind(this);
 
         const splitter = shadow.getElementById("splitter");
@@ -317,35 +356,40 @@ export default class DumpTree extends HTMLElement {
         this.#searchHandler.disconnect();
     }
 
-    setTree(treeData: JTree, game: GameId, buildA: string, buildB: string | null): void {
+    setGameBuild(game: GameId, buildA: string, buildB: string | null): void {
         this.#game = game;
         this.#buildA = buildA;
         this.#buildB = buildB;
 
         const shadow = this.shadowRoot!;
         const isDiff = buildB !== null;
-        const downloads = shadow.getElementById("downloads") as DumpDownloads | null;
-        if (downloads === null) {
-            throw new Error("downloads element not found");
-        }
         const info = shadow.getElementById("game-info");
         if (info === null) {
             throw new Error("game-info element not found");
         }
 
         if (!isDiff) {
-            downloads.setGameBuild(game, buildA);
+            this.#downloads.setGameBuild(game, buildA);
             info.innerHTML = `<h2>${gameIdToFormattedName(game)} <small>(build ${buildA})</small></h2>`;
         } else {
-            hideElement(downloads, true);
+            hideElement(this.#downloads, true);
             info.innerHTML = `<h2>${gameIdToFormattedName(game)} <small>(build ${buildA} ↔ ${buildB})</small></h2>`;
         }
+    }
 
-        const subheader = shadow.getElementById("subheader");
-        if (subheader === null) {
-            throw new Error("subheader element not found");
+    setTree(treeData: JTree | null): void {
+        if (treeData == null) {
+            // null indicates that some error occurred at caller site
+            this.#loadingPlaceholder.classList.add("placeholder-do-fade-out");
+            this.#downloads.disable();
+            return;
         }
-        hideElement(subheader, false);
+
+        if (this.#game === null || this.#buildA === null) {
+            throw new Error("game and build not set");
+        }
+
+        const shadow = this.shadowRoot!;
 
         this.#renderTree(treeData);
 
@@ -369,12 +413,6 @@ export default class DumpTree extends HTMLElement {
         this.#visibleNodes = this.#nodes;
 
         this.#searchHandler.initNodes(this.#nodes);
-
-        const contents = shadow.getElementById("contents");
-        if (contents === null) {
-            throw new Error("contents element not found");
-        }
-        hideElement(contents, false);
 
         // manually scroll to the struct specified in the URL once the dump is loaded
         const loc = new URL(document.location.href);
@@ -613,9 +651,6 @@ export default class DumpTree extends HTMLElement {
         loc.hash = typeName;
         history.replaceState(null, "", loc.toString());
 
-        hideElement(this.#detailsHelpTip, true);
-        hideElement(this.#detailsView, false);
-
         this.#detailsName.textContent = typeName;
         entryBtn.classList.add("type-link-selected");
 
@@ -671,6 +706,9 @@ export default class DumpTree extends HTMLElement {
             this.#detailsXml.innerHTML = "";
             hideElement(this.#detailsXmlSection, true);
         }
+
+        hideElement(this.#detailsHelpTip, true);
+        hideElement(this.#detailsView, false);
 
         // reset scroll position
         this.#detailsContainer.scroll(0, 0)
@@ -746,7 +784,7 @@ export default class DumpTree extends HTMLElement {
 
         let html = "";
         const indent = () => {
-            html += html.length === 0 ? `<ul role="tree">` : `<ul role="group">`;
+            html += html.length === 0 ? `<ul role="tree" class="placeholder-do-fade-in">` : `<ul role="group">`;
         }
         const dedent = () => {
             html += "</ul>";
@@ -806,14 +844,19 @@ export default class DumpTree extends HTMLElement {
         }
         dedent();
 
-        this.#tree.innerHTML += html;
+        this.#tree.insertAdjacentHTML("beforeend", html);
 
         if (this.#nodes.length === 0) {
             const isDiff = this.#buildB !== null;
             this.#noResultsMsg.innerText = isDiff ? "No changes between these builds." : "No types in this build.";
             hideElement(this.#noResultsMsg, false);
-            hideElement(this.#detailsHelpTip, true);
+            this.#noResultsMsg.classList.add("placeholder-do-fade-in");
+        } else {
+            hideElement(this.#detailsHelpTip, false);
+            this.#detailsHelpTip.classList.add("placeholder-do-fade-in");
         }
+
+        this.#loadingPlaceholder.classList.add("placeholder-do-fade-out");
     }
 
     #onSearchDone(visibleNodes: TreeNode[]): void {
@@ -873,6 +916,7 @@ class SplitterHandler {
             this.#dragging = false;
 
             e.preventDefault();
+            e.stopPropagation();
         }
     }
 
@@ -882,6 +926,7 @@ class SplitterHandler {
             this.#splitterLeftElement.style.width = `${this.#startWidth + diff}px`;
 
             e.preventDefault();
+            e.stopPropagation();
         }
     }
 }
@@ -931,7 +976,7 @@ class SearchHandler {
     #options: SearchOptions;
     readonly #searchInput: HTMLInputElement;
     readonly #onSearchInputHandler: (e: Event) => void;
-    readonly #searchOptionToggles: { binding: SearchOptionBinding, toggle: HTMLElement, onClickHandler: (e: MouseEvent) => void }[];
+    readonly #searchOptionToggles: { binding: SearchOptionBinding, toggle: HTMLButtonElement, onClickHandler: (e: MouseEvent) => void }[];
 
     #nodes: (readonly TreeNode[]) | null = null;
 
@@ -939,7 +984,7 @@ class SearchHandler {
         this.#options = SearchHandler.storedSearchOptions;
         this.#searchOptionToggles = [];
         for (const binding of searchOptionBindings) {
-            const toggle = root.getElementById(binding.id);
+            const toggle = root.getElementById(binding.id) as HTMLButtonElement | null;
             if (toggle === null) {
                 throw new Error(`Search option toggle element '${binding.id}' not found`);
             }
@@ -959,6 +1004,11 @@ class SearchHandler {
 
     initNodes(nodes: readonly TreeNode[]): void {
         this.#nodes = nodes;
+
+        this.#searchInput.disabled = false;
+        for (const o of this.#searchOptionToggles) {
+            o.toggle.disabled = false;
+        }
 
         if (this.#searchInput.value) {
             this.search(this.#searchInput.value)

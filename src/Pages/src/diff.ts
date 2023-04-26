@@ -27,15 +27,11 @@ async function init(): Promise<{ error?: any, errorMessage: string } | null> {
 
     document.title = `${gameIdToName(game)} (build ${buildA} ↔ ${buildB}) — ${document.title}`;
 
-    const tree = document.getElementById("dump-tree");
+    const tree = document.getElementById("dump-tree") as DumpTree | null;
     if (tree === null) {
         throw new Error("dump-tree element not found");
     }
-
-    const loading = document.getElementById("loading");
-    if (loading === null) {
-        throw new Error("loading element not found");
-    }
+    tree.setGameBuild(game, buildA, buildB);
 
     const errorMessage = `Failed to fetch dumps for ${gameIdToName(game)} builds ${buildA} and ${buildB}.`;
     const jsonLocA = getDumpURL(game, buildA, "tree.json");
@@ -48,8 +44,7 @@ async function init(): Promise<{ error?: any, errorMessage: string } | null> {
         if (treeA && treeB) {
             const treeDiff = getTreeDiff(treeA, treeB);
 
-            (tree as DumpTree).setTree(treeDiff, game, buildA, buildB);
-            hideElement(loading, true);
+            tree.setTree(treeDiff);
         } else {
             return { errorMessage };
         }
@@ -395,12 +390,9 @@ init().then((err) => {
     if (errorMessage) {
         setErrorMessage(errorMessage);
     }
-    const tree = document.getElementById("dump-tree");
+
+    const tree = document.getElementById("dump-tree") as DumpTree | null;
     if (tree !== null) {
-        hideElement(tree, true);
-    }
-    const loading = document.getElementById("loading");
-    if (loading !== null) {
-        hideElement(loading, true);
+        tree.setTree(null);
     }
 });
