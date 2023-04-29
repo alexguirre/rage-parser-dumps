@@ -1,0 +1,6753 @@
+{
+	"game": "gta4",
+	"build": "1.2.0.59",
+	"structs": [
+		{
+			"name": "rage__ptxDomainVortex",
+			"base": {
+				"name": "rage__ptxDomain",
+				"offset": 0
+			},
+			"size": 320,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "PositionKF",
+					"offset": 16,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "DirectionKF",
+					"offset": 56,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "SizeKF",
+					"offset": 96,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				}
+			],
+			"factories": {
+				"new": "0x245CD0"
+			},
+			"getStructureCB": "0x21B460"
+		},
+		{
+			"name": "rage__crJointData",
+			"size": 192,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "BoneID",
+					"offset": 4,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFEF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "JointDOFs",
+					"offset": 8,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "UseTwistLimits",
+					"offset": 12,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "UsePerControlTwistLimits",
+					"offset": 13,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "NumControlPoints",
+					"offset": 16,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "TwistAxis",
+					"offset": 32,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "TwistLimitMin",
+					"offset": 48,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "TwistLimitMax",
+					"offset": 52,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "SoftLimitScale",
+					"offset": 56,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "ZeroRotationEulers",
+					"offset": 176,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "ControlPoints",
+					"offset": 80,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "MEMBER",
+					"item": {
+						"name": "Item",
+						"offset": 0,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0009",
+						"flags2": "0xFFFF",
+						"type": "STRUCT",
+						"subtype": "STRUCTURE",
+						"structName": "rage__crJointData__crJointControlPoint"
+					},
+					"arraySize": 8
+				}
+			],
+			"factories": {
+				"new": "0x732C0"
+			},
+			"getStructureCB": "0x3EAD0",
+			"callbacks": {
+				"PreSave": "0x72910",
+				"PostLoad": "0x72A10"
+			}
+		},
+		{
+			"name": "rage__AtmosphericScattering",
+			"base": {
+				"name": "rage__ShaderFragment",
+				"offset": 0
+			},
+			"size": 112,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "hazeDistance",
+					"offset": 20,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "hazeIntensity",
+					"offset": 24,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "on",
+					"offset": 108,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 1
+				}
+			],
+			"factories": {
+				"new": "0x25DE70"
+			},
+			"getStructureCB": "0x21B460"
+		},
+		{
+			"name": "rage__rageShaderMaterial",
+			"size": 72,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "sTemplateFileName",
+					"offset": 32,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "POINTER"
+				},
+				{
+					"name": "sShaderFullPathName",
+					"offset": 36,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "POINTER"
+				},
+				{
+					"name": "nBucketNumber",
+					"offset": 40,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "avDefaultVertexColors",
+					"offset": 44,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "ATARRAY",
+					"item": {
+						"name": "Item",
+						"offset": 0,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0001",
+						"flags2": "0xFFFF",
+						"type": "VECTOR4",
+						"subtype": "0",
+						"initValues": [
+							0,
+							0,
+							0,
+							0
+						]
+					}
+				},
+				{
+					"name": "apShaderParams",
+					"offset": 56,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "ATARRAY",
+					"item": {
+						"name": "Item",
+						"offset": 0,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0009",
+						"flags2": "0xFFFF",
+						"type": "STRUCT",
+						"subtype": "POINTER",
+						"structName": "rage__rageShaderMaterialParam"
+					}
+				},
+				{
+					"name": "apUserDataParams",
+					"offset": 64,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "ATARRAY",
+					"item": {
+						"name": "Item",
+						"offset": 0,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0009",
+						"flags2": "0xFFFF",
+						"type": "STRUCT",
+						"subtype": "POINTER",
+						"structName": "rage__rageShaderMaterialParam"
+					}
+				},
+				{
+					"name": "nImageWidth",
+					"offset": 8,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "nImageHeight",
+					"offset": 12,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x3EAA0"
+			},
+			"getStructureCB": "0x3EAD0",
+			"callbacks": {
+				"PreLoad": "0x3E1F0",
+				"PostSave": "0x3E030"
+			}
+		},
+		{
+			"name": "rage__rmPtfxShader",
+			"size": 32,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "ShaderName",
+					"offset": 4,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "CONST_STRING"
+				},
+				{
+					"name": "ShaderTechniqueName",
+					"offset": 8,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "CONST_STRING"
+				},
+				{
+					"name": "InstVars",
+					"offset": 20,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "ATARRAY",
+					"item": {
+						"name": "Item",
+						"offset": 0,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0009",
+						"flags2": "0xFFFF",
+						"type": "STRUCT",
+						"subtype": "POINTER",
+						"structName": "rage__rmPtfxShaderVar"
+					}
+				}
+			],
+			"factories": {
+				"new": "0x24A930"
+			},
+			"getStructureCB": "0x3EAD0",
+			"callbacks": {
+				"PreLoad": "0x24A2F0"
+			}
+		},
+		{
+			"name": "rage__rageShaderMaterialParamMatrix34",
+			"base": {
+				"name": "rage__rageShaderMaterialParam",
+				"offset": 0
+			},
+			"size": 128,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "mDataA",
+					"offset": 64,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "mDataB",
+					"offset": 80,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "mDataC",
+					"offset": 96,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "mDataD",
+					"offset": 112,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				}
+			],
+			"factories": {
+				"new": "0x55AF0"
+			},
+			"getStructureCB": "0x489C0"
+		},
+		{
+			"name": "rage__VerletWaterSurface",
+			"base": {
+				"name": "rage__ShaderFragment",
+				"offset": 0
+			},
+			"size": 36,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "phaseRate",
+					"offset": 20,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0.2
+				},
+				{
+					"name": "on",
+					"offset": 32,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x25E040"
+			},
+			"getStructureCB": "0x21B460"
+		},
+		{
+			"name": "rage__ptxgpuRenderSettings",
+			"size": 96,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "motionBlurAmt",
+					"offset": 4,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "radius",
+					"offset": 8,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "radiusVariance",
+					"offset": 12,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "radius2",
+					"offset": 16,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "radius2Variance",
+					"offset": 20,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "lifeFade",
+					"offset": 24,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR2",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "useDirectional",
+					"offset": 32,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "tintColor",
+					"offset": 48,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR4",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "tintColorPhase2",
+					"offset": 64,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR4",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "AnimStart",
+					"offset": 80,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "AnimEnd",
+					"offset": 84,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "NumFrames",
+					"offset": 88,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x22BD10"
+			},
+			"getStructureCB": "0x22BD40"
+		},
+		{
+			"name": "rage__ptxSpriteRulePropList",
+			"base": {
+				"name": "rage__ptxRulePropList",
+				"offset": 0
+			},
+			"size": 1264,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "SizeKF",
+					"offset": 796,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "ThetaKF",
+					"offset": 848,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "InitThetaKFOT",
+					"offset": 900,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "InitRotateVelKFOT",
+					"offset": 952,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "RotateVelKF",
+					"offset": 1004,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "DirectionalKF",
+					"offset": 1056,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "DirectionalVelKF",
+					"offset": 1108,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "TextureAnimRateKF",
+					"offset": 1160,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "TrailPropsKF",
+					"offset": 1212,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				}
+			],
+			"factories": {
+				"new": "0x26B2C0"
+			},
+			"getStructureCB": "0x26B2B0"
+		},
+		{
+			"name": "rage__VerletWaterSimulation",
+			"base": {
+				"name": "rage__ShaderFragment",
+				"offset": 0
+			},
+			"size": 40,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "simWidth",
+					"offset": 16,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 256
+				},
+				{
+					"name": "simHeight",
+					"offset": 20,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 256
+				},
+				{
+					"name": "on",
+					"offset": 36,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x25DF80"
+			},
+			"getStructureCB": "0x21B460"
+		},
+		{
+			"name": "rage__ptxSimpleEmitter",
+			"size": 208,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "pos",
+					"offset": 16,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "posRange",
+					"offset": 32,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "LifeRangeOffset",
+					"offset": 48,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR2",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "vel",
+					"offset": 64,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "velRange",
+					"offset": 80,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "posRelative",
+					"offset": 96,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "AddCameraOffset",
+					"offset": 97,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "collisionVelocityModifier",
+					"offset": 112,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "collisionLifeModifier",
+					"offset": 128,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR2",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "collisionPositionModifier",
+					"offset": 144,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "gustSpacing",
+					"offset": 160,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR2",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "gustForceAmplifier",
+					"offset": 176,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "disperseRange",
+					"offset": 192,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "disperseAmt",
+					"offset": 196,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "inertia",
+					"offset": 200,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "probablityPhase2",
+					"offset": 204,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x22BD50"
+			},
+			"getStructureCB": "0x3EAD0"
+		},
+		{
+			"name": "rage__SkyDomeProceduralControl__SkyStruct",
+			"size": 96,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "gNightSkyColor",
+					"offset": 16,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "COLOR",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "gDaySkyColor",
+					"offset": 32,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "COLOR",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "gSunsetColor",
+					"offset": 48,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "COLOR",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "AzimuthHeight",
+					"offset": 64,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "SunCentreStart",
+					"offset": 68,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "SunCentreEnd",
+					"offset": 72,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "SunCentreIntensity",
+					"offset": 76,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "SunOuterSize",
+					"offset": 80,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x21B310"
+			},
+			"getStructureCB": "0x3EAD0"
+		},
+		{
+			"name": "rage__ptxEffectRule",
+			"size": 288,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+			],
+			"factories": {
+				"new": "0x256180"
+			},
+			"getStructureCB": "0x2393C0"
+		},
+		{
+			"name": "rage__ptxEventEffect",
+			"base": {
+				"name": "rage__ptxEvent",
+				"offset": 0
+			},
+			"size": 176,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "EffectName",
+					"offset": 144,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "CONST_STRING"
+				},
+				{
+					"name": "RotationMin",
+					"offset": 32,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "EmitterDomain",
+					"offset": 156,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__ptxDomainObj"
+				},
+				{
+					"name": "OverrideMins",
+					"offset": 48,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__ptxEffectOverridables"
+				},
+				{
+					"name": "OverrideMaxes",
+					"offset": 96,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__ptxEffectOverridables"
+				}
+			],
+			"factories": {
+				"new": "0x269380"
+			},
+			"getStructureCB": "0x269340"
+		},
+		{
+			"name": "rage__ptxTriggerEvent",
+			"size": 112,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "Type",
+					"offset": 100,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "Time",
+					"offset": 104,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "Toggle1",
+					"offset": 108,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "OverrideMins",
+					"offset": 0,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__ptxEffectOverridables"
+				},
+				{
+					"name": "OverrideMaxes",
+					"offset": 48,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__ptxEffectOverridables"
+				}
+			],
+			"factories": {
+				"new": "0x23A840"
+			},
+			"getStructureCB": "0x23A870",
+			"callbacks": {
+				"PreLoad": "0x23A550",
+				"PostSave": "0x23A5F0"
+			}
+		},
+		{
+			"name": "rage__ptxDomainCylinder",
+			"base": {
+				"name": "rage__ptxDomain",
+				"offset": 0
+			},
+			"size": 352,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "PositionKF",
+					"offset": 16,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "DirectionKF",
+					"offset": 56,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "SizeKF",
+					"offset": 96,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "InnerSizeKF",
+					"offset": 136,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				}
+			],
+			"factories": {
+				"new": "0x245D30"
+			},
+			"getStructureCB": "0x21B460"
+		},
+		{
+			"name": "rage__ptxDomainSphere",
+			"base": {
+				"name": "rage__ptxDomain",
+				"offset": 0
+			},
+			"size": 320,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "PositionKF",
+					"offset": 16,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "SizeKF",
+					"offset": 96,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				}
+			],
+			"factories": {
+				"new": "0x245D00"
+			},
+			"getStructureCB": "0x21B460"
+		},
+		{
+			"name": "rage__rageShaderMaterialGroup",
+			"size": 20,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "aMaterialFileNames",
+					"offset": 4,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "ATARRAY",
+					"item": {
+						"name": "Item",
+						"offset": 0,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0001",
+						"flags2": "0xFFFF",
+						"type": "STRING",
+						"subtype": "POINTER"
+					}
+				},
+				{
+					"name": "aMaterials",
+					"offset": 12,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "ATARRAY",
+					"item": {
+						"name": "Item",
+						"offset": 0,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0009",
+						"flags2": "0xFFFF",
+						"type": "STRUCT",
+						"subtype": "STRUCTURE",
+						"structName": "rage__rageShaderMaterial"
+					}
+				}
+			],
+			"factories": {
+				"new": "0x576F0"
+			},
+			"getStructureCB": "0x3EAD0"
+		},
+		{
+			"name": "rage__ProceduralReflection",
+			"size": 96,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+			],
+			"factories": {
+				"new": "0x22E410"
+			},
+			"getStructureCB": "0x3EAD0"
+		},
+		{
+			"name": "rage__rmPtfxNetKeyframeSet__KeyframeSpec",
+			"size": 12,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "Name",
+					"offset": 0,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "POINTER"
+				},
+				{
+					"name": "NetId",
+					"offset": 4,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "UINT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "Tag",
+					"offset": 8,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x267110"
+			},
+			"getStructureCB": "0x267150"
+		},
+		{
+			"name": "rage__ptxEvoPropList",
+			"size": 48,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "PropList",
+					"offset": 40,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "ATARRAY",
+					"item": {
+						"name": "Item",
+						"offset": 4144640,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0009",
+						"flags2": "0xFFFF",
+						"type": "STRUCT",
+						"subtype": "POINTER",
+						"structName": "rage__ptxEvoProp"
+					}
+				}
+			],
+			"factories": {
+				"new": "0x25A410"
+			},
+			"getStructureCB": "0x25A440"
+		},
+		{
+			"name": "rage__ptxDomainBox",
+			"base": {
+				"name": "rage__ptxDomain",
+				"offset": 0
+			},
+			"size": 352,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "PositionKF",
+					"offset": 16,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "DirectionKF",
+					"offset": 56,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "SizeKF",
+					"offset": 96,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "InnerSizeKF",
+					"offset": 136,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				}
+			],
+			"factories": {
+				"new": "0x245CA0"
+			},
+			"getStructureCB": "0x21B460"
+		},
+		{
+			"name": "rage__rageShaderMaterialUserDataGroup",
+			"size": 12,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "aUserData",
+					"offset": 4,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "ATARRAY",
+					"item": {
+						"name": "Item",
+						"offset": 0,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0009",
+						"flags2": "0xFFFF",
+						"type": "STRUCT",
+						"subtype": "STRUCTURE",
+						"structName": "rage__rageShaderMaterialUserData"
+					}
+				}
+			],
+			"factories": {
+				"new": "0x59250"
+			},
+			"getStructureCB": "0x3EAD0"
+		},
+		{
+			"name": "rage__ptxDomainObj",
+			"size": 8,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "Domain",
+					"offset": 0,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "POINTER",
+					"structName": "rage__ptxDomain"
+				}
+			],
+			"factories": {
+				"new": "0x245C30"
+			},
+			"getStructureCB": "0x245C60"
+		},
+		{
+			"name": "rage__ptxEffectRuleStd",
+			"base": {
+				"name": "rage__ptxEffectRule",
+				"offset": 0
+			},
+			"size": 416,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "FileVersion",
+					"offset": 344,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "Name",
+					"offset": 248,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "CONST_STRING"
+				},
+				{
+					"name": "ZoomCullDist",
+					"offset": 268,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "UseRandomColor",
+					"offset": 269,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "UseDefaultFunctors",
+					"offset": 270,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "UseCullSphere",
+					"offset": 372,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "CullDistance",
+					"offset": 332,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "FadeDistance",
+					"offset": 324,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "LodNearDistance",
+					"offset": 336,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "LodFarDistance",
+					"offset": 340,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "CullRadius",
+					"offset": 328,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "CullSphere",
+					"offset": 384,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "CullNoUpdate",
+					"offset": 373,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "CullNoEmit",
+					"offset": 374,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "CullNoDraw",
+					"offset": 375,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "SortEvents",
+					"offset": 376,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "HasDataSphere",
+					"offset": 273,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "DataObjectType",
+					"offset": 274,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "UCHAR",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "GameFlags",
+					"offset": 275,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "UCHAR",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "Quality",
+					"offset": 377,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "UCHAR",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "DurationMin",
+					"offset": 348,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "DurationMax",
+					"offset": 352,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "TimeScalarMin",
+					"offset": 356,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "TimeScalarMax",
+					"offset": 360,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "RndOffsetPos",
+					"offset": 400,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "KFColorTint",
+					"offset": 8,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "KFColorTintMax",
+					"offset": 48,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "KFZoom",
+					"offset": 88,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "KFRotation",
+					"offset": 128,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "KFDataSphere",
+					"offset": 168,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "KFDataCapsuleA",
+					"offset": 208,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "TimeLine",
+					"offset": 288,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__ptxTimeLine"
+				},
+				{
+					"name": "PtxEvoGroup",
+					"offset": 256,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "POINTER",
+					"structName": "rage__ptxEvolutionGroup"
+				}
+			],
+			"factories": {
+				"new": "0x239390"
+			},
+			"getStructureCB": "0x2393C0",
+			"callbacks": {
+				"PreLoad": "0x238140"
+			}
+		},
+		{
+			"name": "rage__rageShaderMaterialTemplate",
+			"size": 120,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "sShaderFileName",
+					"offset": 4,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "POINTER"
+				},
+				{
+					"name": "sUserDataGroupFileName",
+					"offset": 8,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "POINTER"
+				},
+				{
+					"name": "Material",
+					"offset": 16,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rageShaderMaterial"
+				}
+			],
+			"factories": {
+				"new": "0x424F0"
+			},
+			"getStructureCB": "0x3EAD0"
+		},
+		{
+			"name": "rage__FogControl",
+			"base": {
+				"name": "rage__ShaderFragment",
+				"offset": 0
+			},
+			"size": 72,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "color",
+					"offset": 28,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "UINT",
+					"subtype": "COLOR",
+					"initValue": 0
+				},
+				{
+					"name": "density",
+					"offset": 24,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0.001
+				},
+				{
+					"name": "speed",
+					"offset": 32,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0.0001
+				},
+				{
+					"name": "noiseTile",
+					"offset": 36,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0.4
+				},
+				{
+					"name": "noiseTileY",
+					"offset": 40,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0.4
+				},
+				{
+					"name": "noiseBias",
+					"offset": 44,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "noiseScale",
+					"offset": 48,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 1
+				},
+				{
+					"name": "maxHeight",
+					"offset": 52,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 100
+				},
+				{
+					"name": "minHeight",
+					"offset": 56,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "fuzzHeight",
+					"offset": 60,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 10
+				},
+				{
+					"name": "on",
+					"offset": 64,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 1
+				}
+			],
+			"factories": {
+				"new": "0x25DEA0"
+			},
+			"getStructureCB": "0x21B460"
+		},
+		{
+			"name": "rage__rmPtxfxProp",
+			"size": 52,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "Keyframe",
+					"offset": 0,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				}
+			],
+			"factories": {
+				"new": "0x26B1C0"
+			},
+			"getStructureCB": "0x26B1F0"
+		},
+		{
+			"name": "rage__ProceduralTextureShaderDef",
+			"size": 208,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "name",
+					"offset": 4,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "MEMBER",
+					"memberSize": 64
+				},
+				{
+					"name": "presetName",
+					"offset": 68,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "MEMBER",
+					"memberSize": 128
+				},
+				{
+					"name": "textures",
+					"offset": 200,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFEF",
+					"type": "ARRAY",
+					"subtype": "ATARRAY",
+					"item": {
+						"name": "Item",
+						"offset": 0,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0001",
+						"flags2": "0xFFFF",
+						"type": "STRING",
+						"subtype": "_UNKNOWN_2"
+					}
+				}
+			],
+			"factories": {
+				"new": "0x25B280"
+			},
+			"getStructureCB": "0x3EAD0"
+		},
+		{
+			"name": "rage__ptxEvoProp",
+			"size": 44,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "KeyframeData",
+					"offset": 0,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "RegId",
+					"offset": 40,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x25A3B0"
+			},
+			"getStructureCB": "0x25A400"
+		},
+		{
+			"name": "rage__SkyDomeProceduralControl__TopStruct",
+			"size": 20,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "TopCloudBias",
+					"offset": 4,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "TopCloudDetail",
+					"offset": 8,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "TopCloudThreshold",
+					"offset": 12,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "TopCloudHeight",
+					"offset": 16,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x21B340"
+			},
+			"getStructureCB": "0x3EAD0"
+		},
+		{
+			"name": "rage__ptxModelRulePropList",
+			"base": {
+				"name": "rage__ptxRulePropList",
+				"offset": 0
+			},
+			"size": 1316,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "SizeMin",
+					"offset": 796,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "SizeMax",
+					"offset": 848,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "InitialThetaMin",
+					"offset": 900,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "InitialThetaMax",
+					"offset": 952,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "ThetaMin",
+					"offset": 1004,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "ThetaMax",
+					"offset": 1056,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "InitialRotationMin",
+					"offset": 1108,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "InitialRotationMax",
+					"offset": 1160,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "InitRotationSpeed",
+					"offset": 1212,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "RotationSpeed",
+					"offset": 1264,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				}
+			],
+			"factories": {
+				"new": "0x26B2F0"
+			},
+			"getStructureCB": "0x26B2B0"
+		},
+		{
+			"name": "rage__ptxRulePropList",
+			"size": 796,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "ColorKF",
+					"offset": 16,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "ColorMaxKF",
+					"offset": 68,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "AccelerationMinKF",
+					"offset": 120,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "AccelerationMaxKF",
+					"offset": 172,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "DampeningMinKF",
+					"offset": 224,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "DampeningMaxKF",
+					"offset": 276,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "MatrixWeightKF",
+					"offset": 328,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "PlaybackRateKF",
+					"offset": 380,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "AlphaKF",
+					"offset": 432,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "PositionNoiseKF",
+					"offset": 484,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "VelocityNoiseKF",
+					"offset": 536,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "CollisionVelDmpKF",
+					"offset": 588,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "CollisionImpVarKF",
+					"offset": 640,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "WindInfluenceKF",
+					"offset": 692,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "VortexPropsKF",
+					"offset": 744,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtxfxProp"
+				},
+				{
+					"name": "BiasLinks",
+					"offset": 4,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "ATARRAY",
+					"item": {
+						"name": "Item",
+						"offset": 0,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0009",
+						"flags2": "0xFFFF",
+						"type": "STRUCT",
+						"subtype": "STRUCTURE",
+						"structName": "rage__ptxBiasLink"
+					}
+				}
+			],
+			"factories": {
+				"new": "0x26B280"
+			},
+			"getStructureCB": "0x26B2B0"
+		},
+		{
+			"name": "rage__VerletWaterPerturbation",
+			"base": {
+				"name": "rage__ShaderFragment",
+				"offset": 0
+			},
+			"size": 24,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "on",
+					"offset": 20,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x25DFF0"
+			},
+			"getStructureCB": "0x21B460"
+		},
+		{
+			"name": "rage__crJointDataFile",
+			"size": 12,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "JointData",
+					"offset": 4,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "ATARRAY",
+					"item": {
+						"name": "Item",
+						"offset": 0,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0009",
+						"flags2": "0xFFFF",
+						"type": "STRUCT",
+						"subtype": "STRUCTURE",
+						"structName": "rage__crJointData"
+					}
+				}
+			],
+			"factories": {
+				"new": "0x73330"
+			},
+			"getStructureCB": "0x3EAD0"
+		},
+		{
+			"name": "rage__ptxEvolution",
+			"size": 20,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "EvoName",
+					"offset": 0,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "CONST_STRING"
+				},
+				{
+					"name": "PropList",
+					"offset": 4,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "ATARRAY",
+					"item": {
+						"name": "Item",
+						"offset": 282656,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0009",
+						"flags2": "0xFFFF",
+						"type": "STRUCT",
+						"subtype": "POINTER",
+						"structName": "rage__ptxEvoPropList"
+					}
+				}
+			],
+			"factories": {
+				"new": "0x25A450"
+			},
+			"getStructureCB": "0x25A4A0"
+		},
+		{
+			"name": "rage__ptxEffectOverridables",
+			"size": 48,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "SizeScale",
+					"offset": 0,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "Duration",
+					"offset": 16,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "PlaybackRate",
+					"offset": 20,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "ColorTint",
+					"offset": 24,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "UINT",
+					"subtype": "COLOR",
+					"initValue": 0
+				},
+				{
+					"name": "Zoom",
+					"offset": 28,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "WhichFields",
+					"offset": 32,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "UINT",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x269850"
+			},
+			"getStructureCB": "0x2698B0"
+		},
+		{
+			"name": "rage__ptxSprite",
+			"base": {
+				"name": "rage__ptxRule",
+				"offset": 0
+			},
+			"size": 1696,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "NumTextureTilesX",
+					"offset": 380,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "NumTextureTilesY",
+					"offset": 384,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "StartTexFrameIndex",
+					"offset": 368,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "EndTexFrameIndex",
+					"offset": 372,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "EndTexAnimFrame",
+					"offset": 376,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "AxisAligned",
+					"offset": 352,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "ShaderData",
+					"offset": 1656,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxShader"
+				},
+				{
+					"name": "Props",
+					"offset": 392,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__ptxSpriteRulePropList"
+				},
+				{
+					"name": "TrimCornersAmt",
+					"offset": 1688,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "TrimCorners",
+					"offset": 1692,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x2551B0"
+			},
+			"getStructureCB": "0x2393C0",
+			"callbacks": {
+				"PreLoad": "0x24BA30"
+			}
+		},
+		{
+			"name": "rage__EnviromentDomeLighting",
+			"base": {
+				"name": "rage__ShaderFragment",
+				"offset": 0
+			},
+			"size": 256,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "sky",
+					"offset": 16,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "COLOR",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "horizon",
+					"offset": 32,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "COLOR",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "ground",
+					"offset": 48,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "COLOR",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "intensity",
+					"offset": 64,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "on",
+					"offset": 68,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 1
+				}
+			],
+			"factories": {
+				"new": "0x25DF50"
+			},
+			"getStructureCB": "0x21B460"
+		},
+		{
+			"name": "rage__ProceduralTexture",
+			"size": 40,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "renderTargetDefs",
+					"offset": 4,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "ATARRAY",
+					"item": {
+						"name": "Item",
+						"offset": 0,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0009",
+						"flags2": "0xFFFF",
+						"type": "STRUCT",
+						"subtype": "POINTER",
+						"structName": "rage__ProceduralTextureRenderTargetDef"
+					}
+				},
+				{
+					"name": "shaderDefs",
+					"offset": 12,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "ATARRAY",
+					"item": {
+						"name": "Item",
+						"offset": 0,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0009",
+						"flags2": "0xFFFF",
+						"type": "STRUCT",
+						"subtype": "POINTER",
+						"structName": "rage__ProceduralTextureShaderDef"
+					}
+				}
+			],
+			"factories": {
+				"new": "0x25B2D0"
+			},
+			"getStructureCB": "0x22E400"
+		},
+		{
+			"name": "rage__rmPtfxShaderVar_Int",
+			"base": {
+				"name": "rage__rmPtfxShaderVar",
+				"offset": 0
+			},
+			"size": 48,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "Int",
+					"offset": 32,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x26CD10"
+			},
+			"getStructureCB": "0x269340"
+		},
+		{
+			"name": "rage__rageShaderMaterialParamTexture",
+			"base": {
+				"name": "rage__rageShaderMaterialParam",
+				"offset": 0
+			},
+			"size": 64,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "sData",
+					"offset": 60,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "CONST_STRING"
+				}
+			],
+			"factories": {
+				"new": "0x57460"
+			},
+			"getStructureCB": "0x489C0"
+		},
+		{
+			"name": "rage__ptxRule",
+			"size": 320,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "FileVersion",
+					"offset": 12,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "ClassName",
+					"offset": 296,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "MEMBER",
+					"memberSize": 12
+				},
+				{
+					"name": "Name",
+					"offset": 292,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "CONST_STRING"
+				},
+				{
+					"name": "RenderState",
+					"offset": 256,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__ptxRenderState"
+				},
+				{
+					"name": "SpawnEffectA",
+					"offset": 32,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__ptxTriggerEvent"
+				},
+				{
+					"name": "SpawnEffectB",
+					"offset": 144,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__ptxTriggerEvent"
+				},
+				{
+					"name": "PhysicalRange",
+					"offset": 276,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "StopVel",
+					"offset": 280,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "PercentPhysical",
+					"offset": 306,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "UCHAR",
+					"subtype": "0",
+					"initValue": 100
+				},
+				{
+					"name": "PercentKill",
+					"offset": 307,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "UCHAR",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "Flags",
+					"offset": 284,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "UINT",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x23A880"
+			},
+			"getStructureCB": "0x2393C0",
+			"callbacks": {
+				"PreLoad": "0x23A340"
+			}
+		},
+		{
+			"name": "rage__ptxBiasLink",
+			"size": 76,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "Name",
+					"offset": 0,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "MEMBER",
+					"memberSize": 64
+				},
+				{
+					"name": "PropIDs",
+					"offset": 64,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "ATARRAY",
+					"item": {
+						"name": "Item",
+						"offset": 0,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0001",
+						"flags2": "0xFFFF",
+						"type": "INT",
+						"subtype": "0",
+						"initValue": 0
+					}
+				}
+			],
+			"factories": {
+				"new": "0x26B200"
+			},
+			"getStructureCB": "0x26B230"
+		},
+		{
+			"name": "rage__rmPtfxFactory",
+			"size": 128,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "ClassName",
+					"offset": 0,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "MEMBER",
+					"memberSize": 128
+				}
+			],
+			"factories": {
+				"new": "0x203E60"
+			},
+			"getStructureCB": "0x203E90"
+		},
+		{
+			"name": "rage__rageShaderMaterialParamBool",
+			"base": {
+				"name": "rage__rageShaderMaterialParam",
+				"offset": 0
+			},
+			"size": 64,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "bData",
+					"offset": 60,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x507E0"
+			},
+			"getStructureCB": "0x489C0"
+		},
+		{
+			"name": "rage__rmPtfxShaderVar_Bool",
+			"base": {
+				"name": "rage__rmPtfxShaderVar",
+				"offset": 0
+			},
+			"size": 48,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "Bool",
+					"offset": 32,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x26CCD0"
+			},
+			"getStructureCB": "0x269340"
+		},
+		{
+			"name": "rage__rmPtfxNetKeyframeSet",
+			"size": 8,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "Keyframes",
+					"offset": 0,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "ATARRAY",
+					"item": {
+						"name": "Item",
+						"offset": 0,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0009",
+						"flags2": "0xFFFF",
+						"type": "STRUCT",
+						"subtype": "STRUCTURE",
+						"structName": "rage__rmPtfxNetKeyframeSet__KeyframeSpec"
+					}
+				}
+			],
+			"factories": {
+				"new": "0x2671A0"
+			},
+			"getStructureCB": "0x2671D0"
+		},
+		{
+			"name": "rage__rageShaderMaterialParam",
+			"size": 60,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "Name",
+					"offset": 4,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "CONST_STRING"
+				},
+				{
+					"name": "UiName",
+					"offset": 8,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "CONST_STRING"
+				},
+				{
+					"name": "UiWidget",
+					"offset": 12,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "CONST_STRING"
+				},
+				{
+					"name": "UiHelp",
+					"offset": 16,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "CONST_STRING"
+				},
+				{
+					"name": "UiHint",
+					"offset": 20,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "CONST_STRING"
+				},
+				{
+					"name": "UiMin",
+					"offset": 24,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "UiMax",
+					"offset": 28,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "UiStep",
+					"offset": 32,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "UiHidden",
+					"offset": 36,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "UvSetIndex",
+					"offset": 40,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "UvSetName",
+					"offset": 44,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "CONST_STRING"
+				},
+				{
+					"name": "TextureOutputFormats",
+					"offset": 48,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "CONST_STRING"
+				},
+				{
+					"name": "iNoOfMipLevels",
+					"offset": 52,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "MaterialDataUvSetIndex",
+					"offset": 56,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x4D9E0"
+			},
+			"getStructureCB": "0x489C0"
+		},
+		{
+			"name": "rage__ptxTimeLine",
+			"size": 36,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "PreUpdate",
+					"offset": 8,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "NumLoops",
+					"offset": 12,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "Events",
+					"offset": 16,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "ATARRAY",
+					"item": {
+						"name": "Item",
+						"offset": 0,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0009",
+						"flags2": "0xFFFF",
+						"type": "STRUCT",
+						"subtype": "POINTER",
+						"structName": "rage__ptxEvent"
+					}
+				}
+			],
+			"factories": {
+				"new": "0x267F80"
+			},
+			"getStructureCB": "0x3EAD0"
+		},
+		{
+			"name": "rage__rmPtfxKeyframe__SaveData",
+			"size": 16,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "Channels",
+					"offset": 0,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "Keys",
+					"offset": 4,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "KeyData",
+					"offset": 8,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "ATARRAY",
+					"item": {
+						"name": "Item",
+						"offset": 0,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0001",
+						"flags2": "0xFFFF",
+						"type": "FLOAT",
+						"subtype": "0",
+						"initValue": 0
+					}
+				}
+			],
+			"factories": {
+				"new": "0x267290"
+			},
+			"getStructureCB": "0x2672C0"
+		},
+		{
+			"name": "rage__ptxEvent",
+			"size": 32,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "TriggerTime",
+					"offset": 8,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "TriggerCap",
+					"offset": 24,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": -1
+				}
+			],
+			"factories": {
+				"new": "0x269310"
+			},
+			"getStructureCB": "0x269340",
+			"callbacks": {
+				"PreLoad": "0x2693AB"
+			}
+		},
+		{
+			"name": "rage__IntervalShadows",
+			"base": {
+				"name": "rage__ShaderFragment",
+				"offset": 0
+			},
+			"size": 128,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "softness",
+					"offset": 112,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 16
+				},
+				{
+					"name": "on",
+					"offset": 120,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 1
+				},
+				{
+					"name": "prtOn",
+					"offset": 121,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 1
+				},
+				{
+					"name": "sunLightIntensity",
+					"offset": 116,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x25DE10"
+			},
+			"getStructureCB": "0x21B460"
+		},
+		{
+			"name": "rage__SkyDomeProceduralControl__NightStruct",
+			"size": 96,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "StarBlinkFrequency",
+					"offset": 16,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "StarBlinkIntensity",
+					"offset": 20,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "StarIntensity",
+					"offset": 24,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "StarFieldThreshold",
+					"offset": 28,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "MoonBrightness",
+					"offset": 36,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "MoonGlow",
+					"offset": 80,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "MoonVisiblity",
+					"offset": 84,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "MoonColor",
+					"offset": 64,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "COLOR",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				}
+			],
+			"factories": {
+				"new": "0x21B3A0"
+			},
+			"getStructureCB": "0x3EAD0"
+		},
+		{
+			"name": "rage__rmPtfxShaderVar_Float2",
+			"base": {
+				"name": "rage__rmPtfxShaderVar",
+				"offset": 0
+			},
+			"size": 48,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "Float2",
+					"offset": 32,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR2",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				}
+			],
+			"factories": {
+				"new": "0x26CDB0"
+			},
+			"getStructureCB": "0x269340"
+		},
+		{
+			"name": "rage__rmPtfxShaderVar_Float3",
+			"base": {
+				"name": "rage__rmPtfxShaderVar",
+				"offset": 0
+			},
+			"size": 48,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "Float3",
+					"offset": 32,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				}
+			],
+			"factories": {
+				"new": "0x26CE00"
+			},
+			"getStructureCB": "0x269340"
+		},
+		{
+			"name": "rage__rmPtfxShaderVar_Float4",
+			"base": {
+				"name": "rage__rmPtfxShaderVar",
+				"offset": 0
+			},
+			"size": 48,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "Float4",
+					"offset": 32,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR4",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				}
+			],
+			"factories": {
+				"new": "0x26CE60"
+			},
+			"getStructureCB": "0x269340"
+		},
+		{
+			"name": "rage__SkyDomeProceduralControl__LightStruct",
+			"size": 12,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "LightningPulseFrequency",
+					"offset": 4,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "LightningPulseIntensity",
+					"offset": 8,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x21B3D0"
+			},
+			"getStructureCB": "0x3EAD0"
+		},
+		{
+			"name": "rage__ptxRenderState",
+			"size": 20,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "BlendSet",
+					"offset": 4,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "LightingMode",
+					"offset": 12,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "DepthWrite",
+					"offset": 16,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "DepthTest",
+					"offset": 17,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "AlphaBlend",
+					"offset": 18,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "CullMode",
+					"offset": 0,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "DepthBias",
+					"offset": 8,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x23A7E0"
+			},
+			"getStructureCB": "0x23A830"
+		},
+		{
+			"name": "rage__rmPtfxShaderVar_Texture",
+			"base": {
+				"name": "rage__rmPtfxShaderVar",
+				"offset": 0
+			},
+			"size": 48,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "TextureName",
+					"offset": 36,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "CONST_STRING"
+				}
+			],
+			"factories": {
+				"new": "0x26CEC0"
+			},
+			"getStructureCB": "0x269340",
+			"callbacks": {
+				"PreLoad": "0x26C240",
+				"PostLoad": "0x26C370"
+			}
+		},
+		{
+			"name": "rage__rsmSourceVertexColourDescriptions",
+			"size": 16,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "apobDescriptions",
+					"offset": 4,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "_UNKNOWN_5",
+					"item": {
+						"name": "Item",
+						"offset": 0,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0009",
+						"flags2": "0xFFFF",
+						"type": "STRUCT",
+						"subtype": "POINTER",
+						"structName": "rage__rsmSourceVertexColourDescription"
+					}
+				}
+			],
+			"factories": {
+				"new": "0x586B0"
+			},
+			"getStructureCB": "0x3EAD0"
+		},
+		{
+			"name": "rage__ptxDrawable",
+			"size": 8,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "Name",
+					"offset": 0,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "CONST_STRING"
+				}
+			],
+			"factories": {
+				"new": "0x242110"
+			},
+			"getStructureCB": "0x242140"
+		},
+		{
+			"name": "rage__ptxKeyframe4",
+			"size": 64,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+			],
+			"factories": {
+				"new": "0x267230"
+			},
+			"getStructureCB": "0x267280",
+			"callbacks": {
+				"PreLoad": "0x266C30"
+			}
+		},
+		{
+			"name": "rage__ptxEmitRuleStd__stdEmitterData",
+			"size": 424,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "EmitterDomain",
+					"offset": 4,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__ptxDomainObj"
+				},
+				{
+					"name": "VelocityDomain",
+					"offset": 12,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__ptxDomainObj"
+				},
+				{
+					"name": "SpawnRateKF",
+					"offset": 20,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "SpawnDistKF",
+					"offset": 60,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "TimeScaleKF",
+					"offset": 100,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "SpawnLifeKF",
+					"offset": 140,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "SpeedKF",
+					"offset": 180,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "SizeKFOT",
+					"offset": 220,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "AccelerationKFOT",
+					"offset": 260,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "DampeningKFOT",
+					"offset": 300,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "MatrixWeightKFOT",
+					"offset": 340,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "InheritVelKFOT",
+					"offset": 380,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				},
+				{
+					"name": "PtxRuleName",
+					"offset": 420,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "CONST_STRING"
+				}
+			],
+			"factories": {
+				"new": "0x2489D0"
+			},
+			"getStructureCB": "0x3EAD0"
+		},
+		{
+			"name": "rage__ProceduralTextureSkyhat",
+			"base": {
+				"name": "rage__ProceduralTexture",
+				"offset": 0
+			},
+			"size": 116,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+			],
+			"factories": {
+				"new": "0x22E440"
+			},
+			"getStructureCB": "0x22E400"
+		},
+		{
+			"name": "rage__SkyDomeProceduralControl__CloudStruct",
+			"size": 128,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "gCloudColor",
+					"offset": 16,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "COLOR",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "NightBounceColor",
+					"offset": 32,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "COLOR",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "gCloudShadowStrength",
+					"offset": 48,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "CloudThreshold",
+					"offset": 52,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "CloudBias",
+					"offset": 56,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "CloudShadowOffset",
+					"offset": 60,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "CloudInscatteringRange",
+					"offset": 64,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "CloudEdgeSmooth",
+					"offset": 68,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "CloudThickness",
+					"offset": 72,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "DetailScale",
+					"offset": 80,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "DetailStrength",
+					"offset": 84,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "CloudSpeed",
+					"offset": 76,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "CloudWarp",
+					"offset": 88,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "CloudFadeOut",
+					"offset": 92,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "top",
+					"offset": 96,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__SkyDomeProceduralControl__TopStruct"
+				}
+			],
+			"factories": {
+				"new": "0x21B370"
+			},
+			"getStructureCB": "0x3EAD0"
+		},
+		{
+			"name": "rage__DayLighting",
+			"base": {
+				"name": "rage__ShaderFragment",
+				"offset": 0
+			},
+			"size": 16,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+			],
+			"factories": {
+				"new": "0x25E130"
+			},
+			"getStructureCB": "0x21B460"
+		},
+		{
+			"name": "rage__rsmSourceVertexColourDescription",
+			"size": 48,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "strName",
+					"offset": 16,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "POINTER"
+				},
+				{
+					"name": "obDefaultColour",
+					"offset": 32,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR4",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				}
+			],
+			"factories": {
+				"new": "0x581F0"
+			},
+			"getStructureCB": "0x3EAD0"
+		},
+		{
+			"name": "rage__rageShaderMaterialParamFloat",
+			"base": {
+				"name": "rage__rageShaderMaterialParam",
+				"offset": 0
+			},
+			"size": 64,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "fData",
+					"offset": 60,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x4A0D0"
+			},
+			"getStructureCB": "0x489C0"
+		},
+		{
+			"name": "rage__ptxDomain",
+			"size": 304,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "FileVersion",
+					"offset": 280,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "WorldSpace",
+					"offset": 292,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "PointRelative",
+					"offset": 293,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "DomainFunction",
+					"offset": 12,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x245C70"
+			},
+			"getStructureCB": "0x21B460"
+		},
+		{
+			"name": "rage__rmPtfxKeyframeWidgetData",
+			"size": 68,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "Name",
+					"offset": 0,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "POINTER"
+				},
+				{
+					"name": "ChannelLabels",
+					"offset": 4,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "MEMBER",
+					"item": {
+						"name": "Item",
+						"offset": 0,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0001",
+						"flags2": "0xFFFF",
+						"type": "STRING",
+						"subtype": "POINTER"
+					},
+					"arraySize": 4
+				},
+				{
+					"name": "ChannelColors",
+					"offset": 20,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "MEMBER",
+					"item": {
+						"name": "Item",
+						"offset": 0,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0001",
+						"flags2": "0xFFFF",
+						"type": "UINT",
+						"subtype": "COLOR",
+						"initValue": 0
+					},
+					"arraySize": 4
+				},
+				{
+					"name": "YRangeMinMax",
+					"offset": 36,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR2",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "XRangeMinMax",
+					"offset": 44,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR2",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "Type",
+					"offset": 60,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "ShowAsColorGradient",
+					"offset": 64,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x2672D0"
+			},
+			"getStructureCB": "0x267320"
+		},
+		{
+			"name": "rage__rsmRunTimeVertexColourDescriptions",
+			"size": 16,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "apobDescriptions",
+					"offset": 4,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "_UNKNOWN_5",
+					"item": {
+						"name": "Item",
+						"offset": 0,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0009",
+						"flags2": "0xFFFF",
+						"type": "STRUCT",
+						"subtype": "POINTER",
+						"structName": "rage__rsmRunTimeVertexColourDescription"
+					}
+				}
+			],
+			"factories": {
+				"new": "0x57DB0"
+			},
+			"getStructureCB": "0x3EAD0"
+		},
+		{
+			"name": "rage__ProceduralTextureRenderTargetDef",
+			"size": 140,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "name",
+					"offset": 4,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "MEMBER",
+					"memberSize": 64
+				},
+				{
+					"name": "parentIndex",
+					"offset": 68,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": -1
+				},
+				{
+					"name": "type",
+					"offset": 72,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "width",
+					"offset": 76,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 640
+				},
+				{
+					"name": "height",
+					"offset": 80,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 480
+				},
+				{
+					"name": "bitsPerPixel",
+					"offset": 84,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 32
+				}
+			],
+			"factories": {
+				"new": "0x25B1D0"
+			},
+			"getStructureCB": "0x3EAD0"
+		},
+		{
+			"name": "rage__ptxEmitRule",
+			"size": 16,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+			],
+			"factories": {
+				"new": "0x24AD10"
+			},
+			"getStructureCB": "0x2489C0"
+		},
+		{
+			"name": "rage__SkyDomeProceduralControl",
+			"size": 352,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "sky",
+					"offset": 16,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__SkyDomeProceduralControl__SkyStruct"
+				},
+				{
+					"name": "cloud",
+					"offset": 112,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__SkyDomeProceduralControl__CloudStruct"
+				},
+				{
+					"name": "night",
+					"offset": 256,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__SkyDomeProceduralControl__NightStruct"
+				},
+				{
+					"name": "lightning",
+					"offset": 240,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__SkyDomeProceduralControl__LightStruct"
+				}
+			],
+			"factories": {
+				"new": "0x21B400"
+			},
+			"getStructureCB": "0x3EAD0"
+		},
+		{
+			"name": "rage__SkyLightController",
+			"base": {
+				"name": "rage__ShaderFragment",
+				"offset": 0
+			},
+			"size": 128,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "GroundColor",
+					"offset": 16,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "COLOR",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "intensity",
+					"offset": 32,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 1
+				},
+				{
+					"name": "bounceIntensity",
+					"offset": 36,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 1
+				}
+			],
+			"factories": {
+				"new": "0x21B470"
+			},
+			"getStructureCB": "0x21B460"
+		},
+		{
+			"name": "rage__SkyhatPerlinNoise",
+			"base": {
+				"name": "rage__ShaderFragment",
+				"offset": 0
+			},
+			"size": 48,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "phaseRate",
+					"offset": 24,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0.05
+				},
+				{
+					"name": "on",
+					"offset": 44,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x25E0B0"
+			},
+			"getStructureCB": "0x21B460"
+		},
+		{
+			"name": "rage__rmPtfxKeyframe",
+			"size": 40,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+			],
+			"factories": {
+				"new": "0x2671E0"
+			},
+			"getStructureCB": "0x3EAD0",
+			"callbacks": {
+				"PreLoad": "0x266890",
+				"PostSave": "0x266A60"
+			}
+		},
+		{
+			"name": "rage__ptxEmitRuleStd",
+			"base": {
+				"name": "rage__ptxEmitRule",
+				"offset": 0
+			},
+			"size": 496,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "FileVersion",
+					"offset": 484,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "Name",
+					"offset": 480,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "CONST_STRING"
+				},
+				{
+					"name": "Duration",
+					"offset": 8,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "OneShot",
+					"offset": 492,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "EmitInfo",
+					"offset": 16,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__ptxEmitRuleStd__stdEmitterData"
+				}
+			],
+			"factories": {
+				"new": "0x248990"
+			},
+			"getStructureCB": "0x2489C0",
+			"callbacks": {
+				"PreLoad": "0x246CE0"
+			}
+		},
+		{
+			"name": "rage__rageShaderMaterialUserData",
+			"size": 60,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "sTemplateName",
+					"offset": 4,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "POINTER"
+				},
+				{
+					"name": "nBucketNumber",
+					"offset": 8,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "avDefaultVertexColors",
+					"offset": 12,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "ATARRAY",
+					"item": {
+						"name": "Item",
+						"offset": 0,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0001",
+						"flags2": "0xFFFF",
+						"type": "VECTOR4",
+						"subtype": "0",
+						"initValues": [
+							0,
+							0,
+							0,
+							0
+						]
+					}
+				},
+				{
+					"name": "apParams",
+					"offset": 20,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "ATARRAY",
+					"item": {
+						"name": "Item",
+						"offset": 0,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0009",
+						"flags2": "0xFFFF",
+						"type": "STRUCT",
+						"subtype": "POINTER",
+						"structName": "rage__rageShaderMaterialParam"
+					}
+				},
+				{
+					"name": "obSourceVertexColourDescriptions",
+					"offset": 28,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rsmSourceVertexColourDescriptions"
+				},
+				{
+					"name": "obRunTimeVertexColourDescriptions",
+					"offset": 44,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rsmRunTimeVertexColourDescriptions"
+				}
+			],
+			"factories": {
+				"new": "0x58FF0"
+			},
+			"getStructureCB": "0x3EAD0"
+		},
+		{
+			"name": "rage__rageShaderMaterialParamInt",
+			"base": {
+				"name": "rage__rageShaderMaterialParam",
+				"offset": 0
+			},
+			"size": 64,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "nData",
+					"offset": 60,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x4B7E0"
+			},
+			"getStructureCB": "0x489C0"
+		},
+		{
+			"name": "rage__SkyhatMiniNoise",
+			"base": {
+				"name": "rage__ShaderFragment",
+				"offset": 0
+			},
+			"size": 576,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "HDRExposure",
+					"offset": 64,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "HDRSunExposure",
+					"offset": 80,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "HDRExposureClamp",
+					"offset": 96,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "StarFieldRepeat",
+					"offset": 112,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "MoonSize",
+					"offset": 116,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "MoonPhase",
+					"offset": 120,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "MoonPosition",
+					"offset": 128,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "GalaxyOffset",
+					"offset": 144,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR2",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "detailSpeed",
+					"offset": 176,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "sunSetBump",
+					"offset": 180,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x21B430"
+			},
+			"getStructureCB": "0x21B460"
+		},
+		{
+			"name": "rage__WaterFogControl",
+			"base": {
+				"name": "rage__ShaderFragment",
+				"offset": 0
+			},
+			"size": 48,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "color",
+					"offset": 20,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "UINT",
+					"subtype": "COLOR",
+					"initValue": 0
+				},
+				{
+					"name": "density",
+					"offset": 16,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0.001
+				},
+				{
+					"name": "height",
+					"offset": 24,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0.01
+				},
+				{
+					"name": "on",
+					"offset": 28,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 1
+				}
+			],
+			"factories": {
+				"new": "0x25DED0"
+			},
+			"getStructureCB": "0x21B460"
+		},
+		{
+			"name": "rage__rageShaderMaterialParamVector2",
+			"base": {
+				"name": "rage__rageShaderMaterialParam",
+				"offset": 0
+			},
+			"size": 68,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "vData",
+					"offset": 60,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "VECTOR2",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				}
+			],
+			"factories": {
+				"new": "0x4F170"
+			},
+			"getStructureCB": "0x489C0"
+		},
+		{
+			"name": "rage__rageShaderMaterialParamVector3",
+			"base": {
+				"name": "rage__rageShaderMaterialParam",
+				"offset": 0
+			},
+			"size": 80,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "vData",
+					"offset": 64,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				}
+			],
+			"factories": {
+				"new": "0x48990"
+			},
+			"getStructureCB": "0x489C0"
+		},
+		{
+			"name": "rage__ptxModel",
+			"base": {
+				"name": "rage__ptxRule",
+				"offset": 0
+			},
+			"size": 1696,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "Drawables",
+					"offset": 360,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "ATARRAY",
+					"item": {
+						"name": "Item",
+						"offset": 4287703384,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0009",
+						"flags2": "0xFFFF",
+						"type": "STRUCT",
+						"subtype": "STRUCTURE",
+						"structName": "rage__ptxDrawable"
+					}
+				},
+				{
+					"name": "Rotation",
+					"offset": 320,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "RotationVar",
+					"offset": 336,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR3",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "RotationSpeedVar",
+					"offset": 352,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR2",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "Props",
+					"offset": 372,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__ptxModelRulePropList"
+				}
+			],
+			"factories": {
+				"new": "0x242190"
+			},
+			"getStructureCB": "0x2393C0",
+			"callbacks": {
+				"PreLoad": "0x241580"
+			}
+		},
+		{
+			"name": "rage__ShaderFragment",
+			"size": 16,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+			],
+			"factories": {
+				"new": "0x1680"
+			},
+			"getStructureCB": "0x21B460"
+		},
+		{
+			"name": "rage__rmPtfxShaderVar_Keyframe",
+			"base": {
+				"name": "rage__rmPtfxShaderVar",
+				"offset": 0
+			},
+			"size": 80,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "Keyframe",
+					"offset": 40,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "STRUCTURE",
+					"structName": "rage__rmPtfxKeyframe"
+				}
+			],
+			"factories": {
+				"new": "0x26CF10"
+			},
+			"getStructureCB": "0x269340"
+		},
+		{
+			"name": "rage__rsmRunTimeVertexColourDescription",
+			"size": 24,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "iIndex",
+					"offset": 4,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "INT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "astrChannelSources",
+					"offset": 8,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "MEMBER",
+					"item": {
+						"name": "Item",
+						"offset": 0,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0001",
+						"flags2": "0xFFFF",
+						"type": "STRING",
+						"subtype": "POINTER"
+					},
+					"arraySize": 4
+				}
+			],
+			"factories": {
+				"new": "0x58CB0"
+			},
+			"getStructureCB": "0x3EAD0"
+		},
+		{
+			"name": "rage__rageShaderMaterialParamString",
+			"base": {
+				"name": "rage__rageShaderMaterialParam",
+				"offset": 0
+			},
+			"size": 64,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "sData",
+					"offset": 60,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "CONST_STRING"
+				}
+			],
+			"factories": {
+				"new": "0x53740"
+			},
+			"getStructureCB": "0x489C0"
+		},
+		{
+			"name": "rage__rageShaderMaterialParamVector4",
+			"base": {
+				"name": "rage__rageShaderMaterialParam",
+				"offset": 0
+			},
+			"size": 80,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "vData",
+					"offset": 64,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "VECTOR4",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				}
+			],
+			"factories": {
+				"new": "0x4D1C0"
+			},
+			"getStructureCB": "0x489C0"
+		},
+		{
+			"name": "rage__crJointData__crJointControlPoint",
+			"size": 12,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "MaxSwing",
+					"offset": 0,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "MinTwist",
+					"offset": 4,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "MaxTwist",
+					"offset": 8,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x73290"
+			},
+			"getStructureCB": "0x732B0"
+		},
+		{
+			"name": "rage__fragTuneStruct",
+			"size": 2120,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "GlobalMaxDrawingDistance",
+					"offset": 8,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "GlobalForceTransmissionScaleDown",
+					"offset": 12,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "GlobalForceTransmissionScaleUp",
+					"offset": 16,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "GlobalRootBreakHealthScale",
+					"offset": 20,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "GlobalBreakHealthScale",
+					"offset": 24,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "GlobalDamageHealthScale",
+					"offset": 28,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "BreakingFrameRateLimit",
+					"offset": 32,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "AggressiveAssetTouching",
+					"offset": 36,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "CollisionDamageScale",
+					"offset": 40,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "CollisionDamageMinThreshold",
+					"offset": 44,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "CollisionDamageMaxThreshold",
+					"offset": 48,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "ReferenceMassForDefaultTuning",
+					"offset": 52,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x1680"
+			},
+			"getStructureCB": "0x3EAD0"
+		},
+		{
+			"name": "rage__ptxEvolutionGroup",
+			"size": 48,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "EvoList",
+					"offset": 0,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "ATARRAY",
+					"item": {
+						"name": "Item",
+						"offset": 1768464,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0009",
+						"flags2": "0xFFFF",
+						"type": "STRUCT",
+						"subtype": "POINTER",
+						"structName": "rage__ptxEvolution"
+					}
+				},
+				{
+					"name": "EvoBlendModeList",
+					"offset": 8,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "ARRAY",
+					"subtype": "ATARRAY",
+					"item": {
+						"name": "Item",
+						"offset": 1577224,
+						"size": 0,
+						"align": 0,
+						"flags1": "0x0009",
+						"flags2": "0xFFFF",
+						"type": "ARRAY",
+						"subtype": "ATARRAY",
+						"item": {
+							"name": "Item",
+							"offset": 1366935,
+							"size": 0,
+							"align": 0,
+							"flags1": "0x0001",
+							"flags2": "0xFFFF",
+							"type": "UCHAR",
+							"subtype": "0",
+							"initValue": 0
+						}
+					}
+				}
+			],
+			"factories": {
+				"new": "0x25A540"
+			},
+			"getStructureCB": "0x25A570",
+			"callbacks": {
+				"PreLoad": "0x259700",
+				"PostLoad": "0x259E90"
+			}
+		},
+		{
+			"name": "rage__rageShaderMaterialParamMatrix44",
+			"base": {
+				"name": "rage__rageShaderMaterialParam",
+				"offset": 0
+			},
+			"size": 128,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "mDataA",
+					"offset": 64,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "VECTOR4",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "mDataB",
+					"offset": 80,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "VECTOR4",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "mDataC",
+					"offset": 96,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "VECTOR4",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "mDataD",
+					"offset": 112,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0005",
+					"flags2": "0xFFFF",
+					"type": "VECTOR4",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				}
+			],
+			"factories": {
+				"new": "0x54AA0"
+			},
+			"getStructureCB": "0x489C0"
+		},
+		{
+			"name": "rage__rmPtfxShaderVar",
+			"size": 32,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "VarName",
+					"offset": 8,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "CONST_STRING"
+				}
+			],
+			"factories": {
+				"new": "0x26CC90"
+			},
+			"getStructureCB": "0x269340"
+		},
+		{
+			"name": "rage__ProceduralTextureVerletWater",
+			"base": {
+				"name": "rage__ProceduralTexture",
+				"offset": 0
+			},
+			"size": 176,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "perturbShowSim",
+					"offset": 48,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFEF",
+					"type": "BOOL",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "perturbQuadScale",
+					"offset": 52,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0.05
+				},
+				{
+					"name": "perturbRotAngle",
+					"offset": 56,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "perturbTexScale",
+					"offset": 60,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0.9
+				},
+				{
+					"name": "perturbQuadOffset",
+					"offset": 96,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR2",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "mirrorPlane",
+					"offset": 112,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "VECTOR4",
+					"subtype": "0",
+					"initValues": [
+						0,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"name": "farClip",
+					"offset": 128,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 100000
+				}
+			],
+			"factories": {
+				"new": "0x22E3D0"
+			},
+			"getStructureCB": "0x22E400"
+		},
+		{
+			"name": "rage__rmPtfxShaderVar_Float",
+			"base": {
+				"name": "rage__rmPtfxShaderVar",
+				"offset": 0
+			},
+			"size": 48,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "Float",
+					"offset": 32,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				}
+			],
+			"factories": {
+				"new": "0x26CD60"
+			},
+			"getStructureCB": "0x269340"
+		},
+		{
+			"name": "rage__ptxEventEmitter",
+			"base": {
+				"name": "rage__ptxEvent",
+				"offset": 0
+			},
+			"size": 80,
+			"align": 0,
+			"flags": "",
+			"version": "0.0",
+			"members": [
+				{
+					"name": "EmitRuleName",
+					"offset": 64,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "CONST_STRING"
+				},
+				{
+					"name": "PtxRuleName",
+					"offset": 68,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "STRING",
+					"subtype": "CONST_STRING"
+				},
+				{
+					"name": "DurationScalarMin",
+					"offset": 32,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "DurationScalarMax",
+					"offset": 36,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "TimeScalarMin",
+					"offset": 40,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "TimeScalarMax",
+					"offset": 44,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 0
+				},
+				{
+					"name": "ZoomMin",
+					"offset": 48,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 1
+				},
+				{
+					"name": "ZoomMax",
+					"offset": 52,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "FLOAT",
+					"subtype": "0",
+					"initValue": 1
+				},
+				{
+					"name": "ColorTintMin",
+					"offset": 56,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "UINT",
+					"subtype": "COLOR",
+					"initValue": -1
+				},
+				{
+					"name": "ColorTintMax",
+					"offset": 60,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0001",
+					"flags2": "0xFFFF",
+					"type": "UINT",
+					"subtype": "COLOR",
+					"initValue": -1
+				},
+				{
+					"name": "EvoData",
+					"offset": 12,
+					"size": 0,
+					"align": 0,
+					"flags1": "0x0009",
+					"flags2": "0xFFFF",
+					"type": "STRUCT",
+					"subtype": "POINTER",
+					"structName": "rage__ptxEvolutionGroup"
+				}
+			],
+			"factories": {
+				"new": "0x269350"
+			},
+			"getStructureCB": "0x269340",
+			"callbacks": {
+				"PreSave": "0x268AE0",
+				"PostLoad": "0x16A0"
+			}
+		}
+	],
+	"enums": [
+	]
+}
