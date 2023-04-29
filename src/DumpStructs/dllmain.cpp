@@ -257,7 +257,7 @@ static void DumpJsonAttributeList(JsonWriter& w, std::optional<std::string_view>
 }
 #endif
 
-static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, parMember* member)
+static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, parMember* member, std::optional<std::string_view> nameOverride = std::nullopt)
 {
 	if (member == nullptr)
 	{
@@ -267,11 +267,18 @@ static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, p
 
 	auto* m = member->data;
 	w.BeginObject(key);
+	if (nameOverride.has_value())
+	{
+		w.String("name", nameOverride.value());
+	}
+	else
+	{
 #if RDR3 || GTA5
-	w.UInt("name", m->name, json_uint_hex);
+		w.UInt("name", m->name, json_uint_hex);
 #elif GTA4
-	w.String("name", m->name);
+		w.String("name", m->name);
 #endif
+	}
 	w.UInt("offset", m->offset, json_uint_dec);
 	w.UInt("size", member->GetSize(), json_uint_dec);
 	w.UInt("align", member->FindAlign(), json_uint_dec);
@@ -506,10 +513,13 @@ static void DumpJsonStructure(JsonWriter& w, std::optional<std::string_view> key
 	w.BeginObject(key);
 	{
 #if RDR3 || GTA5
-		w.UInt("name", s->baseStructure->name, json_uint_hex);
 		if (d->nameStr != nullptr)
 		{
-			w.String("nameStr", d->nameStr);
+			w.String("name", d->nameStr);
+		}
+		else
+		{
+			w.UInt("name", s->name, json_uint_hex);
 		}
 #elif GTA4
 		w.String("name", s->name);
@@ -537,22 +547,14 @@ static void DumpJsonStructure(JsonWriter& w, std::optional<std::string_view> key
 		for (size_t i = 0; i < s->members.Count; i++)
 		{
 			auto* m = s->members.Items[i];
-			DumpJsonMember(w, std::nullopt, m);
+#if RDR3 || GTA5
+			auto nameOverride = d->memberNames != nullptr ? std::make_optional(std::string_view(d->memberNames[i])) : std::nullopt;
+#else
+			auto nameOverride = std::nullopt;
+#endif
+			DumpJsonMember(w, std::nullopt, m, nameOverride);
 		}
 		w.EndArray();
-// TODO(GTA4): memberNames? possibly replace hash in name with the string in memberNames if it exists. Would need to update all the dumps
-#if RDR3 || GTA5
-		if (d->memberNames != nullptr)
-		{
-			w.BeginArray("memberNames");
-			for (size_t i = 0; i < s->members.Count; i++)
-			{
-				auto* n = d->memberNames[i];
-				w.String(std::nullopt, n);
-			}
-			w.EndArray();
-		}
-#endif
 		
 #if RDR3 || GTA5
 		if (s->extraAttributes != nullptr)
@@ -649,21 +651,18 @@ static void DumpJsonEnum(JsonWriter& w, std::optional<std::string_view> key, par
 	{
 		auto& v = e->values[i];
 		w.BeginObject();
-		w.UInt("name", v.name, json_uint_hex);
+		if (e->valueNames != nullptr)
+		{
+			w.String("name", e->valueNames[i]);
+		}
+		else
+		{
+			w.UInt("name", v.name, json_uint_hex);
+		}
 		w.Int("value", v.value);
 		w.EndObject();
 	}
 	w.EndArray();
-	if (e->valueNames != nullptr)
-	{
-		w.BeginArray("valueNames");
-		for (size_t i = 0; i < e->valueCount; i++)
-		{
-			auto* n = e->valueNames[i];
-			w.String(std::nullopt, n);
-		}
-		w.EndArray();
-	}
 #endif
 	w.EndObject();
 }
@@ -686,7 +685,11 @@ static void DumpJson(parManager* parMgr)
 	w.String("game", "gta4");
 #endif
 	auto [major, minor, build, revision] = GetGameBuild();
+#if RDR3 || GTA5
+	w.String("build", std::format("{}", build));
+#elif GTA4
 	w.String("build", std::format("{}.{}.{}.{}", major, minor, build, revision));
+#endif
 	w.BeginArray("structs");
 	for (parStructure* s : structs)
 	{

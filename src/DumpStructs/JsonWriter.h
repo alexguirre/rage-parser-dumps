@@ -40,6 +40,7 @@ private:
 	size_t _indent;
 	std::ofstream _out;
 	bool _skipComma;
+	bool _first;
 };
 
 void JsonWriter::Int(std::optional<std::string_view> key, std::signed_integral auto value)
