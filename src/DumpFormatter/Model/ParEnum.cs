@@ -20,5 +20,4 @@ internal readonly record struct ParEnumValue(
 internal record ParEnum(
     Name Name,
     ParEnumFlags Flags,
-    ParEnumValue[] Values,
-    ImmutableArray<string> ValueNames);
+    ParEnumValue[] Values);

@@ -102,6 +102,7 @@ internal enum ParMemberSubtype
     ATNSHASHSTRING,
     ATNSHASHVALUE,
     ATHASHVALUE16U,
+    _UNKNOWN_2,
 
     // parMemberStructSubtype
     STRUCTURE,

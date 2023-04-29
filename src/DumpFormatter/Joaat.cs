@@ -24,6 +24,8 @@ internal static class Joaat
 
     public static uint Hash(string str) => Hash(Encoding.UTF8.GetBytes(str));
 
+    public static string? TryGetString(uint hash) => translations.TryGetValue(hash, out var str) ? str : null;
+
     public static string GetString(uint hash) => translations.TryGetValue(hash, out var str) ? str : $"_0x{hash:X08}";
 
     public static bool AddString(string str) => translations.TryAdd(Hash(str), str);

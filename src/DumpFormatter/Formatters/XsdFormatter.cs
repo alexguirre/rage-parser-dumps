@@ -146,7 +146,7 @@ internal class XsdFormatter : IDumpFormatter
         var choice = Elem("choice", Attr("minOccurs", 0), Attr("maxOccurs", s.Members.Length));
         foreach (var m in s.Members) { AddParMember(choice, m); }
 
-        var name = s.NameStr ?? s.Name.ToString();
+        var name = s.Name.ToFormattedString();
         schema.Add(
             Elem("complexType", Attr("name", name), Attr("mixed", true),
                 choice
@@ -158,7 +158,7 @@ internal class XsdFormatter : IDumpFormatter
 
     private static XElement AddParMember(XElement x, ParMember m)
     {
-        var name = m.Name.ToString();
+        var name = m.Name.ToFormattedString();
         switch (m.Type)
         {
             case ParMemberType.ARRAY:
@@ -178,7 +178,7 @@ internal class XsdFormatter : IDumpFormatter
                         Elem("element", Attr("name", name),
                             Elem("complexType",
                                 Elem("complexContent",
-                                    Elem("extension", Attr("base", ms.StructName.Value.ToString()),
+                                    Elem("extension", Attr("base", ms.StructName.Value.ToFormattedString()),
                                         Elem("attribute", Attr("name", "type"), Attr("type", "xs:string"))
                     )))));
                 }
@@ -189,7 +189,7 @@ internal class XsdFormatter : IDumpFormatter
                 break;
             case ParMemberType.ENUM:
                 var me = (ParMemberEnum)m;
-                x.Add(Elem("element", Attr("name", name), Attr("type", me.EnumName.ToString())));
+                x.Add(Elem("element", Attr("name", name), Attr("type", me.EnumName.ToFormattedString())));
                 break;
             case ParMemberType.VECTOR2:
             case ParMemberType.VEC2V:
@@ -301,16 +301,14 @@ internal class XsdFormatter : IDumpFormatter
     private static void AddParEnum(XElement schema, ParEnum e)
     {
         var restriction = Elem("restriction", Attr("base", "xs:string"));
-        var valueNames = e.ValueNames;
         for (int i = 0; i < e.Values.Length; i++)
         {
             var value = e.Values[i];
-            var name = !valueNames.IsDefaultOrEmpty ? valueNames[i] : value.Name.ToString();
-            restriction.Add(Elem("enumeration", Attr("value", name.ToString())));
+            restriction.Add(Elem("enumeration", Attr("value", value.Name.ToFormattedString())));
         }
 
         schema.Add(
-            Elem("simpleType", Attr("name", e.Name.ToString()),
+            Elem("simpleType", Attr("name", e.Name.ToFormattedString()),
                 restriction
         ));
     }

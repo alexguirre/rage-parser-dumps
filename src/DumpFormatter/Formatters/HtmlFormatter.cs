@@ -19,11 +19,11 @@ internal class HtmlFormatter : PlainTextFormatter
     <main>
         <ul>
 ");
-        foreach (var s in dump.Structs.OrderBy(s => s.Name.ToString()))
+        foreach (var s in dump.Structs.OrderBy(s => s.Name.ToFormattedString()))
         {
             FormatStruct(writer, s);
         }
-        foreach (var e in dump.Enums.OrderBy(s => s.Name.ToString()))
+        foreach (var e in dump.Enums.OrderBy(s => s.Name.ToFormattedString()))
         {
             FormatEnum(writer, e);
         }
@@ -47,7 +47,7 @@ internal class HtmlFormatter : PlainTextFormatter
     protected override void FormatStruct(TextWriter w, ParStructure s)
     {
         BeginCodeBlock(w, s.Name);
-        w.Write($"{Keyword("struct")} {Type(s.NameStr ?? s.Name.ToString())}<span class=\"c-w\">");
+        w.Write($"{Keyword("struct")} {Type(s.Name.ToFormattedString())}<span class=\"c-w\">");
         if (s.Base != null)
         {
             w.Write($" : {TypeLink(s.Base.Value.Name)}");
@@ -55,15 +55,13 @@ internal class HtmlFormatter : PlainTextFormatter
         w.WriteLine();
         w.WriteLine("{");
         var (paddingBetweenTypeAndName, paddingBetweenNameAndComment) = CalculatePaddingForMembers(s);
-        var memberNames = s.MemberNames;
         var membersOrdered = s.Members.Select((m, i) => (Member: m, Index: i)).OrderBy(m => m.Member.Offset).ToArray();
         var membersSB = new StringBuilder();
         var tmpSB = new StringBuilder();
         for (int i = 0; i < membersOrdered.Length; i++)
         {
             var member = membersOrdered[i].Member;
-            var name = !memberNames.IsDefaultOrEmpty ? memberNames[membersOrdered[i].Index] : member.Name.ToString();
-
+            var name = member.Name.ToFormattedString();
             membersSB.Append('\t');
             tmpSB.Clear();
             FormatMemberType(tmpSB, member, out var typeLength);
@@ -86,16 +84,13 @@ internal class HtmlFormatter : PlainTextFormatter
         BeginCodeBlock(w, e.Name);
         w.Write(Keyword("enum"));
         w.Write(' ');
-        w.Write(Type(e.Name.ToString()));
+        w.Write(Type(e.Name.ToFormattedString()));
         w.WriteLine("<span class=\"c-w\">");
         w.WriteLine("{");
-        var valueNames = e.ValueNames;
         for (int i = 0; i < e.Values.Length; i++)
         {
             var value = e.Values[i];
-            var name = !valueNames.IsDefaultOrEmpty ? valueNames[i] : value.Name.ToString();
-
-            w.WriteLine($"\t{name} = {value.Value},");
+            w.WriteLine($"\t{value.Name.ToFormattedString()} = {value.Value},");
         }
         w.WriteLine("};</span>");
         EndCodeBlock(w, e.Name);
@@ -199,5 +194,5 @@ internal class HtmlFormatter : PlainTextFormatter
 
     private static string Keyword(string keyword) => $"<span class=\"c-k\">{keyword}</span>";
     private static string Type(string type) => $"<span class=\"c-t\">{type}</span>";
-    private static string TypeLink(Name name) => $"<a href=\"#{name.Hash:X08}\" class=\"c-t-l\">{Type(name.ToString())}</a>";
+    private static string TypeLink(Name name) => $"<a href=\"#{name.Hash:X08}\" class=\"c-t-l\">{Type(name.ToFormattedString())}</a>";
 }

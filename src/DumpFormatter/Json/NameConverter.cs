@@ -8,8 +8,11 @@ namespace DumpFormatter.Json;
 internal class NameConverter : JsonConverter<Name>
 {
     public override Name Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-        => new(uint.Parse(reader.GetString()![2..], System.Globalization.NumberStyles.HexNumber));
+    {
+        var s = reader.GetString()!;
+        return s.StartsWith("0x") ? Name.FromHash(uint.Parse(s.AsSpan(2), System.Globalization.NumberStyles.HexNumber)) : Name.FromString(s);
+    }
 
     public override void Write(Utf8JsonWriter writer, Name value, JsonSerializerOptions options)
-        => writer.WriteStringValue($"0x{value.Hash:X08}");
+        => writer.WriteStringValue(value.ToString());
 }

@@ -2,6 +2,6 @@
 
 internal record ParDump(
     string Game,
-    ushort Build,
+    string Build,
     ParStructure[] Structs,
     ParEnum[] Enums);
