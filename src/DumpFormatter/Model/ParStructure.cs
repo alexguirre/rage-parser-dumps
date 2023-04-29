@@ -36,18 +36,13 @@ internal readonly record struct ParStructureBase(
 
 internal record ParStructure(
     Name Name,
-    string? NameStr,
     ParStructureBase? Base,
     ulong Size,
     ulong Align,
     ParStructureFlags Flags,
     ParStructureVersion Version,
     ImmutableArray<ParMember> Members,
-    ImmutableArray<string> MemberNames,
     ParAttributeList? ExtraAttributes,
     ParStructureFactories Factories,
     Pointer? GetStructureCB,
-    Dictionary<string, Pointer>? Callbacks)
-{
-    public string GetName() => NameStr ?? Name.ToString();
-}
+    Dictionary<string, Pointer>? Callbacks);

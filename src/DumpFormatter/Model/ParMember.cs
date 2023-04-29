@@ -112,6 +112,11 @@ internal enum ParMemberSubtype
 
     // parMemberGuidSubtype
     _0xDF7EBE85,
+
+    // unknown subtypes from GTA4
+    _UNKNOWN_2,
+    _UNKNOWN_5,
+    _UNKNOWN_6
 }
 
 [JsonConverter(typeof(ParMemberConverter))]

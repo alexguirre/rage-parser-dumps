@@ -9,11 +9,11 @@ internal class PlainTextFormatter : IDumpFormatter
 {
     public virtual void Format(TextWriter writer, ParDump dump)
     {
-        foreach (var s in dump.Structs.OrderBy(s => s.Name.ToString()))
+        foreach (var s in dump.Structs.OrderBy(s => s.Name.ToFormattedString()))
         {
             FormatStruct(writer, s);
         }
-        foreach (var e in dump.Enums.OrderBy(s => s.Name.ToString()))
+        foreach (var e in dump.Enums.OrderBy(s => s.Name.ToFormattedString()))
         {
             FormatEnum(writer, e);
         }
@@ -21,7 +21,7 @@ internal class PlainTextFormatter : IDumpFormatter
 
     protected virtual void FormatStruct(TextWriter w, ParStructure s)
     {
-        w.Write($"struct {s.NameStr ?? s.Name.ToString()}");
+        w.Write($"struct {s.Name.ToFormattedString()}");
         if (s.Base != null)
         {
             w.Write($" : {s.Base.Value.Name}");
@@ -29,13 +29,12 @@ internal class PlainTextFormatter : IDumpFormatter
         w.WriteLine();
         w.WriteLine("{");
         var (paddingBetweenTypeAndName, paddingBetweenNameAndComment) = CalculatePaddingForMembers(s);
-        var memberNames = s.MemberNames;
         var membersOrdered = s.Members.Select((m, i) => (Member: m, Index: i)).OrderBy(m => m.Member.Offset).ToArray();
         var membersSB = new StringBuilder();
         for (int i = 0; i < membersOrdered.Length; i++)
         {
             var member = membersOrdered[i].Member;
-            var name = !memberNames.IsDefaultOrEmpty ? memberNames[membersOrdered[i].Index] : member.Name.ToString();
+            var name = member.Name.ToFormattedString();
 
             membersSB.Append('\t');
             FormatMemberType(membersSB, member, out var typeLength);
@@ -56,13 +55,10 @@ internal class PlainTextFormatter : IDumpFormatter
     {
         w.WriteLine($"enum {e.Name}");
         w.WriteLine("{");
-        var valueNames = e.ValueNames;
         for (int i = 0; i < e.Values.Length; i++)
         {
             var value = e.Values[i];
-            var name = !valueNames.IsDefaultOrEmpty ? valueNames[i] : value.Name.ToString();
-
-            w.WriteLine($"\t{name} = {value.Value},");
+            w.WriteLine($"\t{value.Name.ToFormattedString()} = {value.Value},");
         }
         w.WriteLine("};");
         w.WriteLine();
@@ -85,7 +81,7 @@ internal class PlainTextFormatter : IDumpFormatter
                 paddingBetweenTypeAndName = typeLength + 4;
             }
 
-            var name = !s.MemberNames.IsDefaultOrEmpty ? s.MemberNames[i] : m.Name.ToString();
+            var name = m.Name.ToFormattedString();
             if (name.Length > (paddingBetweenNameAndComment - 4))
             {
                 paddingBetweenNameAndComment = name.Length + 4;
@@ -109,15 +105,15 @@ internal class PlainTextFormatter : IDumpFormatter
                 case ParMemberType.STRUCT:
                     sb.Append(' ');
                     var structName = ((ParMemberStruct)m).StructName;
-                    sb.Append(structName?.ToString() ?? "void");
+                    sb.Append(structName?.ToFormattedString() ?? "void");
                     break;
                 case ParMemberType.ENUM:
                     sb.Append(' ');
-                    sb.Append(((ParMemberEnum)m).EnumName.ToString());
+                    sb.Append(((ParMemberEnum)m).EnumName.ToFormattedString());
                     break;
                 case ParMemberType.BITSET:
                     sb.Append("<enum ");
-                    sb.Append(((ParMemberEnum)m).EnumName.ToString());
+                    sb.Append(((ParMemberEnum)m).EnumName.ToFormattedString());
                     sb.Append('>');
                     break;
                 case ParMemberType.ARRAY:

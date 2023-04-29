@@ -5,7 +5,7 @@
 #include <charconv>
 
 JsonWriter::JsonWriter(std::string_view filePath)
-	: _indent{ 0 }, _out{ std::string{ filePath } }, _skipComma{ true }
+	: _indent{ 0 }, _out{ std::string{ filePath }, std::ios::out | std::ios::binary }, _skipComma{ true }, _first{ true }
 {
 }
 
@@ -92,6 +92,13 @@ void JsonWriter::WriteKey(std::optional<std::string_view> key)
 
 void JsonWriter::NextLine(bool addComma)
 {
+	if (_first)
+	{
+		// prevent empty new-line at the start
+		_first = false;
+		return;
+	}
+
 	if (!_skipComma && addComma)
 	{
 		_out << ',';

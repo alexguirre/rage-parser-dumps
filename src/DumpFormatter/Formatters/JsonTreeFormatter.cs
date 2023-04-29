@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Xml.Linq;
 
 namespace DumpFormatter.Formatters;
 
@@ -35,11 +36,11 @@ internal class JsonTreeFormatter : IDumpFormatter
         var structsRoot = new StructNode() { Name = "__root", Children = new() };
         var enums = new List<Node>();
         var nodeDict = new Dictionary<uint, StructNode>();
-        foreach (var s in dump.Structs.OrderBy(s => s.Name.ToString()))
+        foreach (var s in dump.Structs.OrderBy(s => s.Name.ToFormattedString()))
         {
             addStructToTree(s);
         }
-        foreach (var e in dump.Enums.OrderBy(s => s.Name.ToString()))
+        foreach (var e in dump.Enums.OrderBy(s => s.Name.ToFormattedString()))
         {
             addEnumToTree(e);
         }
@@ -64,7 +65,7 @@ internal class JsonTreeFormatter : IDumpFormatter
 
                 var node = new StructNode
                 {
-                    Name = structure.GetName(),
+                    Name = structure.Name.ToFormattedString(),
                     Size = structure.Size,
                     Align = structure.Align,
                     Version = structure.Version != new ParStructureVersion(0, 0) ? structure.Version : null,
@@ -84,7 +85,7 @@ internal class JsonTreeFormatter : IDumpFormatter
         {
             var node = new Node
             {
-                Name = e.Name.ToString(),
+                Name = e.Name.ToFormattedString(),
                 Markup = GetEnumMarkup(dump, e),
                 Usage = GetEnumUsage(dump, e),
             };
@@ -95,11 +96,10 @@ internal class JsonTreeFormatter : IDumpFormatter
 
     private static List<Field>? GetStructFields(ParDump dump, ParStructure structure)
     {
-        var names = structure.MemberNames;
         return structure.Members.IsDefaultOrEmpty ?
                 null :
                 structure.Members
-                         .Select((m, i) => new Field(!names.IsDefaultOrEmpty ? names[i] : m.Name.ToString(), m.Offset, m.Size, m.Align, m.Type, m.Subtype))
+                         .Select((m, i) => new Field(m.Name.ToFormattedString(), m.Offset, m.Size, m.Align, m.Type, m.Subtype))
                          .ToList();
     }
 
@@ -113,7 +113,7 @@ internal class JsonTreeFormatter : IDumpFormatter
                 if (((ParMemberStruct)m).StructName == structure.Name)
                 {
                     usage ??= new();
-                    usage.Add(s.NameStr ?? s.Name.ToString());
+                    usage.Add(s.Name.ToFormattedString());
                     return true;
                 }
             }
@@ -154,7 +154,7 @@ internal class JsonTreeFormatter : IDumpFormatter
                 if (((ParMemberEnum)m).EnumName == e.Name)
                 {
                     usage ??= new();
-                    usage.Add(s.NameStr ?? s.Name.ToString());
+                    usage.Add(s.Name.ToFormattedString());
                     return true;
                 }
             }
@@ -188,24 +188,21 @@ internal class JsonTreeFormatter : IDumpFormatter
     public string GetStructMarkup(ParDump dump, ParStructure s)
     {
         var sb = new StringBuilder();
-        sb.Append($"{Keyword("struct")} ={Type(s.NameStr ?? s.Name.ToString())}");
+        sb.Append($"{Keyword("struct")} ={Type(s.Name.ToFormattedString())}");
         if (s.Base != null)
         {
-            sb.Append($" : {Type(s.Base.Value.Name.ToString())}");
+            sb.Append($" : {Type(s.Base.Value.Name.ToFormattedString())}");
         }
         sb.AppendLine();
         sb.AppendLine("{");
-        var memberNames = s.MemberNames;
         var membersOrdered = s.Members.Select((m, i) => (Member: m, Index: i)).OrderBy(m => m.Member.Offset).ToArray();
         for (int i = 0; i < membersOrdered.Length; i++)
         {
             var member = membersOrdered[i].Member;
-            var name = !memberNames.IsDefaultOrEmpty ? memberNames[membersOrdered[i].Index] : member.Name.ToString();
-
             sb.Append('\t');
             FormatMemberType(sb, member);
             sb.Append(' ');
-            sb.Append(name);
+            sb.Append(member.Name.ToFormattedString());
             sb.Append(';');
             sb.AppendLine();
         }
@@ -224,7 +221,7 @@ internal class JsonTreeFormatter : IDumpFormatter
                     case ParMemberType.STRUCT:
                         sb.Append(' ');
                         var structName = ((ParMemberStruct)m).StructName;
-                        sb.Append(structName != null ? Type(structName.Value.ToString()) : Keyword("void"));
+                        sb.Append(structName != null ? Type(structName.Value.ToFormattedString()) : Keyword("void"));
                         if (m.Subtype != ParMemberSubtype.STRUCTURE)
                         {
                             sb.Append("*");
@@ -232,13 +229,13 @@ internal class JsonTreeFormatter : IDumpFormatter
                         break;
                     case ParMemberType.ENUM:
                         sb.Append(' ');
-                        sb.Append(Type(((ParMemberEnum)m).EnumName.ToString()));
+                        sb.Append(Type(((ParMemberEnum)m).EnumName.ToFormattedString()));
                         break;
                     case ParMemberType.BITSET:
                         sb.Append('<');
                         sb.Append(Keyword("enum"));
                         sb.Append(' ');
-                        sb.Append(Type(((ParMemberEnum)m).EnumName.ToString()));
+                        sb.Append(Type(((ParMemberEnum)m).EnumName.ToFormattedString()));
                         sb.Append('>');
                         break;
                     case ParMemberType.ARRAY:
@@ -309,15 +306,12 @@ internal class JsonTreeFormatter : IDumpFormatter
     public string GetEnumMarkup(ParDump dump, ParEnum e)
     {
         var sb = new StringBuilder();
-        sb.AppendLine($"{Keyword("enum")} ={Type(e.Name.ToString())}");
+        sb.AppendLine($"{Keyword("enum")} ={Type(e.Name.ToFormattedString())}");
         sb.AppendLine("{");
-        var valueNames = e.ValueNames;
         for (int i = 0; i < e.Values.Length; i++)
         {
             var value = e.Values[i];
-            var name = !valueNames.IsDefaultOrEmpty ? valueNames[i] : value.Name.ToString();
-
-            sb.AppendLine($"\t{name} = {value.Value},");
+            sb.AppendLine($"\t{value.Name.ToFormattedString()} = {value.Value},");
         }
         sb.AppendLine("};");
         return sb.ToString();
@@ -337,7 +331,7 @@ internal class JsonTreeFormatter : IDumpFormatter
         {
             Debug.Assert(sb != null);
 
-            elementName ??= s.GetName();
+            elementName ??= s.Name.ToFormattedString();
 
             Indent();
             depth++;
@@ -354,7 +348,7 @@ internal class JsonTreeFormatter : IDumpFormatter
             sb.Append($"<{elementName}");
             if (addTypeAttribute)
             {
-                sb.Append($" {Attr("type")}={Str(s.GetName())}");
+                sb.Append($" {Attr("type")}={Str(s.Name.ToFormattedString())}");
             }
             sb.AppendLine(">");
             foreach (var m in members)
@@ -478,12 +472,12 @@ internal class JsonTreeFormatter : IDumpFormatter
                             else
                             {
                                 Debug.Assert(struc != null);
-                                Struct(struc, m.Name.ToString(), addTypeAttribute: true); // TODO: do SIMPLE_POINTERs include the type attribute?
+                                Struct(struc, m.Name.ToFormattedString(), addTypeAttribute: true); // TODO: do SIMPLE_POINTERs include the type attribute?
                             }
                             break;
                         default:
                             Debug.Assert(struc != null);
-                            Struct(struc, m.Name.ToString());
+                            Struct(struc, m.Name.ToFormattedString());
                             break;
                     }
                     break;
