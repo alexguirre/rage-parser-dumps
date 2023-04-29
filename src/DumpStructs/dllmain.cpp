@@ -89,10 +89,11 @@ static void FindParManager()
 	spdlog::info("parManager::sm_Instance = {}", (void*)parManager::sm_Instance);
 }
 
-static void InitParManager()
+static void SetAllocatorInTls()
 {
 #if RDR3
 
+	
 #elif GTA5
 	uintptr_t theAllocatorAddr = hook::get_address<uintptr_t>(hook::get_pattern("48 8D 1D ? ? ? ? A8 08 75 1D 83 C8 08 48 8B CB", 3));
 
@@ -103,6 +104,29 @@ static void InitParManager()
 	*(uintptr_t*)(tls + 200) = theAllocatorAddr;
 	*(uintptr_t*)(tls + 192) = theAllocatorAddr;
 	*(uintptr_t*)(tls + 184) = theAllocatorAddr;
+#elif GTA4
+	uint8_t* addr = hook::get_pattern<uint8_t>("8B 00 C7 40 ? ? ? ? ? C7 40 ? ? ? ? ? 8B E5 5D");
+	uintptr_t theAllocatorAddr = *(uintptr_t*)(addr + 5);
+	int offset1 = *(addr + 4);
+	int offset2 = *(addr + 11);
+
+	spdlog::info("rage::s_TheAllocator            = {}", (void*)theAllocatorAddr);
+	spdlog::info("rage::s_TheAllocator::__vftable = {}", *(void**)theAllocatorAddr);
+	spdlog::info("offset1                         = 0x{:X}", offset1);
+	spdlog::info("offset2                         = 0x{:X}", offset2);
+
+	uintptr_t tls = *(uintptr_t*)__readfsdword(0x2C);
+	*(uintptr_t*)(tls + offset1) = theAllocatorAddr;
+	*(uintptr_t*)(tls + offset2) = theAllocatorAddr;
+#endif
+}
+
+static void InitParManager()
+{
+#if RDR3
+
+#elif GTA5
+	SetAllocatorInTls();
 
 	// function that loads "common:/data/TVPlaylists", but before it initiliazes parManager if it is not initialized
 	using Fn = bool (*)(void*);
@@ -124,6 +148,17 @@ static void InitParManager()
 #endif
 
 	spdlog::info("*parManager::sm_Instance = {}", (void*)*parManager::sm_Instance); spdlog::default_logger()->flush();
+}
+
+static void PreDump()
+{
+#if GTA4
+	SetAllocatorInTls();
+
+	// call function that registers some more parStructures that are not included in parCguAutoRegistrationNode
+	auto func = (bool (*)())hook::get_pattern("51 80 3D ? ? ? ? ? 53 56 0F 85 ? ? ? ? A1 ? ? ? ? 64 8B 35");
+	func();
+#endif
 }
 
 static std::string GetDumpBaseName()
@@ -752,6 +787,8 @@ static DWORD WINAPI Main()
 			return 0;
 		}
 	}
+
+	PreDump();
 
 	DumpJson(*parManager::sm_Instance);
 	return 0;

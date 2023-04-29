@@ -96,7 +96,7 @@ enum class parMemberArraySubtype
 	ATRANGEARRAY = 2,
 	POINTER = 3,
 	MEMBER = 4,
-	_UNKNOWN_5 = 5,	// unused, struct { void *begin, *end }; maybe?
+	_UNKNOWN_5 = 5,	// struct { void *begin, *end }; maybe?
 	_UNKNOWN_6 = 6, // unused
 	_0x2087BB00 = 7, // unused, 32-bit atArray
 };
