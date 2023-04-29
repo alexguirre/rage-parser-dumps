@@ -1,4 +1,6 @@
 #pragma once
+#if RDR3 || GTA5
+
 #include <cstdint>
 #include <string>
 #include <Windows.h>
@@ -468,3 +470,4 @@ const char* EnumToString(parAttribute::Type type);
 std::string FlagsToString(parEnumFlags flags);
 std::string FlagsToString(parStructure::Flags flags);
 std::string FlagsToString(parMemberArrayData::AllocFlags flags);
+#endif // RDR3 || GTA5

@@ -328,3 +328,10 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+Release-RDR3/
+Release-GTA5/
+Release-GTA4/
+Debug-RDR3/
+Debug-GTA5/
+Debug-GTA4/

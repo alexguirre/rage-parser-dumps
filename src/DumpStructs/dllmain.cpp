@@ -12,6 +12,8 @@
 #include <format>
 
 #include "rage.h"
+#include "rage_gta4.h"
+
 #include "JsonWriter.h"
 
 constexpr uint32_t joaat_literal(const char* text)
@@ -35,13 +37,15 @@ constexpr uint32_t joaat_literal(const char* text)
 	return hash;
 }
 
-static uint16_t GetGameBuild()
+static std::tuple<uint16_t, uint16_t, uint16_t, uint16_t> GetGameBuild()
 {
 	const char* exeName =
 #if RDR3
 		"RDR2.exe";
-#else
+#elif GTA5
 		"GTA5.exe";
+#elif GTA4
+		"GTAIV.exe";
 #endif
 
 	DWORD verHandle;
@@ -59,13 +63,17 @@ static uint16_t GetGameBuild()
 
 				if (verInfo->dwSignature == 0xFEEF04BD)
 				{
-					return (verInfo->dwFileVersionLS >> 16) & 0xFFFF;
+					const auto major = (verInfo->dwFileVersionMS >> 16) & 0xFFFF;
+					const auto minor = verInfo->dwFileVersionMS & 0xFFFF;
+					const auto build = (verInfo->dwFileVersionLS >> 16) & 0xFFFF;
+					const auto revision = verInfo->dwFileVersionLS & 0xFFFF;
+					return { major, minor, build, revision };
 				}
 			}
 		}
 	}
 
-	return 0xFFFF;
+	return { 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF };
 }
 
 static void FindParManager()
@@ -73,8 +81,10 @@ static void FindParManager()
 	spdlog::info("Searching parManager::sm_Instance...");
 #if RDR3
 	parManager::sm_Instance = hook::get_address<parManager**>(hook::get_pattern("48 8B 0D ? ? ? ? E8 ? ? ? ? 84 C0 74 29 48 8B 1D", 3));
-#else
+#elif GTA5
 	parManager::sm_Instance = hook::get_address<parManager**>(hook::get_pattern("48 8B 0D ? ? ? ? 4C 89 74 24 ? 45 33 C0 48 8B D7 C6 44 24 ? ?", 3));
+#elif GTA4
+	parManager::sm_Instance = *hook::get_pattern<parManager**>("A1 ? ? ? ? 8B 58 28 C1 EB 11 80 E3 01 74 1D", 1);
 #endif
 	spdlog::info("parManager::sm_Instance = {}", (void*)parManager::sm_Instance);
 }
@@ -83,7 +93,7 @@ static void InitParManager()
 {
 #if RDR3
 
-#else
+#elif GTA5
 	uintptr_t theAllocatorAddr = hook::get_address<uintptr_t>(hook::get_pattern("48 8D 1D ? ? ? ? A8 08 75 1D 83 C8 08 48 8B CB", 3));
 
 	spdlog::info("rage::s_TheAllocator            = {}", (void*)theAllocatorAddr);
@@ -109,6 +119,8 @@ static void InitParManager()
 	patchAddr[6] = 0x90; // nop
 
 	((Fn)addr)(nullptr);
+#elif GTA4
+
 #endif
 
 	spdlog::info("*parManager::sm_Instance = {}", (void*)*parManager::sm_Instance); spdlog::default_logger()->flush();
@@ -118,16 +130,25 @@ static std::string GetDumpBaseName()
 {
 	std::string baseName = "dump";
 
-	auto build = GetGameBuild();
+	auto [major, minor, build, revision] = GetGameBuild();
+#if RDR3 || GTA5
 	if (build != 0xFFFF)
 	{
 		baseName = std::format("b{}", build);
 	}
+#elif GTA4
+	if (major != 0xFFFF)
+	{
+		baseName = std::format("b{}.{}.{}.{}", major, minor, build, revision);
+	}
+#endif
 
 	return baseName;
 }
 
+#if RDR3 || GTA5
 static std::unordered_map<parStructure*, parStructureStaticData*> structureToStaticData;
+#endif
 
 struct CollectResult
 {
@@ -152,10 +173,16 @@ static CollectResult CollectStructs(parManager* parMgr)
 		auto* entry = parMgr->structures.Buckets[i];
 		while (entry != nullptr)
 		{
+#if RDR3 || GTA5
 			parStructure* s = entry->value;
+#elif GTA4
+			parStructure* s = *entry->value;
+#endif
 
 			structs.push_back(s);
 
+			// no enums used in GTA4
+#if RDR3 || GTA5
 			for (ptrdiff_t j = 0; j < s->members.Count; j++)
 			{
 				parMember* m = s->members.Items[j];
@@ -187,6 +214,7 @@ static CollectResult CollectStructs(parManager* parMgr)
 					}
 				}
 			}
+#endif
 
 			entry = entry->next;
 		}
@@ -195,6 +223,7 @@ static CollectResult CollectStructs(parManager* parMgr)
 	return { std::move(structs), std::move(enums) };
 }
 
+#if RDR3 || GTA5
 static void DumpJsonAttributeList(JsonWriter& w, std::optional<std::string_view> key, parAttributeList* attributes)
 {
 	w.BeginObject(key);
@@ -226,6 +255,7 @@ static void DumpJsonAttributeList(JsonWriter& w, std::optional<std::string_view>
 	w.EndArray();
 	w.EndObject();
 }
+#endif
 
 static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, parMember* member)
 {
@@ -237,22 +267,33 @@ static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, p
 
 	auto* m = member->data;
 	w.BeginObject(key);
+#if RDR3 || GTA5
 	w.UInt("name", m->name, json_uint_hex);
+#elif GTA4
+	w.String("name", m->name);
+#endif
 	w.UInt("offset", m->offset, json_uint_dec);
 	w.UInt("size", member->GetSize(), json_uint_dec);
 	w.UInt("align", member->FindAlign(), json_uint_dec);
 	w.UInt("flags1", m->flags1, json_uint_hex);
 	w.UInt("flags2", m->flags2, json_uint_hex);
-	if (m->extraData != 0 && m->type != parMemberType::ARRAY && m->type != parMemberType::STRING)
+#if RDR3 || GTA5
+	const bool usesExtraData = m->type == parMemberType::ARRAY || m->type == parMemberType::STRING;
+#elif GTA4
+	const bool usesExtraData = false;
+#endif
+	if (m->extraData != 0 && !usesExtraData)
 	{
 		w.UInt("extraData", m->extraData, json_uint_hex);
 	}
 	w.String("type", EnumToString(m->type));
 	w.String("subtype", SubtypeToStr(m->type, m->subType));
+#if RDR3 || GTA5
 	if (m->attributes != nullptr)
 	{
 		DumpJsonAttributeList(w, "attributes", m->attributes);
 	}
+#endif
 	switch (m->type)
 	{
 	case parMemberType::STRUCT:
@@ -260,7 +301,11 @@ static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, p
 		auto* structData = static_cast<parMemberStructData*>(m);
 		if (structData->structure != nullptr)
 		{
+#if RDR3 || GTA5
 			w.UInt("structName", structData->structure->name, json_uint_hex);
+#elif GTA4
+			w.String("structName", structData->structure->name);
+#endif
 		}
 		else
 		{
@@ -290,10 +335,12 @@ static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, p
 		//{
 		//	w.UInt("virtualCallbackFunc", (uintptr_t)arrayData->virtualCallback->func - (uintptr_t)GetModuleHandle(NULL), json_uint_hex);
 		//}
+#if RDR3 || GTA5
 		if (arrayData->GetAllocFlags() != parMemberArrayData::AllocFlags(0))
 		{
 			w.String("allocFlags", FlagsToString(arrayData->GetAllocFlags()));
 		}
+#endif
 		switch (static_cast<parMemberArraySubtype>(m->subType))
 		{
 		case parMemberArraySubtype::ATARRAY:
@@ -304,25 +351,37 @@ static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, p
 		case parMemberArraySubtype::ATRANGEARRAY:
 		case parMemberArraySubtype::POINTER:
 		case parMemberArraySubtype::MEMBER:
+#if RDR3 || GTA5
 		case parMemberArraySubtype::VIRTUAL:
+#endif
 			w.UInt("arraySize", arrayData->arraySize, json_uint_dec);
 			break;
+#if RDR3 || GTA5
 		case parMemberArraySubtype::POINTER_WITH_COUNT:
 		case parMemberArraySubtype::POINTER_WITH_COUNT_8BIT_IDX:
 		case parMemberArraySubtype::POINTER_WITH_COUNT_16BIT_IDX:
 			w.UInt("countOffset", arrayData->countOffset, json_uint_hex);
 			break;
+#endif
 		}
 	}
 	break;
 	case parMemberType::ENUM:
+#if RDR3 || GTA5
 	case parMemberType::BITSET:
+#endif
 	{
 		auto* enumData = static_cast<parMemberEnumData*>(m);
+#if RDR3 || GTA5
 		w.UInt("enumName", enumData->enumData->name, json_uint_hex);
+#elif GTA4
+		// ENUM not used in GTA4
+		w.UInt("enumName", 0xDEADBEEF, json_uint_hex);
+#endif
 		w.Int("initValue", enumData->initValue);
 	}
 	break;
+#if RDR3 || GTA5
 	case parMemberType::MAP:
 	{
 		auto* map = static_cast<parMemberMap*>(member);
@@ -339,22 +398,29 @@ static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, p
 		}
 	}
 	break;
+#endif
 	case parMemberType::STRING:
 	{
 		auto* stringData = static_cast<parMemberStringData*>(m);
 		switch (static_cast<parMemberStringSubtype>(m->subType))
 		{
 		case parMemberStringSubtype::MEMBER:
+#if RDR3 || GTA5
 		case parMemberStringSubtype::WIDE_MEMBER:
+#endif
 			w.UInt("memberSize", stringData->memberSize, json_uint_dec);
 			break;
+#if RDR3 || GTA5
 		case parMemberStringSubtype::ATNSHASHSTRING:
 		case parMemberStringSubtype::ATNSHASHVALUE:
 			w.UInt("namespaceIndex", stringData->GetNamespaceIndex(), json_uint_dec);
 			break;
+#endif
 		}
 	}
 	break;
+	// MATRIX34/44 not used in GTA4 (and initValues doesn't exist in GTA4, hardcoded to the identity matrix)
+#if RDR3 || GTA5
 	case parMemberType::MATRIX34:
 	case parMemberType::MATRIX44:
 	case parMemberType::MAT33V:
@@ -370,9 +436,11 @@ static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, p
 		w.EndArray();
 	}
 	break;
+#endif
 	case parMemberType::VECTOR2:
 	case parMemberType::VECTOR3:
 	case parMemberType::VECTOR4:
+#if RDR3 || GTA5
 	case parMemberType::VEC2V:
 	case parMemberType::VEC3V:
 	case parMemberType::VEC4V:
@@ -380,6 +448,7 @@ static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, p
 #if RDR3
 	case parMemberType::VEC2F:
 	case parMemberType::QUATV:
+#endif
 #endif
 	{
 		auto* vecData = static_cast<parMemberVectorData*>(m);
@@ -399,6 +468,7 @@ static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, p
 	case parMemberType::INT:
 	case parMemberType::UINT:
 	case parMemberType::FLOAT:
+#if RDR3 || GTA5
 	case parMemberType::SCALARV:
 	case parMemberType::BOOLV:
 	case parMemberType::PTRDIFFT:
@@ -407,6 +477,7 @@ static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, p
 	case parMemberType::INT64:
 	case parMemberType::UINT64:
 	case parMemberType::DOUBLE:
+#endif
 	{
 		auto* simpleData = static_cast<parMemberSimpleData*>(m);
 #if RDR3
@@ -428,24 +499,39 @@ static void DumpJsonStructure(JsonWriter& w, std::optional<std::string_view> key
 		return;
 	}
 
+#if RDR3 || GTA5
 	auto* d = structureToStaticData[s];
+#endif
+
 	w.BeginObject(key);
 	{
-		w.UInt("name", s->name, json_uint_hex);
+#if RDR3 || GTA5
+		w.UInt("name", s->baseStructure->name, json_uint_hex);
 		if (d->nameStr != nullptr)
 		{
 			w.String("nameStr", d->nameStr);
 		}
+#elif GTA4
+		w.String("name", s->name);
+#endif
 		if (s->baseStructure != nullptr)
 		{
 			w.BeginObject("base");
+#if RDR3 || GTA5
 			w.UInt("name", s->baseStructure->name, json_uint_hex);
+#elif GTA4
+			w.String("name", s->baseStructure->name);
+#endif
 			w.UInt("offset", s->baseOffset, json_uint_dec);
 			w.EndObject();
 		}
 		w.UInt("size", s->structureSize, json_uint_dec);
 		w.UInt("align", s->FindAlign(), json_uint_dec);
+#if RDR3 || GTA5
 		w.String("flags", FlagsToString(s->flags));
+#elif GTA4
+		w.String("flags", "");
+#endif
 		w.String("version", std::format("{}.{}", s->versionMajor, s->versionMinor));
 		w.BeginArray("members");
 		for (size_t i = 0; i < s->members.Count; i++)
@@ -454,6 +540,8 @@ static void DumpJsonStructure(JsonWriter& w, std::optional<std::string_view> key
 			DumpJsonMember(w, std::nullopt, m);
 		}
 		w.EndArray();
+// TODO(GTA4): memberNames? possibly replace hash in name with the string in memberNames if it exists. Would need to update all the dumps
+#if RDR3 || GTA5
 		if (d->memberNames != nullptr)
 		{
 			w.BeginArray("memberNames");
@@ -464,11 +552,14 @@ static void DumpJsonStructure(JsonWriter& w, std::optional<std::string_view> key
 			}
 			w.EndArray();
 		}
-
+#endif
+		
+#if RDR3 || GTA5
 		if (s->extraAttributes != nullptr)
 		{
 			DumpJsonAttributeList(w, "extraAttributes", s->extraAttributes);
 		}
+#endif
 
 		w.BeginObject("factories");
 		if (s->factoryNew.func != nullptr)
@@ -479,6 +570,7 @@ static void DumpJsonStructure(JsonWriter& w, std::optional<std::string_view> key
 		{
 			w.Null("new");
 		}
+#if RDR3 || GTA5
 		if (s->factoryPlacementNew.func != nullptr)
 		{
 			w.UInt("placementNew", (uintptr_t)s->factoryPlacementNew.func - (uintptr_t)GetModuleHandle(NULL), json_uint_hex_no_zero_pad);
@@ -495,6 +587,7 @@ static void DumpJsonStructure(JsonWriter& w, std::optional<std::string_view> key
 		{
 			w.Null("delete");
 		}
+#endif
 		w.EndObject();
 
 		if (s->getStructureCB.func != nullptr)
@@ -547,6 +640,8 @@ static void DumpJsonEnum(JsonWriter& w, std::optional<std::string_view> key, par
 	}
 
 	w.BeginObject(key);
+	// no enums used in GTA4
+#if RDR3 || GTA5
 	w.UInt("name", e->name, json_uint_hex);
 	w.String("flags", FlagsToString(e->flags));
 	w.BeginArray("values");
@@ -569,6 +664,7 @@ static void DumpJsonEnum(JsonWriter& w, std::optional<std::string_view> key, par
 		}
 		w.EndArray();
 	}
+#endif
 	w.EndObject();
 }
 
@@ -584,10 +680,13 @@ static void DumpJson(parManager* parMgr)
 	w.BeginObject();
 #if RDR3
 	w.String("game", "rdr3");
-#else
+#elif GTA5
 	w.String("game", "gta5");
+#elif GTA4
+	w.String("game", "gta4");
 #endif
-	w.UInt("build", GetGameBuild(), json_uint_dec);
+	auto [major, minor, build, revision] = GetGameBuild();
+	w.String("build", std::format("{}.{}.{}.{}", major, minor, build, revision));
 	w.BeginArray("structs");
 	for (parStructure* s : structs)
 	{
@@ -603,6 +702,8 @@ static void DumpJson(parManager* parMgr)
 	w.EndObject();
 }
 
+
+#if RDR3 || GTA5
 static void(*rage__parStructure__BuildStructureFromStaticData_orig)(parStructure* This, parStructureStaticData* staticData);
 static void rage__parStructure__BuildStructureFromStaticData_detour(parStructure* This, parStructureStaticData* staticData)
 {
@@ -610,29 +711,33 @@ static void rage__parStructure__BuildStructureFromStaticData_detour(parStructure
 	
 	rage__parStructure__BuildStructureFromStaticData_orig(This, staticData);
 }
+#endif
 
 static DWORD WINAPI Main()
 {
 	spdlog::set_default_logger(spdlog::basic_logger_mt("file_logger", "DumpStructs.log"));
 	spdlog::info("Initializing...");
-
+	
+#if RDR3 || GTA5
 	void* rage__parStructure__BuildStructureFromStaticData =
 #if RDR3
 		hook::get_pattern("89 41 30 41 BF ? ? ? ? 4D 85 F6 74 58", -0x24);
-#else
+#elif GTA5
 		hook::get_pattern("48 8B 05 ? ? ? ? 48 83 7A ? ? 48 8B FA 44 8A 60 5C 8B 02", -0x1D);
 #endif
 
 	MH_Initialize();
 	MH_CreateHook(rage__parStructure__BuildStructureFromStaticData, &rage__parStructure__BuildStructureFromStaticData_detour, (void**)&rage__parStructure__BuildStructureFromStaticData_orig);
 	MH_EnableHook(MH_ALL_HOOKS);
+#endif
 
 	FindParManager();
 
-	spdlog::info("Initialization finished");
+	spdlog::info("Initialization finished");spdlog::default_logger()->flush();
 
 	Sleep(25'000);
-
+	
+	spdlog::info("*parManager::sm_Instance = {}", (void*)*parManager::sm_Instance); spdlog::default_logger()->flush();
 	if (*parManager::sm_Instance == nullptr)
 	{
 		spdlog::info("parManager::sm_Instance is null, initializing it");

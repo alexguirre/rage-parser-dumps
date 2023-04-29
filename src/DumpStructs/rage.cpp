@@ -1,3 +1,4 @@
+#if RDR3 || GTA5
 #include "rage.h"
 #include <Hooking.Patterns.h>
 
@@ -220,3 +221,4 @@ std::string FlagsToString(parMemberArrayData::AllocFlags flags)
 }
 
 #undef FLAG_APPEND
+#endif

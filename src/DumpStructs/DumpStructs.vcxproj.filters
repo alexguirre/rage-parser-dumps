@@ -23,6 +23,8 @@
     </ClCompile>
     <ClCompile Include="JsonWriter.cpp" />
     <ClCompile Include="rage.cpp" />
+    <ClCompile Include="rage_gta4.h" />
+    <ClCompile Include="rage_gta4.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="dependencies">
