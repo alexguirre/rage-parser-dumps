@@ -1,7 +1,7 @@
 #pragma once
-#if GTA4
+#if MP3 || GTA4
 #ifndef WIN32
-#error GTA4 only supports 32-bit builds!
+#error MP3/GTA4 only supports 32-bit builds!
 #endif
 
 #include <cstdint>
@@ -89,6 +89,15 @@ enum class parMemberCommonSubtype
 	COLOR = 1, // used with UINT, VECTOR3
 };
 
+#if MP3
+enum class parMemberEnumSubtype
+{
+	_32BIT = 0,
+	_16BIT = 1,
+	_8BIT = 2,
+};
+#endif
+
 enum class parMemberArraySubtype
 {
 	ATARRAY = 0,
@@ -99,6 +108,11 @@ enum class parMemberArraySubtype
 	_UNKNOWN_5 = 5,	// struct { void *begin, *end }; maybe?
 	_UNKNOWN_6 = 6, // unused
 	_0x2087BB00 = 7, // unused, 32-bit atArray
+#if MP3
+	POINTER_WITH_COUNT = 8,
+	POINTER_WITH_COUNT_8BIT_IDX = 9,
+	POINTER_WITH_COUNT_16BIT_IDX = 10,
+#endif
 };
 
 enum class parMemberStringSubtype
@@ -107,6 +121,12 @@ enum class parMemberStringSubtype
 	POINTER = 1,
 	_UNKNOWN_2 = 2, // std::string?
 	CONST_STRING = 3,
+#if MP3
+	ATSTRING = 4,
+	WIDE_MEMBER = 5,
+	WIDE_POINTER = 6,
+	ATWIDESTRING = 7,
+#endif
 };
 
 enum class parMemberStructSubtype
@@ -128,6 +148,9 @@ struct parMemberCommonData
 	uint16_t flags1;
 	uint16_t flags2;
 	uint16_t extraData; // specific to parMemberCommonData derived types
+#if MP3
+	void *attributes;
+#endif
 };
 
 struct parMemberSimpleData : parMemberCommonData
@@ -138,6 +161,14 @@ struct parMemberSimpleData : parMemberCommonData
 struct parMemberVectorData : parMemberCommonData
 {
 	float initValues[4];
+};
+
+struct parMemberMatrixData : parMemberCommonData
+{
+	// GTA4 doesn't have initValues, parInitVisitor is hardcoded to the identity matrix
+#if MP3
+	float initValues[16];
+#endif
 };
 
 struct parMemberStringData : parMemberCommonData
@@ -157,10 +188,16 @@ struct parMemberStructData : parMemberCommonData
 	AllocateStructCallback allocateStruct;
 };
 
+struct parEnumValueData
+{
+	uint32_t name;
+	int32_t value;
+};
+
 struct parMemberEnumData : parMemberCommonData
 {
 	int32_t initValue;
-	int field_18;
+	parEnumValueData* values;
 	const char **valueNames;
 	uint32_t valueCount;
 };
@@ -203,16 +240,19 @@ struct parStructure
 	atArray<parMember*> members;
 	uint16_t versionMajor;
 	uint16_t versionMinor;
+#if MP3
+	void* extraAttributes; // TODO(MP3): verify this
+#endif
 	parDelegateHolderBase factoryNew;
+#if MP3
+	parDelegateHolderBase unknownDelegate; // always default function set in ctor
+#endif
 	parDelegateHolderBase getStructureCB;
 	atBinaryMap<uint32_t, parDelegateHolderBase*> callbacks;
 	bool bBatchAddingDelegates;
 
 	uint32_t FindAlign();
 };
-
-// parEnumData doesn't seem to exist in GTA4, declared here for code compatibility with RDR3/GTA5
-struct parEnumData {};
 
 struct parManager
 {
@@ -227,4 +267,4 @@ struct parManager
 std::string SubtypeToStr(parMemberType type, uint8_t subtype);
 
 const char* EnumToString(parMemberType type);
-#endif // GTA4
+#endif // GTA4 || MP3

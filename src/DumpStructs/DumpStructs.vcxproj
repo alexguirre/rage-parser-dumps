@@ -25,6 +25,14 @@
       <Configuration>Debug-GTA4</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug-MP3|Win32">
+      <Configuration>Debug-MP3</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug-MP3|x64">
+      <Configuration>Debug-MP3</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release-RDR3|Win32">
       <Configuration>Release-RDR3</Configuration>
       <Platform>Win32</Platform>
@@ -47,6 +55,14 @@
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release-GTA4|x64">
       <Configuration>Release-GTA4</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release-MP3|Win32">
+      <Configuration>Release-MP3</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release-MP3|x64">
+      <Configuration>Release-MP3</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
@@ -148,6 +164,11 @@
   <ItemDefinitionGroup Condition="$(Configuration.EndsWith(`GTA4`))">
     <ClCompile>
       <PreprocessorDefinitions>GTA4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="$(Configuration.EndsWith(`MP3`))">
+    <ClCompile>
+      <PreprocessorDefinitions>MP3;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
