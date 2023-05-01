@@ -297,11 +297,11 @@ static CollectResult CollectStructs(parManager* parMgr)
 	return { std::move(structs), std::move(enums) };
 }
 
-// TODO(MP3): attributelist
-#if RDR3 || GTA5
+#if RDR3 || GTA5 || MP3
 static void DumpJsonAttributeList(JsonWriter& w, std::optional<std::string_view> key, parAttributeList* attributes)
 {
 	w.BeginObject(key);
+#if RDR3 || GTA5
 	if (attributes->UserData1 != 0)
 	{
 		w.UInt("userData1", attributes->UserData1, json_uint_dec);
@@ -310,6 +310,7 @@ static void DumpJsonAttributeList(JsonWriter& w, std::optional<std::string_view>
 	{
 		w.UInt("userData2", attributes->UserData2, json_uint_dec);
 	}
+#endif
 	w.BeginArray("list");
 	auto& list = attributes->attributes;
 	for (size_t i = 0; i < list.Count; i++)
@@ -356,7 +357,9 @@ static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, p
 	}
 	w.UInt("offset", m->offset, json_uint_dec);
 	w.UInt("size", member->GetSize(), json_uint_dec);
+#if RDR3 || GTA5
 	w.UInt("align", member->FindAlign(), json_uint_dec);
+#endif
 	w.UInt("flags1", m->flags1, json_uint_hex);
 	w.UInt("flags2", m->flags2, json_uint_hex);
 #if RDR3 || GTA5
@@ -370,7 +373,7 @@ static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, p
 	}
 	w.String("type", EnumToString(m->type));
 	w.String("subtype", SubtypeToStr(m->type, m->subType));
-#if RDR3 || GTA5
+#if RDR3 || GTA5 || MP3
 	if (m->attributes != nullptr)
 	{
 		DumpJsonAttributeList(w, "attributes", m->attributes);
@@ -612,8 +615,8 @@ static void DumpJsonStructure(JsonWriter& w, std::optional<std::string_view> key
 			w.EndObject();
 		}
 		w.UInt("size", s->structureSize, json_uint_dec);
-		w.UInt("align", s->FindAlign(), json_uint_dec);
 #if RDR3 || GTA5
+		w.UInt("align", s->FindAlign(), json_uint_dec);
 		w.String("flags", FlagsToString(s->flags));
 #elif MP3 || GTA4
 		w.String("flags", "");
@@ -632,7 +635,7 @@ static void DumpJsonStructure(JsonWriter& w, std::optional<std::string_view> key
 		}
 		w.EndArray();
 		
-#if RDR3 || GTA5
+#if RDR3 || GTA5 || MP3
 		if (s->extraAttributes != nullptr)
 		{
 			DumpJsonAttributeList(w, "extraAttributes", s->extraAttributes);

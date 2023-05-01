@@ -4,23 +4,13 @@
 
 parManager** parManager::sm_Instance = nullptr;
 
-uint32_t parStructure::FindAlign()
-{
-	// TODO(GTA4): parStructure::FindAlign
-	return 0;
-}
-
+#if GTA4
 uint32_t parMember::GetSize()
 {
 	// TODO(GTA4): parMember::GetSize
 	return 0;
 }
-
-uint32_t parMember::FindAlign()
-{
-	// TODO(GTA4): parMember::FindAlign
-	return 0;
-}
+#endif
 
 std::string SubtypeToStr(parMemberType type, uint8_t subtype)
 {
@@ -110,6 +100,18 @@ const char* EnumToString(parMemberType type)
 	case parMemberType::ENUM: return "ENUM";
 	case parMemberType::MATRIX34: return "MATRIX34";
 	case parMemberType::MATRIX44: return "MATRIX44";
+	default: return "UNKNOWN";
+	}
+}
+
+const char* EnumToString(parAttribute::Type type)
+{
+	switch (type)
+	{
+	case parAttribute::Type::String: return "String";
+	case parAttribute::Type::Int64:  return "Int64";
+	case parAttribute::Type::Double: return "Double";
+	case parAttribute::Type::Bool:   return "Bool";
 	default: return "UNKNOWN";
 	}
 }

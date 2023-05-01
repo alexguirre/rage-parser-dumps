@@ -62,7 +62,51 @@ struct Func
   void *thunk;
 };
 
-enum class parMemberType : uint8_t // 0x1CA39C3D
+#if MP3
+struct parAttribute
+{
+	enum Type : uint8_t
+	{
+		String = 0,
+		Int64 = 1, // actually int32 and float, using int64/double for compatibility with RDR3/GTA5 dumps
+		Double = 2,
+		Bool = 3,
+	};
+
+	union Value
+	{
+		const char* asString;
+		int asInt64;
+		float asDouble;
+		bool asBool;
+	};
+
+	enum Flags : uint8_t
+	{
+		kOwnsNameString = 0x1,
+		kOwnsValueString = 0x2,
+	};
+
+	const char* name;
+	Value value;
+	Type type;
+	Flags flags;
+};
+
+
+struct parAttributeList
+{
+	enum Flags : uint16_t
+	{
+		kIsSorted = 0x1,
+	};
+
+	atArray<parAttribute> attributes;
+	Flags flags;
+};
+#endif
+
+enum class parMemberType : uint8_t
 {
 	BOOL = 0,
 	CHAR = 1,
@@ -149,7 +193,7 @@ struct parMemberCommonData
 	uint16_t flags2;
 	uint16_t extraData; // specific to parMemberCommonData derived types
 #if MP3
-	void *attributes;
+	parAttributeList* attributes;
 #endif
 };
 
@@ -219,10 +263,25 @@ struct parMember
 	parMemberCommonData* data;
 
 	virtual ~parMember() = 0;
-	//...
+#if MP3
+	virtual void ReadTreeNode(void* node, void* dest) = 0;
+	virtual void LoadExtraAttributes(void* node) = 0;
+	virtual uint32_t GetSize() = 0;
+#elif GTA4
+	virtual const char* GetName() = 0;
+	virtual int GetOffset() = 0;
+	virtual void SetOffset(uint32_t) = 0;
+	virtual uint16_t GetFlags1() = 0;
+	virtual uint16_t GetFlags2() = 0;
+	virtual uint16_t GetExtraData() = 0;
+	virtual parMemberType GetType() = 0;
+	virtual void ReadTreeNode(void *node, void *dest) = 0;
+	virtual void* AllocateStructForTreeNode(void *node, void *dest) = 0;
+	virtual uint32_t GetNameHash() = 0;
+	virtual uint8_t GetSubType() = 0;
 
 	uint32_t GetSize();
-	uint32_t FindAlign();
+#endif
 };
 
 struct parMemberArray : parMember
@@ -241,7 +300,7 @@ struct parStructure
 	uint16_t versionMajor;
 	uint16_t versionMinor;
 #if MP3
-	void* extraAttributes; // TODO(MP3): verify this
+	parAttributeList* extraAttributes;
 #endif
 	parDelegateHolderBase factoryNew;
 #if MP3
@@ -250,8 +309,6 @@ struct parStructure
 	parDelegateHolderBase getStructureCB;
 	atBinaryMap<uint32_t, parDelegateHolderBase*> callbacks;
 	bool bBatchAddingDelegates;
-
-	uint32_t FindAlign();
 };
 
 struct parManager
@@ -267,4 +324,5 @@ struct parManager
 std::string SubtypeToStr(parMemberType type, uint8_t subtype);
 
 const char* EnumToString(parMemberType type);
+const char* EnumToString(parAttribute::Type type);
 #endif // GTA4 || MP3
