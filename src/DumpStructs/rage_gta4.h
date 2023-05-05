@@ -244,6 +244,8 @@ struct parMemberEnumData : parMemberCommonData
 	parEnumValueData* values;
 	const char **valueNames;
 	uint32_t valueCount;
+
+	bool hasSameEnum(const parMemberEnumData* other) const;
 };
 
 struct parMemberArrayData : parMemberCommonData

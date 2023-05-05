@@ -12,6 +12,11 @@ uint32_t parMember::GetSize()
 }
 #endif
 
+bool parMemberEnumData::hasSameEnum(const parMemberEnumData* other) const
+{
+	return values == other->values && valueNames == other->valueNames && valueCount == other->valueCount;
+}
+
 std::string SubtypeToStr(parMemberType type, uint8_t subtype)
 {
 	switch (type)

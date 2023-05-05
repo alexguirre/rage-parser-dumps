@@ -191,20 +191,8 @@ static std::string GetDumpBaseName()
 
 #if MP3 || GTA4
 // parEnumData doesn't exist in GTA4/MP3 (info included in parMemberEnumData instead)
-struct FakeParEnumData
-{
-	parEnumValueData* values;
-	const char** valueNames;
-	uint32_t valueCount;
-	std::string name;
-
-	FakeParEnumData(parMemberEnumData* data)
-		: values{ data->values }, valueNames{ data->valueNames }, valueCount{ data->valueCount },
-			name{ std::format("{}__enum", data->name) }
-	{
-	}
-};
-using parEnumData = FakeParEnumData;
+using parEnumData = parMemberEnumData;
+static std::unordered_map<parMemberEnumData*, std::string> memberToEnumName;
 #endif
 
 #if RDR3 || GTA5
@@ -226,8 +214,15 @@ static CollectResult CollectStructs(parManager* parMgr)
 #if RDR3 || GTA5
 		auto* enumData = member->enumData;
 #elif MP3 || GTA4
-		// TODO: handle repeated enums (ePointGunParentBehaviour) http://localhost:63342/Pages/dump.html?game=mp3&build=1.0.0.255&search=ePointGunParentBehaviour
-		auto* enumData = new parEnumData(member); // TODO: leaking memory here
+		// check duplicate enums
+		if (auto existingEnum = std::find_if(enums.cbegin(), enums.cend(), [member](auto* e) { return member->hasSameEnum(e); });
+			existingEnum != enums.cend())
+		{
+			memberToEnumName[member] = memberToEnumName[*existingEnum];
+			return;
+		}
+		memberToEnumName[member] = std::format("{}__enum", member->name); // the real enum names do not appear in the .exe
+		auto* enumData = member;
 #endif
 		if (enumsSet.insert(enumData).second)
 		{
@@ -460,7 +455,7 @@ static void DumpJsonMember(JsonWriter& w, std::optional<std::string_view> key, p
 #if RDR3 || GTA5
 		w.UInt("enumName", enumData->enumData->name, json_uint_hex);
 #elif MP3 || GTA4
-		w.String("enumName", std::format("{}__enum", m->name));
+		w.String("enumName", memberToEnumName[enumData]);
 #endif
 		w.Int("initValue", enumData->initValue);
 	}
@@ -725,7 +720,7 @@ static void DumpJsonEnum(JsonWriter& w, std::optional<std::string_view> key, par
 	w.UInt("name", e->name, json_uint_hex);
 	w.String("flags", FlagsToString(e->flags));
 #elif MP3 || GTA4
-	w.String("name", e->name);
+	w.String("name", memberToEnumName[e]);
 	w.String("flags", "");
 #endif
 	w.BeginArray("values");
