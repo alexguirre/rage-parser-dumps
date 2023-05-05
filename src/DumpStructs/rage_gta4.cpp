@@ -1,25 +1,20 @@
-#if GTA4
+#if MP3 || GTA4
 #include "rage_gta4.h"
 #include <Hooking.Patterns.h>
 
 parManager** parManager::sm_Instance = nullptr;
 
-uint32_t parStructure::FindAlign()
-{
-	// TODO(GTA4): parStructure::FindAlign
-	return 0;
-}
-
+#if GTA4
 uint32_t parMember::GetSize()
 {
 	// TODO(GTA4): parMember::GetSize
 	return 0;
 }
+#endif
 
-uint32_t parMember::FindAlign()
+bool parMemberEnumData::hasSameEnum(const parMemberEnumData* other) const
 {
-	// TODO(GTA4): parMember::FindAlign
-	return 0;
+	return values == other->values && valueNames == other->valueNames && valueCount == other->valueCount;
 }
 
 std::string SubtypeToStr(parMemberType type, uint8_t subtype)
@@ -37,8 +32,23 @@ std::string SubtypeToStr(parMemberType type, uint8_t subtype)
 		case parMemberArraySubtype::_UNKNOWN_5: return "_UNKNOWN_5";
 		case parMemberArraySubtype::_UNKNOWN_6: return "_UNKNOWN_6";
 		case parMemberArraySubtype::_0x2087BB00: return "_0x2087BB00";
+#if MP3
+		case parMemberArraySubtype::POINTER_WITH_COUNT: return "POINTER_WITH_COUNT";
+		case parMemberArraySubtype::POINTER_WITH_COUNT_8BIT_IDX: return "POINTER_WITH_COUNT_8BIT_IDX";
+		case parMemberArraySubtype::POINTER_WITH_COUNT_16BIT_IDX: return "POINTER_WITH_COUNT_16BIT_IDX";
+#endif
 		}
 		break;
+#if MP3
+	case parMemberType::ENUM:
+		switch (static_cast<parMemberEnumSubtype>(subtype))
+		{
+		case parMemberEnumSubtype::_32BIT: return "_32BIT";
+		case parMemberEnumSubtype::_16BIT: return "_16BIT";
+		case parMemberEnumSubtype::_8BIT: return "_8BIT";
+		}
+		break;
+#endif
 	case parMemberType::STRING:
 		switch (static_cast<parMemberStringSubtype>(subtype))
 		{
@@ -46,6 +56,12 @@ std::string SubtypeToStr(parMemberType type, uint8_t subtype)
 		case parMemberStringSubtype::POINTER: return "POINTER";
 		case parMemberStringSubtype::_UNKNOWN_2: return "_UNKNOWN_2";
 		case parMemberStringSubtype::CONST_STRING: return "CONST_STRING";
+#if MP3
+		case parMemberStringSubtype::ATSTRING: return "ATSTRING";
+		case parMemberStringSubtype::WIDE_MEMBER: return "WIDE_MEMBER";
+		case parMemberStringSubtype::WIDE_POINTER: return "WIDE_POINTER";
+		case parMemberStringSubtype::ATWIDESTRING: return "ATWIDESTRING";
+#endif
 		}
 		break;
 	case parMemberType::STRUCT:
@@ -89,6 +105,18 @@ const char* EnumToString(parMemberType type)
 	case parMemberType::ENUM: return "ENUM";
 	case parMemberType::MATRIX34: return "MATRIX34";
 	case parMemberType::MATRIX44: return "MATRIX44";
+	default: return "UNKNOWN";
+	}
+}
+
+const char* EnumToString(parAttribute::Type type)
+{
+	switch (type)
+	{
+	case parAttribute::Type::String: return "String";
+	case parAttribute::Type::Int64:  return "Int64";
+	case parAttribute::Type::Double: return "Double";
+	case parAttribute::Type::Bool:   return "Bool";
 	default: return "UNKNOWN";
 	}
 }

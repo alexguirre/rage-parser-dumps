@@ -1,7 +1,7 @@
 #pragma once
-#if GTA4
+#if MP3 || GTA4
 #ifndef WIN32
-#error GTA4 only supports 32-bit builds!
+#error MP3/GTA4 only supports 32-bit builds!
 #endif
 
 #include <cstdint>
@@ -62,7 +62,51 @@ struct Func
   void *thunk;
 };
 
-enum class parMemberType : uint8_t // 0x1CA39C3D
+#if MP3
+struct parAttribute
+{
+	enum Type : uint8_t
+	{
+		String = 0,
+		Int64 = 1, // actually int32 and float, using int64/double for compatibility with RDR3/GTA5 dumps
+		Double = 2,
+		Bool = 3,
+	};
+
+	union Value
+	{
+		const char* asString;
+		int asInt64;
+		float asDouble;
+		bool asBool;
+	};
+
+	enum Flags : uint8_t
+	{
+		kOwnsNameString = 0x1,
+		kOwnsValueString = 0x2,
+	};
+
+	const char* name;
+	Value value;
+	Type type;
+	Flags flags;
+};
+
+
+struct parAttributeList
+{
+	enum Flags : uint16_t
+	{
+		kIsSorted = 0x1,
+	};
+
+	atArray<parAttribute> attributes;
+	Flags flags;
+};
+#endif
+
+enum class parMemberType : uint8_t
 {
 	BOOL = 0,
 	CHAR = 1,
@@ -89,6 +133,15 @@ enum class parMemberCommonSubtype
 	COLOR = 1, // used with UINT, VECTOR3
 };
 
+#if MP3
+enum class parMemberEnumSubtype
+{
+	_32BIT = 0,
+	_16BIT = 1,
+	_8BIT = 2,
+};
+#endif
+
 enum class parMemberArraySubtype
 {
 	ATARRAY = 0,
@@ -99,6 +152,11 @@ enum class parMemberArraySubtype
 	_UNKNOWN_5 = 5,	// struct { void *begin, *end }; maybe?
 	_UNKNOWN_6 = 6, // unused
 	_0x2087BB00 = 7, // unused, 32-bit atArray
+#if MP3
+	POINTER_WITH_COUNT = 8,
+	POINTER_WITH_COUNT_8BIT_IDX = 9,
+	POINTER_WITH_COUNT_16BIT_IDX = 10,
+#endif
 };
 
 enum class parMemberStringSubtype
@@ -107,6 +165,12 @@ enum class parMemberStringSubtype
 	POINTER = 1,
 	_UNKNOWN_2 = 2, // std::string?
 	CONST_STRING = 3,
+#if MP3
+	ATSTRING = 4,
+	WIDE_MEMBER = 5,
+	WIDE_POINTER = 6,
+	ATWIDESTRING = 7,
+#endif
 };
 
 enum class parMemberStructSubtype
@@ -128,6 +192,9 @@ struct parMemberCommonData
 	uint16_t flags1;
 	uint16_t flags2;
 	uint16_t extraData; // specific to parMemberCommonData derived types
+#if MP3
+	parAttributeList* attributes;
+#endif
 };
 
 struct parMemberSimpleData : parMemberCommonData
@@ -138,6 +205,14 @@ struct parMemberSimpleData : parMemberCommonData
 struct parMemberVectorData : parMemberCommonData
 {
 	float initValues[4];
+};
+
+struct parMemberMatrixData : parMemberCommonData
+{
+	// GTA4 doesn't have initValues, parInitVisitor is hardcoded to the identity matrix
+#if MP3
+	float initValues[16];
+#endif
 };
 
 struct parMemberStringData : parMemberCommonData
@@ -157,12 +232,20 @@ struct parMemberStructData : parMemberCommonData
 	AllocateStructCallback allocateStruct;
 };
 
+struct parEnumValueData
+{
+	uint32_t name;
+	int32_t value;
+};
+
 struct parMemberEnumData : parMemberCommonData
 {
 	int32_t initValue;
-	int field_18;
+	parEnumValueData* values;
 	const char **valueNames;
 	uint32_t valueCount;
+
+	bool hasSameEnum(const parMemberEnumData* other) const;
 };
 
 struct parMemberArrayData : parMemberCommonData
@@ -182,10 +265,25 @@ struct parMember
 	parMemberCommonData* data;
 
 	virtual ~parMember() = 0;
-	//...
+#if MP3
+	virtual void ReadTreeNode(void* node, void* dest) = 0;
+	virtual void LoadExtraAttributes(void* node) = 0;
+	virtual uint32_t GetSize() = 0;
+#elif GTA4
+	virtual const char* GetName() = 0;
+	virtual int GetOffset() = 0;
+	virtual void SetOffset(uint32_t) = 0;
+	virtual uint16_t GetFlags1() = 0;
+	virtual uint16_t GetFlags2() = 0;
+	virtual uint16_t GetExtraData() = 0;
+	virtual parMemberType GetType() = 0;
+	virtual void ReadTreeNode(void *node, void *dest) = 0;
+	virtual void* AllocateStructForTreeNode(void *node, void *dest) = 0;
+	virtual uint32_t GetNameHash() = 0;
+	virtual uint8_t GetSubType() = 0;
 
 	uint32_t GetSize();
-	uint32_t FindAlign();
+#endif
 };
 
 struct parMemberArray : parMember
@@ -203,16 +301,17 @@ struct parStructure
 	atArray<parMember*> members;
 	uint16_t versionMajor;
 	uint16_t versionMinor;
+#if MP3
+	parAttributeList* extraAttributes;
+#endif
 	parDelegateHolderBase factoryNew;
+#if MP3
+	parDelegateHolderBase unknownDelegate; // always default function set in ctor
+#endif
 	parDelegateHolderBase getStructureCB;
 	atBinaryMap<uint32_t, parDelegateHolderBase*> callbacks;
 	bool bBatchAddingDelegates;
-
-	uint32_t FindAlign();
 };
-
-// parEnumData doesn't seem to exist in GTA4, declared here for code compatibility with RDR3/GTA5
-struct parEnumData {};
 
 struct parManager
 {
@@ -227,4 +326,5 @@ struct parManager
 std::string SubtypeToStr(parMemberType type, uint8_t subtype);
 
 const char* EnumToString(parMemberType type);
-#endif // GTA4
+const char* EnumToString(parAttribute::Type type);
+#endif // GTA4 || MP3

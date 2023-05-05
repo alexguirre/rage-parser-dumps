@@ -15,12 +15,16 @@ Global
 		Debug-GTA5|x86 = Debug-GTA5|x86
 		Debug-RDR3|x64 = Debug-RDR3|x64
 		Debug-RDR3|x86 = Debug-RDR3|x86
+		Debug-MP3|x64 = Debug-MP3|x64
+		Debug-MP3|x86 = Debug-MP3|x86
 		Release-GTA4|x64 = Release-GTA4|x64
 		Release-GTA4|x86 = Release-GTA4|x86
 		Release-GTA5|x64 = Release-GTA5|x64
 		Release-GTA5|x86 = Release-GTA5|x86
 		Release-RDR3|x64 = Release-RDR3|x64
 		Release-RDR3|x86 = Release-RDR3|x86
+		Release-MP3|x64 = Release-MP3|x64
+		Release-MP3|x86 = Release-MP3|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A95B6ABA-F8E4-4092-A472-1C08B0C5E882}.Debug-GTA4|x64.ActiveCfg = Debug-GTA4|x64
@@ -32,6 +36,9 @@ Global
 		{A95B6ABA-F8E4-4092-A472-1C08B0C5E882}.Debug-RDR3|x64.ActiveCfg = Debug-RDR3|x64
 		{A95B6ABA-F8E4-4092-A472-1C08B0C5E882}.Debug-RDR3|x64.Build.0 = Debug-RDR3|x64
 		{A95B6ABA-F8E4-4092-A472-1C08B0C5E882}.Debug-RDR3|x86.ActiveCfg = Debug-RDR3|Win32
+		{A95B6ABA-F8E4-4092-A472-1C08B0C5E882}.Debug-MP3|x64.ActiveCfg = Debug-MP3|x64
+		{A95B6ABA-F8E4-4092-A472-1C08B0C5E882}.Debug-MP3|x86.ActiveCfg = Debug-MP3|Win32
+		{A95B6ABA-F8E4-4092-A472-1C08B0C5E882}.Debug-MP3|x86.Build.0 = Debug-MP3|Win32
 		{A95B6ABA-F8E4-4092-A472-1C08B0C5E882}.Release-GTA4|x64.ActiveCfg = Release-GTA4|x64
 		{A95B6ABA-F8E4-4092-A472-1C08B0C5E882}.Release-GTA4|x86.ActiveCfg = Release-GTA4|Win32
 		{A95B6ABA-F8E4-4092-A472-1C08B0C5E882}.Release-GTA4|x86.Build.0 = Release-GTA4|Win32
@@ -41,6 +48,9 @@ Global
 		{A95B6ABA-F8E4-4092-A472-1C08B0C5E882}.Release-RDR3|x64.ActiveCfg = Release-RDR3|x64
 		{A95B6ABA-F8E4-4092-A472-1C08B0C5E882}.Release-RDR3|x64.Build.0 = Release-RDR3|x64
 		{A95B6ABA-F8E4-4092-A472-1C08B0C5E882}.Release-RDR3|x86.ActiveCfg = Release-RDR3|Win32
+		{A95B6ABA-F8E4-4092-A472-1C08B0C5E882}.Release-MP3|x64.ActiveCfg = Release-MP3|x64
+		{A95B6ABA-F8E4-4092-A472-1C08B0C5E882}.Release-MP3|x86.ActiveCfg = Release-MP3|Win32
+		{A95B6ABA-F8E4-4092-A472-1C08B0C5E882}.Release-MP3|x86.Build.0 = Release-MP3|Win32
 		{F2EEF722-EE93-44F6-BA5E-F9404D5EC319}.Debug-GTA4|x64.ActiveCfg = Debug|Any CPU
 		{F2EEF722-EE93-44F6-BA5E-F9404D5EC319}.Debug-GTA4|x64.Build.0 = Debug|Any CPU
 		{F2EEF722-EE93-44F6-BA5E-F9404D5EC319}.Debug-GTA4|x86.ActiveCfg = Debug|Any CPU
@@ -53,6 +63,10 @@ Global
 		{F2EEF722-EE93-44F6-BA5E-F9404D5EC319}.Debug-RDR3|x64.Build.0 = Debug|Any CPU
 		{F2EEF722-EE93-44F6-BA5E-F9404D5EC319}.Debug-RDR3|x86.ActiveCfg = Debug|Any CPU
 		{F2EEF722-EE93-44F6-BA5E-F9404D5EC319}.Debug-RDR3|x86.Build.0 = Debug|Any CPU
+		{F2EEF722-EE93-44F6-BA5E-F9404D5EC319}.Debug-MP3|x64.ActiveCfg = Debug|Any CPU
+		{F2EEF722-EE93-44F6-BA5E-F9404D5EC319}.Debug-MP3|x64.Build.0 = Debug|Any CPU
+		{F2EEF722-EE93-44F6-BA5E-F9404D5EC319}.Debug-MP3|x86.ActiveCfg = Debug|Any CPU
+		{F2EEF722-EE93-44F6-BA5E-F9404D5EC319}.Debug-MP3|x86.Build.0 = Debug|Any CPU
 		{F2EEF722-EE93-44F6-BA5E-F9404D5EC319}.Release-GTA4|x64.ActiveCfg = Release|Any CPU
 		{F2EEF722-EE93-44F6-BA5E-F9404D5EC319}.Release-GTA4|x64.Build.0 = Release|Any CPU
 		{F2EEF722-EE93-44F6-BA5E-F9404D5EC319}.Release-GTA4|x86.ActiveCfg = Release|Any CPU
@@ -65,6 +79,10 @@ Global
 		{F2EEF722-EE93-44F6-BA5E-F9404D5EC319}.Release-RDR3|x64.Build.0 = Release|Any CPU
 		{F2EEF722-EE93-44F6-BA5E-F9404D5EC319}.Release-RDR3|x86.ActiveCfg = Release|Any CPU
 		{F2EEF722-EE93-44F6-BA5E-F9404D5EC319}.Release-RDR3|x86.Build.0 = Release|Any CPU
+		{F2EEF722-EE93-44F6-BA5E-F9404D5EC319}.Release-MP3|x64.ActiveCfg = Release|Any CPU
+		{F2EEF722-EE93-44F6-BA5E-F9404D5EC319}.Release-MP3|x64.Build.0 = Release|Any CPU
+		{F2EEF722-EE93-44F6-BA5E-F9404D5EC319}.Release-MP3|x86.ActiveCfg = Release|Any CPU
+		{F2EEF722-EE93-44F6-BA5E-F9404D5EC319}.Release-MP3|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
