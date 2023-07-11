@@ -17,6 +17,7 @@ internal class JsonTreeFormatter : IDumpFormatter
     private class Node
     {
         public string Name { get; init; } = "";
+        public string Hash { get; init; } = "";
         public string? Markup { get; init; }
         public List<string>? Usage { get; set; }
     }
@@ -66,6 +67,7 @@ internal class JsonTreeFormatter : IDumpFormatter
                 var node = new StructNode
                 {
                     Name = structure.Name.ToFormattedString(),
+                    Hash = structure.Name.ToFormattedHash(),
                     Size = structure.Size,
                     Align = structure.Align,
                     Version = structure.Version != new ParStructureVersion(0, 0) ? structure.Version : null,
@@ -86,6 +88,7 @@ internal class JsonTreeFormatter : IDumpFormatter
             var node = new Node
             {
                 Name = e.Name.ToFormattedString(),
+                Hash = e.Name.ToFormattedHash(),
                 Markup = GetEnumMarkup(dump, e),
                 Usage = GetEnumUsage(dump, e),
             };

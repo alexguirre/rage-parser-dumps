@@ -10,6 +10,7 @@ class TreeNode {
     readonly type: TreeNodeType;
     readonly name: string;
     readonly nameLowerCase: string;
+    readonly hashId: string;
     readonly markup: string;
     readonly markupLowerCase: string;
     element: HTMLLIElement | null = null;
@@ -25,6 +26,7 @@ class TreeNode {
     constructor(type: TreeNodeType, nodeData: JTreeNode, noChildren: boolean= false) {
         this.type = type;
         this.name = nodeData.name;
+        this.hashId = nodeData.hash;
         this.markup = nodeData.markup;
         this.nameLowerCase = this.name.toLowerCase();
         this.markupLowerCase = this.markup.toLowerCase();
@@ -207,6 +209,7 @@ export default class DumpTree extends HTMLElement {
     readonly #splitterHandler: SplitterHandler;
     readonly #searchHandler: SearchHandler;
     readonly #onLocationHashChangedHandler;
+    readonly #hashIdToNameIdMap: Map<string, string> = new Map();
 
     constructor() {
         super();
@@ -407,6 +410,11 @@ export default class DumpTree extends HTMLElement {
                 if (node.children) {
                     postRenderInitNodes(node.children, node);
                 }
+
+                // store hash -> name mapping for solved names, used to fix old URLs using hash IDs
+                if (node.hashId !== node.name) {
+                    this.#hashIdToNameIdMap.set(node.hashId, node.name);
+                }
             }
         };
         postRenderInitNodes(this.#nodes, null);
@@ -414,10 +422,10 @@ export default class DumpTree extends HTMLElement {
 
         this.#searchHandler.initNodes(this.#nodes);
 
-        // manually scroll to the struct specified in the URL once the dump is loaded
-        const loc = new URL(document.location.href);
-        if (loc.hash.length > 0) {
-            const elem = shadow.getElementById(loc.hash.substring(1));
+        // manually scroll to and select the struct specified in the URL once the dump is loaded
+        const id = this.#fixOldHashId(new URL(document.location.href), true);
+        if (id !== null) {
+            const elem = shadow.getElementById(id);
             if (elem !== null) {
                 elem.scrollIntoView();
                 (elem.querySelector(".dump-entry-button") as HTMLButtonElement | null)?.click();
@@ -615,9 +623,43 @@ export default class DumpTree extends HTMLElement {
     }
 
     #onLocationHashChanged(e: HashChangeEvent): void {
-        const id = new URL(e.newURL).hash;
-        const btn = this.#tree.querySelector(`${id} > .dump-entry-button`) as HTMLElement | null;
+        const id = this.#fixOldHashId(new URL(e.newURL), true);
+        if (id === null) {
+            return;
+        }
+        const btn = this.#tree.querySelector(`#${id} > .dump-entry-button`) as HTMLElement | null;
         this.open(btn as HTMLElement | null);
+    }
+
+    /**
+     * In the node tree, element IDs use the struct/enum hash when the name is unknown and the name once it is known.
+     * For example, if an URL to an specific struct/enum was shared, but later the hash was resolved, that URL
+     * would break and not open the struct/enum details view.
+     *
+     * This method is used to fix old URLs that are using the hash ID when the name is known.
+     *
+     * @param url The URL to fix.
+     * @param replaceHistoryState If true, the history state will be replaced with the fixed URL.
+     * @returns {string} The fixed ID. If the ID was not changed, the original ID is returned.
+     * If `url.hash` is empty, `null` is returned.
+     */
+    #fixOldHashId(url: URL, replaceHistoryState: boolean): string | null {
+        if (url.hash.length <= 1) {
+            return null
+        }
+
+        const id = url.hash.substring(1);
+        const newId = this.#hashIdToNameIdMap.get(id);
+        if (newId !== undefined) {
+            if (replaceHistoryState) {
+                const newURL = new URL(url);
+                newURL.hash = `#${newId}`;
+                history.replaceState(null, "", newURL.toString());
+            }
+            return newId
+        }
+
+        return id
     }
 
     open(entryBtn: HTMLElement | null): void {

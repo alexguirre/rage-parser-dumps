@@ -336,6 +336,7 @@ function getTreeDiff(treeA: JTree, treeB: JTree): JTree {
         const b = "";
         const ee: JTreeNodeWithDiffInfo = {
             name: e.name,
+            hash: e.hash,
             markup: computeDiffMarkup(a, b),
             diffType: "r",
         };
@@ -346,6 +347,7 @@ function getTreeDiff(treeA: JTree, treeB: JTree): JTree {
         const b = e.markup;
         const ee: JTreeNodeWithDiffInfo = {
             name: e.name,
+            hash: e.hash,
             markup: computeDiffMarkup(a, b),
             diffType: "a",
         };
@@ -356,6 +358,7 @@ function getTreeDiff(treeA: JTree, treeB: JTree): JTree {
         const b = enumsB.get(e.name)?.markup || "";
         const ee: JTreeNodeWithDiffInfo = {
             name: e.name,
+            hash: e.hash,
             markup: computeDiffMarkup(a, b),
             diffType: "m",
         };

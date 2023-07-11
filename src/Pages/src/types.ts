@@ -43,6 +43,7 @@ export type JTree = {
  */
 export interface JTreeNode {
     name: string;
+    hash: string;
     markup: string;
     usage?: string[];
 
