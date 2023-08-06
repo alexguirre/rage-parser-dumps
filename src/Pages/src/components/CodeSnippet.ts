@@ -1,5 +1,8 @@
 import "./SvgIcon";
 import { animateButtonClick } from "../util";
+import {LitElement, html} from 'lit';
+import {customElement, query, property} from 'lit/decorators.js';
+import {unsafeHTML} from 'lit/directives/unsafe-html.js';
 
 export type CodeMarkupRule = {
     class: string;
@@ -52,72 +55,48 @@ export type CodeSnippetLanguage = "cpp" | "cpp-nolinks" | "xml";
  * 
  * @see {@link CodeSnippetLanguage} for supported languages.
  */
-export class CodeSnippet extends HTMLElement {
-    static readonly html = `
-        <link rel="stylesheet" href="css/style.css">
-        <div class="code-snippet-contents">
-            <pre><code id="code"></code></pre>
-            <button id="copy-btn" class="header-icon" title="Copy snippet">
-                <svg-icon icon="copy-icon" clickable />
-            </button>
-        </div>
-    `;
+@customElement("code-snippet")
+export class CodeSnippet extends LitElement {
+    @property()
+    markup: string = "";
+    @property({ attribute: "code-lang" })
+    codeLang: string = "";
+    @query("#code")
+    private codeElement!: HTMLElement;
 
-    readonly #codeElement: HTMLElement;
-    readonly #codeChangesObserver: MutationObserver;
-
-    constructor() {
-        super();
-
-        const shadow = this.attachShadow({ mode: "open" });
-        shadow.innerHTML = CodeSnippet.html;
-
-        const copyBtn = shadow.getElementById("copy-btn");
-        if (copyBtn === null) {
-            throw new Error("copy-btn element not found");
-        }
-        copyBtn.addEventListener("click", this.onCopy.bind(this));
-
-        const codeElement = shadow.getElementById("code");
-        if (codeElement === null) {
-            throw new Error("code element not found");
-        }
-        this.#codeElement = codeElement;
-
-        this.#codeChangesObserver = new MutationObserver(this.#onCodeChanged.bind(this));
-        this.#codeChangesObserver.observe(this, { childList: true, subtree: true });
-    }
-
-    /**
-     * Gets the code markup from the inner HTML, highlights it and moves it to the shadow DOM to show it to the user.
-     */
-    refreshCode(): void {
-        const language = this.getAttribute("code-lang") || "cpp";
+    override render() {
+        const language = this.codeLang || "cpp";
         if (!CodeSnippet.isLanguageSupported(language)) {
             throw new Error(`Language '"${language}"' is not supported.`);
         }
-        this.#codeElement.innerHTML = CodeSnippet.markups[language].highlightCode(this.innerHTML);
+
+        const p = document.createElement("p")
+        p.innerText= this.markup;
+        const markupEscaped = p.innerHTML.replaceAll("<br>", "\n");
+        const codeHtml = unsafeHTML(CodeSnippet.markups[language].highlightCode(markupEscaped));
+
+        return html`
+            <link rel="stylesheet" href="css/style.css">
+            <div class="code-snippet-contents">
+                <pre><code id="code">${codeHtml}</code></pre>
+                <button id="copy-btn" class="header-icon" title="Copy snippet" @click=${this.#onCopy}>
+                    <svg-icon icon="copy-icon" clickable />
+                </button>
+            </div>
+        `;
     }
 
-    connectedCallback(): void {
-        this.refreshCode();
-    }
-
-    #onCodeChanged(_mutations: MutationRecord[], _observer: MutationObserver): void {
-        this.refreshCode();
-    }
-
-    onCopy(_e: MouseEvent): void {
-        const text = this.#codeElement.textContent;
+    #onCopy(e: MouseEvent): void {
+        const text = this.codeElement.textContent;
         if (text !== null) {
             navigator.clipboard.writeText(text);
         }
 
-        const copyBtn = this.shadowRoot?.getElementById("copy-btn");
+        const copyBtn = e.target;
         if (!copyBtn) {
             throw new Error("copy-btn element not found");
         }
-        animateButtonClick(copyBtn);
+        animateButtonClick(copyBtn as HTMLElement);
     }
 
     static readonly markups: { [l in CodeSnippetLanguage]: CodeMarkup } = {
@@ -147,4 +126,3 @@ export class CodeSnippet extends HTMLElement {
         return language in CodeSnippet.markups;
     }
 }
-customElements.define('code-snippet', CodeSnippet);
