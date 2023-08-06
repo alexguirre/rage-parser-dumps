@@ -530,13 +530,13 @@ dump-tree {
 }
 
 .dump-tree-root #tree {
+    display: flex;
     position: relative;
     background-color: var(--theme-background-alt);
     font-family: var(--default-monospace-font-family);
-    overflow: auto;
+    overflow: hidden;
     width: 20%;
-    scroll-padding-top: 1rem;
-    scroll-padding-bottom: 1rem;
+    height: 100%;
     outline-offset: 0;
 }
 
@@ -549,6 +549,9 @@ dump-tree {
 .dump-tree-root #tree > p {
     padding: 0.67em;
     margin: 0;
+    scroll-padding-top: 1rem;
+    scroll-padding-bottom: 1rem;
+    flex-grow: 1;
 }
 
 .dump-tree-root #tree summary {

@@ -8,6 +8,7 @@ import {customElement, state, query} from 'lit/decorators.js';
 import {Ref, createRef, ref} from 'lit/directives/ref.js';
 import {styleMap} from 'lit/directives/style-map.js';
 import {unsafeHTML} from "lit/directives/unsafe-html.js";
+import {virtualize} from "@lit-labs/virtualizer/virtualize.js";
 
 type TreeNodeType = "struct" | "enum";
 class TreeNode {
@@ -303,7 +304,11 @@ export default class DumpTree extends LitElement {
 
         return html`
             <ul role="tree" class="placeholder-do-fade-in">
-                ${this.visibleNodes.map(n => this.renderNode(n))}
+                ${virtualize({
+                    scroller: true,
+                    items: this.visibleNodes,
+                    renderItem: n => this.renderNode(n),
+                })}
             </ul>
         `;
     }
