@@ -9,9 +9,13 @@
     "deploy-build": "webpack --config webpack.config.prod.js"
   },
   "devDependencies": {
-    "ts-loader": "^9.4.2",
-    "typescript": "^4.9.5",
+    "ts-loader": "^9.4.4",
+    "typescript": "^5.1.6",
     "webpack": "^5.80.0",
     "webpack-cli": "^5.0.2"
+  },
+  "dependencies": {
+    "@lit-labs/virtualizer": "^2.0.5",
+    "lit": "^2.8.0"
   }
 }

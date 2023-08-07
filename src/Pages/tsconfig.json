@@ -8,6 +8,7 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "sourceMap": true,
+    "moduleResolution": "node",
 
     "strict": true,
     "allowUnreachableCode": false,
@@ -18,7 +19,9 @@
     "noImplicitReturns": true,
     "noPropertyAccessFromIndexSignature": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false
   },
   "include": ["./src/**/*"],
   "exclude": ["node_modules"]

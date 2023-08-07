@@ -530,13 +530,13 @@ dump-tree {
 }
 
 .dump-tree-root #tree {
+    display: flex;
     position: relative;
     background-color: var(--theme-background-alt);
     font-family: var(--default-monospace-font-family);
-    overflow: auto;
+    overflow: hidden;
     width: 20%;
-    scroll-padding-top: 1rem;
-    scroll-padding-bottom: 1rem;
+    height: 100%;
     outline-offset: 0;
 }
 
@@ -549,6 +549,9 @@ dump-tree {
 .dump-tree-root #tree > p {
     padding: 0.67em;
     margin: 0;
+    scroll-padding-top: 1rem;
+    scroll-padding-bottom: 1rem;
+    flex-grow: 1;
 }
 
 .dump-tree-root #tree summary {
@@ -582,13 +585,14 @@ dump-tree {
     filter: invert(0.35);
 }
 
-.dump-entry-li[data-collapsed] > .dump-entry-parent::before {
-    background-image: url("../img/container-close-icon.svg");
+.dump-entry-li {
+    --indent: 0;
+    padding-left: calc(1.34em * var(--indent));
+    scroll-margin: 3rem 1rem;
 }
 
-.dump-entry-li[data-collapsed] > ul {
-    display: none !important;
-    visibility: collapse !important;
+.dump-entry-li[data-collapsed] > .dump-entry-parent::before {
+    background-image: url("../img/container-close-icon.svg");
 }
 
 .dump-entry-button {
@@ -596,7 +600,6 @@ dump-tree {
     display: inline-flex;
     column-gap: 0.5em;
     align-items: center;
-    scroll-margin: 3rem 1rem;
     text-indent: 1.25em;
 }
 
