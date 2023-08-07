@@ -3,12 +3,13 @@ import "./CodeSnippet";
 import "./DumpDownloads";
 import {GameId, JTree, JTreeNode, JTreeStructNode, hasDiffInfo} from "../types";
 import {animateButtonClick, gameIdToFormattedName} from "../util";
-import {LitElement, html, nothing} from 'lit';
+import {LitElement, html, nothing, TemplateResult} from 'lit';
 import {customElement, state, query} from 'lit/decorators.js';
 import {Ref, createRef, ref} from 'lit/directives/ref.js';
 import {styleMap} from 'lit/directives/style-map.js';
 import {unsafeHTML} from "lit/directives/unsafe-html.js";
-import {virtualize} from "@lit-labs/virtualizer/virtualize.js";
+import {virtualize, virtualizerRef} from "@lit-labs/virtualizer/virtualize.js";
+import {VirtualizerHostElement} from "@lit-labs/virtualizer/Virtualizer";
 
 type TreeNodeType = "struct" | "enum";
 class TreeNode {
@@ -18,7 +19,6 @@ class TreeNode {
     readonly hashId: string;
     readonly markup: string;
     readonly markupLowerCase: string;
-    isExpandedState: boolean = true;
     previousSibling: TreeNode | null = null;
     nextSibling: TreeNode | null = null;
     parent: TreeNode | null = null;
@@ -28,7 +28,14 @@ class TreeNode {
      */
     readonly data: JTreeNode;
 
-    constructor(type: TreeNodeType, nodeData: JTreeNode, noChildren: boolean= false) {
+    get isParent(): boolean { return this.children !== null && this.children.length > 0; }
+
+    // computed variables for rendering
+    readonly tip: string;
+    readonly typeClass: string;
+    readonly diffClass: string;
+
+    constructor(type: TreeNodeType, nodeData: JTreeNode) {
         this.type = type;
         this.name = nodeData.name;
         this.hashId = nodeData.hash;
@@ -38,37 +45,67 @@ class TreeNode {
         this.data = nodeData;
 
         const structNode = nodeData as JTreeStructNode;
-        if (!noChildren && structNode.children && structNode.children.length > 0) {
+        if (structNode.children && structNode.children.length > 0) {
             this.children = new Array(structNode.children.length);
             for (let i = 0; i < structNode.children.length; i++) {
                 this.children[i] = new TreeNode("struct", structNode.children[i]);
             }
             this.children.sort(TreeNode.compare);
         }
-    }
 
-    /**
-     * Creates an unlinked copy of this node.
-     */
-    copy(): TreeNode {
-        const copy = new TreeNode(this.type, this.data, true);
-        copy.isExpandedState = this.isExpandedState;
-        copy.previousSibling = null;
-        copy.nextSibling = null;
-        copy.parent = null;
-        copy.children = null;
-        return copy;
-    }
 
-    hasChildren(): boolean { return this.children !== null && this.children.length > 0; }
-    isExpanded(): boolean {
-        return this.hasChildren() && this.isExpandedState;
-    }
-    expand(state: boolean): void {
-        this.isExpandedState = state;
+
+        this.tip = `${this.type} ${this.name}`;
+        switch (this.type) {
+            case "struct":
+                this.typeClass = "dump-entry-button-struct";
+                break;
+            case "enum":
+                this.typeClass = "dump-entry-button-enum";
+                break;
+            default:
+                this.typeClass = "";
+                break;
+        }
+
+        switch (hasDiffInfo(this.data) && this.data.diffType) {
+            case "a":
+                this.diffClass = "dump-entry-button-diff-added";
+                this.tip += " • Added";
+                break;
+            case "m":
+                this.diffClass = "dump-entry-button-diff-modified";
+                this.tip += " • Modified";
+                break;
+            case "r":
+                this.diffClass = "dump-entry-button-diff-removed";
+                this.tip += " • Removed";
+                break;
+            default:
+                this.diffClass = "";
+                break;
+        }
     }
 
     static compare(a: TreeNode, b: TreeNode): number { return a.name.localeCompare(b.name, "en"); }
+}
+
+class TreeNodeVisible {
+    readonly node: TreeNode;
+    readonly depth: number;
+    visible: boolean = true;
+    isExpanded: boolean = true;
+
+    get type() { return this.node.type; }
+    get name() { return this.node.name; }
+    get markup() { return this.node.markup; }
+    get data() { return this.node.data; }
+    get isParent() { return this.node.isParent; }
+
+    constructor(node: TreeNode, depth: number) {
+        this.node = node;
+        this.depth = depth;
+    }
 }
 
 type SearchOptions = {
@@ -123,6 +160,8 @@ const searchOptionBindings: { [id: string]: SearchOptionBinding } = {
     },
 };
 
+type SearchResult = { node: TreeNode, children: SearchResult[] | null };
+
 function gameIdToFormattedNameHTML(id: GameId) {
     return unsafeHTML(gameIdToFormattedName(id));
 }
@@ -143,9 +182,10 @@ export default class DumpTree extends LitElement {
     @state() private loading: boolean = true;
     @state() private resultsMessage: string | null = null;
 
-    @state() private nodes: TreeNode[] = [];
-    @state() private visibleNodes: TreeNode[] = [];
-    @state() private treeNavFocusNode: TreeNode | null = null;
+    @state() private nodes: TreeNode[] = []; // hierarchical tree of all nodes
+    @state() private visibleNodes: TreeNodeVisible[] = []; // flat list of visible nodes, used for virtualization
+    @state() private visibleNodesToRender: TreeNodeVisible[] = []; // subset of visibleNodes which have .visible = true
+    @state() private treeNavFocusNode: TreeNodeVisible | null = null;
     @state() private treeSelectedNode: TreeNode | null = null;
 
     @state() private searchOptions: SearchOptions = DumpTree.storedSearchOptions;
@@ -158,6 +198,8 @@ export default class DumpTree extends LitElement {
 
     @query("#tree")
     private treeElement!: HTMLDivElement;
+    @query("#tree-list")
+    private treeList!: VirtualizerHostElement;
     @query("#details")
     private detailsContainer!: HTMLDivElement;
     @query("#details-link")
@@ -303,50 +345,32 @@ export default class DumpTree extends LitElement {
         }
 
         return html`
-            <ul role="tree" class="placeholder-do-fade-in">
+            <ul id="tree-list" role="tree" class="placeholder-do-fade-in">
                 ${virtualize({
                     scroller: true,
-                    items: this.visibleNodes,
-                    renderItem: n => this.renderNode(n),
+                    items: this.visibleNodesToRender,
+                    renderItem: this.renderNodeHandler,
                 })}
             </ul>
         `;
     }
 
-    private renderNode(node: TreeNode): any {
-        let tip = `${node.type} ${node.name}`;
-        let typeClass = "";
-        switch (node.type) {
-            case "struct":
-                typeClass = "dump-entry-button-struct";
-                break;
-            case "enum":
-                typeClass = "dump-entry-button-enum";
-                break;
-        }
-        let diffClass = "";
-        switch (hasDiffInfo(node.data) && node.data.diffType) {
-            case "a":
-                diffClass = "dump-entry-button-diff-added";
-                tip += " • Added";
-                break;
-            case "m":
-                diffClass = "dump-entry-button-diff-modified";
-                tip += " • Modified";
-                break;
-            case "r":
-                diffClass = "dump-entry-button-diff-removed";
-                tip += " • Removed";
-                break;
-        }
-
-        const isCollapsed = !node.isExpanded();
-        const isParent = (node.children && node.children.length > 0);
+    private readonly renderNodeHandler = this.renderNode.bind(this);
+    private renderNode(node: TreeNodeVisible, _index: number): TemplateResult {
+        const tip = node.node.tip;
+        const typeClass = node.node.typeClass;
+        const diffClass = node.node.diffClass;
+        const isCollapsed = !node.isExpanded;
+        const isParent = node.isParent;
         const isFocus = this.treeNavFocusNode !== null && node.name === this.treeNavFocusNode.name;
         const isSelected = this.treeSelectedNode !== null && node.name === this.treeSelectedNode.name;
 
         return html`
-            <li class="dump-entry-li" role="treeitem" ?data-collapsed=${isCollapsed}>
+            <li class="dump-entry-li"
+                role="treeitem"
+                ?data-collapsed=${isParent ? isCollapsed : nothing}
+                style=${styleMap({ "--indent": node.depth })}
+            >
                 <div class="dump-entry ${isParent ? "dump-entry-parent" : ""}" id="${node.name}">
                     <div class="dump-entry-button ${typeClass} ${diffClass} type-link ${isSelected ? "type-link-selected" : ""}"
                          title="${tip}"
@@ -355,14 +379,6 @@ export default class DumpTree extends LitElement {
                         <span>${node.name}</span>
                     </div>
                 </div>
-                ${isParent ?
-                    html`
-                        <ul role="group">
-                            ${node.children!.map(n => this.renderNode(n))}
-                        </ul>
-                    ` :
-                    nothing
-                }
             </li>
         `;
     }
@@ -488,17 +504,13 @@ export default class DumpTree extends LitElement {
     }
 
     /**
-     * Set the currently focused node in the tree for keyboard navigation.
+     * Set the currently focused node in the tree for keyboard navigation and scrolls it into view.
      */
-    private setTreeFocusNode(node: TreeNode | null): void {
+    private setTreeFocusNode(node: TreeNodeVisible | null, scrollBlock: ScrollLogicalPosition = "nearest"): void {
         this.treeNavFocusNode = node;
         if (this.treeNavFocusNode !== null) {
-            const btn = this.findNodeButton(this.treeNavFocusNode);
-            if (btn !== null) {
-                btn.scrollIntoView({ block: "nearest", inline: "end" });
-                // TODO: should details be opened on focus or only on Enter key?
-                // this.open(this.treeNavFocusNode);
-            }
+            const nodeIndex = this.visibleNodesToRender.indexOf(this.treeNavFocusNode);
+            this.treeList[virtualizerRef]!.element(nodeIndex)!.scrollIntoView({ block: scrollBlock });
         }
     }
 
@@ -517,75 +529,68 @@ export default class DumpTree extends LitElement {
         switch (e.key) {
             case "ArrowLeft":
                 consumed = true;
-                if (focusNode.isExpanded()) {
+                if (focusNode.isParent && focusNode.isExpanded) {
                     // focus is on an open node, closes the node
-                    focusNode.expand(false);
-                    this.requestUpdate();
-                } else {
+                    this.expandNode(focusNode, false);
+                } else if (focusNode.depth > 0) {
                     // focus is on a child node that is also either an end node
                     // or a closed node, moves focus to its parent node.
-                    if (focusNode.parent !== null) {
-                        this.setTreeFocusNode(focusNode.parent);
+                    let prevNodeIndex = this.visibleNodesToRender.indexOf(focusNode) - 1;
+                    while (prevNodeIndex >= 0) {
+                        const prevNode = this.visibleNodesToRender[prevNodeIndex];
+                        if (prevNode.depth < focusNode.depth) {
+                            this.setTreeFocusNode(prevNode);
+                            break;
+                        }
+                        prevNodeIndex--;
                     }
                 }
                 break;
             case "ArrowRight":
                 consumed = true;
-                if (focusNode.isExpanded()) {
-                    // focus is on an open node, moves focus to the first child node
-                    this.setTreeFocusNode(focusNode.children![0]);
-                } else {
-                    // focus is on a closed node, opens the node; focus does not move
-                    focusNode.expand(true);
-                    this.requestUpdate();
+                if (focusNode.isParent) {
+                    if (focusNode.isExpanded) {
+                        // focus is on an open node, moves focus to the first child node
+                        const focusNodeIndex = this.visibleNodesToRender.indexOf(focusNode);
+                        this.setTreeFocusNode(this.visibleNodesToRender[focusNodeIndex + 1]);
+                    } else {
+                        // focus is on a closed node, opens the node; focus does not move
+                        this.expandNode(focusNode, true);
+                    }
                 }
                 break;
             case "ArrowUp":
                 consumed = true;
                 // moves focus to the previous node that is focusable without opening
                 // or closing a node
-                let prevNode = focusNode.previousSibling;
-                while (prevNode !== null && prevNode.isExpanded()) {
-                    prevNode = prevNode.children![prevNode.children!.length - 1];
-                }
-                if (prevNode === null) {
-                    prevNode = focusNode.parent;
-                }
-                if (prevNode !== null) {
-                    this.setTreeFocusNode(prevNode);
+                let prevNodeIndex = this.visibleNodesToRender.indexOf(focusNode) - 1;
+                if (prevNodeIndex >= 0) {
+                    this.setTreeFocusNode(this.visibleNodesToRender[prevNodeIndex]);
                 }
                 break;
             case "ArrowDown":
                 consumed = true;
                 // moves focus to the next node that is focusable without opening
                 // or closing a node
-                let nextNode = focusNode.isExpanded() ? focusNode.children![0] : focusNode.nextSibling;
-                let n = focusNode;
-                while (nextNode === null && n.parent !== null) {
-                    nextNode = n.parent.nextSibling;
-                    n = n.parent;
-                }
-                if (nextNode !== null) {
-                    this.setTreeFocusNode(nextNode);
+                let nextNodeIndex = this.visibleNodesToRender.indexOf(focusNode) + 1;
+                if (nextNodeIndex < this.visibleNodesToRender.length) {
+                    this.setTreeFocusNode(this.visibleNodesToRender[nextNodeIndex]);
                 }
                 break;
             case "Home":
                 consumed = true;
                 // moves focus to the first node in the tree without opening or closing a node
-                this.setTreeFocusNode(this.findVisibleNodeBy(_ => true));
+                this.setTreeFocusNode(this.findVisibleNodeBy(n => n.visible), "start");
                 break;
             case "End":
                 consumed = true;
                 // moves focus to the last node in the tree that is focusable without opening a node
-                const isExpandedRecursive = (n: TreeNode): boolean => {
-                    return n.parent === null || (n.parent.isExpanded() && isExpandedRecursive(n.parent));
-                };
-                this.setTreeFocusNode(this.findLastVisibleNodeBy(isExpandedRecursive));
+                this.setTreeFocusNode(this.findLastVisibleNodeBy(n => n.visible), "end");
                 break;
             case "Enter":
                 consumed = true;
                 // activates the node
-                this.open(focusNode);
+                this.open(focusNode.node);
                 break;
         }
 
@@ -609,14 +614,16 @@ export default class DumpTree extends LitElement {
         if (typeName === null) {
             return;
         }
-        const node = this.findVisibleNodeByName(typeName);
+        const vnode = this.findVisibleNodeToRenderByName(typeName);
+        if (vnode === null) {
+            return;
+        }
 
         if (target.classList.contains("dump-entry-parent") &&
             e.clientX < target.getBoundingClientRect().x /* click on the ::before element with open/close arrow */) {
-            node?.expand(!node.isExpanded());
-            this.requestUpdate();
+            this.expandNode(vnode, !vnode.isExpanded);
         } else {
-            this.open(node);
+            this.open(vnode.node);
         }
 
         e.preventDefault();
@@ -652,10 +659,32 @@ export default class DumpTree extends LitElement {
         this.search(searchText);
     }
 
-    private onSearchDone(visibleNodes: TreeNode[]): void {
-        this.visibleNodes = visibleNodes;
+    private expandNode(node: TreeNodeVisible, expandedState: boolean): void {
+        node.isExpanded = expandedState;
+        // update visibility of children
+        // visibleNodes is a flat in-order representation of the tree, so children are always after their parent
+        const visibilityStack = [node.isExpanded]
+        for (let i = this.visibleNodes.indexOf(node) + 1; i < this.visibleNodes.length; i++) {
+            const child = this.visibleNodes[i];
+            if (child.depth <= node.depth) {
+                break;
+            }
+            if (visibilityStack.length > (child.depth - node.depth)) {
+                visibilityStack.length = child.depth - node.depth;
+            }
+            child.visible = visibilityStack[visibilityStack.length - 1];
+            if (child.isParent) {
+                visibilityStack.push(child.visible && child.isExpanded);
+            }
+        }
+        this.visibleNodesToRender = this.visibleNodes.filter(n => n.visible);
+    }
+
+    private onSearchDone(foundNodes: SearchResult[]): void {
+        this.visibleNodes = this.buildVisibleNodesFromSearchResults(foundNodes);
+        this.visibleNodesToRender = this.visibleNodes; // all nodes are visible initially
         this.treeNavFocusNode = null; // reset focus
-        if (visibleNodes.length === 0) {
+        if (foundNodes.length === 0) {
             this.resultsMessage = "No results found.";
         } else {
             this.resultsMessage = null;
@@ -683,12 +712,16 @@ export default class DumpTree extends LitElement {
             text = this.searchOptions.matchCase ? text : text.toLowerCase();
             matcher = str => str.indexOf(text) !== -1;
         }
-        const visibleNodes = this.doSearch(this.nodes, matcher);
-        this.onSearchDone(visibleNodes);
+        const foundNodes = this.doSearch(this.nodes, matcher);
+        this.onSearchDone(foundNodes);
     }
 
-    private doSearch(nodes: readonly TreeNode[], matcher: (str: string) => boolean, state: { parentMatch?: boolean } = {}): TreeNode[] {
-        let results = [];
+    private doSearch(
+        nodes: readonly TreeNode[],
+        matcher: (str: string) => boolean,
+        state: { parentMatch?: boolean } = {}
+    ): SearchResult[] {
+        const results = [];
         for(let i = 0; i < nodes.length; i++) {
             const node = nodes[i];
             const name = this.searchOptions.matchMembers ?
@@ -712,24 +745,14 @@ export default class DumpTree extends LitElement {
 
 
             if (match) {
-                const nodeCopy = node.copy();
-                if (results.length > 0) {
-                    const prevNode = results[results.length - 1];
-                    prevNode.nextSibling = nodeCopy;
-                    nodeCopy.previousSibling = prevNode;
-                }
-                nodeCopy.children = childrenResults;
-                if (nodeCopy.children) {
-                    nodeCopy.children.forEach(c => c.parent = nodeCopy);
-                }
-                results.push(nodeCopy);
+                results.push({ node, children: childrenResults });
             }
         }
 
         return results;
     }
 
-    private onLocationHashChangedHandler = this.onLocationHashChanged.bind(this);
+    private readonly onLocationHashChangedHandler = this.onLocationHashChanged.bind(this);
     private onLocationHashChanged(e: HashChangeEvent): void {
         const id = this.fixOldHashId(new URL(e.newURL), true);
         if (id === null) {
@@ -740,10 +763,7 @@ export default class DumpTree extends LitElement {
         this.open(node);
 
         if (node !== null) {
-            const btn = this.findNodeButton(node);
-            if (btn !== null) {
-                btn.scrollIntoView({block: "nearest", inline: "end"});
-            }
+            this.setTreeFocusNode(this.findVisibleNodeToRenderByName(node.name), "center");
         }
     }
 
@@ -786,7 +806,7 @@ export default class DumpTree extends LitElement {
         e.preventDefault();
     }
 
-    private onSplitterMouseUpHandler = this.onSplitterMouseUp.bind(this);
+    private readonly onSplitterMouseUpHandler = this.onSplitterMouseUp.bind(this);
     private onSplitterMouseUp(e: MouseEvent): void {
         if (this.splitterDragging) {
             this.splitterDragging = false;
@@ -796,7 +816,7 @@ export default class DumpTree extends LitElement {
         }
     }
 
-    private onSplitterMouseMoveHandler = this.onSplitterMouseMove.bind(this);
+    private readonly onSplitterMouseMoveHandler = this.onSplitterMouseMove.bind(this);
     private onSplitterMouseMove(e: MouseEvent): void {
         if (this.splitterDragging) {
             const diff = e.clientX - this.splitterStartX;
@@ -805,6 +825,20 @@ export default class DumpTree extends LitElement {
             e.preventDefault();
             e.stopPropagation();
         }
+    }
+
+    private buildVisibleNodes(nodes: TreeNode[], depth: number = 0): TreeNodeVisible[] {
+        return nodes.flatMap(n => {
+            const v = new TreeNodeVisible(n, depth);
+            return [v, ...this.buildVisibleNodes(n.children || [], depth + 1)];
+        });
+    }
+
+    private buildVisibleNodesFromSearchResults(nodes: SearchResult[], depth: number = 0): TreeNodeVisible[] {
+        return nodes.flatMap(n => {
+            const v = new TreeNodeVisible(n.node, depth);
+            return [v, ...this.buildVisibleNodesFromSearchResults(n.children || [], depth + 1)];
+        });
     }
 
     public setTree(treeData: JTree | null): void {
@@ -837,7 +871,8 @@ export default class DumpTree extends LitElement {
             }
         };
         initNodes(this.nodes, null);
-        this.visibleNodes = this.nodes;
+        this.visibleNodes = this.buildVisibleNodes(this.nodes);
+        this.visibleNodesToRender = this.visibleNodes; // all nodes are visible initially
 
         if (this.nodes.length === 0) {
             const isDiff = this.buildB !== null;
@@ -856,11 +891,9 @@ export default class DumpTree extends LitElement {
                     this.open(node);
 
                     // the tree DOM is not yet created, so we need to wait until the next frame to scroll to the node
-                    setTimeout(() => {
-                        const btn = this.findNodeButton(node);
-                        if (btn !== null) {
-                            btn.scrollIntoView({block: "nearest", inline: "end"});
-                        }
+                    setTimeout(async () => {
+                        await this.treeList[virtualizerRef]!.layoutComplete;
+                        this.setTreeFocusNode(this.findVisibleNodeToRenderByName(node.name), "center");
                     }, 0);
                 }
             }
@@ -888,13 +921,6 @@ export default class DumpTree extends LitElement {
         this.detailsContainer.scroll(0, 0)
     }
 
-    private findNodeButton(node: TreeNode | null): HTMLElement | null {
-        if (node === null) {
-            return null;
-        }
-        return this.shadowRoot!.querySelector(`#${node.name} > .dump-entry-button`) || null;
-    }
-
     private findNodeByName(name: string): TreeNode | null {
         return this.findNodeBy(node => node.name === name)
     }
@@ -903,20 +929,30 @@ export default class DumpTree extends LitElement {
         return this.findNodeByCore(this.nodes, predicate);
     }
 
-    /*private findLastNodeBy(predicate: (node: TreeNode) => boolean): TreeNode | null {
+    // @ts-ignore
+    private findLastNodeBy(predicate: (node: TreeNode) => boolean): TreeNode | null {
         return this.findLastNodeByCore(this.nodes, predicate);
-    }*/
+    }
 
-    private findVisibleNodeByName(name: string): TreeNode | null {
+    private findVisibleNodeByName(name: string): TreeNodeVisible | null {
         return this.findVisibleNodeBy(node => node.name === name)
     }
 
-    private findVisibleNodeBy(predicate: (node: TreeNode) => boolean): TreeNode | null {
-        return this.findNodeByCore(this.visibleNodes, predicate);
+    private findVisibleNodeToRenderByName(name: string): TreeNodeVisible | null {
+        return this.findVisibleNodeToRenderBy(node => node.name === name)
     }
 
-    private findLastVisibleNodeBy(predicate: (node: TreeNode) => boolean): TreeNode | null {
-        return this.findLastNodeByCore(this.visibleNodes, predicate);
+    private findVisibleNodeBy(predicate: (node: TreeNodeVisible) => boolean): TreeNodeVisible | null {
+        return this.findVisibleNodeByCore(this.visibleNodes, predicate);
+    }
+
+    private findVisibleNodeToRenderBy(predicate: (node: TreeNodeVisible) => boolean): TreeNodeVisible | null {
+        return this.findVisibleNodeByCore(this.visibleNodesToRender, predicate);
+    }
+
+    // @ts-ignore
+    private findLastVisibleNodeBy(predicate: (node: TreeNodeVisible) => boolean): TreeNodeVisible | null {
+        return this.findLastVisibleNodeByCore(this.visibleNodes, predicate);
     }
 
     private findNodeByCore(nodes: TreeNode[], predicate: (node: TreeNode) => boolean): TreeNode | null {
@@ -941,6 +977,7 @@ export default class DumpTree extends LitElement {
         return findRecursive(nodes);
     }
 
+    // @ts-ignore
     private findLastNodeByCore(nodes: TreeNode[], predicate: (node: TreeNode) => boolean): TreeNode | null {
         const findRecursive = (nodes: TreeNode[]): TreeNode | null => {
             for (let i = nodes.length - 1; i >= 0; i--) {
@@ -961,6 +998,28 @@ export default class DumpTree extends LitElement {
         }
 
         return findRecursive(nodes);
+    }
+
+    private findVisibleNodeByCore(nodes: TreeNodeVisible[], predicate: (node: TreeNodeVisible) => boolean): TreeNodeVisible | null {
+        for (let i = 0; i < nodes.length; i++) {
+            const node = nodes[i];
+            if (predicate(node)) {
+                return node;
+            }
+        }
+
+        return null;
+    }
+
+    private findLastVisibleNodeByCore(nodes: TreeNodeVisible[], predicate: (node: TreeNodeVisible) => boolean): TreeNodeVisible | null {
+        for (let i = nodes.length - 1; i >= 0; i--) {
+            const node = nodes[i];
+            if (predicate(node)) {
+                return node;
+            }
+        }
+
+        return null;
     }
 
     private static get storedSearchOptions(): SearchOptions {
