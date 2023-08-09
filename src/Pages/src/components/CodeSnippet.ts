@@ -70,9 +70,15 @@ export class CodeSnippet extends LitElement {
             throw new Error(`Language '"${language}"' is not supported.`);
         }
 
-        const p = document.createElement("p")
-        p.innerText= this.markup;
-        const markupEscaped = p.innerHTML.replaceAll("<br>", "\n");
+        let markupEscaped = this.markup;
+        if (language === "xml") {
+            // Hacky workaround to prevent the XML source from being treated as HTML
+            // Only done with 'xml' because 'cpp'/'cpp-nolinks' are used in the diff viewer
+            // and the diff markup includes HTML span tags that should not be escaped.
+            const p = document.createElement("p")
+            p.innerText = this.markup;
+            markupEscaped = p.innerHTML.replaceAll("<br>", "\n");
+        }
         const codeHtml = unsafeHTML(CodeSnippet.markups[language].highlightCode(markupEscaped));
 
         return html`
