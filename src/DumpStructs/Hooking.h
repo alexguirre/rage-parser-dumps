@@ -1,6 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include <type_traits>
+#include <initializer_list>
 
 /*
  * This file is part of the CitizenFX project - http://citizen.re/

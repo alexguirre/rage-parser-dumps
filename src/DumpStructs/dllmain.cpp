@@ -279,7 +279,7 @@ static CollectResult CollectStructs(parManager* parMgr)
 
 					if (isEnum(map->valueData))
 					{
-						addEnum(reinterpret_cast<parMemberEnumData*>(map->valueData)-);
+						addEnum(reinterpret_cast<parMemberEnumData*>(map->valueData));
 					}
 				}
 #endif
@@ -806,7 +806,7 @@ static void EarlyInit()
 
 	MH_Initialize();
 	MH_CreateHook(rage__parStructure__BuildStructureFromStaticData, &rage__parStructure__BuildStructureFromStaticData_detour, (void**)&rage__parStructure__BuildStructureFromStaticData_orig);
-	MH_EnableHook(MH_ALL_HOOKS)
+	MH_EnableHook(MH_ALL_HOOKS);
 #elif MP3
 	// the game unregisters some structs after using them
 	// disable rage::parManager::UnregisterStructure
