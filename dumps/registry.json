@@ -19,6 +19,10 @@
     ],
     "gta5": [
         {
+            "build": "3323",
+            "aliases": ["BattlEye 🤮"]
+        },
+        {
             "build": "3258",
             "aliases": ["Bottom Dollar Bounties", "mp2024_01", "mp2024_01_g9ec"]
         },
