@@ -1,7 +1,10 @@
 #pragma once
+#if MP3 || GTA4 || RDR2
+
 #if MP3 || GTA4
 #ifndef WIN32
 #error MP3/GTA4 only supports 32-bit builds!
+#endif
 #endif
 
 #include <cstdint>
@@ -31,7 +34,6 @@ struct atMap
 	uint16_t NumEntries;
 	int8_t field_C[3];
 	bool IsResizable;
-	Entry TMP;
 };
 
 template<class TKey, class TValue>
@@ -62,7 +64,7 @@ struct Func
   void *thunk;
 };
 
-#if MP3
+#if MP3 || RDR2
 struct parAttribute
 {
 	enum Type : uint8_t
@@ -133,7 +135,7 @@ enum class parMemberCommonSubtype
 	COLOR = 1, // used with UINT, VECTOR3
 };
 
-#if MP3
+#if MP3 || RDR2
 enum class parMemberEnumSubtype
 {
 	_32BIT = 0,
@@ -152,10 +154,12 @@ enum class parMemberArraySubtype
 	_UNKNOWN_5 = 5,	// struct { void *begin, *end }; maybe?
 	_UNKNOWN_6 = 6, // unused
 	_0x2087BB00 = 7, // unused, 32-bit atArray
-#if MP3
+#if MP3 || RDR2
 	POINTER_WITH_COUNT = 8,
+#if MP3
 	POINTER_WITH_COUNT_8BIT_IDX = 9,
 	POINTER_WITH_COUNT_16BIT_IDX = 10,
+#endif
 #endif
 };
 
@@ -165,7 +169,7 @@ enum class parMemberStringSubtype
 	POINTER = 1,
 	_UNKNOWN_2 = 2, // std::string?
 	CONST_STRING = 3,
-#if MP3
+#if MP3 || RDR2
 	ATSTRING = 4,
 	WIDE_MEMBER = 5,
 	WIDE_POINTER = 6,
@@ -186,13 +190,13 @@ struct parMemberCommonData
 {
 	const char* name;
 	uint32_t nameHash;
-	uint32_t offset;
+	size_t offset;
 	parMemberType type;
 	uint8_t subType;
 	uint16_t flags1;
 	uint16_t flags2;
 	uint16_t extraData; // specific to parMemberCommonData derived types
-#if MP3
+#if MP3 || RDR2
 	parAttributeList* attributes;
 #endif
 };
@@ -210,7 +214,7 @@ struct parMemberVectorData : parMemberCommonData
 struct parMemberMatrixData : parMemberCommonData
 {
 	// GTA4 doesn't have initValues, parInitVisitor is hardcoded to the identity matrix
-#if MP3
+#if MP3 || RDR2
 	float initValues[16];
 #endif
 };
@@ -250,7 +254,7 @@ struct parMemberEnumData : parMemberCommonData
 
 struct parMemberArrayData : parMemberCommonData
 {
-	uint32_t itemByteSize;
+	size_t itemByteSize;
 	union
 	{
 		uint32_t arraySize;
@@ -265,10 +269,12 @@ struct parMember
 	parMemberCommonData* data;
 
 	virtual ~parMember() = 0;
-#if MP3
+#if MP3 || RDR2
 	virtual void ReadTreeNode(void* node, void* dest) = 0;
 	virtual void LoadExtraAttributes(void* node) = 0;
+#if MP3
 	virtual uint32_t GetSize() = 0;
+#endif
 #elif GTA4
 	virtual const char* GetName() = 0;
 	virtual int GetOffset() = 0;
@@ -282,6 +288,9 @@ struct parMember
 	virtual uint32_t GetNameHash() = 0;
 	virtual uint8_t GetSubType() = 0;
 
+#endif
+
+#if GTA4 || RDR2
 	uint32_t GetSize();
 #endif
 };
@@ -296,16 +305,16 @@ struct parStructure
 	void* __vftable;
 	const char* name;
 	parStructure* baseStructure;
-	uint32_t baseOffset;
-	uint32_t structureSize;
+	size_t baseOffset;
+	size_t structureSize;
 	atArray<parMember*> members;
 	uint16_t versionMajor;
 	uint16_t versionMinor;
-#if MP3
+#if MP3 || RDR2
 	parAttributeList* extraAttributes;
 #endif
 	parDelegateHolderBase factoryNew;
-#if MP3
+#if MP3 || RDR2
 	parDelegateHolderBase unknownDelegate; // always default function set in ctor
 #endif
 	parDelegateHolderBase getStructureCB;
@@ -315,7 +324,11 @@ struct parStructure
 
 struct parManager
 {
+#if RDR2
+	uint8_t padding[0x20];
+#else
 	uint8_t padding[0x18];
+#endif
 	atMap<const char*, parStructure**> structures;
 	// ...
 

@@ -1,4 +1,4 @@
-#if MP3 || GTA4
+#if MP3 || GTA4 || RDR2
 #include "rage_gta4.h"
 #include <Hooking.Patterns.h>
 
@@ -8,6 +8,14 @@ parManager** parManager::sm_Instance = nullptr;
 uint32_t parMember::GetSize()
 {
 	// TODO(GTA4): parMember::GetSize
+	return 0;
+}
+#endif
+
+#if RDR2
+uint32_t parMember::GetSize()
+{
+	// TODO(RDR2): parMember::GetSize
 	return 0;
 }
 #endif
@@ -32,14 +40,16 @@ std::string SubtypeToStr(parMemberType type, uint8_t subtype)
 		case parMemberArraySubtype::_UNKNOWN_5: return "_UNKNOWN_5";
 		case parMemberArraySubtype::_UNKNOWN_6: return "_UNKNOWN_6";
 		case parMemberArraySubtype::_0x2087BB00: return "_0x2087BB00";
-#if MP3
+#if MP3 || RDR2
 		case parMemberArraySubtype::POINTER_WITH_COUNT: return "POINTER_WITH_COUNT";
+#if MP3
 		case parMemberArraySubtype::POINTER_WITH_COUNT_8BIT_IDX: return "POINTER_WITH_COUNT_8BIT_IDX";
 		case parMemberArraySubtype::POINTER_WITH_COUNT_16BIT_IDX: return "POINTER_WITH_COUNT_16BIT_IDX";
 #endif
+#endif
 		}
 		break;
-#if MP3
+#if MP3 || RDR2
 	case parMemberType::ENUM:
 		switch (static_cast<parMemberEnumSubtype>(subtype))
 		{
@@ -56,7 +66,7 @@ std::string SubtypeToStr(parMemberType type, uint8_t subtype)
 		case parMemberStringSubtype::POINTER: return "POINTER";
 		case parMemberStringSubtype::_UNKNOWN_2: return "_UNKNOWN_2";
 		case parMemberStringSubtype::CONST_STRING: return "CONST_STRING";
-#if MP3
+#if MP3 || RDR2
 		case parMemberStringSubtype::ATSTRING: return "ATSTRING";
 		case parMemberStringSubtype::WIDE_MEMBER: return "WIDE_MEMBER";
 		case parMemberStringSubtype::WIDE_POINTER: return "WIDE_POINTER";

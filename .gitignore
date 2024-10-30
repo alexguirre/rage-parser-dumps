@@ -330,10 +330,12 @@ ASALocalRun/
 .mfractor/
 
 Release-RDR3/
+Release-RDR2/
 Release-GTA5/
 Release-MP3/
 Release-GTA4/
 Debug-RDR3/
+Debug-RDR2/
 Debug-GTA5/
 Debug-MP3/
 Debug-GTA4/
