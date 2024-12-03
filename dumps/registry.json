@@ -20,7 +20,7 @@
     "gta5": [
         {
             "build": "3323",
-            "aliases": ["BattlEye 🤮"]
+            "aliases": ["BattlEye"]
         },
         {
             "build": "3258",
@@ -106,6 +106,10 @@
         }
     ],
     "rdr2": [
+        {
+            "build": "1.0.42.46611",
+            "aliases": []
+        },
         {
             "build": "1.0.40.57107",
             "aliases": []
