@@ -25,6 +25,14 @@
       <Configuration>Debug-GTA5</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug-GTA5G9|Win32">
+      <Configuration>Debug-GTA5G9</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug-GTA5G9|x64">
+      <Configuration>Debug-GTA5G9</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug-GTA4|Win32">
       <Configuration>Debug-GTA4</Configuration>
       <Platform>Win32</Platform>
@@ -63,6 +71,14 @@
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release-GTA5|x64">
       <Configuration>Release-GTA5</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release-GTA5G9|Win32">
+      <Configuration>Release-GTA5G9</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release-GTA5G9|x64">
+      <Configuration>Release-GTA5G9</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release-GTA4|Win32">
@@ -180,6 +196,11 @@
   <ItemDefinitionGroup Condition="$(Configuration.EndsWith(`GTA5`))">
     <ClCompile>
       <PreprocessorDefinitions>GTA5;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="$(Configuration.EndsWith(`GTA5G9`))">
+    <ClCompile>
+      <PreprocessorDefinitions>GTA5G9;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="$(Configuration.EndsWith(`GTA4`))">

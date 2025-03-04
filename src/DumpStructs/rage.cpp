@@ -1,4 +1,4 @@
-#if RDR3 || GTA5
+#if RDR3 || GTA5 || GTA5G9
 #include "rage.h"
 #include <Hooking.Patterns.h>
 
@@ -11,8 +11,10 @@ uint32_t parStructure::FindAlign()
 	static fn_t* fn =
 #if RDR3
 		hook::get_pattern<fn_t>("0F B7 41 52 33 ED 48 8B F9 66 85 C0", -0x14);
-#else
+#elif GTA5
 		hook::get_pattern<fn_t>("0F B7 41 2A 33 F6 48 8B F9 66 85 C0 74 05", -0xF);
+#elif GTA5G9
+		hook::get_pattern<fn_t>("56 57 53 48 83 EC ? 0F B7 41 ? 48 85 C0 75");
 #endif
 
 	return fn(this);

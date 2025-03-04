@@ -1,5 +1,5 @@
 #pragma once
-#if RDR3 || GTA5
+#if RDR3 || GTA5 || GTA5G9
 
 #include <cstdint>
 #include <string>
@@ -470,4 +470,4 @@ const char* EnumToString(parAttribute::Type type);
 std::string FlagsToString(parEnumFlags flags);
 std::string FlagsToString(parStructure::Flags flags);
 std::string FlagsToString(parMemberArrayData::AllocFlags flags);
-#endif // RDR3 || GTA5
+#endif // RDR3 || GTA5 || GTA5G9
