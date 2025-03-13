@@ -19,6 +19,10 @@
     ],
     "gta5": [
         {
+            "build": "812g9",
+            "aliases": [""]
+        },
+        {
             "build": "811g9",
             "aliases": ["Enhanced™"]
         },
