@@ -19,7 +19,11 @@
     ],
     "gta5": [
         {
-            "build": "889g9",
+            "build": "889.22g9",
+            "aliases": ["DLSS 4"]
+        },
+        {
+            "build": "889.15g9",
             "aliases": ["Money Fronts", "mp2025_01", "mp2025_01_g9ec"]
         },
         {
