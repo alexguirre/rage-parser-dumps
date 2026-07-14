@@ -19,6 +19,10 @@
     ],
     "gta5": [
         {
+            "build": "1158g9",
+            "aliases": ["The Kortz Center Heist", "mp2026_01", "mp2026_01_g9ec"]
+        },
+        {
             "build": "1013g9",
             "aliases": ["A Safehouse in the Hills", "mp2025_02", "mp2025_02_g9ec"]
         },
