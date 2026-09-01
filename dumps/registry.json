@@ -155,6 +155,12 @@
             "aliases": []
         }
     ],
+    "mc4": [
+        {
+            "build": "complete",
+            "aliases": ["Complete Edition (Xbox 360)"]
+        }
+    ],
     "gta4": [
         {
             "build": "1.2.0.59",
