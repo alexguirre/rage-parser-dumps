@@ -4,6 +4,8 @@ Each subdirectory here contains JSON dumps for different game versions as genera
 - **rdr3**: Red Dead Redemption 2
 - **gta5**: Grand Theft Auto V
 - **mp3**: Max Payne 3
+- **rdr2**: Red Dead Redemption
+- **mc4**: Midnight Club: Los Angeles
 - **gta4**: Grand Theft Auto IV
 
 ### Registry
@@ -15,3 +17,5 @@ Each subdirectory here contains JSON dumps for different game versions as genera
 [`dictionary.txt`](./dictionary.txt) contains the list of strings used to resolve hashes in the dumps.
 
 To contribute new strings, add them anywhere in the file and before opening a PR, execute either [`sort_dictionary.ps1`](./sort_dictionary.ps1) or [`sort_dictionary.sh`](./sort_dictionary.sh) from this directory. This will sort the whole dictionary and remove any duplicate strings.
+
+[`dictionary.unused.txt`](./dictionary.unused.txt) contains strings previously in `dictionary.txt` that are not used in any dump. Kept because they may still be useful to resolve hashes, as they generally come from the game files.
