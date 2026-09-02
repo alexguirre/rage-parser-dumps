@@ -2725,7 +2725,6 @@ AMB_FIGHT_GRAB_ATTACK_02_VIC
 AMB_FIGHT_GRAB_ATTACK_03_ATT
 AMB_FIGHT_GRAB_ATTACK_03_VIC
 AMB_GANG_CAMPFIRE_PEDS
-AMB_PROCEDURAL_BLOOD_FILE
 AMB_TRAIN
 AMB_TRAIN_LOWERCLASS
 AMB_TRAIN_LOWERCLASS_FEMALE
@@ -4145,12 +4144,6 @@ APF_ISFINISHAUTOREMOVE
 APF_ISLOOPED
 APF_ISPLAYING
 APF_SCRIPT
-APF_SELFSIXD
-APF_SELFSIXI
-APF_SELFSIXJ
-APF_SELFSIXK
-APF_SELFSIXL
-APF_SELFSIXM
 APF_SISTER
 APF_SKIP_NEXT_UPDATE_BLEND
 APF_TAG_SYNC_WITH_MOTION_TASK
@@ -4173,9 +4166,6 @@ APF_UNUSED_9
 APF_UPPERBODYONLY
 APF_USE_DEFAULT_RCB
 APF_USE_SECONDARY_SLOT
-APF_XPCOOLBD
-APF_XPCOOLBE
-APF_XPCOOLBG
 API
 APMS_COMP_ABIGAIL
 APMS_COMP_ADLERS
@@ -21641,7 +21631,6 @@ CFogOfWarSaveStructure
 CFoliageDetector__Tunables
 CFoliageDetector__Tunables__ProbeSetupTunables
 CForceCleanupDetails
-CFriendlyIssues
 CFrontendFeedRegistrationMgr
 CFuelTypeInfo
 CG
@@ -44611,7 +44600,6 @@ DETECTED
 DEV
 DEVICE
 DEVICE_CALC_RENDER_RESOURCES
-DEVINS_SNOWLIGHT
 DEV_
 DF_BONNET
 DF_BOOT
@@ -47595,7 +47583,6 @@ DRIVEN_SLOW_RMAYR_RIDE1
 DRIVEN_SLOW_RXCF1_RIDE2
 DRIVEN_SLOW_SUS1_RIDE1
 DRIVER
-DRIVER_RULES_STD_FILE
 DRIVER_SEAT
 DRIVER_SEAT_RELATIVE
 DRIVER_VEHICLE
@@ -72378,7 +72365,6 @@ HashNode
 HashOID
 HashOfTextKeyOfLastCompletedMission
 HashOp
-HashOrdering
 HashOutput
 HashOutputRaw
 HashPage
@@ -124287,7 +124273,6 @@ Refuel
 Reg
 RegCollection
 Regain
-RegainComet
 RegenDamageCooldown
 RegenerateBound
 RegenerateFrustumPlanes
@@ -173010,7 +172995,6 @@ declare
 decltype
 decode
 decoder
-decollete
 decompLevel
 decompLevelProgress
 decomposeGlyphOutline
@@ -173428,7 +173412,6 @@ destinations
 destroy
 destroyEventQueue
 destroyItself
-destroySuppressor
 destruction
 destructorINS5
 detach
@@ -176829,7 +176812,6 @@ fCancelTargetInCoverMovedDist
 fCancelTargetOutOfCoverMovedDist
 fCapsuleRadius
 fCapsuleWidth
-fCargoFuel
 fCastor
 fChainedScenarioScoreMod
 fChance
@@ -177335,7 +177317,6 @@ fInfluenceSphereCheckRouteRadius
 fInfluenceSphereInnerWeight
 fInfluenceSphereOuterWeight
 fInfluenceSphereRequestRadius
-fInitalOverheadAssist
 fInitialComponentHealth
 fInitialDelay
 fInitialDragCoeff
@@ -183602,7 +183583,6 @@ iType
 iValue
 iVariationCount
 iVariationOverride
-iVectorDefault
 iVehicleCount
 iVehicleRemovalCount
 iVersionId
@@ -184747,7 +184727,6 @@ kFadesIn
 kFeedChannel_Count
 kFeedChannel_Help
 kFeedChannel_Invalid
-kFeedChannel_Isolated
 kFeedChannel_Location
 kFeedChannel_MissionName
 kFeedChannel_Objective
@@ -196121,7 +196100,6 @@ rage__SafeframeData
 rage__SafeframeProfile
 rage__ScrollViewerParams
 rage__SetsMgr
-rage__SimpleScaleform
 rage__SpecializedParamAsset
 rage__SpecializedParamInstanceAsset
 rage__SpecializedParamInstanceAssetWithOverride
@@ -206435,7 +206413,6 @@ vEndPosition
 vExtendMinMax
 vExtraRoomPos
 vGetPolyVolumeCentre
-vHaltFrequency
 vHeadings
 vHeight
 vHemisphereNormals
