@@ -32,6 +32,7 @@
 9
 A
 AABB
+AAType
 AA_STRENGTH_HEAVY
 AA_STRENGTH_LIGHT
 AA_STRENGTH_MEDIUM
@@ -1567,6 +1568,7 @@ AllLockData
 AllLods
 AllPass
 AllPromptData
+AllVehicleHeadlightShadowsQuality
 Alligator
 Allow
 AllowActivePursuit
@@ -3110,6 +3112,7 @@ BUTTON_R2
 BUTTON_START
 BUTTON_X
 BUTTON_Y
+BVHQuality
 BZGAS
 Back
 BackFacing
@@ -13103,6 +13106,13 @@ DeferFallBlockTestAngle
 DeferFallBlockTestDistance
 DeferFallBlockTestRadius
 DeferHighFallTime
+DeferredCubeReflectionsComputeEnabled
+DeferredCubeReflectionsEnabled
+DeferredMirrorReflectionsComputeEnabled
+DeferredMirrorReflectionsEnabled
+DeferredReflectionsEnabled
+DeferredWaterReflectionsComputeEnabled
+DeferredWaterReflectionsEnabled
 DefinedDefaultCompositeEntityConfigs
 DefinedDefaultDeadAndCarriableConfigs
 DefinedDefaultGenericObjectConfigs
@@ -31042,6 +31052,7 @@ PostDismissalCrimeSceneArrestRadius
 PostDismissalGracePeriodMS
 PostDismissalSearcherArrestRadius
 PostFX
+PostFXQuality
 PostFXStage
 PostInteractionType
 PostInteraction_AggressiveFire
@@ -32734,6 +32745,7 @@ ReportType_Friendly
 ReportType_GameExploit
 ReportType_Griefing
 ReportType_Helpful
+ReportType_Invalid
 ReportType_Jobs
 ReportType_None
 ReportType_OffensiveCrewEmblem
@@ -33792,6 +33804,7 @@ SSAOAllowedInSnow
 SSAOAllowedInTrails
 SSAOLightInten
 SSAOStrength
+SSAOType
 SS_Default
 SS_FallOverWall
 SS_ForwardLean
