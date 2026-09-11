@@ -2144,6 +2144,7 @@ AlwaysUseStarts
 AlwaysUseStops
 AlwaysUseStopsCount
 AmbientAnimLengthBuffer
+AmbientAnimMountedLengthBuffer
 AmbientAudio
 AmbientClips
 AmbientClipsForFlee
@@ -12873,8 +12874,10 @@ CustomBaseCrossBlendDuration
 CustomBlendCurveType
 CustomBlendInDuration
 CustomBlendInDurationMs
+CustomBlendInSettingsRef
 CustomBlendOutDuration
 CustomBlendOutDurationMs
+CustomBlendOutSettingsRef
 CustomBoundingBoxSettings
 CustomCircleSweepTestRadius
 CustomCollisionOriginRelativePosition
@@ -13856,6 +13859,7 @@ DefaultTargetAngularLimit
 DefaultTargetAngularLimitClose
 DefaultTargetAngularLimitCloseDistMax
 DefaultTargetAngularLimitCloseDistMin
+DefaultTargetAngularLimitHorsebackMelee
 DefaultTargetAngularLimitMelee
 DefaultTargetAngularLimitMeleeLockOnNoStick
 DefaultTargetAngularLimitVehicleWeapon
@@ -14035,6 +14039,7 @@ DesiredDirToCoverMinDot
 DesiredDirToCoverWeight
 DesiredDirection
 DesiredDistanceToCover
+DesiredDistanceToCoverFPSAim
 DesiredDistanceToCoverFPSIdle
 DesiredDistanceToCoverToRequestStep
 DesiredErrorBlendInSpringConstant
@@ -16227,6 +16232,7 @@ EnterProbeCapsuleEndOffset
 EnterProbeCapsuleRadiusOverride
 EnterProbeStartZOverride
 EnterPromptNameOverride
+EnterProp2ClipId
 EnterPropClipId
 EnterRightSideClipSetId
 EnterToBaseBlendDuration
@@ -22112,6 +22118,7 @@ IconVisible
 IconsInDebugText
 Id
 IdealAccelerationApproachTime
+IdealDecelerationApproachTime
 IdealDistance
 IdealDistanceCouldLeaveCar
 IdealDistanceForPursue
@@ -22621,6 +22628,8 @@ InitialRumbleIntensity
 InitialRumbleIntensityFps
 InitialRumbleIntensityTrigger
 InitialScreen
+InitialScreenSpaceHorizontalOffset
+InitialScreenSpaceVerticalOffset
 InitialSearchSituation
 InitialSlowMoSpeed
 InitialState
@@ -22861,6 +22870,7 @@ InterruptSettleAttachmentInterpolationDurationAtEndOfPickup
 InterruptStop
 InterruptToActionId
 InterruptToActionOnlineId
+InterruptToExitId
 Interruptible
 InterruptingInteractionsInterrupt
 InterruptionSpeedPercentageFor180s
@@ -24408,6 +24418,8 @@ LocoSetIDMove
 LocoSetIDMoveStart
 LocoSetIDStep
 LocoSetIDStop
+LocoSetIDTurn
+LocoSetIDTurnQuick
 LocoTypeChangeDefault
 Loco__AdditionalClipSet
 Loco__AdditionalMotionSet
@@ -24757,6 +24769,7 @@ LootedOnly
 LootedPedMustBeHuman
 LootedPedMustBeInnocent
 LootingAltPromptTag
+LootingDefaultPromptTag
 LootingOnly
 LootingQuickPromptTag
 LootingScenario
@@ -26158,6 +26171,7 @@ MaxMembers
 MaxMinutesSince
 MaxMloInstances
 MaxMloModelInfos
+MaxMountedEscapeDistance
 MaxMoveAcceleration
 MaxMoveOrientationSpeedDuringLookAround
 MaxMoveSpeedForFollowOrientation
@@ -32112,6 +32126,7 @@ PickupCarriableEntityFromParentDataSetSelector
 PickupCrouched
 PickupCrouchedKnee
 PickupDropMinPitch
+PickupDropPedPitchOffset
 PickupDropPitchOffset
 PickupDropSpringConstant
 PickupFlags
@@ -32417,6 +32432,7 @@ PlayerTimeMyVehicleLookAtsMin
 PlayerTurnControlThreshold
 PlayerUpperbodyWeaponAttachOffset
 PlayerUseInfos
+PlayerVelThresholdForPlayerMovement
 PlayerVerticalFov
 PlayerVolume
 PlayerWalkCapsuleRadius
@@ -32921,6 +32937,7 @@ ProneFrameSettings
 ProneToFlourishHealthThreshold
 Pronghorn
 Prop
+Prop2ClipId
 PropArray
 PropBlocker
 PropBlockerLength
@@ -34755,6 +34772,7 @@ RollInputSettings
 RollLimitBlendRate
 RollLimitForMelee
 RollLimitForMeleeGrapple
+RollLimitForMeleeGrappleMounted
 RollLimitForScenario
 RollLimitForScenarioEntry
 RollLimitSpringConstant
@@ -35729,6 +35747,7 @@ ScalingMethod
 ScanDistance
 ScanDistanceScalar
 ScanNearbyMountsDistance
+ScanNearbyVehiclesDistance
 ScanNodesFreqMs
 ScanRadius
 ScanRadiusScalar
@@ -39062,6 +39081,7 @@ TargetDistanceMaxWeightingAimTime
 TargetDistanceThreshold
 TargetDistanceWeightingClose
 TargetDistanceWeightingCloseThreshold
+TargetDistanceWeightingFarThreshold
 TargetDistanceWeightingMax
 TargetDistanceWeightingMin
 TargetEntity
@@ -39827,6 +39847,7 @@ TimeToSwitchStickyTargets
 TimeToSwitchStickyTargetsMS
 TimeToTerminate
 TimeToTerminateForWheelsOnTheGround
+TimeToThrowProjectilePlayerMS
 TimeToThrowWeaponMS
 TimeToThrowWeaponPlayerMS
 TimeToTriggerMidEffect
@@ -43205,6 +43226,7 @@ WEAPON_GUN_AMMO_7
 WEAPON_GUN_AMMO_8
 WEAPON_GUN_AMMO_9
 WEAPON_GUN_FOREND
+WEAPON_GUN_KNOB_CONTROL
 WEAPON_HOLDING_ANIMATIONS_FILE
 WEAPON_LASERSIGHT
 WEAPON_LASERSIGHT2
@@ -46181,6 +46203,7 @@ decals
 decayFactor
 decompLevel
 decompLevelProgress
+decompSubLevel
 deepSurfaceViscosityType
 deepsurfaceQuality
 default
@@ -47899,6 +47922,7 @@ fKickAgitationThreshold
 fKickDistanceThreshold
 fKnockBackMag
 fKnockBackTime
+fKnockBackUpMag
 fKp
 fLandAngleMax
 fLandAngleMin
@@ -48318,6 +48342,7 @@ fMinTimeFacingTarget
 fMinTimeFacingTargetForFlocking
 fMinTimeFacingTargetForWarning
 fMinTimeFlocking
+fMinTimeInApproachState
 fMinTimeInCombatSeconds
 fMinTimeInGetUpToAllowCover
 fMinTimeInState
@@ -48810,6 +48835,7 @@ fTimeScale
 fTimeSinceLastAimedAtForGesture
 fTimeToFollowPostConversation
 fTimeToIgnoreBlockedLosWeighting
+fTimeToInvestigate
 fTimeToPickNewPoint
 fTimeToStandAtPerimeter
 fTimeToUseSecondaryTargetMax
@@ -48818,6 +48844,8 @@ fTimeToWaitBeforeFindingPointToMoveToAfterPathFail
 fTimeWarpScale
 fToeFront
 fToeRear
+fTooCloseDistance
+fTooFarDistance
 fTopAlpha
 fTotalDuration
 fTracksHeight
@@ -51436,6 +51464,7 @@ nOarConfiguration
 nPercCopsCars
 nPercCopsPeds
 nPercentageOfMaxCars
+nRestartDefMeleeDelayInMS
 nRestartMeleeDelayInMS
 nStayUprightTime
 nStoredHatPropIdx
@@ -52207,6 +52236,7 @@ ptFxBloodHeavyArmourHashName
 ptFxBloodUnderwaterHashName
 ptFxBoneTag
 ptFxDecPerSec
+ptFxDecalProbability
 ptFxDegradationEvoMax
 ptFxDegradationEvoMin
 ptFxDepthEvoMax
@@ -52218,6 +52248,10 @@ ptFxDistEvoMin
 ptFxDryHashName
 ptFxDryName
 ptFxEnabled
+ptFxEntryDryHashName
+ptFxEntryWetHashName
+ptFxExitDryHashName
+ptFxExitWetHashName
 ptFxExpressionId
 ptFxExtras
 ptFxFPHashName
@@ -55467,6 +55501,7 @@ vfxPedWadeDecalInfos
 vfxPedWadeInfos
 vfxPedWadePedDamageInfos
 vfxPedWadePtFxInfos
+vfxProjectileFuseInfos
 vfxProjectileGroundDisturbInfos
 vfxProjectileTrailInfos
 vfxRegion
@@ -55488,6 +55523,7 @@ vfxWeaponHammerInfos
 vfxWeaponImpactDecalScale
 vfxWeaponImpactDecalSettings
 vfxWeaponImpactInfos
+vfxWeaponImpactPtFxAltSettings
 vfxWeaponImpactPtFxScale
 vfxWeaponImpactPtFxSettings
 vfxWeaponImpactSettings
