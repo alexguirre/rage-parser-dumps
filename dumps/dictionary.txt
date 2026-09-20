@@ -253,6 +253,7 @@ AIEnterTransitionClips
 AIFCategory
 AIFEffectBlur
 AIFEffectBlurGaussianMode
+AIFEffectBlurRadialParams
 AIFEffectBlurStage
 AIFEffectBlurVignettingParams
 AIFEffectColorLUT
@@ -798,6 +799,16 @@ ASCOF_RESERVED_6
 ASCOF_RESERVED_7
 ASCOF_RESERVED_8
 ASCOF_RESERVED_9
+ASDUR_ANIMATOR
+ASDUR_AUDIO
+ASDUR_CAMERA
+ASDUR_DEFAULT
+ASDUR_LIGHTING
+ASDUR_MARKETING
+ASDUR_REVIEW
+ASDUR_SUBTITLE
+ASDUR_VFX
+ASES_NORMAL
 ASFW_FIRE_BLANK
 ASFW_INSTANT_KILL
 ASFW_PERFECT_ACCURACY
@@ -6401,6 +6412,7 @@ CCoverPointNode
 CCoverPointRegion
 CCoverPointRegionDef
 CCoverPointRegionManifest
+CCoverPointRegion__CCoverPointSubRegion
 CCoverPointStatusHelperTunables
 CCoverPointUsageInfo
 CCoverProcessorHelper_Rock__Tunables
@@ -6601,6 +6613,7 @@ CDispatchConditionDistanceToRegion
 CDispatchConditionIncidentsWithinTimeRange
 CDispatchConditionInterrogationStarted
 CDispatchConditionMurderIncidentsWithinTimeRange
+CDispatchConditionNearbyIncidents
 CDispatchConditionNearestPedIsRespondingToIncident
 CDispatchConditionSimilarCrimeScenesWithinTimeRange
 CDispatchConditionSuspectAccused
@@ -6797,6 +6810,7 @@ CEventInteraction__Tunables
 CEventLassoWhizzedBy__Tunables
 CEventMeleeAction__Tunables
 CEventNearbyAmbientThreat__Tunables
+CEventOwnedEntityInteraction__Tunables
 CEventPedJackingMyVehicle__Tunables
 CEventPlayerInCloseProximityToHorse__Tunables
 CEventPlayerOnRooftop__Tunables
@@ -6874,6 +6888,7 @@ CF_ActionMode
 CF_Align
 CF_AlignLong
 CF_AllowWeaponHolding
+CF_AnimalVehicleInteraction
 CF_AssistedEntry
 CF_BOX_VEHICLE_TYPE
 CF_Bow
@@ -7381,6 +7396,7 @@ CInteractionConditionIsArrestEscalated
 CInteractionConditionIsArrestLastChance
 CInteractionConditionIsBreakingOutOfGrapple
 CInteractionConditionIsContext
+CInteractionConditionIsDefuseForced
 CInteractionConditionIsDoingGrappleStateTransition
 CInteractionConditionIsFacing
 CInteractionConditionIsFatallyInjured
@@ -7872,6 +7888,7 @@ CModelAgingInfo
 CModelAgingInfos
 CModelAgingMgr
 CModelCullData
+CModelIndexMap
 CModelInfoConfig
 CMoneyInfo
 CMotionDictionaryDependencies
@@ -9007,6 +9024,8 @@ CPedSpeedData
 CPedSpeedDataBlock
 CPedSpeedGroup
 CPedStaminaComponent__Tunables
+CPedStaminaComponent__Tunables__LocoPenalties
+CPedStaminaComponent__Tunables__MudPenalties
 CPedStaminaComponent__Tunables__SprintingPenalties
 CPedStaminaComponent__Tunables__WaterPenalties
 CPedStaminaComponent__Tunables__WeaponPenalties
@@ -9031,6 +9050,7 @@ CPerscharAIConditionPlayerInVolume
 CPerscharTuning
 CPersistenceBoneScale
 CPersistenceConstants
+CPersistenceVector3
 CPersistentCharacterGroupInfo
 CPersistentCharacterInfo
 CPersistentCharacterInfoManager
@@ -9112,6 +9132,21 @@ CPopModelAndVariations
 CPopSchedule
 CPopScheduleList
 CPopZoneData
+CPopZoneData__sBoatSpawnerComponent
+CPopZoneData__sCoreComponent
+CPopZoneData__sDirtDefinition
+CPopZoneData__sFogComponent
+CPopZoneData__sGraphicsComponent
+CPopZoneData__sMiscComponent
+CPopZoneData__sPedBehaviorComponent
+CPopZoneData__sPedPopulationComponent
+CPopZoneData__sPopCycleComponent
+CPopZoneData__sScavengerComponent
+CPopZoneData__sSpawnerComponent
+CPopZoneData__sSwampComponent
+CPopZoneData__sTrafficBehaviorComponent
+CPopZoneData__sTrainSpawnerComponent
+CPopZoneData__sWeatherComponent
 CPopZoneData__sZone
 CPopZoneDesiredPedCount
 CPopZoneDesiredPedSchedule
@@ -10116,6 +10151,7 @@ CTaskMoveLedHorse__Tunables
 CTaskMoveLedHorse__Tunables__Common
 CTaskMoveLedHorse__Tunables__Follow
 CTaskMoveLedHorse__Tunables__Idle
+CTaskMoveLedHorse__Tunables__LeadingProbe
 CTaskMoveLedHorse__Tunables__PiaffeTurn
 CTaskMoveLedHorse__Tunables__PushTurn
 CTaskMoveLedHorse__Tunables__ShowTurn
@@ -10800,6 +10836,7 @@ CVfxEntityCollisionDecalInfo
 CVfxEntityCollisionPtFxInfo
 CVfxEntityDestroyDecalInfo
 CVfxEntityDestroyPtFxInfo
+CVfxEntityExplosionImpactPtFxInfo
 CVfxEntityInWaterPtFxInfo
 CVfxEntityInfoMgr
 CVfxEntityRayfirePtFxInfo
@@ -12581,6 +12618,7 @@ CoorsY
 CoorsZ
 CopInVehicleVisualReactionRange
 CopInvestigating
+CopSearchCone
 Cops
 CopsToPreserveAroundPlayer
 CopyThreatResponse
@@ -13646,6 +13684,7 @@ DcOffset
 Dead
 DeadAndHogtiedSwapConfigSelector
 DeadAndHogtiedSwapConfigSelectors
+DeadAtStart
 DeadBlendOutSet
 DeadBoneScaleMax
 DeadBoneScaleMin
@@ -13662,9 +13701,12 @@ DeadThroughKnockout
 DeadVictim
 DeadZoneAnyInputDirection
 DeadZoneStickNorm
+DeadeyeCockFirePlayRateModifier
+DeadeyeCockPlayRateModifier
 DeadeyeCockRecoilRateModifier
 DeadeyeDrainModifier
 DeadeyeReloadRateModifier
+DeadeyeSwapWeaponRateModifier
 DeathFailIntroEffectShakeRef
 DeathFailOutroEffectShakeRef
 DeathShakeRef
@@ -15253,6 +15295,7 @@ DyingHealthThreshold
 DynamicItemDisplayPath
 DynamicItemsContext
 DynamicMappings
+DynamicObjectCoverPointSets
 DynamicPointCount
 DynamicScenarios
 DynamicSet1
@@ -15316,6 +15359,7 @@ EASE_quartic_EO
 EASE_sine_EI
 EASE_sine_EIEO
 EASE_sine_EO
+ECDT_None
 EFFECT_DEADEYE
 EFFECT_DEADEYE_CORE
 EFFECT_DEADEYE_CORE_GOLD
@@ -16840,6 +16884,7 @@ ExtraHeightForGround
 ExtraHeightOffsetOnWaterSurface
 ExtraHeightOffsetOnWaterSurfaceWithRider
 ExtraId
+ExtraInfoContainer
 ExtraInfos
 ExtraModelPitchWithRider
 ExtraNavmeshCheckDistance
@@ -17681,6 +17726,7 @@ FemaleIkOffset
 FemaleOneHandedCombatWeaponHoldingHash
 FemalePedOffset
 FemaleSetID
+FemaleSnapMult
 FemaleStreamingClipSets
 FemaleStreamingClipSetsMounted
 FemaleSwapClipSetId
@@ -18305,6 +18351,7 @@ FootSlowFastThreshold
 FootSlowMovementZoom
 FootSync
 FootageFXName
+FootagePostFXStore
 ForFlockMigration
 Force
 ForceAIUpdate
@@ -19094,6 +19141,7 @@ GrabUseTaskGrabAttachmentFixup
 Gradient
 GradientCurve
 GradientGUID
+GradientMapStore
 GradientName
 GradientSetName
 Gradients
@@ -19243,6 +19291,7 @@ GroupName
 GroupNames
 GroupSearchFireRadius
 GroupSearchInnerRadius
+GroupSearchMidRadius
 GroupSearchOuterRadius
 GroupSearchRadius
 GroupSearchSeatedRadius
@@ -23383,6 +23432,7 @@ IsOnDemand
 IsOnFire
 IsOrientationRelativeToAttached
 IsOutlawWeapon
+IsOvershoot
 IsOwnerContextASubset
 IsPassengerOnlyEntry
 IsPedAimVolume
@@ -24277,6 +24327,7 @@ LeadingLookMetadata
 LeadingLookScreenRotation
 LeadingLookSettings
 LeadingLookSpringConstant
+LeadingProbeTunables
 LeanAngleBlendClipHighId
 LeanAngleBlendClipLowId
 LeanAngleBlendOverlayClipHighId
@@ -24655,8 +24706,10 @@ LocoSetIDHeightSwitch
 LocoSetIDIdle
 LocoSetIDMove
 LocoSetIDMoveStart
+LocoSetIDMoveStartFromTurn
 LocoSetIDStep
 LocoSetIDStop
+LocoSetIDStopFromTurnQuick
 LocoSetIDTurn
 LocoSetIDTurnQuick
 LocoTypeChangeDefault
@@ -25141,6 +25194,7 @@ MAP_REGISTER_WITH_HUD
 MAP_THREAT_INDICATION
 MAP_TO_GROUND
 MARKERSINFO_FILE
+MASH_AUTO_FILL
 MASS
 MATERIALFX_FILE
 MAX_COMBAT_FLAGS
@@ -25500,6 +25554,10 @@ MKT_SPORT
 MKT_STANDARD
 MKT_SUV
 MLOInstflags
+MLRT_Invalid
+MLRT_Permanent
+MLRT_Table
+MLRT_Timed
 MM_BITMAP_VERSION
 MM_BITMAP_VERSION_ALPHA
 MM_BITMAP_VERSION_MINIMAP
@@ -27142,6 +27200,7 @@ MeleeCombatData
 MeleeCombatOnly
 MeleeConfront
 MeleeDamageMultiplier
+MeleeDeadOffscreenAngle
 MeleeEnduranceDamage
 MeleeEnemies
 MeleeExecutionDismemberment
@@ -27170,6 +27229,7 @@ MeleeModifierLocalPlayer
 MeleeMovementMBR
 MeleeOffhandClipSetHash
 MeleeOffscreenAngle
+MeleeOffscreenRotateAngle
 MeleeOnMountCoreClipSetHash
 MeleePitchLimits
 MeleePrimaryHandClipSetHash
@@ -28314,6 +28374,8 @@ MiniGameData
 MiniName
 MinigameChatMessage
 MinigameChatMessageStyle
+MinigameLegalRestriction
+MinigameLegalRestrictionType
 MinigamePlayerId
 MinigameSettings
 MinigameTableId
@@ -30905,6 +30967,7 @@ PFF_WildMediumAnimals
 PFF_WildSmallAnimals
 PGDUR_ActionPerformed
 PGDUR_BuyIns
+PGDUR_DealOverSP
 PGDUR_GameCleared
 PGDUR_GameOver
 PGDUR_Invalid
@@ -30913,6 +30976,7 @@ PGDUR_RoundOver
 PGDUR_RoundStarted
 PGDUR_TurnOver
 PGDUR_TurnStarted
+PGDUR_WaitForGameStart
 PGT_CappedLimit
 PGT_FixedLimit
 PGT_Invalid
@@ -31906,6 +31970,7 @@ Particles
 PartnerTaskNotRequired
 PassedOut
 PassengerIkData
+PassengerNoDriverIkData
 PassengerPed
 PassengerTemplateData
 Passengers
@@ -34275,6 +34340,7 @@ ReceivedStealRideRequest
 ReceivedStopMountOrVehicleRequest
 ReceivedWitnessCallOut
 RecentlyIntimidatedModifier
+RecentlyLookedAtDeadBodyModifier
 RecentlyLookedAtEntityModifier
 RecentlyLookedAtPlayerModifier
 RechargeInCoverMultiplier
@@ -34854,6 +34920,7 @@ ReticuleStyleHash
 ReticuleSwaySettleModifier
 Retreat
 RetreatDistance
+RetreatEvaluationDelay
 RetreatRange
 RetreatV2
 Retreating
@@ -36530,6 +36597,7 @@ SeeingRangePeripheral
 SeeingRangePeripheralMax
 SeeingRangePeripheralMin
 SeekCover
+SeekEvaluationDelay
 SeekFleeScenarios
 SeekFleeScenariosWhenFleeing
 SeekModeScanTime
@@ -37229,6 +37297,7 @@ Slides
 SlideshowData
 SlidingCapsuleOffsetZ
 SlidingContinousEffect
+SlidingDirectionalControlLimits
 SlidingDistanceCheckToStopSlide
 SlidingEffectType
 SlidingEffectType_Agitation
@@ -39003,6 +39072,7 @@ TEXT_PRINTED
 TEXT_WRITTEN
 TF_Action
 TF_Agitated
+TF_AllowDisabled
 TF_BarebackEntry
 TF_Bonded
 TF_CarryingProp
@@ -39408,6 +39478,7 @@ TargetDist
 TargetDistAlongTrain
 TargetDistSq
 TargetDistance
+TargetDistanceEvaluationDelay
 TargetDistanceFallOffMax
 TargetDistanceFallOffMin
 TargetDistanceFromVehicleEntry
@@ -41005,6 +41076,7 @@ UnderCarMaxVelocity
 UnderDesiredMbrThreshold
 UnderEntity
 UnderFire
+UnderFireAndInjuredSetID
 UnderFireHigh
 UnderFireMedium
 UnderFireSetID
@@ -43041,6 +43113,7 @@ VisibleLootSlotRequest_Any
 VisibleLootSlotRequest_Group_Any_Chest
 VisibleLootSlotRequest_Group_Any_Hand
 VisibleLootSlotRequest_Group_Any_Waist
+VisibleLootSlotRequest_Group_Any_Waist_Or_Chest
 VisibleLootSlotRequest_Specific_Human_Chest_Left
 VisibleLootSlotRequest_Specific_Human_Chest_Right
 VisibleLootSlotRequest_Specific_Human_Ears
@@ -44775,10 +44848,28 @@ animalDirtBoostMin
 animalDirtBuildup
 animalDirtColor
 animalDirtDefinition
+animalDirtHideBaseEnd
+animalDirtHideBaseStart
+animalDirtHideBaseStrength
+animalDirtHideBoostEnd
+animalDirtHideBoostStart
+animalDirtHideBoostStrength
+animalDirtHideCorpseEnd
+animalDirtHideCorpseStart
+animalDirtHideCorpseStrength
 animalDirtHideMax
 animalDirtHideMin
 animalDirtMax
 animalDirtMin
+animalDirtSkinBaseEnd
+animalDirtSkinBaseStart
+animalDirtSkinBaseStrength
+animalDirtSkinBoostEnd
+animalDirtSkinBoostStart
+animalDirtSkinBoostStrength
+animalDirtSkinCorpseEnd
+animalDirtSkinCorpseStart
+animalDirtSkinCorpseStrength
 animalDirtSkinMax
 animalDirtSkinMin
 animalItems
@@ -46968,6 +47059,7 @@ eIkControlFlags
 eImpactConeRagdollComponent
 eInVehicleUpperBodyAnimInfoFlags
 eInVehicleUpperBodyAnimInfoPriorityFlags
+eInputContextSlotCount
 eInputNavigationDirection
 eInputNavigationStyle
 eInstanceCategoryFlags
@@ -47249,6 +47341,7 @@ eWindowId
 eZoneScumminess
 eZoneSpecialAttributeType
 eZoneVehicleResponseType
+eagleEyeRenderInfo
 earlyOutPhase
 edgeBasedAlphaFadeLength
 edgeBasedAlphaRadius
@@ -47460,6 +47553,7 @@ explosionType
 exportedBy
 exposure
 exposureEventFlags
+exposureLockDelay
 exposureMax
 exposureMin
 exposureSystemType
@@ -48391,6 +48485,7 @@ fMaxAngularAcceleration
 fMaxAngularSpeed
 fMaxAngularVelocity
 fMaxApproachStopDistance
+fMaxApproachingDoorDistance
 fMaxArmAmplitude
 fMaxArmPeriod
 fMaxArmStiffness
@@ -48596,6 +48691,7 @@ fMinAngleForDrop
 fMinAngleForObstacle
 fMinAngularSpeed
 fMinApproachStopDistance
+fMinApproachingDoorDistance
 fMinArmAmplitude
 fMinArmPeriod
 fMinArmStiffness
@@ -49674,6 +49770,7 @@ frameValue
 frames
 framesPerSecondResult
 free
+freezeAmbientMap
 freezeReflections
 freezeTemperature
 freqAndAmp
@@ -50239,8 +50336,26 @@ holsterPoint
 hookVehicleOffsetsArray
 horizontalAlignment
 horizontalPivot
+horseDirtHideBaseEnd
+horseDirtHideBaseStart
+horseDirtHideBaseStrength
+horseDirtHideBoostEnd
+horseDirtHideBoostStart
+horseDirtHideBoostStrength
+horseDirtHideCorpseEnd
+horseDirtHideCorpseStart
+horseDirtHideCorpseStrength
 horseDirtHideMax
 horseDirtHideMin
+horseDirtSkinBaseEnd
+horseDirtSkinBaseStart
+horseDirtSkinBaseStrength
+horseDirtSkinBoostEnd
+horseDirtSkinBoostStart
+horseDirtSkinBoostStrength
+horseDirtSkinCorpseEnd
+horseDirtSkinCorpseStart
+horseDirtSkinCorpseStrength
 horseDirtSkinMax
 horseDirtSkinMin
 horseItems
@@ -50803,6 +50918,9 @@ kFeedMessageCat_Death
 kFeedMessageCat_FME
 kFeedMessageCat_General
 kFeedMessageCat_Invite
+kFeedMessageCat_ItemGained
+kFeedMessageCat_ItemLost
+kFeedMessageCat_KillStreak
 kFeedMessageCat_LevelUp
 kFirstPersonProp
 kFloat
@@ -51256,6 +51374,7 @@ light
 lightAtlasHeight
 lightAtlasMode
 lightAtlasModeMax
+lightAtlasQualityLevelInfos
 lightCastsShadows
 lightColBMax
 lightColBMin
@@ -52385,12 +52504,30 @@ pedData
 pedDirtBoostMax
 pedDirtBoostMin
 pedDirtBuildup
+pedDirtClothBaseEnd
+pedDirtClothBaseStart
+pedDirtClothBaseStrength
+pedDirtClothBoostEnd
+pedDirtClothBoostStart
+pedDirtClothBoostStrength
+pedDirtClothCorpseEnd
+pedDirtClothCorpseStart
+pedDirtClothCorpseStrength
 pedDirtClothMax
 pedDirtClothMin
 pedDirtColor
 pedDirtDefinition
 pedDirtMax
 pedDirtMin
+pedDirtSkinBaseEnd
+pedDirtSkinBaseStart
+pedDirtSkinBaseStrength
+pedDirtSkinBoostEnd
+pedDirtSkinBoostStart
+pedDirtSkinBoostStrength
+pedDirtSkinCorpseEnd
+pedDirtSkinCorpseStart
+pedDirtSkinCorpseStrength
 pedDirtSkinMax
 pedDirtSkinMin
 pedExplicitAssetData
@@ -53685,6 +53822,7 @@ rage__ptxLightAtlasQualityLevelInfo
 rage__ptxLightingMode
 rage__ptxModelSamplerHandle
 rage__ptxQualityLevel
+rage__ptxQualitySettingsInfo
 rage__ptxRenderFeatureSet
 rage__ptxShaderInfo
 rage__ptxShaderInfoManager
@@ -53759,6 +53897,7 @@ rankItemId
 ranks
 rankupAward
 ransackContainerEntries
+ransackContainerFullySearched
 ransackContainerOpen
 ransackIndex
 ransackReverseDirection
@@ -55006,6 +55145,8 @@ uiAdornmentTargetBehavior
 uiAdornmentToggleBehavior
 uiAnimationDataBindingTriggerBehavior
 uiAnimationMultiDataBindingTriggerBehavior
+uiAnimationOpCameraFade
+uiAnimationOpCameraFade__eFadeType
 uiAnimationOpDisableInputs
 uiAnimationOpDispatchMaskTargetEvent
 uiAnimationOpDispatchScriptEvent
@@ -55111,6 +55252,7 @@ uiConditionIsExtraContentPresent
 uiConditionIsFSR2Supported
 uiConditionIsFeedMessageOfCategory
 uiConditionIsHDRSupported
+uiConditionIsInDirectorMode
 uiConditionIsInInteractiveLockOnMode
 uiConditionIsInteractiveLockOnModeReticleEnabled
 uiConditionIsInventoryWeaponsDisabled
@@ -55224,6 +55366,7 @@ uiFocusedSetPropertyOnTargetBehaviorHashString
 uiFrontendFeedContentDownloadBehavior
 uiGamerHandleBlob
 uiGamerTagDynamicItem
+uiGamerTagManagerConfiguration
 uiGamerTagPositionBehavior
 uiGamerTagProvider
 uiGamerTagVisibilityProvider
@@ -55908,6 +56051,7 @@ vfxBloodDecalSettingsHashName
 vfxBloodInfoHashName
 vfxBloodInfos
 vfxBloodOffsetDir
+vfxBloodOffsetNorm
 vfxBloodOffsetPos
 vfxBloodOnWeaponSettings
 vfxBloodOnWeaponSettingsHashName
@@ -55935,6 +56079,11 @@ vfxEntityCollisionDecalInfos
 vfxEntityCollisionPtFxInfos
 vfxEntityDestroyDecalInfos
 vfxEntityDestroyPtFxInfos
+vfxEntityExplosionImpactPtFxInfos
+vfxEntityInWaterPtFxInfos
+vfxEntityRayfirePtFxInfos
+vfxEntityShotDecalInfos
+vfxEntityShotPtFxInfos
 vfxExplosionInfoGroups
 vfxExplosionInfos
 vfxExtraInfos
