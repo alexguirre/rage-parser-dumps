@@ -64,6 +64,7 @@ ACTION
 ACTION_DEFAULT
 ACTION_NORMAL
 ACTION_ON_ENTERING
+ACTION_ON_ENTER_AND_EXIT
 ACTION_ON_EXITING
 ACTION_TABLE_BRANCHES
 ACTION_TABLE_CAMERAS
@@ -144,6 +145,7 @@ AF_ABORT_ON_WEAPON_DAMAGE
 AF_ACTIVATE_RAGDOLL_ON_COLLISION
 AF_ADDITIVE
 AF_AVOID_IMMINENT_DANGER
+AF_AbortDynamicTask
 AF_Advance
 AF_AimDirect
 AF_AmbushedReaction
@@ -752,8 +754,10 @@ ARMADILLO
 ARMY
 ARM_LEFT
 ARM_RIGHT
+ARRANGE_ORDER_BOTTOM_TO_TOP
 ARRANGE_ORDER_LEFT_TO_RIGHT
 ARRANGE_ORDER_RIGHT_TO_LEFT
+ARRANGE_ORDER_TOP_TO_BOTTOM
 ARROW
 ARROW_ALL
 ARROW_DOWN
@@ -799,6 +803,8 @@ ASCOF_RESERVED_6
 ASCOF_RESERVED_7
 ASCOF_RESERVED_8
 ASCOF_RESERVED_9
+ASDFT_EXCLUDE
+ASDFT_INCLUDE
 ASDUR_ANIMATOR
 ASDUR_AUDIO
 ASDUR_CAMERA
@@ -968,6 +974,8 @@ ASPF_RESERVED_8
 ASPF_RESERVED_9
 ASPF_START_STATE_DEAD
 ASPF_USE_CUTSCENE_SCALE
+ASRAT_HIDE
+ASRAT_SHOW
 ASSET_TYPE_ASSETLESS
 ASSET_TYPE_DRAWABLE
 ASSET_TYPE_DRAWABLEDICTIONARY
@@ -1284,6 +1292,9 @@ AUD_SPEECH_TYPE_INVALID
 AUD_SPEECH_TYPE_PAIN
 AUD_SPEECH_TYPE_SCRIPTED
 AUTOGYRO
+AUTO_SCROLL_BACKWARDS
+AUTO_SCROLL_DEFAULT
+AUTO_SCROLL_LOOPING
 AWV_CROUCH
 AWV_DEFAULT
 AWV_HIP_FIRE
@@ -1844,6 +1855,7 @@ AimingSettings
 AimingToggled
 AimingTurnRates
 AimingVariationClipSets
+AimingVehicleBlendDuration
 AimingWindowBlendSpringConstant
 AirDragPenalty
 AirResistanceOption
@@ -2198,6 +2210,7 @@ AmbientPedsMultiplier_Base
 AmbientPersonArray
 AmbientResponseProfile
 AmbientScannerParameters
+AmbientScannerParametersForHorses
 AmbientShakeRef
 AmbientTaxiDriverReactedToPlayerAiming
 AmbientTaxiDriverReactedToPlayerInsulting
@@ -2250,9 +2263,14 @@ AngDiffLimitRelaxed
 AngLeaderCoverDir_RelativeTo_PointDirection_DegXY
 AngLeaderToPoint_RelativeTo_LeaderMotion_DegXY
 AngLeaderToPoint_RelativeTo_LeaderToThreat_DegXY
+AngPed_TargetToPoint_Deg
+AngPed_TargetToPoint_DegXY
+AngPed_TargetToPoint_Dot
+AngPed_TargetToPoint_DotXY
 AngPoint_CoverDirToTarget_DotXY
 AngPoint_PedToTarget_Deg
 AngPoint_PedToTarget_DegXY
+AngPoint_PedToTarget_Dot
 AngPoint_PedToTarget_DotXY
 AngTargetToLeader_TargetToPoint_DegXY
 AngTargetToPoint_SideOfLeader_DegXY
@@ -2260,9 +2278,11 @@ AngTargetToPoint_SideOfLeader_DotXY
 AngTargetToStraightAway_TargetToPointDeg
 AngTarget_PedToPoint_Deg
 AngTarget_PedToPoint_DegXY
+AngTarget_PedToPoint_Dot
 AngTarget_PedToPoint_DotXY
 AngTrajectory_PedToPos_Deg
 AngTrajectory_PedToPos_DegXY
+AngTrajectory_PedToPos_Dot
 AngTrajectory_PedToPos_DotXY
 AngVelTolerance2
 Anger
@@ -7593,6 +7613,11 @@ CLOTH_TUNE_UPDATE_IF_VISIBLE
 CLOTH_TUNE_USE_DISTANCE_THRESHOLD
 CLOTH_TUNE_VEHICLE_CLOTH
 CLOTH_TUNE_WIND_FEEDBACK
+CLOTH_TYPE_BUSH
+CLOTH_TYPE_DEFAULT
+CLOTH_TYPE_DEFORMABLE
+CLOTH_TYPE_PLANT
+CLOTH_TYPE_TREE
 CLO_SHOP_AMB
 CLO_SHOP_ARMORY_FIXER
 CLO_SHOP_CAR_MEET
@@ -7808,6 +7833,11 @@ CMPOutfitsMap
 CMTHWeightOverrides
 CMTHWeightPair
 CMTHWeight__Type
+CM_2_PEDS
+CM_3_PEDS
+CM_4_PEDS
+CM_5_PEDS
+CM_6_PEDS
 CM_ANIM_SCENE
 CM_COUNT
 CM_Defensive
@@ -8042,6 +8072,13 @@ COUNT
 COVER_HELPERS_FILE
 COVER_SEARCH_IN_ARC_AWAY_FROM_TARGET
 COVER_STREAMING_FILE
+COVER_TUNING_DISABLED
+COVER_TUNING_NO_COVER
+COVER_TUNING_NO_WINDOWS
+COVER_TUNING_ROCK
+COVER_TUNING_ROOF
+COVER_TUNING_ROUND_COVER
+COVER_TUNING_THIN_COVER
 COVER_WEAPON_FILE
 COVFLAG_ACROSS_WALL
 COVFLAG_AI_ROUND_COVER
@@ -8053,6 +8090,10 @@ COVFLAG_DOOR
 COVFLAG_DYNAMIC_NAVMESH_POINT
 COVFLAG_FAKE_DOOR
 COVFLAG_FORCED_COVER_HEIGHT
+COVFLAG_GENERIC_5
+COVFLAG_GENERIC_6
+COVFLAG_GENERIC_7
+COVFLAG_GENERIC_8
 COVFLAG_INTERIOR_POINT
 COVFLAG_INTERIOR_THRESHOLD
 COVFLAG_IS_PRIORITY
@@ -8371,6 +8412,7 @@ CPED_CONFIG_FLAG_HeadbobToRadioEnabled
 CPED_CONFIG_FLAG_HelmetHasBeenShot
 CPED_CONFIG_FLAG_HideInCutscene
 CPED_CONFIG_FLAG_HitByTranqWeapon
+CPED_CONFIG_FLAG_IgnoreAvoidanceVolumes
 CPED_CONFIG_FLAG_IgnoreBeingOnFire
 CPED_CONFIG_FLAG_IgnoreInteriorCheckForSprinting
 CPED_CONFIG_FLAG_IgnoreLegIkRestrictions
@@ -9024,6 +9066,7 @@ CPedSpeedData
 CPedSpeedDataBlock
 CPedSpeedGroup
 CPedStaminaComponent__Tunables
+CPedStaminaComponent__Tunables__CarriedWeightPenalties
 CPedStaminaComponent__Tunables__LocoPenalties
 CPedStaminaComponent__Tunables__MudPenalties
 CPedStaminaComponent__Tunables__SprintingPenalties
@@ -9240,6 +9283,7 @@ CReactionAnalysisConditionThreatLevel
 CReactionAnalysisHelper__AmbientThreatData
 CReactionAnalysisHelper__GunshotEscalationData
 CReactionAnalysisHelper__Tunables
+CReactionTransitionToConditionalAnim
 CReferencedConditionsMap
 CReflectionProbeData
 CRelationshipManager__Tunables
@@ -9301,11 +9345,13 @@ CSA_USE_TARGET_GRAPPLE_STATE
 CSE_Weapon__ComponentIds
 CSIMaxDurationMS
 CSIPursuitMaxDurationMS
+CSSF_CrimeSceneBeingCleanedUp
 CSSF_CrimeSceneBeingSearched
 CSSF_CrimeSceneInvitationExtending
 CSSF_CrimeSceneRequiresCleanUp
 CSSF_CrimeSceneRequiresExpandingSearch
 CSSF_CrimeSceneWasAbandoned
+CSSF_CrimeSceneWasCleanedUp
 CSSF_CrimeSceneWasSearched
 CS_ANY
 CS_DEFAULT
@@ -11995,6 +12041,7 @@ ClosePointCounterMax
 ClosePointDistanceSquared
 CloseRadius
 CloseSpawningViewMultiplier
+CloseTargetThreshold
 CloseToActualTarget
 CloseToAllies
 CloseToLeader
@@ -12279,6 +12326,7 @@ Combat__TacticalPoint__Mode
 Combat__TransportAimMode__Mode
 CombinationItemSets
 CombinationSet
+CombinationSets
 CombinedType
 ComeBackInWhenAimDirectChangeInHighCover
 Command
@@ -13363,6 +13411,8 @@ DOOR_TUNING_FILE
 DOT_FIRST
 DOT_LAST
 DOT_NONE
+DOT_SIZE_DEFAULT
+DOT_SIZE_SMALL
 DOUBLE
 DOWN
 DOWNLOAD_POLICIES
@@ -13568,6 +13618,15 @@ DUEL_BOASTER
 DURATION_SPEED
 DURATION_TIME
 DX_Version
+DYNAMIC_COVER_BOUND_BLOCK_COVER
+DYNAMIC_COVER_BOUND_DISABLED
+DYNAMIC_COVER_BOUND_DOOR
+DYNAMIC_COVER_BOUND_GROUND_HEIGHT
+DYNAMIC_COVER_BOUND_MAP_ONLY
+DYNAMIC_COVER_BOUND_NOT_COVER
+DYNAMIC_COVER_BOUND_OBJECT
+DYNAMIC_COVER_BOUND_REPRESENTATIVE
+DYNAMIC_COVER_BOUND_VEHICLE
 DYNAMIC_MAPPING_MOUSE_X
 DYNAMIC_MAPPING_MOUSE_Y
 DYNAMIC_SCENARIOS_FILE
@@ -14219,6 +14278,7 @@ DensityBasedRemovalTargetHeadroom_Base
 DensityRange
 DependentAction
 DependentAmbientFriend
+DepletedCoreRampingSettings
 Deploy
 DeployParachuteShakeRef
 DeployShakeRef
@@ -14764,6 +14824,7 @@ DistFromCoverToAllowReloadCache
 DistFromIdentificationRange
 DistFromOptimalRange
 DistFromOptimalRangeSq
+DistFromOptimalRangeSq_ClosestTarget
 DistFromOptimalRange_ClosestTarget
 DistMax
 DistMaxClothSimSkinBlend
@@ -15057,6 +15118,7 @@ DoorBargeForce
 DoorBargeForceOffsetX
 DoorBargeForceOffsetY
 DoorBargeFragForce
+DoorBargeRumbleFrequency
 DoorBargeTunables
 DoorBoneName
 DoorBreacher
@@ -15075,6 +15137,7 @@ DoorKickForce
 DoorKickForceOffsetX
 DoorKickForceOffsetY
 DoorKickFragForce
+DoorKickRumbleFrequency
 DoorKickTunables
 DoorKnock
 DoorModelToAnimMapping
@@ -16242,6 +16305,7 @@ EnableAimInterruptEntry
 EnableAimOutroDelay
 EnableAimOutroToPeekAnims
 EnableAimStrafe
+EnableAimStrafeWhenMoving
 EnableAimUpperBodyTasks
 EnableAmbientLawDuringActiveIncident
 EnableApproachBehavior
@@ -16611,6 +16675,7 @@ EstablishingShotShakeAmplitude
 EstablishingShotShakeRef
 EstablishingShotSwoopDuration
 Eulers
+EvadeFromThreatDestination
 Evaded
 EvaluateInteractionAudioRules
 EvaluateThreatFromCoverPoints
@@ -17087,6 +17152,7 @@ FCT_LINEAR
 FCT_NONE
 FCT_SIGMOID
 FDC_Forward
+FDC_Forward45
 FDC_Side
 FD_Center
 FD_Left
@@ -18201,6 +18267,7 @@ FlockVariationSet
 FlockVariationSets
 FlockVariations
 FlockingWeight
+FlockingWeightForThreat
 Flocks100m2DensityHigh
 Flocks100m2DensityLow
 Flocks100m2DensityMedium
@@ -18351,6 +18418,9 @@ FootSlowFastThreshold
 FootSlowMovementZoom
 FootSync
 FootageFXName
+FootagePostFXDescriptor
+FootagePostFXSamplingMode
+FootagePostFXSourceType
 FootagePostFXStore
 ForFlockMigration
 Force
@@ -19141,6 +19211,8 @@ GrabUseTaskGrabAttachmentFixup
 Gradient
 GradientCurve
 GradientGUID
+GradientMapEntry
+GradientMapSet
 GradientMapStore
 GradientName
 GradientSetName
@@ -19408,7 +19480,10 @@ HBC_Maximum
 HBC_Minimum
 HBC_Randomize
 HBC_Retain
+HCS_CameraArc
 HCS_DistanceThreshold
+HCS_Flat
+HCS_MapPercent
 HC_BackAway
 HC_ButtonMash
 HC_MeleeSuccess
@@ -19877,6 +19952,7 @@ HeadingAcceleration
 HeadingAccelerationAvoiding
 HeadingAccelerationFlapping
 HeadingAccelerationGliding
+HeadingAndPitchInputSettings
 HeadingAndPitchThreshold
 HeadingBasis
 HeadingBlendLevelScalar
@@ -20434,7 +20510,9 @@ HurtHealthThreshold
 HybridNormalMaxDistance
 HybridNormalMinDistance
 IA_TREAT_CROUCHED_PEDS_AS_STANDING
+IA_USE_BONE_HEADING_FORWARD
 IA_USE_BONE_HEADING_RIGHTWARD
+IA_USE_BONE_HEADING_UPWARD
 IA_USE_BONE_POSITION
 IA_USE_PED_DESIRED_HEADING
 IA_USE_PED_TO_TARGET_HEADING
@@ -21074,6 +21152,14 @@ ID_SKEL_TAIL9
 ID_SKEL_TOP_TAIL1
 ID_STRAP_CLOTH_PINNING
 ID_STRAP_CLOTH_PINNING_BACK
+ID_VFXANIM_01
+ID_VFXANIM_02
+ID_VFXANIM_03
+ID_VFXANIM_04
+ID_VFXANIM_05
+ID_VFXANIM_06
+ID_VFXANIM_07
+ID_VFXANIM_08
 ID_WHEEL_LF
 ID_WHEEL_LF_HELPER
 ID_WHEEL_LR
@@ -22805,6 +22891,7 @@ IncludeReportedCrimes
 IncludeRespect
 IncludeScenarios
 IncludeTextures
+IncludeUnreportedCrimes
 Includes
 InclusionSet
 IncompatibleWithCarriedEntitiesOnMount
@@ -23120,6 +23207,7 @@ InterpRateDownBadSpeed
 InterpRateDownSpeed
 InterpRateUpSpeed
 InterpRates
+InterpRelDirs
 InterpSpaceWeights
 InterpTarget
 InterpTime
@@ -23703,6 +23791,7 @@ JumpHeadingBlend
 JumpMenuId
 JumpNetworkName
 JumpOut
+JumpOutToRight
 JumpOutofSubNeutralBuoyancyTime
 JumpPitchOffset
 JumpSettings
@@ -23902,6 +23991,7 @@ KillInARowHours
 KillOtherShots
 KillParentFleeTaskOnGrappleExit
 KillPedAtEnd
+KillPedAtEndWithRagdoll
 KilledByStealth
 KilledPerceptionRangeModifer
 KillerPed
@@ -24897,6 +24987,7 @@ LookAtPriority
 LookAtProneMeleeTargetDelay
 LookAtReactResponseSet
 LookAtReactResponseSets
+LookAtSecondaryEntity
 LookAtSequencePreset
 LookAtSpringConstant
 LookAtSpringConstantBlendout
@@ -25071,6 +25162,7 @@ LootedPedMustBeInnocent
 LootingAltPromptTag
 LootingDefaultPromptTag
 LootingOnly
+LootingOrShopping
 LootingQuickPromptTag
 LootingScenario
 LootingSetup
@@ -25143,6 +25235,7 @@ LowStepOutRightYBlocked
 LowThreshold
 LowVelocityBalanceInstabilityThreshold
 LowVelocityBlendOut
+LowVelocityClearedEntityFallDelay
 LowVelocityReactionThreshold
 LowXClearOffsetCapsuleTest
 LowXOffsetCapsuleTest
@@ -25217,6 +25310,7 @@ MBRSpringDampingRatio
 MCMS_Emoji
 MCMS_Emote
 MCMS_Invalid
+MC_AIIntroInterrupt
 MC_CanEarlyOutForMovementId
 MC_ClipFinished
 MC_EdgeTurnFixup
@@ -27201,6 +27295,7 @@ MeleeCombatOnly
 MeleeConfront
 MeleeDamageMultiplier
 MeleeDeadOffscreenAngle
+MeleeDeadOffscreenRotateAngle
 MeleeEnduranceDamage
 MeleeEnemies
 MeleeExecutionDismemberment
@@ -29681,6 +29776,13 @@ NumPedsAvailableHigh
 NumPedsAvailableLow
 NumPedsMax
 NumPedsMin
+NumPedsPerWave
+NumPedsPerWaveHigh
+NumPedsPerWaveHighMax
+NumPedsPerWaveHighMin
+NumPedsPerWaveLow
+NumPedsPerWaveLowMax
+NumPedsPerWaveLowMin
 NumPedsRundown
 NumPedsToSpawn
 NumPinVerts
@@ -30233,6 +30335,7 @@ OrientateWithVehicleLimit
 Orientation
 OrientationBlendInCurve
 OrientationBlendInDuration
+OrientationLerpDuration
 OrientationLimits
 OrientationQuat
 OrientationSets
@@ -30794,6 +30897,7 @@ PCF_NeverKillWhenTrapped
 PCF_NeverLeavesGroup
 PCF_NoCriticalHits
 PCF_NotAllowedToJackAnyPlayers
+PCF_OneBulletWillKillPed
 PCF_OneShotWillKillPed
 PCF_OnlyAttackLawIfPlayerIsWanted
 PCF_OnlyRequireOnePressToExitVehicle
@@ -31143,6 +31247,7 @@ PNF_WithinTriangleJunction
 PNLF_BlockIfNoLanes
 PNLF_DontUseForNavigation
 PNLF_GpsCanGoBothWays
+PNLF_HorsesCanGoBothWays
 PNLF_LeadsFromDeadEnd
 PNLF_LeadsToDeadEnd
 PNLF_ShortCut
@@ -32017,8 +32122,10 @@ PausemapRoadWidthMin
 PausemapRoadWidthOffset
 PausemapRoadWidthScalar
 PavementFlag_IsFlockFleePath
+PavementFlag_IsFlockMigratePath
 PavementFlag_IsHerdPath
 PavementFlag_IsPavement
+PavementFlag_IsSidewalk
 PavementFlag_ObstructionFree
 PavementFlag_RoadCrossing
 PavementFlags
@@ -32461,6 +32568,7 @@ PhotoAppRenameConfigurationState
 PhotoAppRenameNotificationState
 PhotoAppUploadToSCPrivilegeCheckState
 PhotoAppUploadToSCState
+PhotoModeDictionary
 PhotoUploadOperationOverride
 PhysFlags
 PhysicalFreemodeMemoryLimitKb
@@ -32888,6 +32996,7 @@ PositionBlendInDuration
 PositionDiffStartBlend
 PositionHeightOffset
 PositionInBoundingBox
+PositionLerpDuration
 PositionModifierCloseToOtherGroupMembers
 PositionModifierDistanceFromFormationToMoveToScaleMovingFast
 PositionModifierDistanceOutsideAllWeaponsRange
@@ -35465,6 +35574,7 @@ SCF_JumpOut
 SCF_Land
 SCF_Mount
 SCF_OldMount
+SCF_OldQuickMount
 SCF_OldSystem
 SCF_OnBoard
 SCF_SETTINGS_LEGAL_EULA
@@ -36378,8 +36488,10 @@ ScreenRatioForFootRoom
 ScreenRatioForFootRoomOffset
 ScreenRatioForMaxFootRoom
 ScreenRatioForMaxFootRoomInTightSpace
+ScreenRatioForMaxFootRoomWhenAiming
 ScreenRatioForMinFootRoom
 ScreenRatioForMinFootRoomInTightSpace
+ScreenRatioForMinFootRoomWhenAiming
 ScreenSpaceHorizontalOffset
 ScreenSpaceVerticalOffset
 ScreenWidth
@@ -37109,6 +37221,7 @@ ShuntUpClipId
 ShutdownRangedScriptWhenDisabled
 Sickliness
 SideAdjustedCollisionTestRadius
+SideAndForwardInputSettings
 SideClearance
 SideCull
 SideDragCoeff
@@ -37228,6 +37341,7 @@ SkiddingHoldDuration
 SkiddingPitchOffset
 SkiddingSettings
 SkiddingSpringConstant
+SkiffEndBoneName
 SkiffGripBoneName
 SkillSetName
 SkillSets
@@ -39228,6 +39342,8 @@ TOWN
 TPP_Any
 TPP_PreferSniper
 TPP_RejectSniper
+TPSAutoRun
+TPSWalkRun
 TRACTION_BIAS
 TRACTION_CURVE_LATERAL
 TRACTION_CURVE_MAX
@@ -39284,6 +39400,7 @@ TRAVERSAL_ENTRY
 TREE_INFO_FILE
 TRIGGER
 TRIGGER_BOX
+TRIGGER_BOX_DIRECTIONAL
 TRIGGER_SPHERE
 TROLLEY_CABLE_TRACK_FILE
 TROLLEY_POLE_FRONT_ANCHOR
@@ -40605,8 +40722,18 @@ TreatAsOneHandedInCover
 TreatAsTwoHandedInCover
 Tree
 TreeFireBrush
+TreeFireBushLeafy
+TreeFireCactus
+TreeFireConifer
+TreeFireConiferDead
+TreeFireCypress
+TreeFireCypressDead
+TreeFireDeciduous
+TreeFireDeciduousDead
+TreeFireDeciduousFall
 TreeFireDefault
 TreeFireLog
+TreeFirePalmTree
 Trespass
 TrespassGuardModelName
 TriIndices
@@ -42507,6 +42634,8 @@ VOLUME_OWNER_FLAG_RestrictedArea
 VOLUME_PROPERTY_FLAG_LawEscalationDueToWeaponOut
 VOLUME_PROPERTY_FLAG_LoiterCrimeDay
 VOLUME_PROPERTY_FLAG_LoiterCrimeNight
+VOLUME_PROPERTY_FLAG_TrespassCrimeDay
+VOLUME_PROPERTY_FLAG_TrespassCrimeNight
 VPT_BACK_PLATES
 VPT_FRONT_AND_BACK_PLATES
 VPT_FRONT_PLATES
@@ -42885,6 +43014,7 @@ VelocityDeltaThrownOut
 VelocityDeltaThrownOutPlayerMP
 VelocityDeltaThrownOutPlayerSP
 VelocityDirectionSpringConstant
+VelocityDirectionSpringConstantForPitch
 VelocityDirectionSpringDampingRatio
 VelocityInheritance
 VelocityMagMax
@@ -43985,6 +44115,7 @@ WeaponAimingSwapClipSetHash
 WeaponAnimationClipSetPair
 WeaponAnimationMultiplayerTunings
 WeaponAnimationOverrides
+WeaponAnimationSetTransition
 WeaponAnimation__BodyPose__Enum
 WeaponAnimation__CameraMode__Enum
 WeaponAnimation__CombatMode__Enum
@@ -44633,6 +44764,7 @@ aAnims
 aBrawlingData
 aBrawlingStyles
 aClimbParams
+aClimbStandConditions
 aClipSets
 aComponentData3
 aCondSpecials
@@ -44666,6 +44798,7 @@ aStationPlayTime
 aStrikeBones
 aTaskData
 aTexData
+aVaultExitConditions
 aWeaponActionResultList
 aWeaponActionResults
 aWeatherPerceptionHearingInfo
@@ -45424,6 +45557,12 @@ bodyColour2
 bodyColour3
 bodyColour4
 bodyDampingTemplate
+bodyHeatPtFxBoneTag
+bodyHeatPtFxEnabled
+bodyHeatPtFxHashName
+bodyHeatPtFxRange
+bodyHeatPtFxTempEvoMax
+bodyHeatPtFxTempEvoMin
 bodyOverlay1
 bodyOverlay2
 bodyOverlay3
@@ -45541,6 +45680,8 @@ buoyancyDragFactor
 buoyancyFactor
 buoyancySphereOffset
 buoyancySphereSizeScale
+burnExpansionRatioDown
+burnExpansionRatioUp
 burnForever
 burnRadiusMapMax
 burnStrength
@@ -46773,6 +46914,7 @@ distBetweenCoronas
 distBetweenCoronas_far
 distance
 distanceDespawnPassengers
+distanceDespawnPropSet
 distanceDespawnScenarios
 distanceMappingScale
 distanceMultiplier
@@ -47011,9 +47153,11 @@ eEventType
 eExertionEaseCurveTypeDueToCarriedWeight
 eExertionEaseCurveTypeDueToFatigue
 eExertionEaseCurveTypeDueToSlopeAngle
+eExertionEaseCurveTypeDueToStaminaLeft
 eExertionEaseTypeDueToCarriedWeight
 eExertionEaseTypeDueToFatigue
 eExertionEaseTypeDueToSlopeAngle
+eExertionEaseTypeDueToStaminaLeft
 eExitConditionType
 eExplosionContinuousDamageType
 eExplosionTag
@@ -47260,6 +47404,8 @@ eSpeedUpEaseCurve
 eSpeedUpEaseType
 eSprintBoostEaseCurveType
 eSprintBoostEaseType
+eStaminaDepletionEaseCurveType
+eStaminaDepletionEaseType
 eStatGameMode
 eStatType
 eStateSystemMessage
@@ -47364,6 +47510,8 @@ effectsids
 elasticity
 element
 elements
+emissiveFadeTimeMax
+emissiveFadeTimeMin
 emissiveMult
 emissiveSecondaryUVScale
 emissiveUVScale
@@ -47764,6 +47912,8 @@ fBlipRevealIntensity
 fBlipRevealSize
 fBlockedLosAimTime
 fBlockedLosWeighting
+fBoatImpulseMax
+fBoatImpulseMin
 fBobberSpeed
 fBody3DOFSpringAngleStrength
 fBody3DOFSpringK
@@ -48507,6 +48657,7 @@ fMaxBounceHeight
 fMaxBoundsXZSize
 fMaxBuoyancy
 fMaxCapsuleLength
+fMaxCarriedWeightToModulateExertion
 fMaxChallengeTime
 fMaxClamberDepth
 fMaxClearanceDistance
@@ -48586,6 +48737,7 @@ fMaxModifiedWeaponSpread
 fMaxMultiplierToModulateExertionDueToCarriedWeight
 fMaxMultiplierToModulateExertionDueToFatigue
 fMaxMultiplierToModulateExertionDueToSlopeAngle
+fMaxMultiplierToModulateExertionDueToStaminaLeft
 fMaxOscillationAmplitude
 fMaxPitchTorque
 fMaxRandomAdditionalOffset
@@ -48619,6 +48771,7 @@ fMaxSpringVelocity
 fMaxSprintSpringConstant
 fMaxSprintSpringDampingRatio
 fMaxStairEdge
+fMaxStaminaDepletionRate
 fMaxStandAndFireTime
 fMaxStandDepth
 fMaxSteeringRollTorque
@@ -48702,6 +48855,7 @@ fMinAutoVaultClimbAngle
 fMinBounceHeight
 fMinBuoyancy
 fMinCapsuleLength
+fMinCarriedWeightToModulateExertion
 fMinCastDistance
 fMinChallengeTime
 fMinClamberDepth
@@ -48723,6 +48877,7 @@ fMinDistanceForAltCover
 fMinDistanceForBrushSpawn
 fMinDistanceForTreeSpawn
 fMinDistanceFromPrimaryTarget
+fMinDistanceFromTarget
 fMinDistanceMovedToUpdatePopZones
 fMinDistanceSavingToUseVehicle
 fMinDistanceSquaredToPlayerForAudio
@@ -48814,6 +48969,7 @@ fMinSpeedForThrustFalloff
 fMinSpookTime
 fMinSprintSpringConstant
 fMinSprintSpringDampingRatio
+fMinStaminaDepletionRate
 fMinStandAndFireTime
 fMinStandDepth
 fMinStepUpPenalty
@@ -48847,6 +49003,7 @@ fMinTimeRunning
 fMinTimeStandingAtCover
 fMinTimeToSwitchLargestCountSide
 fMinTimeToWait
+fMinTimeWarp
 fMinTorqueVelocity
 fMinTurnThreshold
 fMinVelocityToOnlyLoadDynamicVehPoints
@@ -49170,6 +49327,7 @@ fSpecialAbilityRageKickImpulseModifier
 fSpeedConsideredIdle
 fSpeedLimit
 fSpeedMatchingDampingRatio
+fSpeedMatchingDist
 fSpeedMatchingSpringConstant
 fSpeeedSteerModMult
 fSpineBehindAngle
@@ -50328,6 +50486,7 @@ highlightWarningColorKey
 history
 historyCheckDist
 historyCheckTime
+hitMarketState
 holdAtLastFrame
 holdDuration
 holeCards
@@ -51372,6 +51531,7 @@ lifeTimeMin
 lifeWheel
 light
 lightAtlasHeight
+lightAtlasLightingModeInfos
 lightAtlasMode
 lightAtlasModeMax
 lightAtlasQualityLevelInfos
@@ -51968,6 +52128,7 @@ moverBlendInDuration
 mpGangTerritoryIndex
 mpName
 ms
+msPFCounterResults
 msPFResult
 msPerFrameCounter
 msPerFrameResult
@@ -52917,6 +53078,8 @@ ptFxWheelBurnoutSpeedMax
 ptFxWheelBurnoutSpeedMin
 ptFxWheelBurnoutTempMax
 ptFxWheelBurnoutTempMin
+ptFxWheelDispGroundSpeedMax
+ptFxWheelDispGroundSpeedMin
 ptFxWheelDispHashName
 ptFxWheelDispLodHashName
 ptFxWheelDispLodRange
@@ -52927,8 +53090,16 @@ ptFxWheelFricSlipMax
 ptFxWheelFricSlipMin
 ptFxWheelFricSpeedMax
 ptFxWheelFricSpeedMin
+ptFxWheelFricSpinGroundSpeedMax
+ptFxWheelFricSpinGroundSpeedMin
+ptFxWheelFricSpinSpeedThresh
+ptFxWheelFricSpinThrottleThresh
 ptFxWheelSprayHashName
 ptFxWheelSprayRange
+ptFxWheelSprayRotSpeedMax
+ptFxWheelSprayRotSpeedMin
+ptFxWindStrongThreshMax
+ptFxWindStrongThreshMin
 ptFxWindThreshMax
 ptFxWindThreshMin
 ptFxZOffset
@@ -54943,6 +55114,7 @@ trailLeadInRenderSettingsGroup
 trailLeadOutRenderSettingsGroup
 trailPeakTime
 trailPtFxHashName
+trailPtFxRotationPerPoint
 trailPtFxRotationSpeed
 trailPtFxSizeEvo
 trailers
@@ -56063,6 +56235,8 @@ vfxBloodPoolInfos
 vfxBloodPtFxSettings
 vfxBloodPtFxSettingsHashName
 vfxBloodSettings
+vfxBloodSettingsGroupsEntry
+vfxBloodSettingsGroupsExit
 vfxBloodTransferSettings
 vfxCollisionBoneTag
 vfxCollisionImpulse
@@ -56087,6 +56261,7 @@ vfxEntityShotPtFxInfos
 vfxExplosionInfoGroups
 vfxExplosionInfos
 vfxExtraInfos
+vfxFireFlammableLiquidInfos
 vfxFireFuelBurnInfos
 vfxFireGlobalSettings
 vfxFireInfos
@@ -56230,6 +56405,10 @@ wasAIConditionActive
 wasDiscovered
 wasObserved
 wasRead
+washBloodPtFxHashName
+washBloodPtFxRange
+washMudPtFxHashName
+washMudPtFxRange
 washableAnimationDuration
 washableAnimationRangeTarget
 washableFadeOutDelay
