@@ -195,6 +195,7 @@ AF_IsCruising
 AF_IsIdle
 AF_IsReversing
 AF_IsRowBoat
+AF_IsSculling
 AF_IsStrafing
 AF_LOOPING
 AF_Lasso
@@ -206,6 +207,7 @@ AF_MoveToTacticalPoint
 AF_NOT_INTERRUPTABLE
 AF_None
 AF_OVERRIDE_PHYSICS
+AF_OarsIn
 AF_OnFoot
 AF_OnHorseback
 AF_PROCESS_ATTACHMENTS_ON_START
@@ -1028,6 +1030,8 @@ ASDUR_SUBTITLE
 ASDUR_VFX
 ASES_NORMAL
 ASFW_FIRE_BLANK
+ASFW_FORCE_BULLET_TRACER
+ASFW_FORCE_NO_BULLET_TRACER
 ASFW_INSTANT_KILL
 ASFW_PERFECT_ACCURACY
 ASFW_RESERVED_10
@@ -2773,6 +2777,7 @@ AngularApproachTimeFastest
 AngularApproachTimeSlowest
 AngularApproachTimeStandard
 AngularInertiaScale
+AngularSpeedMatchingTunables
 AngularStrengthModulator
 AngularStrengthModulatorMax
 AngularStrengthModulatorMin
@@ -2905,6 +2910,7 @@ AnimatedPostFXEffectFootageFX
 AnimatedPostFXEffectFootageFXRandomRotationMode
 AnimatedPostFXEffectFreezeFrame
 AnimatedPostFXEffectFullscreenColorFade
+AnimatedPostFXEffectLUTLayerId
 AnimatedPostFXEffectLevels
 AnimatedPostFXEffectLevels__BrightnessParams
 AnimatedPostFXEffectLevels__ContrastParams
@@ -3135,6 +3141,7 @@ AssistedAimInterpolateInDuration
 AssistedAimOutroTime
 AssistedAimVehicleWeapon
 AssistedAimingInterpolateOutDuration
+AssistedLineSettings
 AssistedMovementAlignment
 AssistedMovementLinks
 AssistedMovementNodes
@@ -4149,6 +4156,7 @@ BasicVehicleScore
 BasisWaves
 BatchAABB
 BatchSpread
+BathymetryTexTable
 BattleEvent
 BattleEventLocalPlayer
 BboxMax
@@ -4324,6 +4332,7 @@ BlendInDurationForHitReact
 BlendInDurationForLassoCrouched
 BlendInDurationForLocoToAimCrouch
 BlendInDurationForReload
+BlendInDurationForSkidding
 BlendInDurationForSoftCover
 BlendInDurationFromAim
 BlendInEasingType
@@ -4357,6 +4366,7 @@ BlendOutDelayStanding
 BlendOutDelta
 BlendOutDesiredPitch
 BlendOutDuration
+BlendOutDurationForSkidding
 BlendOutEasingType
 BlendOutHeadingOnExit
 BlendOutIfNoPossibleEventExit
@@ -4366,6 +4376,7 @@ BlendOutPitchOnExit
 BlendOutSetDistance
 BlendOutSettingRef
 BlendOutSpringConstant
+BlendOutSpringConstantDueToAngularSpeed
 BlendOutSpringDampingRatio
 BlendOutThreshold
 BlendOutTime
@@ -5911,12 +5922,15 @@ CAIMemoryFilterObservation
 CAIMemoryFilterOr
 CAIMemoryFilterStatic
 CAIMemoryFilterWrapper
+CAIMemoryLocationMeta__Type
 CAIMemoryLongTermSaveStructure
 CAIMemorySave_ElementOfXTermMemoryArray
 CAIMemorySave_XTermMemoryData
 CAIMemoryScriptEventMappingSetDictionary
+CAIMemoryScriptMeta__AttitudeState
 CAIMemoryScriptVerbMapping
 CAIMemoryShortTermSaveStructure
+CAIMemoryVerbMeta__Type
 CAIMemoryVerbToScriptMapping
 CAINode
 CAINodeMulti
@@ -6259,6 +6273,8 @@ CAimUpperBodyData
 CAimUpperBodyDataBlock
 CAimUpperBodyState
 CAimUpperBodyTune
+CAimUpperBodyTune__BodyDampingIkSettings
+CAimUpperBodyTune__BolasSpringExpressionBlends
 CAimUpperBodyTune__FlinchData
 CAimUpperBodyTune__IkAdditivePairData
 CAimUpperBodyTune__IkBaseBoneOffsetData
@@ -6268,6 +6284,7 @@ CAimUpperBodyTune__MotionWeaponStateBlends
 CAimUpperBodyTune__QuickAimSweepTuning
 CAimUpperBodyTune__StrafeMotionStateBlends
 CAimUpperBodyTune__TargetInterpolationData
+CAimUpperBodyTune__UpperBodyBlendPelvisData
 CAimingInfo
 CAimingRegion
 CAllLootExitItemAnimSelectors
@@ -6425,6 +6442,7 @@ CApproachMoverFixup
 CApproachPickupActionDataSet
 CApproachPickupActionDataSetFlags__Flags
 CApproachPickupCarriableEntityData
+CApproachPickupOnFootFlags__Flags
 CApproachPlaceCarriableEntityOnParentActionDataSet
 CApproachPlaceCarriableEntityOnParentActionDataSetFlags__Flags
 CApproachPlaceCarriableEntityOnParentData
@@ -6616,6 +6634,7 @@ CClimbParams__StairsData
 CClimbParams__ValidIntersectionData
 CClimbParams__ValidateHandholdData
 CClimbTuneMgr
+CClipMegaDictionaryMapping
 CClipScalingHelper__Tunables
 CClipSetMap
 CClipSetMap__eConditionFlags
@@ -6805,6 +6824,7 @@ CCompendiumCategoryHerb
 CCompendiumCategoryHerbMP
 CCompendiumCategoryHorse
 CCompendiumCategoryHorseMP
+CCompendiumCategoryMergeHelper
 CCompendiumCategoryWeapon
 CCompendiumCategoryWeaponMP
 CCompendiumItemAnimal
@@ -7038,6 +7058,8 @@ CCrimeSensoryData__Hearing__Flags
 CCrimeSensoryData__Seeing
 CCrimeWitnesses__Tunables
 CCrimeWitnesses__Tunables__Scoring
+CCriminalActionTags__Type
+CCriminalActions__Type
 CCriminalCareer
 CCriminalCareerCatalog
 CCriminalCareerItem
@@ -7180,6 +7202,7 @@ CDecisionPageBase
 CDecompInfo
 CDecompInfos
 CDefaultCarriableByModelData
+CDefaultCarriableConfigByModelFlags__Flags
 CDefaultCarriablesDataManager
 CDefaultCrimeInfo
 CDefaultFishingConfigByModelData
@@ -7571,6 +7594,7 @@ CF_WEAPON_TEST
 CF_WHEEL_TEST
 CFallenSnowData
 CFatalDamageRegion
+CFearMotivation__SResponseProfile
 CFetchingMultiplayerAccountPage
 CFetchingSingleplayerSavesPage
 CFindCameraCutActionFSM__Tunables
@@ -8102,6 +8126,7 @@ CInteractionConditionWillOfferMoney
 CInteractionConditionalSay
 CInteractionContext
 CInteractionData
+CInteractionHelper__CampDisputeResponseLevel
 CInteractionPersonalities
 CInteractionPersonality
 CInteractionPersonality__Flags
@@ -8300,6 +8325,7 @@ CLootExitItemCondition
 CLootFallbackAnimData
 CLootForEquippedWeaponsAndAmmoTunables
 CLootGripData
+CLootInventoryAmountComparer__Type
 CLootInventoryItemCondition
 CLootItemRewardCondition
 CLootItemRewardCondition__eLootEntryFlags
@@ -8335,6 +8361,8 @@ CLootModelEntryData
 CLootModelEntryDataMap
 CLootOrbitCameraData
 CLootOrbitCameraDataFlags__Flags
+CLootPedVarChangeData
+CLootPedVarChangeDataSet
 CLootProbeComponentBoneData
 CLootProbeComponentBoneDataFlags__Flags
 CLootPromptTableFlags__Flags
@@ -8548,6 +8576,8 @@ CMovieSubtitleEventArg
 CMudParams
 CMultiCardItem
 CMultiTxdRelationship
+CMultiplayerCharacterUidStructure
+CMultiplayerQuickSwapWeaponStructure
 CMultiplayerStatsSaveStructure
 CMultiplyProvider
 CNetTransactionItemKey
@@ -8916,6 +8946,7 @@ CPED_CONFIG_FLAG_DisableJumpingFromVehiclesAfterLeader
 CPED_CONFIG_FLAG_DisableLadderClimbing
 CPED_CONFIG_FLAG_DisableLockonToRandomPeds
 CPED_CONFIG_FLAG_DisableMelee
+CPED_CONFIG_FLAG_DisableNavMeshTracking
 CPED_CONFIG_FLAG_DisablePanicInVehicle
 CPED_CONFIG_FLAG_DisablePedAvoidance
 CPED_CONFIG_FLAG_DisablePedConstraints
@@ -9338,7 +9369,29 @@ CPED_GAMEPLAY_RESET_FLAG_MountTarget
 CPED_GAMEPLAY_RESET_FLAG_PotentialCombat
 CPED_GAMEPLAY_RESET_FLAG_StreamActionModeAnimsIfDisabled
 CPED_PLAYER_CONFIG_FLAG_LINGERING_IN_CAMP
+CPED_RAGDOLL_RESET_FLAG_AllowBlockDeadPedRagdollActivationReset
+CPED_RAGDOLL_RESET_FLAG_DontActivateRagdollFromActivateOnCollisionReset
+CPED_RAGDOLL_RESET_FLAG_DontActivateRagdollFromAiRagdollImpactReset
+CPED_RAGDOLL_RESET_FLAG_DontActivateRagdollFromAnyPedImpactReset
+CPED_RAGDOLL_RESET_FLAG_DontActivateRagdollFromBulletImpactReset
+CPED_RAGDOLL_RESET_FLAG_DontActivateRagdollFromDrowningReset
+CPED_RAGDOLL_RESET_FLAG_DontActivateRagdollFromElectrocutionReset
+CPED_RAGDOLL_RESET_FLAG_DontActivateRagdollFromExplosionsReset
+CPED_RAGDOLL_RESET_FLAG_DontActivateRagdollFromFallingReset
+CPED_RAGDOLL_RESET_FLAG_DontActivateRagdollFromFireReset
+CPED_RAGDOLL_RESET_FLAG_DontActivateRagdollFromHorseImpactReset
+CPED_RAGDOLL_RESET_FLAG_DontActivateRagdollFromImpactObjectReset
+CPED_RAGDOLL_RESET_FLAG_DontActivateRagdollFromMeleeReset
+CPED_RAGDOLL_RESET_FLAG_DontActivateRagdollFromPlayerPedImpactReset
+CPED_RAGDOLL_RESET_FLAG_DontActivateRagdollFromPlayerRagdollImpactReset
+CPED_RAGDOLL_RESET_FLAG_DontActivateRagdollFromRubberBulletReset
+CPED_RAGDOLL_RESET_FLAG_DontActivateRagdollFromSmokeGrenadeReset
+CPED_RAGDOLL_RESET_FLAG_DontActivateRagdollFromVehicleGrabReset
+CPED_RAGDOLL_RESET_FLAG_DontActivateRagdollFromVehicleImpactReset
+CPED_RAGDOLL_RESET_FLAG_DontActivateRagdollFromWaterJetReset
 CPED_RAGDOLL_RESET_FLAG_KnockedToTheFloorByPlayer
+CPED_RAGDOLL_RESET_FLAG_NeverDieFromCapsuleRagdollSettings
+CPED_RAGDOLL_RESET_FLAG_SetLastMatrixDone
 CPED_RESET_FLAG_AICoverEntryRunning
 CPED_RESET_FLAG_AimWeaponReactionRunning
 CPED_RESET_FLAG_AimWeaponReactionStreaming
@@ -9615,6 +9668,7 @@ CPausePageView
 CPedAccuracyManager
 CPedBloodDamageInfo
 CPedBreatheComponent__Tunables
+CPedBreatheComponent__Tunables__FatigueAndExertionTunables
 CPedBreatheComponent__Tunables__OnFootTunables
 CPedBreatheComponent__Tunables__OnFootTunables__ExertionTunables
 CPedBreatheComponent__Tunables__OnFootTunables__ExertionTunables__GaitTunables
@@ -9662,6 +9716,7 @@ CPedFormation_AICenteredLanes__Tunables
 CPedFormation_LineAbreast__Tunables
 CPedFormation_TwoByTwo__Tunables
 CPedFormation__Tunables
+CPedGameplayComponent__ActionModeEnabled
 CPedGestureSettings
 CPedGestureSettingsManager
 CPedGestureSettingsTrack
@@ -9683,6 +9738,7 @@ CPedInventorySaveStructure__CoachItem
 CPedInventorySaveStructure__HorseItem
 CPedInventorySaveStructure__WeaponItem
 CPedLightOverride
+CPedLookAtComponent__LookRequestPriority
 CPedModelInfo__EventReactions
 CPedModelInfo__EventReactionsSet
 CPedModelInfo__InitData
@@ -9708,6 +9764,8 @@ CPedModelInfo__PersonalityThreatResponse__Fight
 CPedModelInfo__PersonalityThreatResponse__Fight__Weights
 CPedModelInfo__WeightedEventReaction
 CPedModelInfo__WeightedInteractionPersonality
+CPedMotionComponent__FacingInterpolationSpace__Enum
+CPedMotionComponent__FacingTurnRate__Enum
 CPedMotionStates__eMotionState
 CPedMotivationDefinition
 CPedMotivationInfo
@@ -9729,6 +9787,7 @@ CPedSkinTones
 CPedSkinTones__sSkinComp
 CPedSpawnBalance
 CPedSpawnTypePctg
+CPedSpawner__ESpawnType
 CPedSpeedData
 CPedSpeedDataBlock
 CPedSpeedGroup
@@ -9983,6 +10042,7 @@ CRevivedVfxCollection
 CRewards
 CRiots__Tunables
 CRoadBlock__Tunables
+CRobberyMemoryMeta__Type
 CRopeSecuredCargo
 CRouteInfo
 CRsRef
@@ -10381,6 +10441,8 @@ CSearchPointOfInterestSituation__Flags
 CSeatOverrideAnimInfo
 CSeatOverrideAnimInfo__eSeatOverrideAnimFlags
 CSeatOverrideInfo
+CSecStaminaConfigInfoRechargeProperties
+CSecWeaponAccuracyInfo
 CSectionedReloadInfo
 CSectionedReloadInfo__CReloadHeightBlendInfo
 CSectionedReloadInfo__eReloadScenarioFlags
@@ -10396,7 +10458,10 @@ CShopData
 CSignedInDecisionPage
 CSignedIntoSocialClubDecisionPage
 CSimpleImpulseTest
+CSimpleMemoryMeta__Type
 CSimplePageView
+CSimplePerPlayerMemoryMeta__Type
+CSimplePlayerMemoryMeta__Type
 CSimpleVariablesSaveStructure
 CSingleLayoutView
 CSituationalClipSetStreamer__Tunables
@@ -11292,6 +11357,7 @@ CTimeArchetypeDef
 CTimeCycleModifier
 CTimeCycleVolume
 CTimeOfDayRanges
+CTimeOfDayRanges__eRangeNames
 CTimeOfDayScheduleInfo
 CTrafficSpeeds__Tunables
 CTrafficSpeeds__Tunables__SpeedTemplate
@@ -12578,6 +12644,8 @@ CheckpointDecalInfoParserData_s
 CheckpointInfoParserData_s
 CheckpointMarkerInfoParserData_s
 CheckpointsInfoParser
+Checkpoints_ColorNum_e
+Checkpoints_MarkerNum_e
 Checksum
 ChestForce
 ChestForcePitch
@@ -12700,6 +12768,7 @@ Clip3Id
 Clip4Id
 Clip5Id
 ClipData
+ClipDictDepArray
 ClipDictionaryName
 ClipGroup
 ClipGroups
@@ -12718,6 +12787,7 @@ ClipInfos
 ClipLeanId
 ClipLeanLeftId
 ClipLeanRightId
+ClipMegaDictionaryMappings
 ClipName
 ClipParam
 ClipRate
@@ -12916,6 +12986,7 @@ CockingInfos
 CodeDrivenIdleTurns
 CodeEventChannel
 CodeEventOp
+CodeTriggeredEvents
 CoilHandleBoneTag0
 CoilHandleBoneTag1
 CoilHandleOffset0
@@ -13108,11 +13179,14 @@ CompRestrictions
 CompanionAIMotionTargetDist
 CompanionAIPoint
 CompanionAbilityFlags__Flags
+CompanionAnalysisRole__eCompanionRoleType
+CompanionAnalysisTag__Tag
 CompanionCoverType__eCoverType
 CompanionHeadlookType_BeatVolume
 CompanionHeadlookType_Invalid
 CompanionHeadlookType_PedTarget
 CompanionHeadlookType__Type
+CompanionMovementSpeed__eSpeedType
 CompanionPrisoner
 CompanionRole
 CompanionRole_Default
@@ -13333,6 +13407,7 @@ ConstrainedMovementLimit
 ConstrainedMovementOnVehicleMetadataManager
 ConstrainedMovement__ArcData
 ConstrainedMovement__BoxData
+ConstrainedMovement__ConvoCameraSide
 ConstrainedMovement__VolumeData
 ConstraintBoneId
 ConstraintBoneTag
@@ -13602,6 +13677,7 @@ CoverMotionHelpers__UpperbodyNoAnimSet
 CoverMotionHelpers__UpperbodySet
 CoverMotionHelpers__UsageCondition
 CoverMotionHelpers__WeaponConditionalClipSet
+CoverMotionHelpers__eAimNodeCondition
 CoverMotionHelpers__eAimStyle
 CoverMotionHelpers__eClipsetCoverAimConditionType
 CoverMotionHelpers__eClipsetCoverEnterConditionType
@@ -13613,6 +13689,7 @@ CoverMotionHelpers__eConditionOperator
 CoverMotionHelpers__eFacingDirection
 CoverMotionHelpers__eLocoBodyVariation
 CoverMotionHelpers__eLocoClipParamCondition
+CoverMotionHelpers__eLocoMTHTargetType
 CoverMotionHelpers__eWeaponConditionalClipSetFlags
 CoverMotionHelpers__sStepOut360Transition
 CoverMotionHelpers__sStepOut360Zone
@@ -17269,6 +17346,7 @@ EnableSeekingOnFootSP
 EnableSharedAcceptInput
 EnableSideSwipeActivations
 EnableSideSwipeActivationsFirstPerson
+EnableSpatialArray
 EnableSpinner
 EnableSpur
 EnableSpurNew
@@ -18471,6 +18549,11 @@ FPTS_RELOAD_CROUCHED
 FPTS_RELOAD_CROUCHED_MOVING
 FPTargetGroundAngleThreshold
 FPTorsoSpaceSetIndices
+FP_ROTATION_SOURCE_FACING
+FP_ROTATION_SOURCE_HEAD
+FP_ROTATION_SOURCE_MOVER
+FP_ROTATION_SOURCE_NONE
+FP_ROTATION_SOURCE_SPINE
 FREQUENT_UPDATE
 FROM_ABOVE
 FROM_BELOW
@@ -21335,6 +21418,7 @@ HoldAsPrimaryAction
 HoldAtEndTime
 HoldDefaultSettings
 HoldDuration
+HoldDurationForSkidding
 HoldDurationOfCinematicShotForEarlyTermination
 HoldFire
 HoldFireAndHoldStill
@@ -24219,6 +24303,7 @@ InstantDespawnOffscreen
 InstantHolster
 InstantProbeDurationMin
 InstigatorDamageMultiplier
+InstrumentStandingFrameSettings
 InsultedByPlayer
 InsultedByPlayerSecond
 InsultedByPlayerThird
@@ -25360,6 +25445,8 @@ LSTICK_RIGHT
 LSTICK_ROTATE
 LSTICK_UP
 LSTICK_UPDOWN
+LT_CurrentPos
+LT_DesiredPos
 LT_Hard
 LT_None
 LT_Soft
@@ -25718,6 +25805,9 @@ LessThan
 LessThanOrEqualTo
 LessThanOrEqualToStyle
 LesserMotivation
+LetterBoxAspectRatio
+LetterBoxBlendInEasingType
+LetterBoxBlendOutEasingType
 LetterSpacing
 LetterboxConstrained
 Level
@@ -25810,6 +25900,7 @@ LineSpacingDistance
 LineType
 Linear
 LinearScores
+LinearSpeedMatchingTunables
 LinearVZForBrakingDifferenceMax
 LinearVZForBrakingDifferenceMin
 LinearVZForPitchRatioMax
@@ -27050,7 +27141,6 @@ MTR_Strength
 MULTILINE
 MULTILINE_NO_WRAP
 MULTIPLY
-MULTI_CODE
 Mag
 Magazine
 MagazineModelName
@@ -27258,6 +27348,7 @@ MaxAngularHeadingVelocityPlayerFPS
 MaxAngularHeadingVelocityPlayerForcedStandAim
 MaxAngularSpeed
 MaxAngularSpeedDead
+MaxAngularSpeedToAllowPullAround
 MaxAngularTurnRate
 MaxAngularVelocity
 MaxAngularVelocityScaleFactor
@@ -27272,6 +27363,7 @@ MaxArmour
 MaxArmourImpulseMult
 MaxArrestingPedSpeedToActivate
 MaxAssaults
+MaxAttachParentAngularSpeedForReverseFlex
 MaxAttachParentDepthUnderWaterToRemainBuoyant
 MaxAttachParentDepthUnderWaterToRemainBuoyantOut
 MaxAttachParentPitch
@@ -27455,6 +27547,7 @@ MaxDistanceAfterAimingToApplyAlternateScalingMax
 MaxDistanceAiPedFromTheirCoverToAbortPlayerEnterCover
 MaxDistanceAroundClosestRoadNode
 MaxDistanceBetweenIncidentsToAssignResources
+MaxDistanceBetweenObjects
 MaxDistanceBetweenPedsForShortRotation
 MaxDistanceDelay
 MaxDistanceErrorToIgnore
@@ -27593,6 +27686,7 @@ MaxDotToContinueFromAnalyze
 MaxDotToStartFromAnalyze
 MaxDotToTarget
 MaxDotToTargetToHelpPed
+MaxDownVerticalOffset
 MaxDownwardOffset
 MaxDragTime
 MaxDrawingMBR
@@ -27717,6 +27811,8 @@ MaxHealthToRechargeAsPercentage
 MaxHeavyCrashDeathChance
 MaxHeight
 MaxHeightDelta
+MaxHeightDeltaForMaxDownVerticalOffset
+MaxHeightDeltaForMaxUpVerticalOffset
 MaxHeightDiff
 MaxHeightDifference
 MaxHeightDifferenceToApproachTarget
@@ -27826,6 +27922,7 @@ MaxLowCoverWallCameraAngleOffsetDegrees
 MaxMBR
 MaxMBRAllowed
 MaxMBRDuringPursuit
+MaxMBRForLookAroundDelay
 MaxMBRForScalingSpringConstant
 MaxMBRForSeverity
 MaxMBRForThermalRise
@@ -28445,6 +28542,7 @@ MaxTurningAngle
 MaxTwist
 MaxUnarmedAttachRelativeOffsetSpeed
 MaxUnarmedDrivebyYawIfWindowRolledUp
+MaxUpVerticalOffset
 MaxUprightRatio
 MaxUsers
 MaxUsesForIdleVariationChange
@@ -28617,6 +28715,7 @@ MediumShot
 MediumSoftCover
 MediumToLargeStrengthTransitionEnd
 MediumToLargeStrengthTransitionStart
+MegaDictionaryId
 Melee
 MeleeActionPerformed
 MeleeActionRange
@@ -28876,6 +28975,7 @@ MinApproachTime
 MinArmYawLimit
 MinArmourImpulseMult
 MinAssaults
+MinAttachParentAngularSpeedForReverseFlex
 MinAttachParentApproachSpeedForPitchLock
 MinAttachParentHeightRatioToPushAwayFromCollision
 MinAttachParentTurningDirection
@@ -29100,6 +29200,7 @@ MinDotFromWorldUp
 MinDotMovingAwayFromTargetToStartCruiseInFront
 MinDotMovingTowardsTargetToContinueBrakeInFront
 MinDotMovingTowardsTargetToStartBrakeInFront
+MinDotProductBetweenObjects
 MinDotTargetMovingTowardsOurSideToStartBackAndForth
 MinDotTargetMovingTowardsUsToContinueBackAndForth
 MinDotTargetMovingTowardsUsToContinueBrakeInFront
@@ -29473,6 +29574,8 @@ MinShotTime
 MinShotTimeScalarForAbortingContexts
 MinShotTimeScalarForAbortingShots
 MinSideNormalForSideSwipe
+MinSideOffsetForMaxVerticalOffset
+MinSideOffsetForMinVerticalOffset
 MinSideSwitchingSpringConstant
 MinSize
 MinSlopeDegrees
@@ -29711,6 +29814,7 @@ MinTimeForFarTransition
 MinTimeForHandsUp
 MinTimeForIdealGaitHolding
 MinTimeForInitialState
+MinTimeForReverseFlex
 MinTimeForSamePedToChargeAgain
 MinTimeIdleSteering
 MinTimeIgnoreAttractorsAfterPathFailed
@@ -30032,6 +30136,7 @@ ModelFlags
 ModelForParachuteInMP
 ModelForParachuteInSP
 ModelHash
+ModelHashAndPriority
 ModelHashKey
 ModelHashName
 ModelHashes
@@ -30470,6 +30575,7 @@ MoveFollowOffset
 MoveFollowPathTargetRadius
 MoveInCoverAlongLinkHelpers__CameraDesiredFaceDirConfig
 MoveInCoverAlongLinkHelpers__CameraDesiredFaceDirConfigSet
+MoveInCoverAlongLinkHelpers__GaitType
 MoveInCoverAlongLinkHelpers__OverridePhysics
 MoveInCoverAlongLinkHelpers__PlayerCoverEnter
 MoveIncidentLocationToInitialSpawnPosition
@@ -31373,6 +31479,9 @@ OT_CUSTOM
 OT_GLOBAL
 OT_MAX
 OT_METADATA
+OUTFIT_TAG_INVALID
+OUTFIT_TAG_LAW
+OUTFIT_TAG_STRANGE
 OVERLAY
 OVERLAY_INFO_FILE
 OVERRIDE_ACCURACY
@@ -31512,6 +31621,7 @@ Offset_2Right
 Offsets
 OldSpurClipId
 OldWeatherType
+OlfactoryReactionRange
 OmitAsLeaf
 OnAMovingTrain
 OnBalanceFailed
@@ -31820,6 +31930,7 @@ OrbitSettingDictionary
 OrbitSettingRef
 OrbitSoftLimitRatio
 OrbitSpringConstant
+OrbitSpringConstantDuringBlending
 OrbitSpringRatio
 Order
 OrderNumber
@@ -31848,6 +31959,7 @@ OriginOffsetForEntryExit
 OriginRightHeadingOffset
 OriginRightOffset
 OriginSeatForAlignMTH
+OriginalDictionaryArray
 OriginalExampleIndex
 OriginalModelHash
 OriginalPos
@@ -33331,6 +33443,7 @@ PROFILE_OVERLAY
 PROFILE_STAT
 PROGRAMMABEAR
 PROJECTILE
+PROJ_DECAL_INFO_FLAGS
 PROJ_DECAL_INFO_FLAG_BLOOD
 PROJ_DECAL_INFO_FLAG_GLANCING
 PROJ_DECAL_INFO_FLAG_GRAVITY_ALIGN
@@ -33343,6 +33456,9 @@ PROJ_DECAL_INFO_FLAG_TINT_PALETTE
 PROJ_DECAL_INFO_FLAG_WASHABLE
 PROJ_DECAL_INFO_FLAG_WOUND
 PROJ_DECAL_TXD_OVERRIDE_FILE
+PROJ_DECAL_TYPE
+PROJ_DECAL_TYPE_DAMAGE
+PROJ_DECAL_TYPE_DECORATION
 PROP_OBJECT_INFO_FILE
 PROP_SCENARIOS_FILE
 PROP_SET_SCENARIOS_FILE
@@ -33748,6 +33864,7 @@ PedComponentSetName
 PedComponentsForOneDLCPack
 PedConfigFlags
 PedConstraintType
+PedCorpseTrackingInfo
 PedDamageHash
 PedDamageInfoHash
 PedDamageInfos
@@ -34083,6 +34200,7 @@ PermittedOnEvidence
 PermutationId
 PersCharName
 PerscharTuning
+Perschar__ETaskPriority
 PersistAfterScene
 PersistOnCleanUp
 PersistenceBlobBaseArray
@@ -34173,6 +34291,7 @@ PickupDropSpringConstant
 PickupFlags
 PickupFlagsEnum
 PickupFromGround
+PickupFromGroundIgnoreHeightRestrictions
 PickupFromMount
 PickupHash
 PickupHeadingTolerance
@@ -35765,6 +35884,7 @@ RSTICK_RIGHT
 RSTICK_ROTATE
 RSTICK_UP
 RSTICK_UPDOWN
+RTP_metadata
 RTT_Armed
 RTT_INVALID
 RTT_Melee
@@ -38101,6 +38221,8 @@ ScenarioDelayInitialMin
 ScenarioDistance
 ScenarioEntityIsRounded
 ScenarioEntityRequiresBeingFaced
+ScenarioExclusionZoneLifetime
+ScenarioExclusionZoneRadius
 ScenarioExit
 ScenarioExitNearPlayer
 ScenarioExitType
@@ -38447,6 +38569,7 @@ SeekTargetTransverseFarInterpSpeedSP
 SeekTargetTransverseNearInterpSpeedMP
 SeekTargetTransverseNearInterpSpeedSP
 SegmentCount
+SegueRestartLineIdx
 SelectFlowNode
 SelectThisWeapon
 SelectionConditionFlags
@@ -38715,6 +38838,7 @@ ShouldAttackOnAttach
 ShouldAttainAttachParentHeading
 ShouldAttainDesiredMotionBlurStrengthMidDuration
 ShouldAutoLevel
+ShouldBlendFromInitialAttachParentHeightRatio
 ShouldBlendOutWhenAttachParentIsInAir
 ShouldBlendOutWhenAttachParentIsOnGround
 ShouldBlendWithAttachParentMatrixForRelativeOrbitBlend
@@ -38955,6 +39079,8 @@ SideLimits
 SideMax
 SideOffset
 SideOffsetDampingRatio
+SideOffsetForMaxOrbitDistance
+SideOffsetForMinOrbitDistance
 SideOffsetReleaseSpringConstant
 SideOffsetScalar
 SideOffsetSettings
@@ -38964,6 +39090,7 @@ SideSpringConstant
 SideSpringDampingRatio
 SideSwipeForce
 SideSwitchThreshold
+SideSwitchingSpringDampingRatio
 SideZoneThreshold
 SidestepClipSet
 Sight
@@ -40059,6 +40186,7 @@ StateShouldDisplayPriorityFeedAtBoot
 StateShouldPlayerBeDead
 StateShouldVerifySettings
 StateShowSocialClubActivationUI
+StateShowSocialClubEntitlementUI
 StateShowSocialClubSignInUI
 StateShowSocialClubSignedOutUI
 StateShowURL
@@ -40081,6 +40209,7 @@ StateSocialClubViewWallOnSocialClubOnline
 StateSpShopEnter
 StateSpShopEnterDecorator
 StateSpeedEnum
+StateStandaloneTrailerMetrics
 StateStartupBase
 StateStartupSettingSelection
 StateStatusAlertScreen
@@ -40848,6 +40977,7 @@ SyncType
 SystemType
 TAAF_ABORT_ON_PED_MOVEMENT
 TAAF_ABORT_ON_WEAPON_DAMAGE
+TAAF_CLEAR_SECONDARY_TASKS
 TAAF_DONT_EXIT_ON_DEATH
 TAAF_DONT_SUPPRESS_LOCO
 TAAF_DONT_SUPPRESS_LOCO_DURING_TASK_BLEND
@@ -40903,6 +41033,7 @@ TAPC_ACTIVATE_RAGDOLL_ON_COLLISION
 TAPC_DISABLE_FORCED_PHYSICS_UPDATE
 TAPC_DISABLE_PHYSICAL_ACTIVATION
 TAPC_EXPAND_PED_CAPSULE_FROM_SKELETON
+TAPC_FORCE_FIXED_PHYSICS
 TAPC_NUM_FLAGS
 TAPC_OVERRIDE_PHYSICS
 TAPC_PROCESS_ATTACHMENTS_ON_START
@@ -41125,6 +41256,12 @@ TOUCH_P9_ENDED
 TOUCH_P9_X
 TOUCH_P9_Y
 TOWN
+TO_EnableForAI
+TO_EnableForCoverCrouch
+TO_EnableForCoverStand
+TO_EnableForFaceForward
+TO_EnableForFaceSides
+TO_SlidingEntry
 TPP_Any
 TPP_PreferSniper
 TPP_RejectSniper
@@ -41461,6 +41598,7 @@ TargetOffsetZ
 TargetOffsetZSpringConstant
 TargetOriginOffset
 TargetOutfit
+TargetOvershootInputScalingMetadata
 TargetPageLinkInfo
 TargetPath
 TargetPathSolver
@@ -41470,6 +41608,7 @@ TargetPlayer
 TargetPositionLerpMaxVelocity
 TargetPositionLerpMinVelocity
 TargetPositionSpringConstant
+TargetPositionSpringConstantDuringBlending
 TargetPositionSpringRatio
 TargetPromptAlwaysRedWhenHigh
 TargetPromptRedWhenDecayingTooLow
@@ -41716,6 +41855,7 @@ TexArraySourceSubtype
 TexGridCols
 TexGridRows
 TexId
+TexTableEntry
 TexUpdHeight
 TexUpdWidth
 TexWidthScale
@@ -42812,6 +42952,7 @@ UIObjectWithChildren
 UIPanel
 UIPanelBase
 UIPostFXFilterData
+UIPromptBreadcrumbsProvider
 UIPromptDataConstants
 UIPromptProvider
 UIPromptSimple
@@ -43416,6 +43557,7 @@ UseLegDamageVoice
 UseLegIK
 UseLegIkOnBikes
 UseLegLocoWeights
+UseLetterBoxDuringCinematic
 UseLoSChecks
 UseLocalPlayerAsFallback
 UseLockOnTargetSwitching
@@ -44647,6 +44789,8 @@ VaultVertClearance
 Vector3
 Vector4
 VectorReferences
+VegModifierData__InstanceCategoryFlags_e
+VegModifierData__VegModifierType_e
 VegModifierType
 VegVolume
 VegetationBulletPtFxInfo
@@ -45886,6 +46030,7 @@ WantedState
 WantedZoom
 WantsSupportDialogue
 WantsToJackFriendlyPed
+WarmStartTexTable
 WarnAfterKnockdownsInMelee
 WarnScenario
 WarnSoundRange
@@ -45970,6 +46115,7 @@ WaterQuads
 WaterQuality
 WaterReflectionFarClip
 WaterSampleBuoyancyMult
+WaterSimPtFxInfo
 WaterSurfaceFallbackRange
 WaterSurfaceIkFallbackRange
 WaterTakeOffClipSet
@@ -47141,6 +47287,7 @@ bDrawIdleHeadLookTarget
 bDrawVectorSeaMinimap
 bDrawVectorSeaPaused
 bDynamicStreaming
+bEmissiveBoost
 bEmpty
 bEnable
 bEnableBreakableObjectHelper
@@ -47291,12 +47438,14 @@ bUseFacing
 bUseHeadingOffsetWhenFacingTarget
 bUseHeadingRelativeForward
 bUseIndependentMover
+bUseInitialStrafe
 bUseLegIk
 bUseOffsetTaps
 bUseOnlyHighwayNodes
 bUseOutOfBoundsAutoMove
 bUseRange
 bUseSpeedMatching
+bUseStaticVehicleShadow
 bUseStayUpright
 bUseTimeCycleValues
 bUseWaterNodes
@@ -47738,6 +47887,8 @@ cacheEntries
 cached
 calendarDates
 camActionData
+camActionModifierCodeTriggeredEventActionMetadata
+camActionModifierCodeTriggeredEventMetadata
 camActionModifierMetadata
 camActionParams
 camAimCameraMetadata
@@ -47778,6 +47929,7 @@ camCinematicContext__TargetType
 camCinematicConversationContextMetadata
 camCinematicConversationShotMetadata
 camCinematicCraningCameraManShotMetadata
+camCinematicDataDrivenLocationContextMetadata
 camCinematicDirectorMetadata
 camCinematicDirectorMetadataAssistedAimingSettings
 camCinematicDollyCameraManShotMetadata
@@ -47817,6 +47969,7 @@ camCinematicLocationMetadata
 camCinematicLocationShotMetadata
 camCinematicLocationTrigger
 camCinematicLocationTriggerType
+camCinematicMPDeathContextMetadata
 camCinematicMeleeShotMetadata
 camCinematicMiscContextMetadata
 camCinematicMissileKillContextMetadata
@@ -48199,6 +48352,7 @@ camStickyAimModifierFirstPersonMetadata
 camStickyAimModifierMagnetismMetadata
 camStickyAimModifierMetadata
 camStickyAimModifierTargetBoneMagnetismMetadata
+camStickyAimModifierTargetOvershootInputScalingMetadata
 camStreamedModelMetadata
 camStreamedModelType
 camSubtleHintModifierMetadata
@@ -49140,6 +49294,7 @@ eCompanionVolumeType_Scenario
 eCompendiumCategories
 eCompendiumGoalUpdateReason
 eCompositeEntityEffectType
+eCoverEnterTriggerOption
 eCoverFlags
 eCoverHeight
 eCoverLoadingAreaPriority
@@ -49174,6 +49329,7 @@ eDownwardSlopeDepletionRateEaseCurveType
 eDownwardSlopeDepletionRateEaseType
 eDownwardsSlopeMultiplierEaseCurveType
 eDownwardsSlopeMultiplierEaseType
+eDriveBySweepTransitionType
 eDriveOn
 eDriveType
 eDynamicCoverBoundFlags
@@ -49234,6 +49390,7 @@ eFadeCurveType
 eFastTravelTags
 eFeedMessageCategory
 eFireType
+eFirstPersonRotationSourceType
 eFogVolumeLightingType
 eForwards
 eGaitTuningRangeFastRun
@@ -49249,6 +49406,7 @@ eGestureTrack
 eGridPolicyArrangeOrder
 eGridStreamerType
 eHandlingType
+eHazard_Check
 eHeadAttitude
 eHigh
 eHudContext
@@ -49548,6 +49706,13 @@ eVECT_Parachute
 eVECT_Slide
 eVERY_FAST
 eVERY_SLOW
+eVLBehavior
+eVLBehavior_Front_Indicator
+eVLBehavior_Headlight
+eVLBehavior_None
+eVLBehavior_Rear_Indicator
+eVLBehavior_Reverselight
+eVLBehavior_Taillight
 eVehicleAnimatedPropInfoFlags
 eVehicleCargoFlags
 eVehicleClass
@@ -49567,6 +49732,7 @@ eVfxGroup
 eVfxPedLimbId
 eVfxPedType
 eVirtualKeyboardIMEType
+eVlBehavior_Count
 eVolumeOwnershipFlags
 eVolumePropertyFlags
 eWALK
@@ -49630,6 +49796,7 @@ emitterSettingsName
 emitterSize
 emitterTintDesaturation
 emitterTypeHashName
+emitterUpdateMode
 emmissiveBoost
 enable
 enableEngravingBump
@@ -49885,6 +50052,9 @@ fAgitationRemovalRateSec
 fAgitationToRemoveWhenCalmed
 fAgitationVeryHighThreshold
 fAheadPointsMod
+fAiCompanionDefensiveAreaSize
+fAiLeaderDefensiveAreaSize
+fAiMountedLeaderDefensiveAreaSize
 fAimConstantSpringConstant
 fAimDirectionThresholdAngle
 fAimDirectionThresholdAngleDualWield
@@ -50282,6 +50452,7 @@ fDirectPlayerThreatWeighting
 fDirectThreatWeighting
 fDirectionTestProbeLength
 fDirtLevel
+fDisbandValueDecay
 fDisplayZ
 fDistAboveHandhold
 fDistBeforeMovingToNextNode
@@ -50935,6 +51106,7 @@ fMaxDelayToStartTurning
 fMaxDepletionRate
 fMaxDepletionRateModifier
 fMaxDepletionSpeed
+fMaxDisbandValue
 fMaxDistForOverheadReactions
 fMaxDistFromRoad
 fMaxDistSqFromRoad
@@ -51482,6 +51654,7 @@ fPlayerHighThreatWeighting
 fPlayerInCoverDamageModifierCoeff
 fPlayerInCoverDamageModifierPVPCoeff
 fPlayerInCoverDamageModifierTime
+fPlayerLeaderDefensiveAreaSize
 fPlayerMoveDistToResetChargeGoals
 fPlayerMoveDistToResetLoiterPosition
 fPlayerObstructionCheckRadius
@@ -51535,6 +51708,7 @@ fPositionY
 fPow
 fPreRevealPixelCount
 fPreferInjuredGetupPlayerHealthThreshold
+fPrefixLength
 fProbability
 fProbeExtraRadius
 fProbeLength
@@ -51831,6 +52005,7 @@ fStrengthMultiplier
 fStruggleRumbleIntensity
 fSubmergeLevelToPullHeliUnderwater
 fSubtitleDuration
+fSuffixLength
 fSunFogFactor
 fSunVisibilityFactor
 fSuperWideApproachRateMax
@@ -53132,6 +53307,7 @@ iMaxTime
 iMaxTimeBeforeSearchingForNewHidingPlace
 iMaxValue
 iMinAge
+iMinGroupSizeForDisband
 iMinListenerPlayers
 iMinLookAtTime
 iMinNumEnemiesForScaling
@@ -53560,6 +53736,7 @@ kDelayAudioUntilUnsuppressed
 kDetach
 kDropWeapon
 kEaseInOut
+kEquipWeapon
 kFacial
 kFacialControl
 kFacialRotation
@@ -54064,6 +54241,7 @@ lifeTimeMax
 lifeTimeMin
 lifeWheel
 light
+lightAtlasEmitterUpdateModeInfos
 lightAtlasHeight
 lightAtlasLightingModeInfos
 lightAtlasMode
@@ -54284,6 +54462,7 @@ males
 manifest
 manifestFlags
 map
+mapBoneAndLights
 mapChangeSetData
 mapDataCache
 mapDataStoreNameHash
@@ -54731,6 +54910,7 @@ naConvMetadata
 naConvPedMetadata
 naConvProjectionMetadata
 naConvProjectionType
+naConvSegueRestart
 naConvSpecialType
 naEnvironmentMapRegion
 naEnvironmentMapSector
@@ -55927,6 +56107,8 @@ rage__StateActivitySentinel
 rage__StateActivitySentinelDecorator
 rage__StateAddDataBool
 rage__StateAddDataHashString
+rage__StateAddDataTemplatedBool
+rage__StateAddDataTemplatedHashString
 rage__StateAppBase
 rage__StateAppLauncher
 rage__StateAppLauncherBase
@@ -55936,6 +56118,8 @@ rage__StateDataCheckBoolValue
 rage__StateDataConditionalHashDecorator
 rage__StateDataElementBase
 rage__StateDataHashStringSentinel
+rage__StateDataSentinelTemplatedBool
+rage__StateDataSentinelTemplatedHashString
 rage__StateDataTemplatedSupportBase
 rage__StateFlowControlBase
 rage__StateFlowblockBase
@@ -55948,6 +56132,8 @@ rage__StateNonBlockingResourceLoader
 rage__StatePauseTimer
 rage__StateRemoveDataBool
 rage__StateRemoveDataHashString
+rage__StateRemoveDataTemplatedBool
+rage__StateRemoveDataTemplatedHashString
 rage__StateResourceLoader
 rage__StateResourceLoaderBase
 rage__StateResumeTimer
@@ -56312,6 +56498,8 @@ rage__fwuiBoolValueConversion__eStringFormatting
 rage__fwuiCondition
 rage__fwuiConditionMultiBase
 rage__fwuiDataElementResourceBase
+rage__fwuiDataElementResourceTemplatedBool
+rage__fwuiDataElementResourceTemplatedHashString
 rage__fwuiDataElementTemplatedSupportBase
 rage__fwuiDataResourceBase
 rage__fwuiDataResourceBool
@@ -56635,6 +56823,7 @@ rage__ptxEffectRuleQualitySettingEntry
 rage__ptxEffectRuleQualitySettingInfo
 rage__ptxEmitterRuleQualitySettingEntry
 rage__ptxEmitterRuleQualitySettingInfo
+rage__ptxEmitterUpdateMode
 rage__ptxFxListDependencyInfo
 rage__ptxGlobalQualitySettingEntry
 rage__ptxKeyframe
@@ -56642,6 +56831,7 @@ rage__ptxKeyframeDefn
 rage__ptxKeyframeEntry
 rage__ptxKeyframeSpec
 rage__ptxKeyframeXmlData
+rage__ptxLightAtlasEmitterUpdateModeInfo
 rage__ptxLightAtlasLightingModeInfo
 rage__ptxLightAtlasMode
 rage__ptxLightAtlasQualityLevelInfo
@@ -58195,10 +58385,14 @@ uiDataAdjustableBehaviorPrimitiveTemplated_t_rage__fwuiBindingDouble
 uiDataAdjustableBehaviorPrimitiveTemplated_t_rage__fwuiBindingFloat
 uiDataAdjustableBehaviorPrimitiveTemplated_t_rage__fwuiBindingInt
 uiDataAdjustableBehaviorPrimitiveTemplated_t_rage__fwuiBindingSize
+uiDataBehaviorBase_t_uiTriggeredBehaviorBase
 uiDataBindingBehaviorBase
 uiDataBindingLink
 uiDataBindingTriggerBehaviorBase
 uiDataTransitionBehaviorBase
+uiDataTransitionBehavior_t_atHashString
+uiDataTriggerBehaviorTemplate_t_fwuiBindingBool
+uiDataTriggerBehaviorTemplate_t_rage__fwuiBindingHashString
 uiDeleteSavegameFlowControlBehavior
 uiDirectionParameter
 uiDirectionalInputMessagMessageAll
@@ -58258,6 +58452,8 @@ uiFocusedPropertyBehavior
 uiFocusedScriptEventBehavior
 uiFocusedSetPropertyOnTargetBehaviorBool
 uiFocusedSetPropertyOnTargetBehaviorHashString
+uiFocusedSetPropertyOnTargetBehaviorTemplated_t_atHashString
+uiFocusedSetPropertyOnTargetBehaviorTemplated_t_bool
 uiFrontendFeedContentDownloadBehavior
 uiGamerHandleBlob
 uiGamerTagDynamicItem
@@ -58575,6 +58771,8 @@ uiScreenNavigationActiveSelectableBehavior
 uiScreenNavigationBehavior
 uiScreenNavigationData
 uiScreenNavigationData__eNavFlags
+uiScreenOptionStepperBehaviorTemplated_t_rage__fwuiBindingArrayHashStringPtr
+uiScreenOptionStepperBehaviorTemplated_t_rage__fwuiBindingArrayIntPtr
 uiScreenScrollBarBehavior
 uiScreenScrollButtonBehavior
 uiScreenSelectableBehavior
@@ -59214,6 +59412,7 @@ waterQuality
 waterReflectionQuality
 waterReflectionSSR
 waterRefractionQuality
+waterSimPtFxInfos
 waterSimulationQuality
 waterZ
 waveFrequency
