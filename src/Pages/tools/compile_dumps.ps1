@@ -1,3 +1,4 @@
+#Requires -Version 7.0
 param (
     [Parameter(Mandatory=$true,HelpMessage="Path to the repository root directory.")]
     [string]
@@ -27,20 +28,35 @@ Copy-Item -Path $registry -Destination "$OutputDir\registry.json"
 
 $games = (Get-Content $registry -Raw | ConvertFrom-Json).psobject.properties | Select-Object name,value
 
-foreach ($game in $games) {
+# Copy the JSON dumps and queue one DumpFormatter run per build and format
+$work = foreach ($game in $games) {
     $name = $game.name
     foreach ($entry in $game.value) {
         $build = $entry.build
 
-        New-Item -Path "$OutputDir\$name" -ItemType Directory -Force
+        New-Item -Path "$OutputDir\$name" -ItemType Directory -Force | Out-Null
 
         $jsonDump = "$RootDir\dumps\$name\b$build.json"
-        Copy-Item -Path $jsonDump -Destination "$OutputDir\$name\b$build.json"
-        & $DumpFormatterExePath --dictionary $dictionary html      $jsonDump "$OutputDir\$name\b$build.html"
-        & $DumpFormatterExePath --dictionary $dictionary plaintext $jsonDump "$OutputDir\$name\b$build.txt"
-        #& $DumpFormatterExePath --dictionary $dictionary xsd       $jsonDump "$OutputDir\$name\b$build.xsd"
-        & $DumpFormatterExePath --dictionary $dictionary jsontree  $jsonDump "$OutputDir\$name\b$build.tree.json"
+        $out = "$OutputDir\$name\b$build"
+        Copy-Item -Path $jsonDump -Destination "$out.json"
+        [pscustomobject]@{ Format = "html";      Json = $jsonDump; Output = "$out.html" }
+        [pscustomobject]@{ Format = "plaintext"; Json = $jsonDump; Output = "$out.txt" }
+        #[pscustomobject]@{ Format = "xsd";       Json = $jsonDump; Output = "$out.xsd" }
+        [pscustomobject]@{ Format = "jsontree";  Json = $jsonDump; Output = "$out.tree.json" }
     }
+}
+
+# Capture each run's output so it prints as one block and its stderr doesn't abort the other runs
+$failed = $work | ForEach-Object -ThrottleLimit ([Environment]::ProcessorCount) -Parallel {
+    $log = & $using:DumpFormatterExePath --dictionary $using:dictionary $_.Format $_.Json $_.Output 2>&1
+    Write-Host ($log -join "`n")
+    if ($LASTEXITCODE -ne 0) {
+        "$($_.Output) (exit code $LASTEXITCODE)"
+    }
+}
+
+if ($failed) {
+    Write-Error "DumpFormatter failed for:`n$($failed -join "`n")" -ErrorAction Stop
 }
 
 # .\tools\compile_dumps.ps1 -RootDir "D:\sources\gtav-DumpStructs" -DumpFormatterExePath "D:\sources\gtav-DumpStructs\src\DumpFormatter\bin\Debug\net6.0\DumpFormatter.exe" -OutputDir "./build"
