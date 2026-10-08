@@ -37,10 +37,10 @@ internal static class Joaat
         {
             //try
             //{
-                var s = line.Trim();
-                if (s.Length == 0) { continue; }
+                // Not trimmed, some names have leading/trailing whitespace (e.g. "CPED_CONFIG_FLAG_DisableHornAudioWhenDead ")
+                if (string.IsNullOrWhiteSpace(line)) { continue; }
 
-                if (!AddString(s)) { ThrowDuplicateHash(s); }
+                if (!AddString(line)) { ThrowDuplicateHash(line); }
             //}
             //catch (DuplicateHashException ex)
             //{
