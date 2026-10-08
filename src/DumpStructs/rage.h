@@ -456,6 +456,9 @@ struct parManager
 	uint8_t padding[0x30];
 #endif
 	atMap<uint32_t, parStructure*> structures;
+#if RDR3
+	atMap<uint32_t, parEnumData*> enums; // filled by parManager::RegisterEnum, includes enums not used by any member
+#endif
 	// ...
 
 	static parManager** sm_Instance;
