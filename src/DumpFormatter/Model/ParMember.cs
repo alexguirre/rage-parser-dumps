@@ -186,7 +186,11 @@ internal record ParMemberArray(
     ParMemberArrayAllocFlags AllocFlags,
     ulong? ArraySize,
     ulong? CountOffset)
-    : ParMember(Name, Offset, Size, Align, Flags1, Flags2, ExtraData, Type, Subtype, Attributes);
+    : ParMember(Name, Offset, Size, Align, Flags1, Flags2, ExtraData, Type, Subtype, Attributes)
+{
+    // Name of the item member unless the schema specifies a different one
+    public static readonly Name DefaultItemName = Name.FromString("Item");
+}
 
 internal record ParMemberMap(
     Name Name, ulong Offset, ulong Size, ulong Align, ulong Flags1, ulong Flags2, ulong ExtraData, ParMemberType Type, ParMemberSubtype Subtype, ParAttributeList? Attributes,
@@ -194,7 +198,12 @@ internal record ParMemberMap(
     ParMember Value,
     Pointer? CreateIteratorFunc,
     Pointer? CreateInterfaceFunc)
-    : ParMember(Name, Offset, Size, Align, Flags1, Flags2, ExtraData, Type, Subtype, Attributes);
+    : ParMember(Name, Offset, Size, Align, Flags1, Flags2, ExtraData, Type, Subtype, Attributes)
+{
+    // Names of the key/value members unless the schema specifies different ones
+    public static readonly Name DefaultKeyName = Name.FromString("Key");
+    public static readonly Name DefaultValueName = Name.FromString("Item");
+}
 
 internal record ParMemberStruct(
     Name Name, ulong Offset, ulong Size, ulong Align, ulong Flags1, ulong Flags2, ulong ExtraData, ParMemberType Type, ParMemberSubtype Subtype, ParAttributeList? Attributes,

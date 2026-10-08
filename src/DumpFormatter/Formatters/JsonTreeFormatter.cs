@@ -245,6 +245,7 @@ internal class JsonTreeFormatter : IDumpFormatter
                         sb.Append('<');
                         var arr = (ParMemberArray)m;
                         formatRecursive(sb, arr.Item);
+                        formatNameComment(sb, arr.Item, ParMemberArray.DefaultItemName);
                         if (arr.ArraySize.HasValue)
                         {
                             sb.Append($", {arr.ArraySize.Value}");
@@ -253,11 +254,22 @@ internal class JsonTreeFormatter : IDumpFormatter
                         break;
                     case ParMemberType.MAP:
                         sb.Append('<');
-                        formatRecursive(sb, ((ParMemberMap)m).Key);
+                        var map = (ParMemberMap)m;
+                        formatRecursive(sb, map.Key);
+                        formatNameComment(sb, map.Key, ParMemberMap.DefaultKeyName);
                         sb.Append(", ");
-                        formatRecursive(sb, ((ParMemberMap)m).Value);
+                        formatRecursive(sb, map.Value);
+                        formatNameComment(sb, map.Value, ParMemberMap.DefaultValueName);
                         sb.Append('>');
                         break;
+                }
+            }
+
+            static void formatNameComment(StringBuilder sb, ParMember m, Name defaultName)
+            {
+                if (m.Name != defaultName)
+                {
+                    sb.Append($" /* {m.Name.ToFormattedString()} */");
                 }
             }
         }

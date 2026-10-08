@@ -111,6 +111,7 @@ export class CodeSnippet extends LitElement {
             {class:"hl-type",           regex: /=@(.*?)@/gm },
             {class:"hl-type",           regex: /@(.*?)@/gm,                   replacer: (_m, c1) => `<a class="type-link hl-type" href="#${c1}">${c1}</a>` },
             {class:"hl-comment",        regex: /(\/\/.*$)/gm },
+            {class:"hl-comment",        regex: /(\/\*.*?\*\/)/gm },
             {class:"hl-number",         regex: /\b([0-9]+)\b/gm },
         ]),
         "cpp-nolinks": new CodeMarkup([
@@ -118,6 +119,7 @@ export class CodeSnippet extends LitElement {
             {class:"hl-type",           regex: /=@(.*?)@/gm },
             {class:"hl-type",           regex: /@(.*?)@/gm },
             {class:"hl-comment",        regex: /(\/\/.*$)/gm },
+            {class:"hl-comment",        regex: /(\/\*.*?\*\/)/gm },
             {class:"hl-number",         regex: /\b([0-9]+)\b/gm },
         ]),
         "xml": new CodeMarkup([
