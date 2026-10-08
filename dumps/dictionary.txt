@@ -39951,7 +39951,6 @@ SSAOAllowedInTrails
 SSAOLightInten
 SSAOStrength
 SSAOType
-SSL2_CK_DES_192_EDE3_CBC_WITH_SHA
 SS_Default
 SS_FallOverWall
 SS_ForwardLean
