@@ -915,13 +915,20 @@ ARCADE_STICK
 ARC_DontJackAnyone
 ARC_DontUseDriverSeat
 ARC_DoorLocked
+ARC_ExteriorSeatBlocked
+ARC_FlaggedForDirectEntryOnly
+ARC_ForcedToUseFrontSeat
+ARC_ForcedToUseRearSeat
+ARC_ForcedToUseSpecificSeat
 ARC_Invalid
 ARC_InvalidSeat
+ARC_IsSeatEntry
 ARC_NotConsideredForEntryByAllPlayers
 ARC_NotConsideredForEntryByAmbientPed
 ARC_NotConsideredForEntryByLocalPlayer
 ARC_PedCantOpenLocks
 ARC_PedCantUseEntry
+ARC_PreventAIGettingIn
 ARC_Success
 ARC_TooSteepForPlayer
 ARC_VehicleLockedForPlayer
@@ -2946,6 +2953,7 @@ AimIkBaseBoneOffsetSets
 AimIkBaseBoneOffsetSetsFemale
 AimIkBaseBoneOffsetSetsMale
 AimIkData
+AimInILO
 AimInterpRate
 AimInterruptDelay
 AimInterruptDistance
@@ -3088,6 +3096,8 @@ AimingTurnRates
 AimingVariationClipSets
 AimingVehicleBlendDuration
 AimingWindowBlendSpringConstant
+AirAlignLong
+AirAlignMid
 AirDragMultiplierRangeMax
 AirDragMultiplierRangeMin
 AirDragPenalty
@@ -3272,6 +3282,7 @@ AllowLookback
 AllowLooting
 AllowMeleeBlock
 AllowMeleeIntroAnim
+AllowMeleeLeadIns
 AllowMeleeOnMount
 AllowMoveToCover
 AllowMovement
@@ -3308,6 +3319,7 @@ AllowReturnToScenarioPoint
 AllowRoadCrossHurryOnLightChange
 AllowScanningEvenIfPreviouslyReacted
 AllowScenarioRadiusOverride
+AllowScenariosWhileAiming
 AllowScriptOverride
 AllowSeamlessFallbacksWithCurrentPosition
 AllowSearch
@@ -3342,6 +3354,7 @@ AllowToMeleePedInSeat
 AllowTurnOnRoad
 AllowTurns
 AllowUFlip
+AllowUnderFireAim
 AllowUseTransport
 AllowVFlip
 AllowVaultClimb
@@ -3811,6 +3824,7 @@ ApplyBulletForce
 ApplyDamageOnImpact
 ApplyDecay
 ApplyDefault
+ApplyDiscardVelocity
 ApplyExtraHeadingChangesInFishLocomotion
 ApplyHappyMotivationOnConsecutiveUses
 ApplyHogtieConstraintsOnExit
@@ -10098,6 +10112,7 @@ CPED_CONFIG_FLAG_IsPerformingVehicleMelee
 CPED_CONFIG_FLAG_IsPlayingAimingIntro
 CPED_CONFIG_FLAG_IsPlayingAimingOutro
 CPED_CONFIG_FLAG_IsPoisoned
+CPED_CONFIG_FLAG_IsRunningItemInteraction
 CPED_CONFIG_FLAG_IsScuba
 CPED_CONFIG_FLAG_IsSitting
 CPED_CONFIG_FLAG_IsSkiing
@@ -10425,6 +10440,7 @@ CPED_RESET_FLAG_AllowPullingPedOntoRoute
 CPED_RESET_FLAG_AllowSpecialAbilityInVehicle
 CPED_RESET_FLAG_AllowTasksIncompatibleWithMotion
 CPED_RESET_FLAG_AllowUpdateIfNoCollisionLoaded
+CPED_RESET_FLAG_AllowWeaponSwapDuringReload
 CPED_RESET_FLAG_AmbientAnimsBlocked
 CPED_RESET_FLAG_AmbientIdleAndBaseAnimsBlocked
 CPED_RESET_FLAG_ApplyAnimatedVelocityWhilstAttached
@@ -10855,6 +10871,7 @@ CPED_RESET_FLAG_SearchingForDropDown
 CPED_RESET_FLAG_SetLastBoundMatricesDone
 CPED_RESET_FLAG_SetLastMatrixDone
 CPED_RESET_FLAG_ShootFromGround
+CPED_RESET_FLAG_ShouldBeSwimming
 CPED_RESET_FLAG_ShouldIgnoreCoverAutoHeadingCorrection
 CPED_RESET_FLAG_ShouldLaunchBicycleThisFrame
 CPED_RESET_FLAG_SkipAiUpdateProcessControl
@@ -11404,21 +11421,27 @@ CSF_CHECK_FOR_TARGETS_IN_VEHICLE
 CSF_RANDOM
 CSF_REQUIRES_LOS_TO_TARGET
 CSF_SEARCH_IN_ARC_AWAY_FROM_TARGET
+CSF_USE_START_POSITION
 CSIMaxDurationMS
 CSIPursuitMaxDurationMS
 CSM_SEARCH_ANY
 CSM_SEARCH_BY_POS
 CSM_SEARCH_BY_SCRIPTED_ID
 CSRF_AI_ROUND_COVER
+CSRF_CLOSE_TO_PLAYER
 CSRF_COVER_FAILED_BAD_COVER_DIRECTION
 CSRF_COVER_FAILED_BAD_ROUTE
 CSRF_COVER_FAILED_BLOCKED_POSITION
 CSRF_COVER_FAILED_BLOCKED_STATUS_HELPER
 CSRF_COVER_FAILED_COMBAT_SITUATION
 CSRF_COVER_FAILED_COMPANION_CHECKS
+CSRF_COVER_FAILED_ROUTE_TOO_CLOSE_TO_TARGET
+CSRF_COVER_FAILED_TOO_CLOSE_TO_FIRE
 CSRF_COVER_FAILED_TOO_CLOSE_TO_TARGET
 CSRF_COVER_FAILED_TOO_FAR_FROM_TARGET
 CSRF_COVER_FAILED_UNKNOWN
+CSRF_COVER_POINT_IN_BLOCKED_AREA
+CSRF_COVER_POINT_NOT_VALID
 CSRF_COVER_SUCCEEDED
 CSRF_EXCEPTION_POINT
 CSRF_FAIL_REASON_DANGEROUS_NAV_LINK
@@ -11429,7 +11452,12 @@ CSRF_NO_AI_COVER
 CSRF_NO_SHOOTING
 CSRF_OUTSIDE_INTERIOR_BOX
 CSRF_PASSED_FILTERS
+CSRF_POINT_HEIGHT_IS_PRONE
+CSRF_POINT_IS_DANGEROUS
+CSRF_POINT_IS_DEAD_ANIMAL
 CSRF_POINT_IS_OCCUPIED
+CSRF_POINT_IS_THIN
+CSRF_POINT_OUTSIDE_SEARCH_ARC
 CSRF_ROUND_COVER
 CSRF_SUGGESTED
 CSRF_TARGET_IN_VEHICLE
@@ -13619,6 +13647,8 @@ CameraDir
 CameraDirToCoverMinDot
 CameraDistanceSpeed
 CameraDrawDistanceEvent
+CameraFacingDirectionDelay
+CameraFacingDirectionEnable
 CameraFacingMinBackwardAngle
 CameraFacingMinForwardAngle
 CameraFacingPartialCover
@@ -13640,6 +13670,7 @@ CameraHeightSpringConstant
 CameraHeightSpringDampingRatio
 CameraInfo
 CameraInputDelay
+CameraIsUnderWater
 CameraLagSettings
 CameraLimitBlendSpringConstant
 CameraLookAtBlendRate
@@ -13659,6 +13690,7 @@ CameraOverrides
 CameraPositionSpringConstant
 CameraPositionSpringRatio
 CameraProbeDistance
+CameraProbeFailed
 CameraRef
 CameraRelativeLeftSideOffset
 CameraRelativeLeftSideOffsetAdditive
@@ -13754,6 +13786,7 @@ CanBeFiredLikeGun
 CanBeHeldLikeLantern
 CanBeHitWhenCarriable
 CanBeHogtied
+CanBeHolsteredInVehicle
 CanBeHorseHolstered
 CanBeIncapacitated
 CanBeIntimidatedWhenFleeing
@@ -13894,6 +13927,7 @@ CanUseCrouchAim
 CanUseFirstPersonAimSweep
 CanUseFirstPersonCarryAim
 CanUseFirstPersonHipFire
+CanUseFirstPersonMovementAdditives
 CanUseForReactions
 CanUseGameCameraAsFallBack
 CanUseInVehMelee
@@ -13923,6 +13957,8 @@ CannotBePlacedOnMount
 CannotBeTamed
 CannotBeUsedByCuffedPed
 CannotInstantHolster
+CannotInstantSwapFromOffhand
+CannotInstantSwapToOffhand
 CannotLassoPlayers
 CannotSee
 CannotToggleScope
@@ -14041,6 +14077,7 @@ CarryWeightMinSpeedPercentageModifier
 CarryingAnimationFilter
 CarryingClipSet
 CarryingData
+CarryingEntityTempWeapon
 CarryingMovementData
 CarryingMovementDatas
 CarryingPed
@@ -14632,6 +14669,7 @@ CockOnAim
 CockPressThreshold
 CockRecoilDelayTime
 CockReleaseThreshold
+CockSingleActionQuick
 CockSlowThreshold
 CockStartDelayTime
 CockStartIntroModifier
@@ -14855,6 +14893,8 @@ CompanionRole_Support
 CompanionRole_WingMan
 CompanionVolumeFlag_AmbientBehaviors
 CompanionVolumeFlag_AmbientBlocking
+CompanionVolumeFlag_AmbientStayInformation
+CompanionVolumeFlag_AmbientStayInside
 CompanionVolumeFlag_Beat
 CompanionVolumeFlag_Business
 CompanionVolumeFlag_Camp
@@ -15060,6 +15100,7 @@ ConsiderOrientation
 ConsiderPosition
 ConsiderRecentChargeAsActiveTimeout
 ConsiderRoute
+ConsideredUnarmedInMelee
 Constant
 Constants
 ConstellationData
@@ -15498,6 +15539,7 @@ CpuMemoryBudgetOrbisMiB
 Crab
 CrackType
 CrashLanding
+CreateAmmoInHandWhenReloading
 CreateBulletExplosionWhenOutOfTime
 CreateGroup
 CreateMax
@@ -17258,6 +17300,7 @@ DisableDuringCombat
 DisableDuringLockdown
 DisableEntry
 DisableEntryIfBikeOnSide
+DisableEscapePrompt
 DisableEvasionExceptAgitator
 DisableEvasiveStep
 DisableExitAbortForInAirEvent
@@ -17389,6 +17432,7 @@ DisableSpeaking
 DisableStartMessageForSprintExhausted
 DisableStealth
 DisableStreamedVehicleAnimRequestHelper
+DisableSuicidePrompt
 DisableTagSyncIntoAlign
 DisableTargetRearDoorOpenRatio
 DisableThreatApproachDiversions
@@ -17445,8 +17489,10 @@ DisallowWeaponFlags
 DisallowedActions
 DisappearsWhenDeadChance
 DisarmProbability
+DiscardCarriablesOnEquip
 DiscardLevel
 DiscardOnSelect
+DiscardWhenNoHolster
 DiscardWhenOutOfAmmo
 DiscardWhenSwapped
 DiscoverableCollection
@@ -17787,6 +17833,7 @@ DontDefaultWarpIfDoorBlocked
 DontDelayFiringForMountedPeds
 DontDetachOnWorldCollision
 DontDropEquippedWeapons
+DontEquipAfterSwim
 DontExitPlayerScenarioDueToBeingShot
 DontExitUntilIdleFinishes
 DontExitUntilTransitionFinishes
@@ -17817,6 +17864,7 @@ DontRemoveReticuleDuringBlindFireNew
 DontRequestHelp
 DontReset
 DontSendLootableEvent
+DontSetAsBackup
 DontSetPedOutOfVehicle
 DontShareTargetInformation
 DontSinkInUnderwaterAmbush
@@ -18032,8 +18080,10 @@ DropForRunway
 DropForwardVelocity
 DropInsteadOfDestroy
 DropOldCrimesDelay
+DropOnMeleeAttack
 DropProbes
 DropSettingName
+DropWeaponOnMeleeAction
 DropWhenCooked
 DropWhenLassoed
 DropdownNetworkName
@@ -18043,6 +18093,8 @@ Drunk
 DrunkDelay
 DrunkEffectSettings
 DrunkPitchOffset
+DrunkSlumpDuration
+DrunkSlumpEase
 DrunkSpringConstant
 DryFiredWeapon
 DryPercent
@@ -19356,6 +19408,7 @@ EnterPromptNameOverride
 EnterProp2ClipId
 EnterPropClipId
 EnterRightSideClipSetId
+EnterSeatAssisted
 EnterToBaseBlendDuration
 EnterTransportPromptTag
 EnterTurretPromptDistance
@@ -19375,6 +19428,7 @@ Entity
 EntityA
 EntityB
 EntityComponentCounts
+EntityComponent_Update
 EntityComponentsInfo
 EntityDrawDataCacheBufferSizeKB
 EntityDrawDataCacheGPUBufferSizeKB
@@ -19608,6 +19662,7 @@ ExitAnims
 ExitAttachmentMoveSpeedThreshold
 ExitBlendDuration
 ExitBlendInDuration
+ExitCanFire
 ExitClip
 ExitClipDataOptions
 ExitClipId
@@ -19626,6 +19681,7 @@ ExitData
 ExitDecrementedAnimation
 ExitDistance
 ExitIncrementedAnimation
+ExitIronSightOnCocking
 ExitMotions
 ExitPitchSpeedModifier
 ExitPoints
@@ -20578,7 +20634,11 @@ Face
 FaceAgitator
 FaceData
 FaceImmediately
+FaceLeftMaxLimit
+FaceLeftMinLimit
 FacePlayer
+FaceRightMaxLimit
+FaceRightMinLimit
 FaceTowardsTarget
 FaceTowardsTransport
 FacialCameraRef
@@ -21528,6 +21588,7 @@ ForceAlertWhenVehicleStartedByPlayer
 ForceAllowCameraCutActions
 ForceAllowMountedTurnAround
 ForceAllowWarpToSafeGroundLocation
+ForceAltInput
 ForceAreaCoreZoomThreshold
 ForceAtMaxVelocity
 ForceAtMinVelocity
@@ -21596,6 +21657,7 @@ ForceLeaveVehicle
 ForceLegIK
 ForceLegIkPreRender
 ForceLineToTargetSlack
+ForceLootInput
 ForceLowCornerEastFaceNorth
 ForceLowCornerEastFaceSouth
 ForceLowCornerNorthFaceEast
@@ -21614,6 +21676,7 @@ ForceNewMessage
 ForceNoTimeslicingHeadingDiff
 ForceNoTurningInFishLocomotion
 ForceOverVehicle
+ForceOverhandThrow
 ForcePedAsFiringEntity
 ForcePinnedDown
 ForcePlay
@@ -21764,6 +21827,7 @@ ForwardProbeLength
 ForwardProbeRadius
 Found
 FoundEvidence
+FoundForced
 Fov
 FovAcceleration
 FovBlendEasingType
@@ -21888,6 +21952,8 @@ FullBodyLoopedEmoteAnimInfo
 FullBodyVariations
 FullCoverCover
 FullCoverCoverEdge
+FullCoverCoverExposedHead
+FullCoverCoverWindow
 FullForceThreshold
 FullMilliseconds
 FullRestartRequestId
@@ -22189,6 +22255,7 @@ GameplayRequestDictionary
 GameplayRequestName
 Gameplay_GetWeaponAnimationsSetForPed
 Gameplay_GetWeaponManager
+Gameplay_PotentialCombatDirector
 GamerIdHigh
 GamerIdLow
 GamerTagIndex
@@ -22511,6 +22578,7 @@ GroundMaterialSpawnCoordNormalZTolerance
 GroundOffsetExtend
 GroundOffsetForProcessProbes
 GroundPickupRange
+GroundProbeFailed
 GroundSettingName
 GroundToRootOffset
 GroundToRootOffsetMultiplierHeightDifferenceToDisablePromptForEnter
@@ -23037,6 +23105,7 @@ HasClimbDownToWater
 HasClimbUp
 HasClimbUpFromWater
 HasCmplxTurnGaits
+HasCollisionDisabled
 HasCombatEntry
 HasCreateWeaponTag
 HasCustomAlignToJackAnims
@@ -23360,6 +23429,7 @@ HideDrawableOnStick
 HideDuringRagdoll
 HideEntityEvent
 HideForRemoteTempLootable
+HideFromWeaponWheelWhenOutOfAmmo
 HideIfAbove
 HideIfBelow
 HideObject
@@ -23635,6 +23705,7 @@ HorseGender
 HorseHandling
 HorseHeadShakes
 HorseIntentTunables
+HorseIsTooAgitated
 HorseLeading
 HorseLeft
 HorseLocoPenaltyTunables
@@ -26854,6 +26925,7 @@ Invincible
 Invisible
 InvisibleWhenCarried
 InvolvedInGroupGreet
+IsADraftAnimal
 IsADropFromTransport
 IsADynamicObjectForPathServer
 IsAFallbackTossDrop
@@ -26929,6 +27001,7 @@ IsDroppingDown
 IsDrunk
 IsEditable
 IsEnabled
+IsEnteringWithKnife
 IsEntitySet
 IsEntryBookmarked
 IsEntryLiked
@@ -27511,6 +27584,7 @@ KeepResident
 KeepWeapon
 KeepWeaponEquipped
 KeepWeaponEquippedOnMount
+KeepWeaponInInventoryUponDiscard
 KeepWeaponThatUsesThisAmmoEquipped
 KeepZForWarpToOrigin
 KernelSizePercentage
@@ -27920,6 +27994,8 @@ LassoThresholdDistanceForVehicles
 LassoThrowBlendOut
 LassoThrowMaxTime
 LassoThrowMinTime
+LassoThrowSpeedFleeing
+LassoThrowSpeedIdeal
 LassoTune
 LassoTuneInfos
 LassoWeaponLoopBoneTags
@@ -27949,6 +28025,7 @@ LateralActivationDistanceMax
 LateralDistanceConstraint
 LateralDistanceLimit
 LateralForce
+LateralProbeFailed
 LatestServerVersion
 LaunchConditions
 LaunchLeftBikeClipId
@@ -29625,6 +29702,7 @@ MTHF_USE_ABSOLUTE_MOVER
 MTHF_USE_CLIP_BLEND_DURATION_TAGS
 MTHF_USE_FOOT_SYNCHRONIZATION
 MTHF_USE_GROUND_ADAPTATION
+MTHF_USE_ROOT_SLOPE_FIXUP_SOLVER
 MTHF_USE_SYNC_BEAT_SYNCHRONIZATION
 MTHFlags
 MTHFlagsIdle
@@ -33093,6 +33171,7 @@ MountCoverRequested
 MountEntityEvent
 MountFireVariationAngleLimit
 MountFireVariationAnimationAngleLimit
+MountGetUpEntry
 MountIsRearingUp
 MountLeft
 MountManifest
@@ -33900,11 +33979,13 @@ NoLootVehicleAnimData
 NoLootVehicleCompartmentData
 NoLootVehicleConfig
 NoMeleeTakedowns
+NoOrdnanceInHolster
 NoOutgoingLinks
 NoParachuteMaxCollisionNormalThreshold
 NoParachuteMaxPitch
 NoParachuteMinCollisionNormalThreshold
 NoParachuteTimeForMinCollisionNormalThreshold
+NoPickupWhenDiscarded
 NoPromptData
 NoPromptDuringCombat
 NoPromptDuringMelee
@@ -34037,6 +34118,7 @@ NotLootable
 NotPlaceable
 NotProfessional
 NotSteeringSpringConstant
+NotSupportedInMountCover
 NotSwimming
 NotUnarmed
 NotUsableByAI
@@ -35109,6 +35191,7 @@ PCF_DisableGaitReduction
 PCF_DisableGrappleByAi
 PCF_DisableGrappleByPlayer
 PCF_DisableGuardAI
+PCF_DisableGunslingerDuels
 PCF_DisableHeadGore
 PCF_DisableHonorModifiers
 PCF_DisableHorseGunshotFleeResponse
@@ -36084,6 +36167,7 @@ PRF_DisableDynamicTransportEntry
 PRF_DisableFlashLight
 PRF_DisableFriendlyAmbientAnimalFollowing
 PRF_DisableFriendlyGunReactAudio
+PRF_DisableGunslingerDuels
 PRF_DisableHighHeels
 PRF_DisableHorseAutoJump
 PRF_DisableHorseEvasion
@@ -36763,6 +36847,8 @@ PedEventScan_Physics
 PedEventScan_PlayerControlInterrupt
 PedEventScan_PlayerToPedWalkInto
 PedEventScan_Shocking
+PedEventScan_ShockingTimeCritical
+PedEventScan_ShockingUpdatePendingLosEvents
 PedEventScan_StaticMovement
 PedEventScan_Stuck
 PedEventScan_Total
@@ -36816,6 +36902,8 @@ PedIntelligence_NearbyEntityLists
 PedIntelligence_PropHelper
 PedIntelligence_ScanForEvents
 PedIntelligence_Stealth
+PedIntelligence_TaskPostProcess
+PedIntelligence_TaskPreProcess
 PedIntelligence_Tasks
 PedIntelligence_UpdateCoverFinder
 PedIntelligence_UpdateDefensiveAreas
@@ -37101,6 +37189,8 @@ PerformProbes
 PerformanceConfigs
 PerformedActionApproach
 PerformedHostileAction
+PerformedRetreatBehavior
+PerformedSeekBehavior
 Performer
 PerformerClip
 PerformerClipId
@@ -37561,6 +37651,7 @@ PlayerRunningFormationSideOffset
 PlayerRunningSpeed
 PlayerSeekCoverPointZoneData
 PlayerSexyPedModifier
+PlayerShouldWaitForTransportToSlowDown
 PlayerSilentGreetChanceModifierMaximum
 PlayerSilentGreetChanceModifierMinimum
 PlayerSprintEntryRate
@@ -37810,6 +37901,12 @@ PowerForMaxAdjustment
 PowerForMaxAdjustmentNetwork
 PowerForMinAdjustment
 PowerLessThanOrEqualTo
+PreAi_PedHorse
+PreAi_PedPathServer
+PreAi_PedPlayer
+PreAi_PedSpatialArray
+PreAi_Total
+PreAi_Vehicles
 PreBakeCollision
 PreChoosingActionPromptRingTotalLootingTime
 PreDelayDuration
@@ -37862,6 +37959,7 @@ PreferAttackMode
 PreferAvoidFoliage
 PreferAvoidMud
 PreferChase
+PreferClimbOverEntryExit
 PreferCloseCover
 PreferCloseToTarget
 PreferDirectionChangeOnFlee
@@ -37882,6 +37980,7 @@ PreferMeleeRagdoll
 PreferNearWaterSurface
 PreferNearWaterSurfaceArrivalRadius
 PreferNotToMove
+PreferOnBoardEntryExit
 PreferOnBoardExit
 PreferPavements
 PreferPavementsWhenMovingToLaw
@@ -40383,6 +40482,7 @@ RouteName
 RoutePassNearTargetCareThreshold
 RoutePassNearTargetThreshold
 RouteRadiusFactor
+RouteSearchFailed
 Routes
 RowBoatClipSetId
 RowBoatFleeCruiseSpeed
@@ -40485,6 +40585,7 @@ RunningAgainstBulletMultSprint
 RunningAndGunning
 RunningFlags
 RunningMBRThreshold
+RunningNmControlTask
 RunningPedModifier
 RunningShakeActivityScalingSettings
 RunningShakeSettings
@@ -41006,6 +41107,7 @@ SF_IGNORE_DEFENSIVE_AREA_ACTIONS
 SF_IGNORE_IMPULSE_TEST
 SF_IGNORE_SELF_TEST
 SF_IGNORE_UNINTERRUPTIBLE_ACTIONS
+SF_IMPULSE_INITIATED_MOVES_ONLY
 SF_Int
 SF_Int64
 SF_JEER_AT_HOT_PED
@@ -41225,10 +41327,12 @@ SO_AllowPitchDown
 SO_AllowSoftCover
 SO_AllowStrafe
 SO_CameraDisableCollision
+SO_CanLeftHanded
 SO_DisableMTHIntro
 SO_DisableMTHOutro
 SO_EnableFwdLean
 SO_FallbackNode
+SO_ForceLeftHanded
 SO_ForceStandingHeight
 SO_IntroBlendHeightIn
 SO_OutroBlendHeightOut
@@ -41476,6 +41580,7 @@ STYLE_LOCALE_TRADITIONAL_CHINESE
 ST_COUNT
 ST_CamFacing
 ST_Distance
+ST_FavouredPed
 ST_GAME
 ST_Misc
 ST_Naturalist_Crafting
@@ -43031,6 +43136,7 @@ SmallCapsuleCoverRadius
 SmallConfig
 SmallDropLocoTimeMax
 SmallDropLocoTimeMin
+SmallMoonshineJug
 SmallMudValue
 SmallTextureName
 SmallTextureTxd
@@ -44196,6 +44302,8 @@ StepOverRightSmall
 StepRightSmall
 StepTransitionMaxAngle
 StepTransitionMinAngle
+StepTresholdCorner
+StepTresholdLink
 SteppingAnimStateInfos
 SteppingApproachRate
 SteppingApproachRateFast
@@ -44806,9 +44914,12 @@ TCF_DisableHonorModifiers
 TCF_NotConsideredForEntryByAllPlayers
 TCF_NotConsideredForEntryByAmbientPed
 TCF_NotConsideredForEntryByLocalPlayer
+TCF_PreventAIGettingIn
 TCModDarkName
 TCModName
 TCO_COUNT
+TCO_IN_THE_LAST
+TCO_NOT_IN_THE_LAST
 TCO_ZERO
 TC_DoNothing
 TC_Lower
@@ -46490,6 +46601,7 @@ TransportScanRadius
 TransportValidatePointFullSpeed
 TransportValidatePointIdle
 TransportValidatePointZoneData
+Transport_Process
 Transport__AngleType
 Transport__Archetype
 Transport__ClipSetDataFlags
@@ -46740,6 +46852,9 @@ UCHAR
 UF_INVALID
 UF_LOOTABLE
 UF_NEW
+UF_SERVER_SET_LOOTABLE
+UF_SERVER_SET_UNLOCKED
+UF_SERVER_SET_VISIBLE
 UF_UNLOCKED
 UF_VISIBLE
 UGCContentId
@@ -47207,6 +47322,7 @@ UsableInventoryItemInfos
 UsableOnFoot
 UsableUnderwater
 UsableUnderwaterOnly
+UsableWhileCarryingSomething
 Usage
 UsageProfile
 UsageProfiles
@@ -47510,6 +47626,7 @@ UsePositiveResponseOverrideContext
 UsePreEmptiveEdgeActivation
 UsePreEmptiveEdgeActivationMp
 UsePreviousDirectionFor180s
+UsePrimedPowerScaling
 UsePromptGroupLabelForPickups
 UseProne
 UsePropBlockerBound
@@ -47641,6 +47758,7 @@ UserData
 UserData1
 UserData2
 Users
+UsesAiAccuracyOffsetModifier
 UsesAnimPropBlendAge
 UsesBodyBlendedEntry
 UsesCarriedByHumanBindings
@@ -48835,6 +48953,8 @@ VehicleImpactShakeMaxDamage
 VehicleImpactShakeMinDamage
 VehicleImpactShakeRef
 VehicleInWater
+VehicleIntelligence_TaskPostProcess
+VehicleIntelligence_TaskPreProcess
 VehicleIntelligence_Tasks
 VehicleInvisible
 VehicleIsOnSide
@@ -50016,6 +50136,7 @@ WantedStarPenalty
 WantedState
 WantedZoom
 WantsSupportDialogue
+WantsToDriveImmediately
 WantsToJackFriendlyPed
 WarmStartTexTable
 WarnAfterKnockdownsInMelee
@@ -50503,7 +50624,11 @@ Whip_Large
 Whip_Med
 Whip_Small
 Whip_TypeMax
+WhistleReponseMax
 WhistleResponseDecayPerSecond
+WhistleResponseIncrDouble
+WhistleResponseIncrLong
+WhistleResponseIncrSecondary
 WhistleResponseIncrement
 WhistleResponseTank1
 WhistleResponseTank2
@@ -52921,9 +53046,15 @@ decalGrowthMultMin
 decalGrowthTime
 decalHashName
 decalHashNameDefault
+decalHashNameMistNonPorous
+decalHashNameMistPorous
 decalHashNameOverrides
 decalHashNamePool
 decalHashNameSkid
+decalHashNameSplatNonPorous
+decalHashNameSplatPorous
+decalHashNameSprayNonPorous
+decalHashNameSprayPorous
 decalHashNameStretch
 decalHashNameTrail
 decalId
@@ -54627,6 +54758,7 @@ fDistanceFactor
 fDistanceForBreakableGlass
 fDistanceForCorpseRemoval
 fDistanceForCorpseSpawn
+fDistanceForMaxBounce
 fDistanceForObjectRemoval
 fDistanceForObjectSpawn
 fDistanceForScenarioHideRemoval
@@ -56094,6 +56226,7 @@ fSpawnRangeInViewMultiplierInVehicle
 fSpawnRangeInViewMultiplierOnHorse
 fSpecialAbilityRageKickImpulseModifier
 fSpeedConsideredIdle
+fSpeedForMaxBounce
 fSpeedLimit
 fSpeedMatchingDampingRatio
 fSpeedMatchingDist
@@ -57994,6 +58127,8 @@ kDisableReason_ControlDisabled
 kDisableReason_CutscenePlaying
 kDisableReason_DebugDisabled
 kDisableReason_Enabled
+kDisableReason_FailedDeprecatedPromptFilter
+kDisableReason_FailedPromptFilter
 kDisableReason_ForceDisabled
 kDisableReason_GroupPageNotActive
 kDisableReason_InputsDisabled
@@ -58001,6 +58136,10 @@ kDisableReason_Loading
 kDisableReason_MissionTitle
 kDisableReason_NotInActiveGroup
 kDisableReason_NotRegistered
+kDisableReason_OutOfVolume
+kDisableReason_OutOfXYRange
+kDisableReason_OutOfZRange
+kDisableReason_PedIsNull
 kDisableReason_ScenarioPromptsDisabled
 kDisableReason_WaitingRegister
 kDisableReason_WaitingVisuals
@@ -62695,11 +62834,14 @@ trail
 trailLeadInOutLength
 trailLeadInRenderSettingsGroup
 trailLeadOutRenderSettingsGroup
+trailMinItems
 trailPeakTime
 trailPtFxHashName
 trailPtFxRotationPerPoint
 trailPtFxRotationSpeed
 trailPtFxSizeEvo
+trailRecycleDist
+trailRecycleTime
 trailSegmentCount
 trailSegmentGapMax
 trailSegmentGapMin
@@ -63814,9 +63956,12 @@ vehDirtDefinition
 vehDirtGrowScale
 vehDirtMax
 vehDirtMin
+vehDriverInjured
+vehDriverKilled
 vehGroupPercentages
 vehGroups
 vehMudBuildup
+vehPassengerInjured
 vehWindDistMult
 vehicleBudget
 vehicleClass
