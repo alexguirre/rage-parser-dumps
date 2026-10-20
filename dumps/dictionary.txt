@@ -915,6 +915,7 @@ ARCADE_STICK
 ARC_DontJackAnyone
 ARC_DontUseDriverSeat
 ARC_DoorLocked
+ARC_DoorLockedPlayerOnly
 ARC_ExteriorSeatBlocked
 ARC_FlaggedForDirectEntryOnly
 ARC_ForcedToUseFrontSeat
@@ -1662,6 +1663,7 @@ ASVF_RESERVED_9
 ASVF_RESET_SUSPENSION
 AS_Acceleration
 AS_AgitationRate
+AS_AgitationRechargePercentageMax
 AS_BodyHeat
 AS_BodyWeight
 AS_Brawniness
@@ -1885,6 +1887,7 @@ ATF_AlertedWalkAwayMaxTime
 ATF_AlertedWalkAwayMinTime
 ATF_BraveryMax
 ATF_BraveryMin
+ATF_CombatAnimalMeleeRetreatCutoffDistance
 ATF_CombatAnimalMeleeRetreatDistance
 ATF_CombatCircleMaxRadius
 ATF_CombatCircleMinRadius
@@ -1982,6 +1985,7 @@ ATF_ThreatResponseRangeFactorScenario
 ATF_ThreatResponseRangeFactorStalkingPrey
 ATF_ThreatResponseRangeFactorThreatRunning
 ATF_ThreatResponseRangeFactorThreatStealthy
+ATF_ThreatResponseRangeFactorThreatStealthyFoliage
 ATF_ThreatResponseRangeFactorTracking
 ATF_ThreatResponseSlowFleeFactor
 ATF_ThreatResponseSoloFleeMBR
@@ -2615,6 +2619,7 @@ AccelerationToStartLeaning
 AcceptAndCancel
 AcceptLabel
 AcceptRadius
+AcceptancePeriod
 AcceptedRideRequest
 AccessArea_Cloud
 AccessArea_GameServers
@@ -4228,6 +4233,8 @@ AutoHandleIDs
 AutoInterruptAtEndOfClips
 AutoInterruptAtEndOfEnters
 AutoJunctionAdjustments
+AutoKillShoreStartNode
+AutoKillStartNode
 AutoLevelSmoothRate
 AutoModEaseInType
 AutoModEaseOutType
@@ -5094,6 +5101,7 @@ BigDropLocoTimeMin
 BigFeedLayoutWrapperState
 BigFeedNetworkResourcesCheckState
 BigFeedPromptVisibleCheckState
+BigFishUnhookTreatmentRequestRef
 BigHornRam
 BigText
 BigTextVisible
@@ -10038,6 +10046,7 @@ CPED_CONFIG_FLAG_HasCarriableAttached
 CPED_CONFIG_FLAG_HasClothCollisionBounds
 CPED_CONFIG_FLAG_HasDeadPedBeenReported
 CPED_CONFIG_FLAG_HasEstablishedDecoy
+CPED_CONFIG_FLAG_HasFinishedCrimeSceneCleanUp
 CPED_CONFIG_FLAG_HasHandsUp
 CPED_CONFIG_FLAG_HasHelmet
 CPED_CONFIG_FLAG_HasHighHeels
@@ -10089,6 +10098,7 @@ CPED_CONFIG_FLAG_IsFalling
 CPED_CONFIG_FLAG_IsFiring
 CPED_CONFIG_FLAG_IsFollowingLeash
 CPED_CONFIG_FLAG_IsFollowingPlayer
+CPED_CONFIG_FLAG_IsGrabbingCarcass
 CPED_CONFIG_FLAG_IsHandCuffed
 CPED_CONFIG_FLAG_IsHitchingHorse
 CPED_CONFIG_FLAG_IsHoldingProp
@@ -10112,6 +10122,7 @@ CPED_CONFIG_FLAG_IsPerformingVehicleMelee
 CPED_CONFIG_FLAG_IsPlayingAimingIntro
 CPED_CONFIG_FLAG_IsPlayingAimingOutro
 CPED_CONFIG_FLAG_IsPoisoned
+CPED_CONFIG_FLAG_IsRunningIntimidated
 CPED_CONFIG_FLAG_IsRunningItemInteraction
 CPED_CONFIG_FLAG_IsScuba
 CPED_CONFIG_FLAG_IsSitting
@@ -10145,6 +10156,7 @@ CPED_CONFIG_FLAG_KilledInCover
 CPED_CONFIG_FLAG_KilledOnMount
 CPED_CONFIG_FLAG_KnockedUpIntoAir
 CPED_CONFIG_FLAG_Knockedout
+CPED_CONFIG_FLAG_LastShotWasHeadshot
 CPED_CONFIG_FLAG_LawPedsCanFleeFromNonWantedPlayer
 CPED_CONFIG_FLAG_LawWillOnlyAttackIfPlayerIsWanted
 CPED_CONFIG_FLAG_LeaveEngineOnWhenExitingVehicles
@@ -10295,6 +10307,8 @@ CPED_CONFIG_FLAG_UsingLowriderLeans
 CPED_CONFIG_FLAG_UsingScenario
 CPED_CONFIG_FLAG_VaultFromCover
 CPED_CONFIG_FLAG_VisibleOnScreen
+CPED_CONFIG_FLAG_VisibleReflectionOnScreen
+CPED_CONFIG_FLAG_VisibleShadowOnScreen
 CPED_CONFIG_FLAG_WaitForDirectEntryPointToBeFreeWhenExiting
 CPED_CONFIG_FLAG_WaitingForPlayerControlInterrupt
 CPED_CONFIG_FLAG_WaitingForScriptBrainToLoad
@@ -10335,6 +10349,7 @@ CPED_GAMEPLAY_CONFIG_FLAG_LeftHandAiming
 CPED_GAMEPLAY_CONFIG_FLAG_TrackedBySpecialWeapon
 CPED_GAMEPLAY_RESET_FLAG_AllowIloInCombat
 CPED_GAMEPLAY_RESET_FLAG_IgnoredByAutoOpenDoors
+CPED_GAMEPLAY_RESET_FLAG_IsConstrainedByBolas
 CPED_GAMEPLAY_RESET_FLAG_IsLassoed
 CPED_GAMEPLAY_RESET_FLAG_IsReloading
 CPED_GAMEPLAY_RESET_FLAG_MountTarget
@@ -10373,6 +10388,7 @@ CPED_PHYSICS_RESET_FLAG_DisableAsleepImpulse
 CPED_PHYSICS_RESET_FLAG_DisableDynamicCapsuleRadius
 CPED_PHYSICS_RESET_FLAG_DisableGravity
 CPED_PHYSICS_RESET_FLAG_DisableGroundAttachment
+CPED_PHYSICS_RESET_FLAG_DisableGroundAttachmentTimeSliced
 CPED_PHYSICS_RESET_FLAG_DisableGroundProbe
 CPED_PHYSICS_RESET_FLAG_DisablePedCapsule
 CPED_PHYSICS_RESET_FLAG_DisablePedCapsuleControl
@@ -10387,6 +10403,7 @@ CPED_PHYSICS_RESET_FLAG_ExpandPedCapsuleFromSkeleton
 CPED_PHYSICS_RESET_FLAG_FirstPhysicsUpdate
 CPED_PHYSICS_RESET_FLAG_ForceActivePhysics
 CPED_PHYSICS_RESET_FLAG_ForceBuoyancyProcessingIfAsleep
+CPED_PHYSICS_RESET_FLAG_ForceBuoyancyProcessingIfAsleepTimeSliced
 CPED_PHYSICS_RESET_FLAG_ForceDeepSurfaceCheck
 CPED_PHYSICS_RESET_FLAG_InContactWithBIGFoliage
 CPED_PHYSICS_RESET_FLAG_InContactWithDeepSurface
@@ -10505,6 +10522,7 @@ CPED_RESET_FLAG_DisableBodyLookSolver
 CPED_RESET_FLAG_DisableBodyRecoilSolver
 CPED_RESET_FLAG_DisableCameraCollision
 CPED_RESET_FLAG_DisableCameraConstraintFallBackThisFrame
+CPED_RESET_FLAG_DisableCarryingMotionAnims
 CPED_RESET_FLAG_DisableCellphoneAnimations
 CPED_RESET_FLAG_DisableCombatAudio
 CPED_RESET_FLAG_DisableCoverAudio
@@ -10718,6 +10736,7 @@ CPED_RESET_FLAG_IsBeingLongLooted
 CPED_RESET_FLAG_IsBeingMeleeHomedByPlayer
 CPED_RESET_FLAG_IsBeingTeleported
 CPED_RESET_FLAG_IsBlindFiring
+CPED_RESET_FLAG_IsBowArrowNocked
 CPED_RESET_FLAG_IsCallingPolice
 CPED_RESET_FLAG_IsClimbing
 CPED_RESET_FLAG_IsClosingVehicleDoor
@@ -10728,6 +10747,7 @@ CPED_RESET_FLAG_IsDoingCoverAimIntro
 CPED_RESET_FLAG_IsDoingCoverAimOutro
 CPED_RESET_FLAG_IsDoingCoverOutroToPeek
 CPED_RESET_FLAG_IsDoingDriveby
+CPED_RESET_FLAG_IsDraggingPedToSafety
 CPED_RESET_FLAG_IsDrowning
 CPED_RESET_FLAG_IsEnteringCover
 CPED_RESET_FLAG_IsEnteringMount
@@ -11457,11 +11477,14 @@ CSRF_POINT_IS_DANGEROUS
 CSRF_POINT_IS_DEAD_ANIMAL
 CSRF_POINT_IS_OCCUPIED
 CSRF_POINT_IS_THIN
+CSRF_POINT_MAX_SEARCH_DISTANCE
+CSRF_POINT_MIN_SEARCH_DISTANCE
 CSRF_POINT_OUTSIDE_SEARCH_ARC
 CSRF_ROUND_COVER
 CSRF_SUGGESTED
 CSRF_TARGET_IN_VEHICLE
 CSRF_WAIT_FOR_CLEANUP
+CSRF_WITHIN_OPTIMAL_COVER_DISTANCE
 CSR_SourceEntity
 CSR_SourceOrTargetEntity
 CSR_TargetEntity
@@ -13058,6 +13081,8 @@ CVEHICLE_CONFIG_FLAG_PlaneResistToExplosion
 CVEHICLE_CONFIG_FLAG_PlayerHasTurnedOffLowBeamsAtNight
 CVEHICLE_CONFIG_FLAG_PoliceFocusWillTrackCar
 CVEHICLE_CONFIG_FLAG_PreviousApproachingJunctionWithSiren
+CVEHICLE_CONFIG_FLAG_ProcessTaskPostMovement
+CVEHICLE_CONFIG_FLAG_ProcessingAudioImpacts
 CVEHICLE_CONFIG_FLAG_ProducingSlipStream
 CVEHICLE_CONFIG_FLAG_RandomlyDelaySiren
 CVEHICLE_CONFIG_FLAG_ReadyForCleanup
@@ -14224,6 +14249,7 @@ ChangeStationClipId
 ChangeTaskAnimationFlags
 ChangeToSafeTypeOnResume
 ChangeWeatherEvent
+ChangedTargetDelay
 Changes
 Channel
 ChannelMap
@@ -14687,6 +14713,8 @@ CoilHandleBoneTag0
 CoilHandleBoneTag1
 CoilHandleOffset0
 CoilHandleOffset1
+CoilHandleOffsetHolstered0
+CoilHandleOffsetHolstered1
 CoilHandleRadius
 CoilLoopLength
 CoilLoopLengthHolstered
@@ -14778,6 +14806,7 @@ Columns
 Combat
 CombatAbility
 CombatAlignRate
+CombatAnimalMeleeRetreatCutoffDistance
 CombatAnimalMeleeRetreatDistance
 CombatBlockClipSetHash
 CombatCharge
@@ -15747,6 +15776,15 @@ CustomCircleSweepTestRadius
 CustomClothEvent
 CustomCollisionOriginRelativePosition
 CustomCollisionOriginRelativePositionForTripleHead
+CustomCornerOffset
+CustomCornerOffsetEastFaceNorth
+CustomCornerOffsetEastFaceSouth
+CustomCornerOffsetNorthFaceEast
+CustomCornerOffsetNorthFaceWest
+CustomCornerOffsetSouthFaceEast
+CustomCornerOffsetSouthFaceWest
+CustomCornerOffsetWestFaceNorth
+CustomCornerOffsetWestFaceSouth
 CustomCoverBounds
 CustomCoverDynamicObjects
 CustomCurveArchiveName
@@ -16491,6 +16529,7 @@ DeadeyeReloadRateModifier
 DeadeyeSwapWeaponRateModifier
 DeathFailIntroEffectShakeRef
 DeathFailOutroEffectShakeRef
+DeathRollStartNode
 DeathShakeRef
 Debris
 Debug
@@ -17775,6 +17814,7 @@ DofFocusSettings
 DofName
 DofSettings
 DofSettingsForAiming
+DofSettingsForIronSightAiming
 DofSettingsForMobile
 DofSettingsForMobilePhoneShallowDofMode
 DofSettingsForParachute
@@ -19526,6 +19566,7 @@ EquipWeaponEnRouteToScenario
 EquipWeaponEvent
 Equipped
 EquippedAttachPoint
+EquippedHolster
 EquippingWeaponAttachPoint
 EquippingWeaponType
 ErrorSpeedSpringConstant
@@ -19722,6 +19763,7 @@ ExitWarpSpeed
 Exits
 ExpandAvoidanceRadius
 ExpandPedCapsuleRadius
+ExpandingSearchConstraints
 ExpectedMaximum
 ExpectedMaximumsArray
 ExperienceRanks
@@ -20185,6 +20227,7 @@ FLAG_DRIVER_SHOULD_BE_FEMALE
 FLAG_DRIVER_SHOULD_BE_MALE
 FLAG_DROPS_MONEY_WHEN_BLOWN_UP
 FLAG_DROP_SUSPENSION_WHEN_STOPPED
+FLAG_DYNAMIC_PIN
 FLAG_EMERGENCY_SERVICE
 FLAG_EQUIP_UNARMED_ON_ENTER
 FLAG_EXPLODE_ON_CONTACT
@@ -20205,6 +20248,7 @@ FLAG_FORCE_BONNET_CAMERA_INSTEAD_OF_POV
 FLAG_FORCE_COVER
 FLAG_FORCE_CROUCH_WHEN_VAULTED_ONTO
 FLAG_FORCE_ENABLE_CHASSIS_COLLISION
+FLAG_FORCE_FROM_VELOCITY
 FLAG_FORCE_JUMP_OUT_WHEN_PLAYER_IS_NEAR
 FLAG_FRONT_BOOT
 FLAG_GEN_NAVMESH
@@ -20713,7 +20757,9 @@ FailureTransition
 FakeDoors
 FakeGesture
 FakeLungeOffset
+FakePickUpPromptText
 FakeSeat
+FakeSkinPromptText
 FakeStaticFrameFilter
 FakeStaticFrameImplementation
 Fall
@@ -20907,6 +20953,8 @@ FinalShakeAmplitude
 FinalShotImpulseClampMax
 FinalState
 FinalWarning
+FindActionTimeout
+FindActionTimeoutPlayerControlled
 FindGroundPositionWithAdjustedOrientation
 FindMotionKeyFromSeat
 FindPropInEnvironmentDist
@@ -21828,6 +21876,8 @@ ForwardProbeRadius
 Found
 FoundEvidence
 FoundForced
+FoundHumanInteraction
+FoundSwimmingPickup
 Fov
 FovAcceleration
 FovBlendEasingType
@@ -25668,6 +25718,11 @@ INVENTORY_ITEM_STAT_RELOADTIME_WORN
 INVENTORY_MAX_ID
 INVENTORY_MP_MISSION
 INVENTORY_MP_PLAYER
+INVENTORY_MP_PLAYER_EXT0
+INVENTORY_MP_PLAYER_EXT1
+INVENTORY_MP_PLAYER_EXT2
+INVENTORY_MP_PLAYER_EXT3
+INVENTORY_MP_PLAYER_EXT4
 INVENTORY_SECOND_SCREEN
 INVENTORY_SP_BACKUP
 INVENTORY_SP_PLAYER
@@ -27999,6 +28054,7 @@ LassoThrowSpeedIdeal
 LassoTune
 LassoTuneInfos
 LassoWeaponLoopBoneTags
+LassoWeaponNameHash
 Lassoed
 LassoedPed
 LassoerOnFoot
@@ -28219,6 +28275,7 @@ LegData
 LegForceMult
 LegFt
 LegFtRot
+LegGrabStartNode
 LegL
 LegLLoco
 LegMaxLengthScale
@@ -28653,6 +28710,7 @@ LongGrass
 LongInSwitchHelperRef
 LongLootRollSelector
 LongOutSwitchHelperRef
+LongPassbyStartNode
 LongPatAgitationChangePerSecond
 LongPedVarData
 LongRange
@@ -29707,8 +29765,10 @@ MTHF_USE_SYNC_BEAT_SYNCHRONIZATION
 MTHFlags
 MTHFlagsIdle
 MTHFlagsMove
+MTHIF_ARRIVED_AT_BLEND_POINT
 MTHIF_IS_INITIALISED
 MTHIF_LOOPING
+MTHIF_SEND_PROBES
 MTHOrientationBlendDuration
 MTHPath
 MTHPoseBlendDuration
@@ -29751,6 +29811,7 @@ MagnetismLerpModifierSpringConstant
 MagnetismLerpModifierSpringDampingRatio
 MagnetismMetadata
 MagnetismNoStickTimeMS
+MagnetismNotAimingMetadata
 MagnetismRelativeVelocityModifierMax
 MagnetismRelativeVelocityModifierMin
 Magnitude
@@ -31334,6 +31395,7 @@ MediumLowImpact
 MediumMudValue
 MediumOffsetInterpRate
 MediumOutSwitchHelperRef
+MediumPassbyStartNode
 MediumPed
 MediumShot
 MediumSoftCover
@@ -32300,6 +32362,7 @@ MinStickInputToEnableMoveAroundCorner
 MinStickInputToMoveAroundCorner
 MinStickInputToMoveInCover
 MinStickInputToSideStrafe
+MinStickInputToSideStrafeCosAngle
 MinStickInputToVault
 MinStickInputXAxisToTurnInCover
 MinStickMag
@@ -32364,6 +32427,7 @@ MinTimeBeforeReact
 MinTimeBeforeSwitchLookAt
 MinTimeBetweenAmbientDriverBrakingAudio
 MinTimeBetweenAmbientDriverSpurringAudio
+MinTimeBetweenApproaches
 MinTimeBetweenAttemptsToFindNearby
 MinTimeBetweenAttemptsToFindNewPosition
 MinTimeBetweenBulletReactions
@@ -35348,9 +35412,11 @@ PCF_IsKickingDoor
 PCF_IsPerformingDanceEmote
 PCF_IsPerformingEmote
 PCF_IsPerformingWeaponEmote
+PCF_IsRunningGrappleStruggle
 PCF_IsSanctionedShooter
 PCF_IsScuba
 PCF_IsTranquilized
+PCF_IsUsingDynamicPlayerScenario
 PCF_IsValidForVehicleSeatStow
 PCF_IsWhistling
 PCF_JustGetsPulledOutWhenElectrocuted
@@ -36121,12 +36187,14 @@ PRF_AllowControlRadioInAnySeatInMP
 PRF_AllowHeadPropInVehicle
 PRF_AllowHomingMissileLockOnInVehicle
 PRF_AllowOpenDoorIkBeforeFullMovement
+PRF_AllowOutfitInteractions
 PRF_AllowPlayerPushing
 PRF_AllowSpecialAbilityInVehicle
 PRF_AllowTasksIncompatibleWithMotion
 PRF_AllowUpdateIfNoCollisionLoaded
 PRF_BlockFidgets
 PRF_BlockHeadbobbingToRadio
+PRF_BlockInteractionLockOnToAmbientPeds
 PRF_BlockKnockOffHatShots
 PRF_BlockWeaponFire
 PRF_BlockWeaponReactionsUnlessDead
@@ -36225,7 +36293,10 @@ PRF_ForceAimAtHead
 PRF_ForceAimingInCover
 PRF_ForceBackAgainstWallCover
 PRF_ForceCover
+PRF_ForceDisabledHerbPromptsScript
+PRF_ForceDisabledSkinningPromptsScript
 PRF_ForceEnableFlashLightForAI
+PRF_ForceFlinchInCover
 PRF_ForceFootstepComponent
 PRF_ForceIdleDismount
 PRF_ForceInjuryAfterStunned
@@ -36905,6 +36976,7 @@ PedIntelligence_Stealth
 PedIntelligence_TaskPostProcess
 PedIntelligence_TaskPreProcess
 PedIntelligence_Tasks
+PedIntelligence_TasksEveryFrame
 PedIntelligence_UpdateCoverFinder
 PedIntelligence_UpdateDefensiveAreas
 PedIntelligence_UpdateEnclosedSearchRegions
@@ -37157,6 +37229,7 @@ PendingAdvance
 PendingAttachPoint
 PendingDismountAnimal
 PendingFindMountAnimal
+PendingHolster
 PendingMountAnimal
 PendingStartLooting
 PendingStartUsingScenario
@@ -37582,6 +37655,7 @@ PlayerFramingPivotPositionLeftSideOffset
 PlayerFramingPivotPositionRightSideOffset
 PlayerFramingPivotPositionVerticalOffset
 PlayerFramingSettings
+PlayerGetUpText
 PlayerGlideIdealTurnRate
 PlayerGlideTurnAcceleration
 PlayerHasslingModifier
@@ -39598,6 +39672,7 @@ RegisterQuitPromptToFrontend
 RegisterWithEagleEye
 RegisteredAnimPostFXStack
 RegisteredStacks
+RegistrationPeriod
 RegistrationPoint
 RegistrationType
 RegularCombat
@@ -40491,7 +40566,9 @@ RowBoatMidGripBoneName
 RowBoatRightPivotBoneName
 RowBoatTunables
 RowHighEffortAnimInfos
+RowHighEffortSlowAnimInfos
 RowLowEffortAnimInfos
+RowLowEffortSlowAnimInfos
 RowMedEffortAnimInfos
 RowSpan
 Rows
@@ -41095,11 +41172,13 @@ SF_DRAFT
 SF_Data
 SF_DataGeneric
 SF_EXPLOSIONS
+SF_EXPLOSIONS_TRAINS
 SF_Float
 SF_FlowLink
 SF_FrontDriverSide
 SF_FrontPassengerSide
 SF_GUNS
+SF_GUNS_EXPLOSIONS
 SF_HIGH_IMPACT
 SF_HOT_PERSON
 SF_HText
@@ -42341,6 +42420,7 @@ SeekTargetTransverseFarInterpSpeedMP
 SeekTargetTransverseFarInterpSpeedSP
 SeekTargetTransverseNearInterpSpeedMP
 SeekTargetTransverseNearInterpSpeedSP
+SegmentCastWidth
 SegmentCount
 SegueRestartLineIdx
 SelectFlowNode
@@ -42524,6 +42604,7 @@ ShortKickAheadTime
 ShortKickAsternThrottle
 ShortKickAsternTime
 ShortName
+ShortPassbyStartNode
 ShortPatAgitationChange
 ShortRange
 ShortRotationInSwitchHelperRef
@@ -43200,6 +43281,7 @@ SoakStartSize
 SoakStartSizeGravity
 SoakTexture
 SoakTextureGravity
+SoarRangeOffset
 SocialClubFeedAccountSettingsWrapperState
 SocialClubFeedAggregatedNetworkResourcesCheckState
 SocialClubFeedAlertResponseState
@@ -45370,6 +45452,7 @@ TargetBeingPickedUpClipSetFemale
 TargetBlendOutSet
 TargetBone
 TargetBoneMagnetismMetadata
+TargetBoneMagnetismNotAimingMetadata
 TargetBoneTag
 TargetBoneTags
 TargetBones
@@ -45485,6 +45568,7 @@ TargetOriginOffset
 TargetOuterSphereRadius
 TargetOutfit
 TargetOvershootInputScalingMetadata
+TargetOvershootInputScalingNotAimingMetadata
 TargetPageLinkInfo
 TargetPath
 TargetPathSolver
@@ -45887,6 +45971,7 @@ ThreatResponseRangeFactorScenario
 ThreatResponseRangeFactorStalkingPrey
 ThreatResponseRangeFactorThreatRunning
 ThreatResponseRangeFactorThreatStealthy
+ThreatResponseRangeFactorThreatStealthyFoliage
 ThreatResponseRangeFactorTracking
 ThreatResponseSlowFleeCount
 ThreatResponseSlowFleeFactor
@@ -48956,6 +49041,7 @@ VehicleInWater
 VehicleIntelligence_TaskPostProcess
 VehicleIntelligence_TaskPreProcess
 VehicleIntelligence_Tasks
+VehicleIntelligence_TasksEveryFrame
 VehicleInvisible
 VehicleIsOnSide
 VehicleIsUpsideDown
@@ -51285,6 +51371,7 @@ attachedObjects
 attachedOffset
 attachedToDoor
 attachments
+attackedByShark
 attr
 attributeCount
 attributeList
@@ -51403,6 +51490,8 @@ bDarkSkin
 bData
 bDealsEnduranceDamage
 bDebugDraw
+bDebugDrawTargetInterpolation
+bDebugDrawTurningCircle
 bDebugRender
 bDefReposPedToCenter
 bDeferTest
@@ -52850,6 +52939,7 @@ continuousCharge
 continuousDamageType
 contribSeats
 controlTextureIndex
+copRelGroupName
 cornerA
 cornerB
 cornerC
@@ -53635,6 +53725,12 @@ eItemPromptInfoPriority
 eJOG
 eKeyboardMouseControls
 eLawResponseTime
+eLeadHandXDistanceEaseCurveType
+eLeadHandXDistanceEaseType
+eLeadHandYDistanceEaseCurveType
+eLeadHandYDistanceEaseType
+eLeadHandZDistanceEaseCurveType
+eLeadHandZDistanceEaseType
 eLeftArmCompensation
 eLensArtefactBlurType
 eLensArtefactMaskType
@@ -54238,6 +54334,10 @@ expansionRate
 expansionRateMax
 expansionRateMin
 expansionRateMultiplier
+expansionRatioHorizMax
+expansionRatioHorizMin
+expansionRatioVertMax
+expansionRatioVertMin
 experience
 expiry
 explicitAssets
@@ -55898,6 +55998,7 @@ fOffsetDistanceMinClamp
 fOffsetFront_Y
 fOffsetFront_Z
 fOffsetRatioMaxClamp
+fOffsetRatioMaxClampRunning
 fOffsetRatioMinClamp
 fOffsetRear_Y
 fOffsetRear_Z
@@ -57358,6 +57459,7 @@ graphicsQualityPreset
 grassLod
 gravity
 green
+greetChanceModifier
 grid
 ground
 groundCorrectionFlags
@@ -58906,6 +59008,7 @@ key
 keyEntryData
 keyFrames
 keyhash
+killedByCougar
 kitID_U16
 kitIdx
 kitName
@@ -60476,11 +60579,13 @@ ptFxAssetHashName
 ptFxAssetName
 ptFxAttachBone
 ptFxAttachBone2
+ptFxAttachedPropHashName
 ptFxBloodBodyArmourHashName
 ptFxBloodHashName
 ptFxBloodHeavyArmourHashName
 ptFxBloodUnderwaterHashName
 ptFxBoneTag
+ptFxBurnHashName
 ptFxClueTintB
 ptFxClueTintG
 ptFxClueTintR
@@ -62241,6 +62346,7 @@ shownAlpha
 shyPersonalityFlags
 siblingIndex
 sigmoidConstant
+silentGreetChanceModifier
 simplePhysicsAngularImpulseScale
 simplePhysicsLinearImpulseScale
 simulationSettings
@@ -62842,6 +62948,7 @@ trailPtFxRotationSpeed
 trailPtFxSizeEvo
 trailRecycleDist
 trailRecycleTime
+trailRecycleTimeWater
 trailSegmentCount
 trailSegmentGapMax
 trailSegmentGapMin
