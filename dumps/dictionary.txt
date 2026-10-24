@@ -47,6 +47,8 @@ AA_TYPE_KNOCKBACK
 AA_TYPE_KNOCKDOWN
 AA_TYPE_LOW
 AA_TYPE_STATIONARY
+ABF_Charge
+ABF_Circle
 ABORT_ON_RELEASE
 ACCEPT_POLICIES
 ACF_AllowFriendlyMeleeDamage
@@ -102,6 +104,7 @@ AC_LowInternalCorner
 AC_RoundCover
 ADDITIVE
 ADD_FRIEND
+ADD_FRIEND_WITH_OVERLAY
 ADD_REASON_AWARDS
 ADD_REASON_CREATE_CHARACTER
 ADD_REASON_DEBUG
@@ -2661,6 +2664,7 @@ AccuracySpread
 AccuracyTunings
 AccurateModeAccuracyModifier
 AccusedPlayer
+AchieveHeadingTolerance
 Action
 ActionApproachCooldownDuration
 ActionApproachTimeout
@@ -2856,6 +2860,8 @@ AerialVehiclePoint
 AffectsPlayer
 AffectsPlayerHorse
 Affluence
+AfterAimingDelay
+AfterAimingDelayAsPassenger
 Afternoon
 Age
 AgeGroup
@@ -3081,8 +3087,10 @@ AimWeaponInterpolationSourceLookAroundDecelerationScaling
 AimedAt
 AimedAtByPlayer
 Aiming
+Aiming1HClipSetId
 Aiming1hBodyBlendTemplateId
 Aiming1hClipSetId
+Aiming2HClipSetId
 Aiming2hBodyBlendTemplateId
 Aiming2hClipSetId
 AimingBackToFrontAngleMax
@@ -3644,6 +3652,7 @@ AngularStrengthModulator
 AngularStrengthModulatorMax
 AngularStrengthModulatorMin
 AngularThreshold
+AngularVelocityApproachSpeed
 AngularVelocityLimits
 AngularWidthFactor
 Anim
@@ -3878,6 +3887,7 @@ Approach
 ApproachActionWeightTables
 ApproachAngle
 ApproachBlendOutDuration
+ApproachCirclingOffset
 ApproachDelay
 ApproachDistanceMax
 ApproachDistanceMin
@@ -4153,6 +4163,7 @@ AttachmentData
 AttachmentDef
 AttachmentEvent
 AttachmentInfo
+AttachmentInterpolationDuration
 AttachmentMinSpeed
 AttachmentOffset
 AttachmentRadiusSpeed
@@ -5612,8 +5623,11 @@ BodyReactData
 BodyRecoilData
 BodyWrithe
 Bolas
+BolasMinGravity
 BolasSpringBlends
 BolasSwingToMovingRelease
+BolasThrowSpeedFleeing
+BolasThrowSpeedIdeal
 Bolt
 BoltHandle
 Bomb
@@ -5763,6 +5777,8 @@ Braking
 BrakingDifferenceForLinearVZMax
 BrakingDifferenceForLinearVZMin
 BranchAttrs
+BranchIntensityFlickerFrequencyMax
+BranchIntensityFlickerFrequencyMin
 Bravery
 BraveryMax
 BraveryMin
@@ -6999,6 +7015,7 @@ CActionCameraContainer
 CActionCondPedOther
 CActionCondSpecial
 CActionConfigInfo
+CActionConfigInfoData__ActionConfigFlags
 CActionConfigInfoMgr
 CActionDataSet__Type
 CActionDefinition
@@ -7354,6 +7371,8 @@ CAnimSceneRedirectorEntityData
 CAnimSceneRedirectorEntityInfo
 CAnimSceneSection
 CAnimSceneSetLinkedLightCommand
+CAnimSceneSnapCameraToLightCommand
+CAnimSceneSnapLightToCameraCommand
 CAnimSceneStartRecordingCommand
 CAnimSceneStopRecordingCommand
 CAnimSceneVehicle
@@ -7631,6 +7650,7 @@ CCollectableUniqueFindAndTurnInItemSP
 CCollectables
 CCombatData__Ability
 CCombatData__AimHelper__Flag
+CCombatData__AnimalBehaviorFlags
 CCombatData__BehaviourFlags
 CCombatData__CombatOrders__ActiveFlag
 CCombatData__CombatOrders__GeneralFlag
@@ -9373,6 +9393,7 @@ CLootVehiclePromptData
 CLootVfxData
 CLootVfxMap
 CLootVfxMapCollection
+CLootingBehaviorType__Type
 CLootingComponent__Type
 CLootingConstants
 CLootingCustomModelDataCollection
@@ -10481,6 +10502,7 @@ CPED_PHYSICS_RESET_FLAG_TooSteepForPlayer
 CPED_PHYSICS_RESET_FLAG_UsingMoverExtraction
 CPED_PHYSICS_RESET_FLAG_WasInTheAir
 CPED_PHYSICS_RESET_FLAG_WasPhysicsOverridden
+CPED_PHYSICS_RESET_FLAG_WasUsingMoverExtraction
 CPED_PLAYER_CONFIG_FLAG_LINGERING_IN_CAMP
 CPED_RAGDOLL_CONFIG_FLAG_DieWhenRagdoll
 CPED_RAGDOLL_CONFIG_FLAG_DisableInjuredOnGround
@@ -11166,6 +11188,7 @@ CPedInventorySaveStructure__HorseItem
 CPedInventorySaveStructure__WeaponItem
 CPedLightOverride
 CPedLookAtComponent__LookRequestPriority
+CPedModelInfo__ConditionalLookAtReactResponse
 CPedModelInfo__EventReactions
 CPedModelInfo__EventReactionsSet
 CPedModelInfo__InitData
@@ -14395,6 +14418,7 @@ CheckActivelyStopping
 CheckAgainstWaterHeight
 CheckAnimTime
 CheckAnyConfig
+CheckConflicts
 CheckCorpseCapacity
 CheckCrossedArrivalPlane
 CheckDeadAnimals
@@ -14506,6 +14530,9 @@ CircleRotateAngleLookAhead
 CircleTestRadii
 CircleTestsMoveDistToTestNewPos
 CirclingAngularSpeed
+CirclingApproachDescendSpeed
+CirclingApproachHeightThreshold
+CirclingApproachTurnRadius
 CirclingMBR
 CityDensity
 CivilianCombat
@@ -14550,6 +14577,7 @@ ClearCrouch
 ClearFocusInGutter
 ClearForcedWeatherTypeOnScriptTermination
 ClearHostility
+ClearLineOfFire
 ClearLos
 ClearMissionPedsOnStartMatch
 ClearOnExit
@@ -14674,6 +14702,7 @@ CloneTransitionFrom
 CloneTuning
 CloseAnimalRepositionThreshold
 CloseDistance
+CloseDistanceThresholds
 CloseDoorAfterClimbDown
 CloseDoorForceMultiplier
 CloseDoorOnly
@@ -17419,6 +17448,7 @@ DisableAllArmIk
 DisableAllCarriableAnims
 DisableAllIkForFallback
 DisableAllMountingOfParent
+DisableAllWeaponsWhenCarried
 DisableAlterWantedLevelEvent
 DisableAmbientConversations
 DisableAnimDrivenVehicleDeath
@@ -17459,6 +17489,7 @@ DisableCover
 DisableCoverToCoverRotationScaling
 DisableCoverToCoverTranslationScaling
 DisableCower
+DisableCrime
 DisableCrouch
 DisableCustomExitOriginForInteriorSeats
 DisableDefaultFocusOnChildren
@@ -19482,7 +19513,17 @@ EnableSurpriseTackling
 EnableTargetMovingIntoReticleModifier
 EnableTest
 EnableTrack
+EnableTransitionFromBoat
+EnableTransitionFromDraftVeh
+EnableTransitionFromHorses
+EnableTransitionFromTrains
 EnableTransitionStep
+EnableTransitionToBoat
+EnableTransitionToClimbEntry
+EnableTransitionToDraftVeh
+EnableTransitionToHorses
+EnableTransitionToHorsesFromHorses
+EnableTransitionToTrain
 EnableTranslationScaling
 EnableTurnQuickCrouch
 EnableTurnQuickStand
@@ -21145,12 +21186,21 @@ FinishedAnInterrogation
 FinishedResourcesHigh
 FinishedResourcesLow
 FinishedResourcesRequired
+FinisherImpulseStrength
+FinisherPeriod
 Fire
 FireAnimRateScaledToTimeBetweenShots
 FireBlendOutSpringConstant
 FireCameraHash
 FireDamage
 FireDelay
+FireGlowColor0
+FireGlowColor1
+FireGlowDistance
+FireGlowFadeInRate
+FireGlowFadeOutRate
+FireGlowFlickerOctaves
+FireGlowFlickerRate
 FireHeightOffset
 FireInitial
 FireProbeBone
@@ -22714,6 +22764,13 @@ GravityFactor
 GravityFactorCoil
 GravityFactorConstraintAndLoop
 GravityScale
+GravityWellBackAttractionCone
+GravityWellBackConeHeadingPermissivity
+GravityWellBackConeMBRChangePermissivity
+GravityWellFrontAttractionCone
+GravityWellFrontConeHeadingPermissivity
+GravityWellFrontConeMBRChangePermissivity
+GravityWellMaxMBRAllowed
 GrayOutCondition
 GreaterMotivation
 GreaterThan
@@ -23457,6 +23514,7 @@ HeadingChangeRate
 HeadingCorrection
 HeadingDegrees
 HeadingDelta
+HeadingDeltaForMaxHeightOffset
 HeadingDiffStartBlendDegrees
 HeadingInputScaleAngles
 HeadingLimit
@@ -23475,6 +23533,7 @@ HeadingOffset
 HeadingOffsetLimits
 HeadingOffsetSpringConstant
 HeadingPitchInputResponse
+HeadingPitchOffsetSpringDampingRatio
 HeadingPitchSoftLimitRatio
 HeadingPullAroundErrorScalingBlendLevel
 HeadingPullAroundMaxMoveSpeed
@@ -23508,6 +23567,7 @@ HeadingWanderChange
 HeadingWeighting
 HeadingWeightingNoStick
 HeadshotFinisherInfo
+HeadshotFinisherMult
 HeadshotPelletMult
 Health
 HealthBar
@@ -23703,6 +23763,7 @@ HighJumpMaxAngleForVelScale
 HighJumpMaxVelScale
 HighJumpMinAngleForVelScale
 HighJumpMinVelScale
+HighLeanAdditive
 HighLeftAimStepInfoSet
 HighLimit
 HighLodPhysicsPitchIdealApproachRate
@@ -23903,6 +23964,7 @@ HorizontalTranslationInputResponse
 HorizontalTranslationWithLookAtInputResponse
 HornSoundIndex
 Horse
+HorseAgitationAmount
 HorseBack
 HorseBondInteractionData
 HorseBondingProfile_0
@@ -26266,6 +26328,7 @@ IdealGait
 IdealHeadingOffsetForLimiting
 IdealHeightAboveGround
 IdealHeightAboveWater
+IdealMinTimeBetweenUpdates
 IdealOrbitDistance
 IdealPitchForFiringVariation
 IdealSpawnDistance
@@ -26297,7 +26360,6 @@ IdleBlendSettings
 IdleCamera
 IdleClipId
 IdleClipSets
-IdleCmini
 IdleDelayFaceConditions
 IdleEmotionState
 IdleHeadingLerpRate
@@ -26832,6 +26894,7 @@ InputDirection_Up
 InputDotDistanceFar
 InputDotDistanceNear
 InputDotThresholdNear
+InputDurationMS
 InputEnvelopeRef
 InputGroup
 InputGroupDefinitions
@@ -26877,6 +26940,7 @@ InsideClipSetMap
 InsideClipSets
 InsideCornerStepDistance
 InsideCornerStopDistance
+InsideCornerTransitionRadius
 InsideCornerTurnScale
 InsideEdgeEndXOffset
 InsideEdgeEndYOffset
@@ -28651,6 +28715,7 @@ LoadTime
 LoadingAreaTunables
 LoadingOrder
 LoadingScreenContext
+LoadingScreenDelayMS
 LoadoutName
 Loadouts
 LocDesc
@@ -28692,6 +28757,9 @@ LockOnAlignmentPivotPositionVerticalOffset
 LockOnAlignmentSettings
 LockOnBlendLevelSpringConstant
 LockOnBlendLevelSpringDampingRatio
+LockOnCameraRelativeLeftSideOffsetAdditive
+LockOnCameraRelativeRightSideOffsetAdditive
+LockOnCameraRelativeVerticalOffsetAdditive
 LockOnCooldownTime
 LockOnDistanceLimits
 LockOnDistanceLimitsForOrbitDistance
@@ -28706,6 +28774,7 @@ LockOnRange
 LockOnRangeInVehicle
 LockOnRangeModifier
 LockOnRequiresAim
+LockOnScreenHeightRatioBiasForSafeZone
 LockOnSwitchTimeExtensionBreakLock
 LockOnSwitchTimeExtensionKillTarget
 LockOnTargetDampingSettings
@@ -28949,6 +29018,7 @@ LookAtDistanceSpringConstant
 LookAtDistanceSpringDampingRatio
 LookAtEntityPositionSpringConstant
 LookAtEntityPositionSpringDampingRatio
+LookAtFollowTarget
 LookAtHeadRotationPitchLimit
 LookAtHeadRotationYawLimit
 LookAtMaxAttachSpeedToBlendOut
@@ -28967,6 +29037,9 @@ LookAtPriority
 LookAtProneMeleeTargetDelay
 LookAtReactResponseSet
 LookAtReactResponseSets
+LookAtReactResponsesDangerous
+LookAtReactResponsesFrightening
+LookAtReactResponsesInteresting
 LookAtSecondaryEntity
 LookAtSequencePreset
 LookAtSpringConstant
@@ -29170,6 +29243,7 @@ LowCoverActionClipRate
 LowCoverBlendInDuration
 LowCoverClipRate
 LowCoverHeadingLimits
+LowCoverHeightSpringConstant
 LowCoverLockOnAlignmentPivotPositionLeftSideOffset
 LowCoverLockOnAlignmentPivotPositionRightSideOffset
 LowCoverLockOnAlignmentPivotPositionVerticalOffset
@@ -30216,6 +30290,7 @@ MaxAttachParentDepthUnderWaterToRemainBuoyant
 MaxAttachParentDepthUnderWaterToRemainBuoyantOut
 MaxAttachParentPitch
 MaxAttachParentRoll
+MaxAttachParentSpeedForInputScalar
 MaxAttachParentSpeedToClonePitchFromCinematicMountedCameras
 MaxAttachParentSubmergedLevelToApplyFullAttachParentMatrixForRelativeOrbit
 MaxAttachParentSubmergedLevelToApplyFullAttachParentMatrixForRelativeOrbitForPlanes
@@ -30416,6 +30491,7 @@ MaxDistanceForDispatchPosition
 MaxDistanceForExposureReset
 MaxDistanceForFineAimScaling
 MaxDistanceForHolster
+MaxDistanceForLawLockdownDialogue
 MaxDistanceForLawToArrest
 MaxDistanceForLawToReturnToCombatFromFlee
 MaxDistanceForOrientation
@@ -30461,6 +30537,7 @@ MaxDistanceOuterWagon
 MaxDistanceRateModifier
 MaxDistanceScalar
 MaxDistanceToAdjustSpeed
+MaxDistanceToAimTarget
 MaxDistanceToAllies
 MaxDistanceToAlwaysLookAtTarget
 MaxDistanceToApproach
@@ -30490,6 +30567,7 @@ MaxDistanceToIncidentForInFrontSpawning
 MaxDistanceToInsult
 MaxDistanceToInterpolateOnVehicleEntryExit
 MaxDistanceToMergeIncidentResources
+MaxDistanceToMidPoint
 MaxDistanceToMove
 MaxDistanceToMyVehicleToChase
 MaxDistanceToPath
@@ -30749,6 +30827,7 @@ MaxLength
 MaxLerpDeltaBeforeTerminate
 MaxLettersOnPlate
 MaxLevelDist
+MaxLevelForWater
 MaxLift
 MaxLiftImpulse
 MaxLightExtensions
@@ -31095,9 +31174,11 @@ MaxSlopeAngle
 MaxSlopeAngleDeg
 MaxSlopeAngleDegrees
 MaxSlopeDegrees
+MaxSlopeForPosition
 MaxSlopeNavigable
 MaxSlopeTolerance
 MaxSlotHeight
+MaxSlowDownTime
 MaxSlowTimeScaling
 MaxSlowWhipTime
 MaxSmallAnimalMeleeOrbitDistance
@@ -31374,6 +31455,7 @@ MaxTimeToSwerve
 MaxTimeToTrespassWhileSwimmingBeforeDeath
 MaxTimeToWait
 MaxTimeToWaitDuringSearch
+MaxTimeToWaitForHorseSpawn
 MaxTimeToWaitForPedToLeaveSeat
 MaxTimeToWaitForRegrouping
 MaxTimeToWaitForShot
@@ -31387,6 +31469,7 @@ MaxTimeUntilReturnToIdleFromAimDefault
 MaxTimeWaitForExitBeforeWarp
 MaxTimeWaitingForBlockingArea
 MaxTimeWaitingForCircleMs
+MaxTimeWaitingForTransition
 MaxTimeWithNoReferences
 MaxTimeoutToAcquireLineOfSight
 MaxTintPalette
@@ -31868,7 +31951,10 @@ MinArmourImpulseMult
 MinAssaults
 MinAttachParentAngularSpeedForReverseFlex
 MinAttachParentApproachSpeedForPitchLock
+MinAttachParentForwardSpeed
 MinAttachParentHeightRatioToPushAwayFromCollision
+MinAttachParentSpeed
+MinAttachParentSpeedForInputScalar
 MinAttachParentTurningDirection
 MinAttachPositionMouseSpeed
 MinAttachSpeedToUpdateCustomNearToMediumViewModeBlendLevel
@@ -32218,6 +32304,7 @@ MinHeadingDeltaToTurnMounted
 MinHeadingDeltaTurnSpeed
 MinHeadingLerpRate
 MinHeadingOffset
+MinHeadingPitchSpeed
 MinHeadingRatioLower
 MinHeadingRatioUpper
 MinHeadingVariance
@@ -32302,6 +32389,7 @@ MinMagForBikeToBeOnSide
 MinMaxDrop
 MinMaxHeadingOffsetSpringConstant
 MinMaxPitchOffsetSpringConstant
+MinMaxScreenRatioForFootRoomOffset
 MinMaxSpringConstant
 MinMaxSpringDampingRatio
 MinMaxYOffset
@@ -32502,6 +32590,7 @@ MinSpawnDistanceFromRemotePlayers
 MinSpawnDistanceWhenStill
 MinSpawnTimeForPoliceHeliAfterDestroyed
 MinSpeed
+MinSpeedBlendValue
 MinSpeedDifferenceForPowerAdjustment
 MinSpeedForAvoid
 MinSpeedForAvoidDirected
@@ -32533,6 +32622,7 @@ MinSpeedToBeConsideredEscapingOnMount
 MinSpeedToBlendInDriveFastFacial
 MinSpeedToBlendInPullAround
 MinSpeedToBlendInPullAroundInTightSpace
+MinSpeedToCut
 MinSpeedToDeactivate
 MinSpeedToDeactivateMounted
 MinSpeedToDive
@@ -32552,6 +32642,7 @@ MinSpurDialoguePreDelayMS
 MinSqdDistToSetPos
 MinStaminaDuration
 MinStaminaLoss
+MinStaminaShakeAmplitude
 MinStandOffDistance
 MinStandWaitTimeMS
 MinStartAlpha
@@ -32748,6 +32839,8 @@ MinTimeInIdleStateAiOrRemote
 MinTimeInLowRiderClipset
 MinTimeInPedalState
 MinTimeInRagdoll
+MinTimeInRowState
+MinTimeInRowTurnState
 MinTimeInShuntStateBeforeRestart
 MinTimeInSitToStillStateToReverse
 MinTimeInStandFreewheelState
@@ -34064,6 +34157,7 @@ NavmeshModifier
 NavmeshModifierLeaderInCover
 Near
 NearBy
+NearBy_Support
 NearClip
 NearClipAltitudeEndHeight
 NearClipAltitudeStartHeight
@@ -34323,6 +34417,7 @@ NoiseTextureName
 NoiseThreshold
 NoiseUVScale
 NonActionModeOnly
+NonAiming2HClipSetId
 NonCombatClipSetHash
 NonCombatLoitering
 NonFinal
@@ -35049,6 +35144,7 @@ OrbitPitchLimitsForRagdoll
 OrbitPitchLimitsWhenAirborne
 OrbitPitchLimitsWhenBuoyant
 OrbitPitchOffset
+OrbitPitchOffsetBlendLevelSpringConstant
 OrbitPitchOffsetScalar
 OrbitPitchOffsetWhenFullyDucked
 OrbitPitchOffsetWhenFullyLifted
@@ -36834,6 +36930,7 @@ PagedGroupsRegisterDelayMax
 PagedGroupsRegisterDelayMin
 PaidPacks
 PairedClipId
+PairedClipInitialTime
 PairedWeaponHolsterAnimation
 PairedWithPistolAccuracyModifier
 PairedWithRevolverAccuracyModifier
@@ -37155,6 +37252,7 @@ PedEventScan_Train
 PedFacingScoreModifier
 PedFearImpact
 PedFearImpactProfile
+PedFilter
 PedFilterConstants
 PedFilterFlags
 PedFootstepType
@@ -37810,6 +37908,10 @@ PlayFireVfxEvent
 PlayFocusGainedAnimationOnEnter
 PlayFocusLostAnimationOnExit
 PlayFollowEntityMicrophoneEvent
+PlayForAllPeds
+PlayForLocalPlayer
+PlayForLocalPlayerMount
+PlayForRemotePlayers
 PlayIdleDialogue
 PlayIdleImmediately
 PlayListAudioInfoArray
@@ -38421,6 +38523,7 @@ ProbabilityForTrailer
 ProbabilityToBeDazed
 ProbabilityToBeDazedMax
 ProbabilityToBeDazedMin
+ProbabilityToTrigger
 ProbabilityToUseVehicleRelativeStartPosition
 ProbabilityWeight
 ProbabilityWeighting
@@ -38517,6 +38620,7 @@ PromptGroundZToleranceVehicleStowing
 PromptGroupLabel
 PromptGroupName
 PromptGroupText
+PromptHoldType
 PromptInternal__HoldModeSetting
 PromptInternal__PromptTunables
 PromptLabel
@@ -39914,6 +40018,10 @@ RehitchAfterKick
 ReinsAttachToLeftHandStopId
 ReinsAttachToRightHandStopId
 ReinsAttachToTransportId
+ReinsAttachmentProbeEndOffset
+ReinsAttachmentProbeHeightOffset
+ReinsAttachmentProbeRadius
+ReinsAttachmentProbeStartOffset
 ReinsDataOverride
 ReinsDefinitionIndex
 ReinsDefinitions
@@ -39937,6 +40045,7 @@ Relationship
 RelationshipGroup
 RelationshipGroups
 RelationshipType
+RelativeAttachLadderSpringConstants
 RelativeAttachOffset
 RelativeAttachOffsetForDriveby
 RelativeAttachOffsetForDucking
@@ -39947,7 +40056,11 @@ RelativeAttachOffsetForSmashingWindow
 RelativeAttachOffsetForUnarmedDriveby
 RelativeAttachOrientationSettings
 RelativeAttachPosition
+RelativeAttachPositionAimingSpringConstants
+RelativeAttachPositionAimingSpringConstantsMouse
 RelativeAttachPositionSmoothRate
+RelativeAttachPositionSpringConstants
+RelativeAttachPositionSpringConstantsMouse
 RelativeAttachSpringConstantEnvelopeRef
 RelativeAttachSpringConstantLimits
 RelativeAttachSpringConstantLimitsForPassengers
@@ -40307,6 +40420,7 @@ ResetLookEnvelopeRef
 ResetLookTheshold
 ResetNoCollisionOnCleanUp
 ResetOnFailure
+ResetPhase
 ResetPlayerGreetHistory
 ResetPointIfUprooted
 ResetPrespawnedPropsOnPedDestruction
@@ -40514,6 +40628,7 @@ RiderDefaultClipsetName
 RiderExternalClipsetId
 RiderExternalNetworkId
 RiderIntentTunables
+RiderLocoClipsetName
 RiderLodClipsetId
 RiderLodNetworkId
 RiderModelSet
@@ -40744,6 +40859,7 @@ RotationAngleMax
 RotationAngleMaxAI
 RotationAxis
 RotationChangeRate
+RotationDirectionInterpolationRate
 RotationDistanceModifierClose
 RotationDistanceModifierMax
 RotationDistanceModifierMin
@@ -40975,6 +41091,7 @@ SA_ALLOW_LIGHT_ATTACK
 SA_ALLOW_MEDIUM_ATTACK
 SA_BodyHeat
 SA_BodyWeight
+SA_DISABLE_CROUCH_MODE
 SA_DISABLE_STEALTH_MODE
 SA_Dirtiness
 SA_DirtinessHat
@@ -41743,6 +41860,13 @@ SPLargeAccidenThresold
 SPMaxFleeStopDistance
 SPMinFleeStopDistance
 SPOnly
+SPRF_CannotBeTargetedByAI
+SPRF_CannotBeTargetedByAnimals
+SPRF_DisableReticleSway
+SPRF_EnableGhostMode
+SPRF_ForceAimAtHead
+SPRF_ForcePlayerAimAtHead
+SPRF_InfiniteStamina
 SPRINT
 SPRITE_1
 SPRate
@@ -42135,6 +42259,7 @@ SawVictim
 Say
 ScAuthTitleId
 Scalar
+ScalarForMaxDistance
 Scale
 Scale9LowerScale
 Scale9UpperScale
@@ -42456,6 +42581,7 @@ ScreenSpaceHorizontalOffset
 ScreenSpaceVerticalOffset
 ScreenWidth
 ScreenWidthRatio
+ScreenWidthRatioBiasForSafeZone
 ScreenWidthRatioForSafeZone
 Script
 ScriptCameraRef
@@ -42566,6 +42692,7 @@ SeatFlags
 SeatHeadingOffset
 SeatIndex
 SeatInfo
+SeatLinkClipSets
 SeatOffsetDist
 SeatOverrideAnimFlags
 SeatOverrideAnimInfo
@@ -43026,6 +43153,7 @@ ShouldIgnoreAttachParentPitchForLookBehind
 ShouldIgnoreBuoyancyStateAndAvoidSurface
 ShouldIgnoreCollisionWithAttachParent
 ShouldIgnoreCollisionWithFollowVehicle
+ShouldIgnoreDriveByCamera
 ShouldIgnoreFollowVehicleForCollisionOrigin
 ShouldIgnoreFollowVehicleForCollisionRoot
 ShouldIgnoreInputDuringAutoLevel
@@ -43067,6 +43195,7 @@ ShouldOnlyCheckForPlayerHorse
 ShouldOnlyTriggerIfVehicleMovingForward
 ShouldOrbitRelativeToAttachParentOrientation
 ShouldOverlay
+ShouldOverrideBlendDuration
 ShouldOverrideCameraFirstPersonPitchLimits
 ShouldOverrideStreamingFocus
 ShouldOverrun
@@ -43188,6 +43317,7 @@ ShowDisabledPromptsFromActiveTasks
 ShowIfNotFull
 ShowProgress
 ShowRustBump
+ShowTarget
 ShowTurnTunables
 ShowWeaponWithoutMetaPedAttachTag
 ShrinkPedGenBlockedArea
@@ -44627,6 +44757,7 @@ SteepSlopeStartAnimatedTurnsD
 SteepSlopeStopAnimatedTurnsD
 SteepSlopeThresholdD
 SteerAngleControl
+SteerAngleThreshold
 SteerLeanRate
 SteerLeftLeanLeftClipId
 SteerLeftLeanRight
@@ -45376,6 +45507,9 @@ TF_TransportTransition
 TF_TransportTransitionAbort
 TF_TraversalEntry
 TF_Walk
+TGS_TYPE_2D_TEXTURE_ATLAS
+TGS_TYPE_3D_TEXTURE_ATLAS
+TGS_TYPE_TEXTURE_ARRAY
 THIRD_PERSON_FAR
 THIRD_PERSON_MEDIUM
 THIRD_PERSON_NEAR
@@ -45629,6 +45763,7 @@ TYPE_WARNING
 TabCount
 TabIndicatorPath
 Table
+TableGamesSettingRef
 TableGamesSettings
 TableRemovePlayerReason
 Tables
@@ -46178,6 +46313,7 @@ TextureDictionary
 TextureDictionaryName
 TextureFileName
 TextureGridInfo
+TextureGridStreamer__eTextureGridStreamerType
 TextureHash
 TextureHeight
 TextureId
@@ -46313,6 +46449,7 @@ ThroughWindscreenDamageAi
 ThroughWindscreenDamagePlayer
 Throw
 ThrowAbortUsesSimpleDetach
+ThrowCameraShakeStaminaRatio
 ThrowCombatWeaponHoldingHash
 ThrowHighDistancePhaseEnd
 ThrowHighDistancePhaseStart
@@ -46443,6 +46580,7 @@ TimeBetweenPlayerEvents
 TimeBetweenPlayerInVehicleBustAttempts
 TimeBetweenPointUpdates
 TimeBetweenPositionUpdates
+TimeBetweenProbes
 TimeBetweenReactionIdlesMax
 TimeBetweenReactionIdlesMin
 TimeBetweenRouteAdjustments
@@ -46543,6 +46681,7 @@ TimeScaleHipRecoilRateModifier
 TimeScaleRecoilRateModifier
 TimeScaled
 TimeSeconds
+TimeSinceInMillis
 TimeSinceIncidentStartToSilenceSpottedAudioMS
 TimeSinceKnown
 TimeSinceLastDamageToAllowAltLowRiderPoseLowRiderPose
@@ -46949,6 +47088,7 @@ Translation
 TranslationChangeRate
 TranslationInputResponse
 TranslationLimits
+TranslationScaleLimit
 TranslationSpeed
 TranslationWithLookAtOffsetMouseInputMultiplier
 Translator
@@ -47760,6 +47900,7 @@ UseAutoFit
 UseAutoFocus
 UseAutoOpenTriggerBox
 UseAutoPeekAimFromCoverControls
+UseAverageVelocityMatching
 UseBalanceForEdgeActivation
 UseBasicAnims
 UseBasisAxis
@@ -47895,6 +48036,7 @@ UseHorseScaleExpression
 UseIdentificationRange
 UseIdentity
 UseIdleIntro
+UseIdleTurnTorque
 UseInSeatToGetOutOnJumpOut
 UseInTransportMotions
 UseInVehicleCombatRates
@@ -48202,6 +48344,7 @@ VAICF_MoveAwayFromPlayer
 VAICF_NeverUseSmallerRemovalRange
 VAICF_OnTrainTrack
 VAICF_ParkedByPlayer
+VAICF_ParkedByVehicleTask
 VAICF_ParkedParallelly
 VAICF_ParkedPerpendicularly
 VAICF_Parking
@@ -49396,6 +49539,7 @@ VehicleForwardScale
 VehicleFragImpulseFunction
 VehicleFragImpulseRange
 VehicleHeadingLimitSpring
+VehicleHitImpulseMultiplier
 VehicleId
 VehicleImpactHeadingShakeRef
 VehicleImpactPitchShakeRef
@@ -49776,6 +49920,7 @@ VideoCardDescription
 VideoFileName
 Videos
 View
+ViewDistanceBlendEnvelopeRef
 ViewMode
 ViewModeBlendEnvelopeRef
 ViewModeContexts
@@ -49838,6 +49983,7 @@ VisiblePercentage
 VisiblePrompt
 VisibleProperty
 VisibleQuitPrompt
+VisibleReactionRange
 VisitRadius
 VisualFieldMaxAzimuthAngle
 VisualFieldMaxElevationAngle
@@ -51732,6 +51878,7 @@ assetTag
 assetType
 assets
 associatedMap
+associatedTextLabel
 assumeCollisionDelay
 asyncComputeEnabled
 athFxListHash
@@ -51865,6 +52012,7 @@ bDarkSkin
 bData
 bDealsEnduranceDamage
 bDebugDraw
+bDebugDrawFunnel
 bDebugDrawTargetInterpolation
 bDebugDrawTurningCircle
 bDebugDrawTurningCircleLabels
@@ -53964,6 +54112,7 @@ eCoverOpeningType
 eCoverPointAdjacentNavmeshLinkType
 eCoverPointPatchDataFlags
 eCoverRegionFlags
+eCoverSimpleCustomBoundType
 eCoverStatusFlags
 eCoverTuningFlags
 eCoverUsage
@@ -54547,6 +54696,8 @@ editorNodePositionX
 editorNodePositionY
 editorToNodeId
 effectHash
+effectRuleOverrideHashName
+effectRuleQualitySettingEntries
 effectRuleQualitySettingInfos
 effectids
 effectorBoneId
@@ -54570,6 +54721,7 @@ emitterHashName
 emitterIntensityMult
 emitterMesh
 emitterOffsetPos
+emitterRuleQualitySettingEntries
 emitterRuleQualitySettingInfos
 emitterSettingsName
 emitterSize
@@ -55293,6 +55445,7 @@ fDistanceToClosestTownToConsiderWildernessVehicle
 fDistanceToConsiderConvoOutOfScope
 fDistanceToConsiderLegendaryAnimalsAbandoned
 fDistanceToConsiderPedTooCloseToConvo
+fDistanceToCorner
 fDistanceToEdgeMax
 fDistanceToEdgeMin
 fDistanceToIntersectionZ
@@ -55315,7 +55468,10 @@ fDistractionDifferenceDecreaseSmoothingThreshold
 fDistractionDifferenceSmoothingThreshold
 fDisturbBoxMultX
 fDisturbBoxMultY
+fDiveDistToTest1
+fDiveDistToTest2
 fDiveSpeed
+fDiveZOffset
 fDivisorForVehicleSpacingPastFurthestDefaultValue
 fDoInjuredOnGroundChance
 fDoorDisplayDebugSize
@@ -55472,6 +55628,9 @@ fFlowMult
 fFlowTorque
 fFocusNeutralPoint
 fFocusScaleForHitType
+fFoliageHeightSpringConstant
+fFollowFrontBackOffset
+fFollowRightLeftOffset
 fFollowRoadStartDelay
 fFollowRoadStartDelayLoose
 fFollowRoadStartDelayStrict
@@ -55541,6 +55700,7 @@ fGlancingBlowImpactCoefficient
 fGlassBreakRadius
 fGlassDamage
 fGoToDefAreaTimeOut
+fGoToTargetDistance
 fGradientMultiplier
 fGroundProbeCapsuleSize
 fGroundProbeRelaxedTestTolerance
@@ -55614,6 +55774,7 @@ fHeliSubmergedLimit
 fHighClimbHeightThreshold
 fHighClimbMaxAngle
 fHighCoverHeight
+fHighCoverProbeDistanceMax
 fHighEffortDragForce
 fHighEffortExtraSteeringTorque
 fHighEffortMinorSteeringTorque
@@ -55656,6 +55817,7 @@ fHorsebackSmallAngleSuppressionCutOff
 fHorsebackVelocityCoeff
 fHostileAnimalTargetWeighting
 fHoverVelocityScale
+fHumanLookAheadScale
 fIdleBlendInTime
 fIdleBlendOutTime
 fIdleSpeed
@@ -55765,6 +55927,7 @@ fKp
 fLandAngleMax
 fLandAngleMin
 fLargeHorizontalTestDistance
+fLateralDistanceToMove
 fLeaderDistanceThresholdToEnterRestingMode
 fLeaderVelocityThresholdToEnterRestingMode
 fLeaderVelocityThresholdToLeaveRestingMode
@@ -56256,6 +56419,7 @@ fMinLedgeGrabDepth
 fMinLiftVelocity
 fMinListenerRangeToDrawSonarBlips
 fMinLoiteringTimeSeconds
+fMinLookAheadDist
 fMinLookTime
 fMinMBRReactionRate
 fMinMBRValueEnter
@@ -56386,6 +56550,7 @@ fNarrowApproachRateMax
 fNarrowApproachRateMin
 fNarrowPathWidths
 fNavMaxHeightChange
+fNavMeshTargetRadius
 fNavMinZDist
 fNavOverrideAgentHeight
 fNavOverrideAgentRadius
@@ -56430,6 +56595,11 @@ fPaletteLeftMargin
 fPaletteTopMargin
 fPaletteWidth
 fPaperIntensity
+fParachuteDistToTest1
+fParachuteDistToTest2
+fParachuteTestAngle1
+fParachuteTestAngle2
+fParachuteZOffset
 fParachutingZoom
 fParallelDot
 fPathFindRadius
@@ -56796,6 +56966,7 @@ fStayUprightForceNonVelocityBased
 fStealCreditForKillProbability
 fStealthStepUpDistanceCutoff
 fStealthStepUpDistanceCutoffClose
+fSteerConeBuffer
 fSteerStrength
 fSteerTorque
 fSteeringDeadZone
@@ -56924,6 +57095,7 @@ fTimeLineRightMargin
 fTimeLosBlockedForReturnToInitialPosition
 fTimeScale
 fTimeSinceLastAimedAtForGesture
+fTimeSlowDown
 fTimeToFollowPostConversation
 fTimeToIgnoreBlockedLosWeighting
 fTimeToInvestigate
@@ -56932,6 +57104,7 @@ fTimeToStandAtPerimeter
 fTimeToUseSecondaryTargetMax
 fTimeToUseSecondaryTargetMin
 fTimeToWaitBeforeFindingPointToMoveToAfterPathFail
+fTimeToWaitForUnreachableTarget
 fTimeWarpScale
 fToeFront
 fToeRear
@@ -57206,6 +57379,7 @@ fireBurnTimeMax
 fireBurnTimeMin
 fireExtinguishTimeMult
 fireFlags
+fireFlammableLiquidDecalFadeTime
 fireFlammableLiquidSearchDist
 fireFuelBurnRate
 fireFuelBurnStrengthMult
@@ -57280,6 +57454,8 @@ fireSpreadUpDistRadiusOutMultMax
 fireSpreadUpDistRadiusOutMultMin
 fireSpreadUpDistRadiusUpMultMax
 fireSpreadUpDistRadiusUpMultMin
+fireSpreadWindInfluenceMaxVel
+fireSpreadWindInfluenceMinVel
 fireSpreadWindInfluenceMult
 fireStatusGridCellSize
 fireTintColorMax
@@ -57748,6 +57924,7 @@ fwAnimSceneVehicleVariationEventData
 fwAnimSceneVirtualFile
 fwAnimSceneWarpPlayerToOriginCommand
 fwAnimSceneWeaponVFXEventData
+fwAnimSceneWeaponVFXEventEffect_e
 fwAnimSceneZTransformEventCommand
 fwCharacterRange
 fwClipDictionaryBuildMetadata
@@ -57885,7 +58062,11 @@ greetChanceModifier
 grid
 ground
 groundCorrectionFlags
+groundDirtIncMax
+groundDirtIncMin
 groundDirtInfoName
+groundDirtSpeedThreshMax
+groundDirtSpeedThreshMin
 groundDisturbInfoName
 groundDisturbPtFxEnabled
 groundDisturbPtFxHashName
@@ -58315,6 +58496,7 @@ ikRequestTypeLeg
 ikRequestTypeResetArm
 ikRequestTypeRootSlopeFixup
 ikRequestTypeTwoBone
+ikSolverInvalid
 ikSolverTypeAim
 ikSolverTypeArm
 ikSolverTypeArmPosture
@@ -58784,6 +58966,7 @@ kIndicateRightGesture
 kInvalid
 kInvalidBodyPart
 kInvalidBodyPartObject
+kInvalidBodyPartPriority
 kInvalidBodyPartState
 kKERSBoost
 kLarge
@@ -58809,6 +58992,10 @@ kLightFallOff
 kLightIntensity
 kLinear
 kLog
+kLogDetailsEntryDialogue
+kLogDetailsEntryObjective
+kLogEntryAvailabilityLocked
+kLogEntryAvailabilityNormal
 kLogEntryChallenge
 kLogEntryDailyChallenge
 kLogEntryDailyMetaChallenge
@@ -60630,6 +60817,7 @@ particleColorPercentage
 particleEffectLayout
 particleLightingQuality
 particleQuality
+particleRuleQualitySettingEntries
 particleRuleQualitySettingInfos
 particleStartThreshold
 partitionDesc
@@ -61125,6 +61313,7 @@ ptFxName
 ptFxOffset
 ptFxOffsetPos
 ptFxOffsetRot
+ptFxOverrideHashNames
 ptFxPendingTargetTintB
 ptFxPendingTargetTintG
 ptFxPendingTargetTintR
@@ -62845,6 +63034,7 @@ smallCharge
 smokeColB
 smokeColG
 smokeColR
+smokeIncPerShot
 smokePtFxEnabled
 smokePtFxLevelOverride
 smokePtFxName
@@ -62874,6 +63064,7 @@ source
 sourceAssets
 sourceFile
 sourceFileRanges
+sourceFileStartFrame
 sourceFolder
 sourceId
 spName
@@ -63929,6 +64120,7 @@ uiInputMessagePhotoEditChangeIcon
 uiInputMessagePhotoEditMove
 uiInputMessagePhotoEditPlaceSticker
 uiInputMessagePhotoEditPlaceText
+uiInputMessagePhotoEditPosNeg
 uiInputMessagePhotoEditRotate
 uiInputMessagePhotoEditScale
 uiInputMessagePhotoMode
@@ -64355,6 +64547,7 @@ useTarget
 useTargetFrameValue
 useTimeCycleValues
 useTintPalette
+useTopDown
 useTopViewSwitch
 useWetness
 used
