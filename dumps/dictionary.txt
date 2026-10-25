@@ -521,6 +521,9 @@ AIMEMLOC_TAL_ManzanitaPost
 AIMEMLOC_TAL_ManzanitaPost_GeneralStore
 AIMEMLOC_UNKNOWN
 AIMEMLOC_WILDCARD
+AIMEMPRIORITY_DEFAULT
+AIMEMPRIORITY_HIGH
+AIMEMPRIORITY_LOW
 AIMEM_AFTERSHOCK_HIGH
 AIMEM_AFTERSHOCK_LOW
 AIMEM_AFTERSHOCK_MEDIUM
@@ -604,6 +607,7 @@ AIMarkup__Info__Flee__Flags
 AIMarkup__Info__Tactical__Flags
 AIMarkup__Info__Type
 AIMarkup__Object__Flags
+AIMarkup__Spatial__Type
 AIMemoryGroup
 AIMemoryLongTermFilterSet
 AIMovementProbeEnable
@@ -1280,6 +1284,8 @@ ASDFWT_PED_OUTFIT_SELECTOR
 ASDFWT_PED_SELECTOR
 ASDFWT_PLAYLIST_SELECTOR
 ASDFWT_PTFX_ASSET_SELECTOR
+ASDFWT_PTFX_EVOLUTION_SELECTOR
+ASDFWT_PTFX_NAME_SELECTOR
 ASDFWT_QUAT_EULER_ROTATION
 ASDFWT_SCENE_BOOL_SELECTOR
 ASDFWT_SCENE_ENTITY_SELECTOR
@@ -2521,6 +2527,8 @@ AUTOGYRO
 AUTO_SCROLL_BACKWARDS
 AUTO_SCROLL_DEFAULT
 AUTO_SCROLL_LOOPING
+AVF_None
+AVF_Solid
 AWARD_CHALLENGE_COMPLETE
 AWARD_CHALLENGE_PRESTIGE
 AWV_CROUCH
@@ -2710,6 +2718,7 @@ ActionVariations
 ActionWeaponClipSetStreamedHash
 Actions
 ActionsHandcuffedNetworkId
+ActionsStreamed
 ActivateGripPhase
 ActivatePhysics
 ActivatePhysicsOnSiblingsWhenUprooted
@@ -3181,6 +3190,7 @@ AlignWithTrajectory
 AlignWithTrajectoryYAxis
 Align_Left
 Align_Right
+AlignedSlowDownApproachTime
 Alignment
 AlignmentBlendInRun
 AlignmentBlendInWalk
@@ -3518,6 +3528,7 @@ AmbientShakeRef
 AmbientTaxiDriverReactedToPlayerAiming
 AmbientTaxiDriverReactedToPlayerInsulting
 AmbientTransition
+AmbientVolumeFlags
 AmbientZoneData
 AmbientZoneShape
 AmbientZoneWaterType
@@ -3845,6 +3856,7 @@ AnxietyIncreaseSpringDampingRatio
 AnxietyLevelForMaxDistance
 AnxietyLevelForMinDistance
 AnxietyLevelWhileInDeadEye
+AnxietyLevelWhileUnderFire
 AnxietyScalarInMP
 AnxietyScalarWhenAiming
 AnxietyScalarWhenAimingWithMouse
@@ -5040,6 +5052,12 @@ BaseFov
 BaseFovToEmulateWithFocalLengthMultiplier
 BaseHeading
 BaseId
+BaseLimitCP0
+BaseLimitCP1
+BaseLimitCP2
+BaseLimitCP3
+BaseLimitTwistMax
+BaseLimitTwistMin
 BaseMagnetismDistanceFar
 BaseMagnetismDistanceNear
 BaseMagnetismFar
@@ -5422,6 +5440,7 @@ BlockEscalationBackAway
 BlockEscalationToOnKnees
 BlockEvasiveAnims
 BlockExterior
+BlockFemaleAdditive
 BlockFiringPercentage
 BlockFirstPersonStateTransitionWhileFiring
 BlockFleeDueToInjured
@@ -5434,6 +5453,7 @@ BlockHidingForTime
 BlockHipFire
 BlockIdleTurnsInSmartFleeWhileWaitingOnPath
 BlockInfluenceSpheres
+BlockInjuredAdditive
 BlockInputGroups
 BlockInteractionTriggersByPlayer
 BlockInterior
@@ -5488,6 +5508,7 @@ BlockSkippingEvent
 BlockStandAndFire
 BlockStandardInteractions
 BlockSuggestedCover
+BlockUnderFireAdditive
 BlockVariationTimer
 BlockVicPromptHash
 BlockWeaponBlock
@@ -7686,6 +7707,7 @@ CCompEntityEffectsData
 CCompanionAIConditionCountEnemies
 CCompanionAIConditionCountMissingEnemies
 CCompanionAIConditionCountVisibleEnemies
+CCompanionActivityFlags__Flags
 CCompanionActivityState__State
 CCompanionActivityType__Type
 CCompanionAnalysisKnowledge__CCombatTuning
@@ -9347,6 +9369,7 @@ CLootLongAnimDataSetFlags__Flags
 CLootLongAnimOverlayData
 CLootLongAnimOverlayDataFlags__Flags
 CLootLongExitAnimData
+CLootLongRejectionType__Type
 CLootLongVariationData
 CLootLongVariationDataFlags__Flags
 CLootLongWeightEntry
@@ -9744,6 +9767,7 @@ COUGAR_ON_FOOT
 COUNT
 COVER_BREAKABLE_OBJECTS_FILE
 COVER_HELPERS_FILE
+COVER_PATCH_BLOCK_POINT
 COVER_PATCH_OVERRIDE_LEFT_LINK
 COVER_PATCH_OVERRIDE_RIGHT_LINK
 COVER_PATCH_OVERRIDE_UID
@@ -9790,6 +9814,7 @@ COVER_WEAPON_FILE
 COVFLAG_ACROSS_WALL
 COVFLAG_AI_ROUND_COVER
 COVFLAG_AUTHORED_POINT
+COVFLAG_CONVERTED_ROUND_COVER
 COVFLAG_CORNER_TRANSITION
 COVFLAG_COVER_TRANSITION
 COVFLAG_CUSTOM_EDGE_POINT
@@ -11066,6 +11091,7 @@ CPED_TRANSP_USR_CONFIG_FLAG_InVehicle
 CPED_TRANSP_USR_CONFIG_FLAG_JustLeftVehicleNeedsReset
 CPED_TRANSP_USR_CONFIG_FLAG_OnMount
 CPED_TRANSP_USR_CONFIG_FLAG_UseVehicleBoundingBox
+CPED_TRANSP_USR_CONFIG_FLAG_UseVehicleBoundingBoxRestricted
 CPED_TRANSP_USR_CONFIG_FLAG_WentIntoCombatAfterBeingJacked
 CPED_WEAPON_RESET_FLAG_OnlySelectVehicleWeapons
 CPED_WEAPON_RESET_FLAG_TemporarilyBlockWeaponEquipping
@@ -11971,6 +11997,7 @@ CShaderVariableData
 CShopData
 CSignedInDecisionPage
 CSignedIntoSocialClubDecisionPage
+CSimpleDiscoverablesMemoryMeta__Type
 CSimpleImpulseTest
 CSimpleMemoryMeta__Type
 CSimplePageView
@@ -13684,6 +13711,7 @@ CWeaponsToDualMap
 CWeatherGpuFxFromXmlFile
 CWeatherGraphXMLContents
 CWeatherMiscData
+CWeatherRegionCycleInfoMPXML
 CWeatherRegionInfoXMLContents
 CWeatherRegionListMPXMLContents
 CWeatherRegionListXMLContents
@@ -14130,6 +14158,7 @@ CapsuleRadiusBufferForHaltingBlend
 CapsuleRadiusForAvoidance
 CapsuleRadiusOverride
 CapsuleSettings
+CapsuleTestAllowedPenetration
 CapsuleTestHeight
 CapsuleTestObjectGroundHeightThreshold
 CapsuleTestOffset
@@ -14506,6 +14535,7 @@ ChokePoint
 ChokeProbability
 ChokePromptHash
 ChokeTimerDelayExit
+ChokingTargetMinZ
 ChokingTargetZOffset
 ChooseModelFromDriversWhenAttachedToVehicle
 ChooseTurretSeatWhenOnGround
@@ -14547,6 +14577,8 @@ ClampNormalLimit
 ClampOutOfBounds
 ClampRange
 ClatterType
+ClavMaxRotationLimit
+ClavMinRotationLimit
 ClavicleImpulseScale
 ClavicleIn
 ClavicleL
@@ -14914,12 +14946,14 @@ CollisionSettings
 CollisionSpringConst
 CollisionSpringConstant
 CollisionSpringDampingRatio
+CollisionTestProbeHeightAbovePlayer
 CollisionTestRadius
 CollisionTestRadiusOffset
 CollisionTestRadiusScaleWhenCarrying
 CollisionTestRadiusSpringConstant
 CollisionTestRadiusSpringDampingRatio
 CollisionTestRadiusWhenHidden
+CollisionTestSphereHeightAbovePlayer
 CollisionTestSphereRadius
 CollisionTypes
 Color
@@ -15270,6 +15304,7 @@ Constant
 Constants
 ConstellationData
 ConstellationStarData
+ConstrainAgainstRagdolls
 Constrain_Persistent
 Constrain_Reset
 ConstrainedAllowClimbsAndDrops
@@ -15568,6 +15603,7 @@ CoverMotionHelpers__eClipsetCoverMeleeConditionType
 CoverMotionHelpers__eClipsetCoverReloadConditionType
 CoverMotionHelpers__eClipsetCoverVaultConditionType
 CoverMotionHelpers__eConditionOperator
+CoverMotionHelpers__eCoverAimStepOutType
 CoverMotionHelpers__eCoverSetType
 CoverMotionHelpers__eDebugMode
 CoverMotionHelpers__eFacingDirection
@@ -16713,6 +16749,7 @@ DebugProjectName
 DebugRed
 DebugScriptsPath
 DebugSwapInstantly
+DebugTargetCoords
 DebugTargetting
 DebugYellow
 Decal
@@ -17034,6 +17071,7 @@ DefaultReversePitch
 DefaultSaddleTransferHoldDuration
 DefaultSaddleTransferHoldDurationMP
 DefaultSatchelItemInfo
+DefaultScaleToUseForCopPeds
 DefaultSearchProfile
 DefaultSearchRadius
 DefaultSensoryData
@@ -17063,6 +17101,7 @@ DefaultSpawningPreference
 DefaultSpringConstant
 DefaultSpringDampening
 DefaultSpringSettings
+DefaultSpriteToUseForCopPeds
 DefaultStandingPose
 DefaultState
 DefaultStateIsCarriable
@@ -19521,6 +19560,7 @@ EnableTransitionStep
 EnableTransitionToBoat
 EnableTransitionToClimbEntry
 EnableTransitionToDraftVeh
+EnableTransitionToDraftVehJacking
 EnableTransitionToHorses
 EnableTransitionToHorsesFromHorses
 EnableTransitionToTrain
@@ -19702,6 +19742,7 @@ EntryLink
 EntryModelsData
 EntryObstructed
 EntryOutsideAccessibleHeadingRadius
+EntryPathObstructed
 EntryPoint
 EntryPointAnimInfo
 EntryPointFlags
@@ -22771,6 +22812,7 @@ GravityWellFrontAttractionCone
 GravityWellFrontConeHeadingPermissivity
 GravityWellFrontConeMBRChangePermissivity
 GravityWellMaxMBRAllowed
+GravityWellStopHeading
 GrayOutCondition
 GreaterMotivation
 GreaterThan
@@ -23701,6 +23743,7 @@ HideAIWeaponsAttachedHere
 HideActiveCalloutPromptsWithinCalloutInteraction
 HideAttachParentSettings
 HideBirdProjectile
+HideClippingPed
 HideDelay
 HideDrawable
 HideDrawableOnStick
@@ -24022,6 +24065,8 @@ HorseSpookedStrength_None
 HorseSprintingPenalties
 HorseStandardFidgets
 HorseStatusModifiers
+HorseStickMagAcceleration
+HorseStickMagDeceleration
 HorseTamingQuick
 HorseTamingSlow
 HorseTargetZOffset
@@ -24142,6 +24187,7 @@ IDE_FILE
 IDLE_PREFERENCE_FILE
 IDML_FLAG_MENU_DISABLE_FOR_CLEAN_WEAPON
 IDML_FLAG_MENU_DISABLE_ON_TUTORIAL
+IDML_FLAG_MENU_ENABLE_FOR_CLEAN_WEAPON
 IDML_FLAG_MENU_HIDE_ON_PC
 IDML_FLAG_MENU_HIDE_ON_PLAYSTATION
 IDML_FLAG_MENU_HIDE_ON_STADIA
@@ -26471,6 +26517,7 @@ IgnoreIfCriminalIsInCombatAndNotWanted
 IgnoreIfCriminalIsWanted
 IgnoreIfSensingPedIsOtherEntity
 IgnoreInitialValue
+IgnoreLineOfActionTest
 IgnoreLoitering
 IgnoreLosIfBlocked
 IgnoreLowPriShockingEvents
@@ -27364,6 +27411,7 @@ IsInGuardZone
 IsInHighDetail
 IsInOwnedVolume
 IsInRagdoll
+IsInRagdollIgnored
 IsInVehicle
 IsIncapacitated
 IsInfiniteStreak
@@ -27927,6 +27975,7 @@ KillerPlayer
 KillshotImpulseScale
 Kits
 KneeHeight
+KneelingZThreshold
 KnockBack
 KnockBackFinisherInfo
 KnockOffBikeEjectImpactFriction
@@ -31456,6 +31505,7 @@ MaxTimeToTrespassWhileSwimmingBeforeDeath
 MaxTimeToWait
 MaxTimeToWaitDuringSearch
 MaxTimeToWaitForHorseSpawn
+MaxTimeToWaitForNextSearchPosition
 MaxTimeToWaitForPedToLeaveSeat
 MaxTimeToWaitForRegrouping
 MaxTimeToWaitForShot
@@ -32521,6 +32571,7 @@ MinRateForInVehicleAnims
 MinRateToPlayCowerReaction
 MinRatio
 MinRatioForClosingDoor
+MinRatioToConsiderDoorOpen
 MinReachForRopeDelay
 MinReachForRopeTime
 MinReactToFireRate
@@ -32643,6 +32694,7 @@ MinSqdDistToSetPos
 MinStaminaDuration
 MinStaminaLoss
 MinStaminaShakeAmplitude
+MinStaminaShakeFrequencyScale
 MinStandOffDistance
 MinStandWaitTimeMS
 MinStartAlpha
@@ -33183,6 +33235,7 @@ ModelVariations
 Models
 Moderator
 Modes
+ModiferInfo
 Modifier
 ModifierAmountMax
 ModifierAmountMin
@@ -34512,6 +34565,7 @@ NullEntity
 NullModelInfo
 NullMount
 NullTarget
+NumAdjacentEdges
 NumAirLaunches
 NumAirLaunchesOver40m
 NumAirLaunchesOver5m
@@ -34713,6 +34767,7 @@ OWNER_SCRIPT_OVERRIDE
 OWNER_STORE
 OWNER_VIDEO
 OarModel
+OarZOffsetForWaterTest
 Oar_Rig
 ObeseHorseScorePenalty
 ObeseThreshold
@@ -34894,6 +34949,9 @@ OnHighAlert
 OnHitAgitationAmount
 OnHitDamageAmountMax
 OnHitDamageAmountMin
+OnHoldForwardLimits
+OnHoldHeightLimits
+OnHoldSideLimits
 OnHorseAimLimit
 OnHorseBodyBlendFilter
 OnHorseBodyBlendFilterTemplate
@@ -35930,6 +35988,7 @@ PFF_Horses
 PFF_Humans
 PFF_Law
 PFF_NoFlag
+PFF_Num_Flags
 PFF_OnHorsePeds
 PFF_PedTypeFlags
 PFF_PersChars
@@ -35956,6 +36015,7 @@ PGDUR_RoundStarted
 PGDUR_TurnOver
 PGDUR_TurnStarted
 PGDUR_WaitForGameStart
+PGO_Default
 PGT_CappedLimit
 PGT_FixedLimit
 PGT_Invalid
@@ -37253,6 +37313,7 @@ PedFacingScoreModifier
 PedFearImpact
 PedFearImpactProfile
 PedFilter
+PedFilterCategories
 PedFilterConstants
 PedFilterFlags
 PedFootstepType
@@ -37724,6 +37785,7 @@ PickupFromGroundIgnoreHeightRestrictions
 PickupFromMount
 PickupHash
 PickupHeadingTolerance
+PickupIkBlendInPhase
 PickupInteraction
 PickupLegendary
 PickupOverrideClipSetId
@@ -38775,6 +38837,7 @@ Purchasable
 PurchaseLocation
 Pursue
 PursueTargetImmediately
+PursuitCenterSearchRadius
 PursuitModeExtraHeadingRate
 PursuitModeGallopRateFactor
 PursuitPoint
@@ -39705,6 +39768,7 @@ RagdollForceSmoothingDurationMs
 RagdollInfo
 RagdollIntoWaterVelocity
 RagdollLookAtEnvelope
+RagdollLookAtEnvelopeRef
 RagdollOnRelease
 RagdollPanicExit
 RagdollPlayerDistanceThreshold
@@ -39908,6 +39972,7 @@ ReceivedRobberyAttempt
 ReceivedStealRideRequest
 ReceivedStopMountOrVehicleRequest
 ReceivedWitnessCallOut
+RecentCrimeTime
 RecentlyIntimidatedModifier
 RecentlyLookedAtDeadBodyModifier
 RecentlyLookedAtEntityModifier
@@ -40071,6 +40136,8 @@ RelativeCollisionFallBackPosition
 RelativeDirectionCounter
 RelativeDistToAttackRange
 RelativeDistToAttackRange_ClosestTarget
+RelativeHeadOffsetSpringConstants
+RelativeHeadOffsetSpringConstantsMouse
 RelativeHeadingLimitCentre
 RelativeHeadingLimitsForMobilePhoneCamera
 RelativeHeadingOffsetToSwitchSides
@@ -40421,6 +40488,7 @@ ResetLookTheshold
 ResetNoCollisionOnCleanUp
 ResetOnFailure
 ResetPhase
+ResetPhaseRate
 ResetPlayerGreetHistory
 ResetPointIfUprooted
 ResetPrespawnedPropsOnPedDestruction
@@ -42549,6 +42617,7 @@ ScopedKit
 Score
 ScoreA
 ScoreB
+ScoreCacheTime
 ScoreCalculationsPerFrame
 ScoreMP
 ScoreThreshold
@@ -42703,6 +42772,7 @@ SeatOverrideInfos
 SeatPosition
 SeatPositionOffset
 SeatRequiresYawFlip
+SeatShuffleInterpolationDuration
 SeatShufflingPhaseThreshold
 SeatShufflingSpringConstant
 SeatShufflingSpringDampingRatio
@@ -43235,6 +43305,7 @@ ShouldSilence
 ShouldStickToWaterSurface
 ShouldStopUpdatingLookAtPosition
 ShouldSweepToAvoidPopIn
+ShouldSwitchSides
 ShouldTerminateAtEndOfDuration
 ShouldTerminateForDistanceToTarget
 ShouldTerminateForOcclusion
@@ -44748,6 +44819,8 @@ StealthKillAction
 StealthMBR
 StealthMovement
 StealthNoisePeriodMS
+StealthPeekIntroRate
+StealthPeekOutroRate
 StealthSpeedThresholdHigh
 StealthSpeedThresholdLow
 StealthVehicleTypeFactorBicycles
@@ -49775,6 +49848,7 @@ VerticalMoveSpeedScaling
 VerticalMoveSpeedScalingAtMaxSpeed
 VerticalOffset
 VerticalOffsetForCollision
+VerticalOffsetForCollisionCosineLimits
 VerticalOffsetForCollisionMaxDistance
 VerticalOffsetForCollisionMinDistance
 VerticalOffsetForCollisionPitchLimits
@@ -50806,6 +50880,7 @@ WaterData
 WaterDepthApproachTime
 WaterDepthBlendSpringConstant
 WaterDepthTunables
+WaterDisturbShapeType
 WaterDropletDensity
 WaterEntryShakeSettings
 WaterFlowMultiplier
@@ -52012,7 +52087,10 @@ bDarkSkin
 bData
 bDealsEnduranceDamage
 bDebugDraw
+bDebugDrawCylinders
 bDebugDrawFunnel
+bDebugDrawFunnelNext
+bDebugDrawFunnelUpcoming
 bDebugDrawTargetInterpolation
 bDebugDrawTurningCircle
 bDebugDrawTurningCircleLabels
@@ -53229,6 +53307,7 @@ capsuleRadius
 captureAllHorseDofs
 captureAllPedDofs
 captureAllPlayerDofs
+captureRingBufferSize
 captureSource
 carGenerators
 carModel
@@ -53951,11 +54030,14 @@ draftAnimalModelSetName
 dragScale
 dragTime
 dragged
+drawActiveLightsOnly
 drawAllLights
 drawDistance
 drawDynamicCollision
+drawEnvironmentLightsOnly
 drawListResult
 drawListResults
+drawPedLightsOnly
 drawable
 drawableAnimal
 drawableDictionary
@@ -54173,6 +54255,7 @@ eES_Sad
 eES_Scared
 eES_Shocked
 eEntityOnMyMindReason
+eEnvironmentMap
 eEulerRotationOrder
 eEventType
 eExertionEaseCurveTypeDueToCarriedWeight
@@ -54293,6 +54376,7 @@ eMOUSE_MIDDLE
 eMOUSE_NUM_BUTTONS
 eMOUSE_RIGHT
 eMaskTargetEvents
+eMaterialMap
 eMed
 eMedHigh
 eMenuAction
@@ -54426,6 +54510,7 @@ ePromptEventPressed
 ePromptEventReleased
 ePromptEventType
 ePromptGroupAttribute
+ePromptGroupOwnerType
 ePromptGroupType
 ePromptPriority
 ePromptType
@@ -54518,6 +54603,7 @@ eScriptRouterContextSource
 eScriptVeryHigh
 eScriptVeryLow
 eScriptedAnimFlags
+eSecPedScriptResetFlags
 eSetPedDrunk
 eSettingsManagerConfig
 eSexinessFlags
@@ -55115,6 +55201,7 @@ fAutoVaultDistMBRMax
 fAutoVaultDistMBRMin
 fAutoVaultMinMBR_AIControlled
 fAutoVaultMinMBR_PlayerControlled
+fAutoWindBaseRate
 fAutoWindMultiplierCastSettle
 fAutoWindMultiplierInWater
 fAutoWindMultiplierNibbling
@@ -55153,6 +55240,7 @@ fBaseCapsuleOffset
 fBaseCritHitChance
 fBaseLeadHandLocalZ
 fBaseLeadHandZDistance
+fBaseNoticeTimePerMeter
 fBaseProficiency
 fBaseRowDistanceLineAbreast
 fBaseRowDistanceShapeV
@@ -55460,6 +55548,7 @@ fDistanceToRoadExtentsToStopJoiningRoadMinLoose
 fDistanceToRoadExtentsToStopJoiningRoadMinStrict
 fDistanceToSwitchToTackle
 fDistanceToTargetToIgnoreFriendlies
+fDistanceToTargetToReduceFriendlyInfluence
 fDistanceToUnregisterForConversation
 fDistanceTolerance
 fDistanceUnderMaxThickness
@@ -55702,6 +55791,8 @@ fGlassDamage
 fGoToDefAreaTimeOut
 fGoToTargetDistance
 fGradientMultiplier
+fGripSwapBlendIn
+fGripSwapBlendOut
 fGroundProbeCapsuleSize
 fGroundProbeRelaxedTestTolerance
 fGroundProbeTestTolerance
@@ -56012,6 +56103,8 @@ fMPHipFireSpreadModifier
 fMag1Dof
 fMag3Dof
 fMagSpineTwist
+fManualAimHeadingModifier
+fManualAimPitchModifier
 fManualHeadingDiffMax
 fManualHeadingDiffMin
 fMapLodScale
@@ -56242,6 +56335,7 @@ fMaxTimeInMovementStartedMode
 fMaxTimeInThreaten
 fMaxTimeInWarning
 fMaxTimeStrafing
+fMaxTimeToNotice
 fMaxTimeToRagdollWhenDetached
 fMaxTimeToStayOutsidePen
 fMaxTimeToWait
@@ -56364,6 +56458,7 @@ fMinDistanceToDespawn
 fMinDistanceToFireObjectForUpdate
 fMinDistanceToPedFortargetUpdate
 fMinDistanceToPlayerForScriptedPoints
+fMinDistanceToStartCharge
 fMinDistanceToTarget
 fMinDistanceToTargetClearLos
 fMinDistanceToTargetInCover
@@ -56530,6 +56625,7 @@ fMinimumRouteTurnRadius
 fMiscGadgetVar
 fMissedBiteBlendInTime
 fMissedBiteBlendOutTime
+fMostlySubmergedMinDepth
 fMountOrVehicleSpeedPortionToConsiderFast
 fMountableAgitationLimit
 fMountableAgitationStart
@@ -56566,6 +56662,13 @@ fNewPositionThreshold
 fNextSpawnAttemptDelay
 fNormalZDot
 fNormalZFactor
+fNoticeTimeArmedMultiplier
+fNoticeTimeMultiplierPerDegree
+fNoticeTimePassiveAngleMultiplier
+fNoticeTimePassiveDistanceMultiplier
+fNoticeTimeRunningMultiplier
+fNoticeTimeStealthMultiplier
+fNoticeTimeTransportMultiplier
 fObstructionExtraLength
 fObstructionExtraRadius
 fOffset
@@ -56602,6 +56705,7 @@ fParachuteTestAngle2
 fParachuteZOffset
 fParachutingZoom
 fParallelDot
+fPartiallySubmergedMinDepth
 fPathFindRadius
 fPauseMenuTilt
 fPavementMaxDistToEdgeLine
@@ -56739,6 +56843,7 @@ fReactionTimeMin
 fRearBalanceMult
 fReatreatFromRunningTargetThreshold
 fRecoveryRate
+fReducePlayerPassengerScale
 fReducedClimbingMaxDepth
 fReducedClimbingMaxHeight
 fReelDeadZone
@@ -56943,6 +57048,7 @@ fSprintingVelocityThreshold
 fStabilityAssist
 fStagger
 fStaminaDepletionBlinkPercentage
+fStandAndFireExtraDistance
 fStandardDeviationFactorThresholdEnter
 fStandardDeviationFactorThresholdLeave
 fStartAimingDistance
@@ -57449,6 +57555,7 @@ fireSpreadGroundDistRadiusMultMin
 fireSpreadGroundOutwardDirMult
 fireSpreadHeightRadiusMult
 fireSpreadHeightRadiusOffset
+fireSpreadMaxProbeResults
 fireSpreadObjRejectDist
 fireSpreadUpDistRadiusOutMultMax
 fireSpreadUpDistRadiusOutMultMin
@@ -58497,6 +58604,8 @@ ikRequestTypeResetArm
 ikRequestTypeRootSlopeFixup
 ikRequestTypeTwoBone
 ikSolverInvalid
+ikSolverInvalidSkeleton
+ikSolverSupported
 ikSolverTypeAim
 ikSolverTypeArm
 ikSolverTypeArmPosture
@@ -58994,6 +59103,7 @@ kLinear
 kLog
 kLogDetailsEntryDialogue
 kLogDetailsEntryObjective
+kLogEntryAvailabilityDormant
 kLogEntryAvailabilityLocked
 kLogEntryAvailabilityNormal
 kLogEntryChallenge
@@ -59528,6 +59638,10 @@ kUIPromptIcon_EMPTY6
 kUIPromptIcon_EMPTY7
 kUIPromptIcon_EMPTY8
 kUIPromptIcon_EMPTY9
+kUIPromptIcon_FACE_BTN_DOWN
+kUIPromptIcon_FACE_BTN_LEFT
+kUIPromptIcon_FACE_BTN_RIGHT
+kUIPromptIcon_FACE_BTN_UP
 kUIPromptIcon_KEYBOARD_KEY_BACK
 kUIPromptIcon_KEYBOARD_KEY_CAPITAL
 kUIPromptIcon_KEYBOARD_KEY_CHARACTER
@@ -62018,6 +62132,7 @@ rage__fwuiDateRoundedTimeStringValueConversion
 rage__fwuiDateStringValueConversion
 rage__fwuiDateTimeStringValueConversionBase
 rage__fwuiDependencyResource
+rage__fwuiDependencyResourceCollectionTemplate_t_rage__fwuiValueConversionBundle
 rage__fwuiDiscoverableObject
 rage__fwuiDiscoverableObjectCollection
 rage__fwuiDiscoverableRenderData
@@ -62518,6 +62633,7 @@ remove
 removeFromInventory
 removeLimbBone
 removeTag
+renderCaptureSphere
 renderFeatureSet
 renderFeatures
 renderFlags
@@ -64230,6 +64346,7 @@ uiPhotoEditBehavior
 uiPhotoFeedTriggeredEntryDataSetBehavior
 uiPinningDispatchedEventData
 uiPinning__ePinnedItemType
+uiPinning__eScriptPinnedItemType
 uiPivotRotationBehavior
 uiPlayerPedBindingProviderBehavior
 uiPolicyTextDynamicItem
@@ -64703,6 +64820,8 @@ vehGroups
 vehMudBuildup
 vehPassengerInjured
 vehPassengerInjuredHigh
+vehRanOver
+vehRanOverHigh
 vehWindDistMult
 vehicleBudget
 vehicleClass
